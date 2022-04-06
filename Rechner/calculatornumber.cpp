@@ -1,9 +1,5 @@
 #include "calculatornumber.h"
 #include <math.h>
-CalculatorNumber::CalculatorNumber() : QObject(0)
-{
-
-}
 
 void CalculatorNumber::addDigit(const int i)
 {
@@ -12,7 +8,7 @@ void CalculatorNumber::addDigit(const int i)
         return;
     }
 
-    if( maxPrecisionReached())
+    if( checkMaxPrecision())
     {
         return;
     }
@@ -133,15 +129,10 @@ void CalculatorNumber::removeLast()
     {
         _integerPart = floor(_integerPart / 10);
     }
-    maxPrecisionReached();
+    checkMaxPrecision();
 }
 
-double CalculatorNumber::sqrt(const CalculatorNumber& op1)
-{
-    return std::sqrt(op1.get());
-}
-
-bool CalculatorNumber::maxPrecisionReached() const
+bool CalculatorNumber::checkMaxPrecision() const
 {
     const auto countDigits = [](unsigned long long i)->int{
         int count = 0;
@@ -170,6 +161,8 @@ bool CalculatorNumber::maxPrecisionReached() const
     emit errorOccured(false);
     return false;
 }
+
+
 
 double operator+(const double op1, const CalculatorNumber &op2)
 {

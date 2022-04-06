@@ -3,11 +3,6 @@
 #include <QTextStream>
 #include <math.h>
 
-Result::Result()
-{
-
-}
-
 double Result::get() const
 {
     if( _valid)

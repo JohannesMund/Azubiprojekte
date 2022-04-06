@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>292</width>
-    <height>545</height>
+    <height>547</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -262,7 +262,7 @@
        <string notr="true"/>
       </property>
       <property name="text">
-       <string>sqrt</string>
+       <string>√</string>
       </property>
       <property name="flat">
        <bool>true</bool>

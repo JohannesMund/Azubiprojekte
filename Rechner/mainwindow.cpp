@@ -85,7 +85,7 @@ void MainWindow::updateDisplay()
         ui->lb_operator->setText("x²");
         break;
     case squareroot:
-        ui->lb_operator->setText("sqrt");
+        ui->lb_operator->setText("√");
         break;
     case none:
         ui->lb_operator->setText("");
@@ -230,7 +230,7 @@ void MainWindow::calc()
             res = _currentNumber * _currentNumber;
             break;
         case squareroot:
-            res = CalculatorNumber::sqrt(_currentNumber);
+            res = sqrt(_currentNumber);
             break;
         case none:
             res = _currentNumber.get();
@@ -239,9 +239,6 @@ void MainWindow::calc()
 
         _currentResult.set(res);
     }
-
-    clearCurrent();
-    ui->lb_display->setNum(_currentResult.get());
 }
 
 
