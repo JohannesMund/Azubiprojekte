@@ -239,6 +239,7 @@ void MainWindow::calc()
 
         _currentResult.set(res);
     }
+    clearCurrent();
 }
 
 
