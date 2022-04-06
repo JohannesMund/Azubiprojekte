@@ -46,7 +46,7 @@ QString Result::toString() const
     ts.setRealNumberPrecision(precision);
     ts << _val;
 
-
     s.remove( QRegExp("0+$") );
-    s.remove( QRegExp("\\.$") );    return s;
+    s.remove( QRegExp("\\.$") );
+    return s;
 }

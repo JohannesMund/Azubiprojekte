@@ -49,6 +49,9 @@ public:
      */
     double get() const;
 
+    void set(const double d);
+    void setVolatile();
+
     /**
      * @brief toString
      * @return die Zahl als string
@@ -79,8 +82,12 @@ private:
 
     bool _commaPressed = false;
     bool _negated = false;
+    bool _volatile = false;
+
 
     bool checkMaxPrecision() const;
+    unsigned int countDigits(const unsigned long long i) const;
+
 };
 
 /**

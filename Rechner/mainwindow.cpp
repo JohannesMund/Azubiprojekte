@@ -47,15 +47,12 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
-
 }
 
 void MainWindow::numberPressed(const int i)
 {
-
     _currentNumber.addDigit(i);
     updateDisplay();
-
 }
 
 void MainWindow::updateDisplay()
@@ -206,7 +203,6 @@ void MainWindow::calc()
     else
     {
         double op1 = _currentResult.get();
-
         double res = 0;
 
         switch(_operator)
@@ -238,11 +234,13 @@ void MainWindow::calc()
         }
 
         _currentResult.set(res);
+        _currentNumber.set(res);
     }
-    clearCurrent();
+
+    _currentNumber.setVolatile();
+    updateDisplay();
+
 }
-
-
 
 void MainWindow::clearCurrent()
 {
@@ -274,8 +272,8 @@ void MainWindow::on_pb_cmd_clearE_clicked()
 
 void MainWindow::on_pb_cmd_back_clicked()
 {
-     _currentNumber.removeLast();
-     updateDisplay();
+    _currentNumber.removeLast();
+    updateDisplay();
 }
 
 void MainWindow::on_pb_op_sqrt_clicked()
