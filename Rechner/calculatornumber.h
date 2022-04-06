@@ -16,6 +16,8 @@ class CalculatorNumber : public QObject
     Q_OBJECT
 public:
 
+    static const int MaxPrecisision;
+
     /**
      * @brief addDigit
      * fügt eine Ziffer hinzu. hierbei wird darauf geachtet, dass andere Eingaben (Komma, +/-, etc) beachtet werden
@@ -49,7 +51,17 @@ public:
      */
     double get() const;
 
+    /**
+     * @brief set
+     * schreibt einen double
+     * @param d
+     */
     void set(const double d);
+
+    /**
+     * @brief setVolatile
+     * setzt den wert volatile, die nächste eingabe wirde den wert resetten
+     */
     void setVolatile();
 
     /**

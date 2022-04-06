@@ -1,6 +1,8 @@
 ﻿#include "calculatornumber.h"
 #include <math.h>
 
+const int CalculatorNumber::MaxPrecisision = 15;
+
 void CalculatorNumber::addDigit(const int i)
 {
     if( _volatile)
@@ -96,7 +98,7 @@ void CalculatorNumber::set(const double d)
         _integerPart = trunc(d);
     }
 
-    unsigned int remainingDigits = 15 - countDigits(_integerPart) -1;
+    unsigned int remainingDigits = MaxPrecisision - countDigits(_integerPart);
 
     _floatPart = trunc(trunc(d) * 10 * remainingDigits);
 
@@ -187,7 +189,7 @@ bool CalculatorNumber::checkMaxPrecision() const
         digitCount += _floatLeadingZeroes;
     }
 
-    if( digitCount >= 15)
+    if( digitCount > MaxPrecisision)
     {
         emit errorOccured(true);
         return true;
@@ -200,7 +202,7 @@ bool CalculatorNumber::checkMaxPrecision() const
 unsigned int CalculatorNumber::countDigits(const unsigned long long i) const
 {
     unsigned long long j(i);
-    unsigned int count = 0;
+    unsigned int count = 1;
     while(j > 1)
     {
         j = floor(j/10);
