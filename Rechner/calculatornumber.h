@@ -2,28 +2,74 @@
 #define CALCULATORNUMBER_H
 
 #include <QString>
-
 #include <QObject>
+
+#include <math.h>
+
+/**
+ * @brief The CalculatorNumber class
+ * Kapselt eine Zahl, die in der Anzeige des Taschenrechners angezeigt werden kann
+ */
 
 class CalculatorNumber : public QObject
 {
     Q_OBJECT
 public:
-    CalculatorNumber();
 
+    /**
+     * @brief addDigit
+     * fügt eine Ziffer hinzu. hierbei wird darauf geachtet, dass andere Eingaben (Komma, +/-, etc) beachtet werden
+     * @param i die hinzuzufügende ziffer
+     */
     void addDigit(const int i);
-    void setCommaPressed(const bool b);
-    void toggleNegated();
 
-    double get() const;
-    QString toString() const;
-
-    void reset();
+    /**
+     * @brief removeLast
+     * entfernt die letzte Ziffer oder das komma
+     */
     void removeLast();
 
-    static double sqrt(const CalculatorNumber& op);
+
+    /**
+     * @brief setCommaPressed
+     * es wurde auf komma gedrückt
+     * @param b komma hin oder komma weg
+     */
+    void setCommaPressed(const bool b);
+
+    /**
+     * @brief toggleNegated
+     * toggelt +/-
+     */
+    void toggleNegated();
+
+    /**
+     * @brief get
+     * @return die Zahl als float
+     */
+    double get() const;
+
+    /**
+     * @brief toString
+     * @return die Zahl als string
+     */
+    QString toString() const;
+
+    /**
+     * @brief reset
+     * setzt die Zahl zurück
+     */
+    void reset();
 
 signals:
+
+    /**
+     * @brief errorOccured
+     * wird emittiert wenn ein Fehler aufgetreten ist (z.B. die maximale
+     * Präzision eines floats erreicht wird
+     * @param b fehler oder nicht fehler, das ist hier die frage
+     */
+
     void errorOccured(const bool b) const;
 
 private:
@@ -34,12 +80,21 @@ private:
     bool _commaPressed = false;
     bool _negated = false;
 
-    bool maxPrecisionReached() const;
-
-
+    bool checkMaxPrecision() const;
 };
 
+/**
+ * @brief globale rechnerei
+ */
 
+static double sqrt(const CalculatorNumber& op)
+{
+    return std::sqrt(op.get());
+}
+
+/**
+ * @brief Überladene Operatoren
+ */
 
 double operator+(const double op1, const CalculatorNumber &op2);
 double operator+(const CalculatorNumber &op1, const double op2 );
