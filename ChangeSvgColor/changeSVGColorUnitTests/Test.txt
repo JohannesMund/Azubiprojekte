@@ -1,0 +1,79 @@
+1.Programm öffnen
+
+2.Change drücken
+	->Fehlermeldung popt auf
+
+3.kompletten Dateipfad mit den svg Dateien kopieren
+	-> und in die Suchleiste einfügen
+		->ausgegraut "Dateipfad"
+
+4.Search drücken
+	->Dateien werden aufgelistet im ListView (unterer Kasten)
+	->alle Hexadezimalcodes werden im Dropdownmenü (Combobox) aufgelistet
+
+5.im Dropdownmenü öffnen
+	->jegliche Hexadezimalcodes werden angezeigt
+		->ersten Hexadezimalcode auswählen
+
+
+6.Change drücken
+	->Fehlermeldung popt auf
+
+7.erste Datei im Dateipfad im Internet Browser öffnen
+	-> Datei offen lassen
+
+8.gewünschten Hexadezimalcode eingeben
+
+9.Change drücken
+
+10.erste Datei im Dateipfad nochmals über den Internet Browser öffnen
+	->nachsehen ob die Farbe geändert wurde
+
+11.erneut Search drücken
+	->erste Hexadezimalcode ändert sich in den neu Eingegebenen
+		->getauschter Hexadezimalcode ist nicht mehr im Dropdownmenü vorhanden
+
+12.Button "Open Color Picker" drücken
+	->gewünschte Farbe aussuchen und auf "Ok" drücken
+
+13.Datei wieder im Internet Explorer öffnen
+	->nachsehen ob die Farbe geändert wurde
+
+14. "Search" drücken
+	->vorherigen Dateien und Hexadezimalcodes werden gelöscht
+	->alle Dateien im Dateipfad werden angezeigt
+
+15.Hexadezimalcode eingeben
+	->möglich auch über den Colorpicker
+
+16."Change" drücken
+	->Fehlermeldung "Datei kann nicht überschrieben werden"
+
+17.nach Datei "Log.txt" suchen
+	->nähe der .exe Datei 
+
+18.nachsehen ob die Farbänderungen in der Datei "Log.txt" notiert sind
+	->Aufbau: alter Hexadezimalcode "to" neuer Hexadezimalcode Wochentag Datum
+	->bsp. #123456 to #098765 Di 20 10 2020
+
+
+19.Dateipfad ohne svg Dateien eingeben (kann auch einfach leer sein) 
+	->Dateien im Dateipfad werden angezeigt
+
+20.Hexadezimalcode angeben und "Search" drücken
+	->Fehlermeldung Dateien könnne nicht beschrieben werden 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
