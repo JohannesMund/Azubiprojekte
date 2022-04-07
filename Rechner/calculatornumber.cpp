@@ -180,6 +180,11 @@ void CalculatorNumber::removeLast()
     checkMaxPrecision();
 }
 
+bool CalculatorNumber::isNull() const
+{
+    return _floatPart == 0 && _integerPart == 0;
+}
+
 bool CalculatorNumber::checkMaxPrecision() const
 {
     int digitCount = countDigits(_integerPart);
@@ -258,6 +263,11 @@ double operator*(const CalculatorNumber &op1, const CalculatorNumber &op2)
 
 double operator/(const double op1, const CalculatorNumber &op2)
 {
+    if( op2.isNull())
+    {
+        return 0;
+    }
+
     return op1 / op2.get();
 }
 

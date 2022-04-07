@@ -31,6 +31,12 @@ public:
      */
     void removeLast();
 
+    /**
+     * @brief isNull
+     * @return ob der Wert 0 ist
+     * @remark get() == 0 sollte NICHT geprüft werden
+     */
+    bool isNull() const;
 
     /**
      * @brief setCommaPressed
@@ -75,6 +81,9 @@ public:
      * setzt die Zahl zurück
      */
     void reset();
+
+
+
 
 signals:
 
