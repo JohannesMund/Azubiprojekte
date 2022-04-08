@@ -13,14 +13,6 @@ class MainWindow;
 
 class MainWindow : public QMainWindow
 { 
-    enum class EMode
-    {
-        ePvP = 0,
-        ePvCeasy = 1,
-        ePvCmedium = 2,
-        ePvChard = 3
-    };
-
     Q_OBJECT
 
 public:
@@ -41,6 +33,15 @@ private slots:
     void on_cbModeSelect_currentIndexChanged(int index);
 
 private:
+
+    enum class GameMode
+    {
+        pvp = 0,
+        pvcEasy = 1,
+        pvcMedium = 2,
+        pvcHard = 3
+    };
+
     Ui::MainWindow *ui;
 
     PlayerManagement _playerManagement;
@@ -52,12 +53,12 @@ private:
     void haveWinner(const PlayerManagement::Player&);
     void resetGame();
 
-    void setGameMode(const EMode mode);
+    void setGameMode(const GameMode mode);
 
     QPushButton* getPushButtonAtCoords(int x, int y);
 
 
-    EMode _currentMode;
+    GameMode _currentMode;
 };
 
 #endif // MAINWINDOW_H

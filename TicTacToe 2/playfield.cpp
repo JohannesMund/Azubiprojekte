@@ -1,54 +1,52 @@
 #include "playfield.h"
 
 #include <random>
-#include <chrono>
 #include <QVector>
 
-PlayField::PlayField()
+bool PlayField::setField(const PlayFieldCoords coords, const PlayerManagement::Player p)
 {
+    if( !coords.isValid())
+    {
+            return false;
+    }
 
-}
-
-bool PlayField::setField(const int x, const int y, const PlayerManagement::Player p)
-{
-
-    if( _grid[x][y] != PlayerManagement::Player::none )
+    if( _grid[coords.first][coords.second] != PlayerManagement::Player::none )
     {
         return false;
     }
 
-    _grid[x][y] = p;
+    _grid[coords.first][coords.second] = p;
 
-    checkWinner();
+    checkForWinner();
 
     return true;
 }
 
-void PlayField::checkWinner()
+void PlayField::checkForWinner()
 {
-    const auto p = haveWinner();
+    const auto p = winningPlayer();
     if( p != PlayerManagement::Player::none)
     {
-        setWinner(p);
+        setGameOver(p);
         return;
     }
 
     //Es gibt keinen Gewinner.
     //Schauen wir ob es noch leere felder gibt
 
-    if( !emptyFieldsLeft())
+    if( !areEmptyFieldsLeft())
     {
         //Es gibt kein gültiges Feld mehr, also unentschieden
-        setWinner(PlayerManagement::Player::none);
+        setGameOver(PlayerManagement::Player::none);
     }
 }
 
-bool PlayField::gameOver() const
+bool PlayField::getGameOver() const
 {
     return _gameOver;
 }
 
-PlayerManagement::Player PlayField::winner() const
+PlayerManagement::Player PlayField::getWinner() const
 {
     return _winner;
 }
@@ -66,7 +64,7 @@ void PlayField::reset()
     _winner = PlayerManagement::Player::none;
 }
 
-PlayFieldCoords PlayField::getRandomEmptyField()
+PlayField::PlayFieldCoords PlayField::getRandomEmptyField()
 {
     QVector<PlayFieldCoords> emptyFields = getEmptyFields();
 
@@ -74,13 +72,13 @@ PlayFieldCoords PlayField::getRandomEmptyField()
     return emptyFields.first();
 }
 
-PlayFieldCoords PlayField::getWinningMove(const PlayerManagement::Player p)
+PlayField::PlayFieldCoords PlayField::getWinningMove(const PlayerManagement::Player p)
 {
     for( const auto field : getEmptyFields())
     {
         assert(_grid[field.first][field.second] == PlayerManagement::Player::none);
         _grid[field.first][field.second] = p;
-        const auto winner = haveWinner();
+        const auto winner = winningPlayer();
         _grid[field.first][field.second] = PlayerManagement::Player::none;
         if( winner== p)
         {
@@ -90,7 +88,7 @@ PlayFieldCoords PlayField::getWinningMove(const PlayerManagement::Player p)
     return PlayFieldCoords();
 }
 
-PlayFieldCoords PlayField::getPreventLosingMove(const PlayerManagement::Player p)
+PlayField::PlayFieldCoords PlayField::getPreventLosingMove(const PlayerManagement::Player p)
 {
     if( p == PlayerManagement::Player::plX)
         return getWinningMove(PlayerManagement::Player::plO);
@@ -99,13 +97,13 @@ PlayFieldCoords PlayField::getPreventLosingMove(const PlayerManagement::Player p
     return PlayFieldCoords();
 }
 
-void PlayField::setWinner(const PlayerManagement::Player &p)
+void PlayField::setGameOver(const PlayerManagement::Player &winner)
 {
     _gameOver = true;
-    _winner = p;
+    _winner = winner;
 }
 
-PlayerManagement::Player PlayField::haveWinner() const
+PlayerManagement::Player PlayField::winningPlayer() const
 {
     //Hat ein spieler waagerecht TicTacToe?
     for(int line = 0; line <= 2; line ++)
@@ -142,7 +140,7 @@ PlayerManagement::Player PlayField::haveWinner() const
     return PlayerManagement::Player::none;
 }
 
-QVector<PlayFieldCoords> PlayField::getEmptyFields() const
+QVector<PlayField::PlayFieldCoords> PlayField::getEmptyFields() const
 {
     QVector<PlayFieldCoords> v;
     for(int i = 0; i<=2; i++)
@@ -158,7 +156,7 @@ QVector<PlayFieldCoords> PlayField::getEmptyFields() const
     return v;
 }
 
-bool PlayField::emptyFieldsLeft() const
+bool PlayField::areEmptyFieldsLeft() const
 {
     for(int i = 0; i<=2; i++)
     {

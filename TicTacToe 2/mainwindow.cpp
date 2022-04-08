@@ -12,10 +12,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->cbModeSelect->insertItem(static_cast<int>(EMode::ePvP), "Mensch");
-    ui->cbModeSelect->insertItem(static_cast<int>(EMode::ePvCeasy), "Computer (leicht)");
-    ui->cbModeSelect->insertItem(static_cast<int>(EMode::ePvCmedium), "Computer (medium)");
-    ui->cbModeSelect->insertItem(static_cast<int>(EMode::ePvChard), "Computer (schwer)");
+    ui->cbModeSelect->insertItem(static_cast<int>(GameMode::pvp), "Mensch");
+    ui->cbModeSelect->insertItem(static_cast<int>(GameMode::pvcEasy), "Computer (leicht)");
+    ui->cbModeSelect->insertItem(static_cast<int>(GameMode::pvcMedium), "Computer (medium)");
+    ui->cbModeSelect->insertItem(static_cast<int>(GameMode::pvcHard), "Computer (schwer)");
 
     resetGame();
 
@@ -31,7 +31,7 @@ MainWindow::~MainWindow()
 void MainWindow::buttonPressed( const int x, const int y)
 {
     QPushButton *p = getPushButtonAtCoords(x, y);
-    if( _grid.setField(x,y,_playerManagement.getCurrentPlayer()) )
+    if( _grid.setField(PlayField::PlayFieldCoords(x,y),_playerManagement.getCurrentPlayer()) )
     {
         p->setText(_playerManagement.currentPlayerText());
 
@@ -41,9 +41,9 @@ void MainWindow::buttonPressed( const int x, const int y)
 
     }
 
-    if( _grid.gameOver())
+    if( _grid.getGameOver())
     {
-        haveWinner(_grid.winner());
+        haveWinner(_grid.getWinner());
     }
 
     newTurn();
@@ -60,14 +60,14 @@ void MainWindow::newTurn()
     else
     {
 
-        PlayFieldCoords coords;
+        PlayField::PlayFieldCoords coords;
 
-        if( _currentMode == EMode::ePvCmedium || _currentMode == EMode::ePvChard)
+        if( _currentMode == GameMode::pvcMedium || _currentMode == GameMode::pvcHard)
         {
             coords = _grid.getWinningMove(_playerManagement.getCurrentPlayer());
         }
 
-        if( _currentMode == EMode::ePvChard && !coords.isValid())
+        if( _currentMode == GameMode::pvcHard && !coords.isValid())
         {
             coords = _grid.getPreventLosingMove(_playerManagement.getCurrentPlayer());
         }
@@ -110,11 +110,11 @@ void MainWindow::resetGame()
     _grid.reset();
 }
 
-void MainWindow::setGameMode(const MainWindow::EMode mode)
+void MainWindow::setGameMode(const MainWindow::GameMode mode)
 {
     ui->lbMode->setText(ui->cbModeSelect->currentText());
     _currentMode = mode;
-    _playerManagement.setComputerEnemy(mode != EMode::ePvP);
+    _playerManagement.setComputerEnemy(mode != GameMode::pvp);
     newTurn();
 }
 
@@ -194,6 +194,6 @@ void MainWindow::on_pb9_clicked()
 void MainWindow::on_cbModeSelect_currentIndexChanged(int index)
 {
     resetGame();
-    setGameMode(static_cast<EMode>(index));
+    setGameMode(static_cast<GameMode>(index));
 
 }

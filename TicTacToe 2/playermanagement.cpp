@@ -1,10 +1,5 @@
 #include "playermanagement.h"
 
-PlayerManagement::PlayerManagement()
-{
-
-}
-
 void PlayerManagement::setComputerEnemy(const bool b)
 {
     _computerEnemy = b;
@@ -31,9 +26,16 @@ PlayerManagement::Player PlayerManagement::getCurrentPlayer() const
 
 QString PlayerManagement::playerName(const PlayerManagement::Player &p) const
 {
-    if( _computerEnemy && p == computerPlayer())
+    if( _computerEnemy )
     {
-        return "Computer";
+        if(p == computerPlayer())
+        {
+            return "Computer";
+        }
+        else
+        {
+            return "Mensch";
+        }
     }
     return playerToText(p);
 }
