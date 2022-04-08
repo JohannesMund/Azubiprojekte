@@ -5,12 +5,17 @@ PlayerManagement::PlayerManagement()
 
 }
 
+void PlayerManagement::setComputerEnemy(const bool b)
+{
+    _computerEnemy = b;
+}
+
 void PlayerManagement::togglePlayer()
 {
-    if( _currentPlayer == plX )
-        _currentPlayer = plO;
+    if( _currentPlayer == Player::plX )
+        _currentPlayer = Player::plO;
     else
-        _currentPlayer = plX;
+        _currentPlayer = Player::plX;
 
 }
 
@@ -24,13 +29,36 @@ PlayerManagement::Player PlayerManagement::getCurrentPlayer() const
     return _currentPlayer;
 }
 
+QString PlayerManagement::playerName(const PlayerManagement::Player &p) const
+{
+    if( _computerEnemy && p == computerPlayer())
+    {
+        return "Computer";
+    }
+    return playerToText(p);
+}
+
+QString PlayerManagement::currentPlayerName() const
+{
+    return playerName(_currentPlayer);
+}
+
+bool PlayerManagement::isPlayerTurn() const
+{
+    if(_computerEnemy && _currentPlayer == computerPlayer())
+    {
+        return false;
+    }
+    return true;
+}
+
 QColor PlayerManagement::playerToColor(const Player &p)
 {
-    if( p == plX)
+    if( p == Player::plX)
     {
         return QColor(Qt::red);
     }
-    else if( p == plO )
+    else if( p == Player::plO )
     {
         return QColor(Qt::blue);
     }
@@ -40,6 +68,11 @@ QColor PlayerManagement::playerToColor(const Player &p)
     }
 }
 
+PlayerManagement::Player PlayerManagement::computerPlayer()
+{
+    return Player::plX;
+}
+
 QString PlayerManagement::currentPlayerText() const
 {
     return playerToText(_currentPlayer);
@@ -47,11 +80,11 @@ QString PlayerManagement::currentPlayerText() const
 
 QString PlayerManagement::playerToText(const Player &p)
 {
-    if( p == plX)
+    if( p == Player::plX)
     {
         return "X";
     }
-    else if( p == plO )
+    else if( p == Player::plO )
     {
         return "O";
     }
