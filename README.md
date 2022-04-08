@@ -11,9 +11,9 @@ Einfache Taschenrechner-Implementierung
   * Erste Schritte mit Qt
   * Abstraktion / Modularisierung / Objektorientierung
   * Operatorüberladung
-  * Datentypen (insbesondere Zahlen)
+  * Datentypen (insbesondere cahlen)
 
-## Tic Tac Toe
+## TicTacToe
 Ein Tic Tac Toe Spiel für 2 Spieler
 ### Features:
   * 2 Spieler im Hot-Seat
@@ -22,3 +22,11 @@ Ein Tic Tac Toe Spiel für 2 Spieler
 ### Was lernen wir?
  * 2-dimensionale Array
  * Mehr Abstraktion / Mehr Objectorientierung
+
+## TicTacToe
+Ein Tic Tac Toe Spiel für 1 oder 2 Spieler
+### Features:
+ * Computergegner mit 3 Schwierigkeitsstufen:
+   * Easy (setzt Random)
+   * Medium (wird gezielt einen Siegzug setzen)
+   * Hard (wird gezielt Niederlagen verhindern oder einen Siegzug setzen) 
