@@ -18,6 +18,9 @@ public:
 
     static const int MaxPrecisision;
 
+    /**
+     * @brief Standard- und Copykonstruktor
+     */
     CalculatorNumber() : QObject(0){};
     CalculatorNumber(const CalculatorNumber& c);
 
@@ -84,6 +87,10 @@ public:
      * setzt die Zahl zurück
      */
     void reset();
+
+    /**
+     * @brief Überladene Operatoren
+     */
 
     bool operator==(const CalculatorNumber &op) const;
     bool operator!=(const CalculatorNumber &op) const;
