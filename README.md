@@ -33,7 +33,7 @@ Ein Tic Tac Toe Spiel für 2 Spieler
  * 2-dimensionale Array
  * Mehr Abstraktion / Mehr Objectorientierung
 
-## TicTacToe
+## TicTacToe2
 Ein Tic Tac Toe Spiel für 1 oder 2 Spieler
 ### Features:
  * Computergegner mit 3 Schwierigkeitsstufen:
