@@ -21,9 +21,18 @@ public:
         PlayFieldCoords() : QPair<int, int>(-1,-1){}
         PlayFieldCoords(const int i1, const int i2) : QPair<int, int>(i1, i2){}
 
-        bool isValid() const {
+        bool isValid() const
+        {
             return first >= 0 && first<= 2 &&
                    second >= 0 && second <= 2;
+        }
+        int x() const
+        {
+            return first;
+        }
+        int y() const
+        {
+            return second;
         }
     };
 
@@ -67,6 +76,8 @@ public:
      * Gibt ein Feld zurück, mit dem Spieler p gewinnen kann (wenn verfügbar)
      * @param p Der Spieler der Gewinnen soll
      * @return Ein Feld, mit dem p auf jeden fall gewinnt oder invalid coords
+     * @remark Nicht die effizienteste Art... Es wird nacheinander jedes freie feld besetzt
+     *         und geschaut ob p damit gewinnt. Kann auch permutiert werden
      */
     PlayFieldCoords getWinningMove(const PlayerManagement::Player p);
 
@@ -75,13 +86,15 @@ public:
      * Gibt ein Feld zurück das eine Niederlage für Spieler p verhindern kann
      * @param p der Spieler der nicht verlieren will
      * @return Ein Feld, das Spieler p besetzen muss um nicht zu verlieren, oder invalid coords
+     * @remark Nicht die effizienteste Art... Es wird nacheinander jedes freie feld besetzt
+     *         und geschaut ob der andere Spieler damit gewinnt. Kann auch permutiert werden
      */
     PlayFieldCoords getPreventLosingMove(const PlayerManagement::Player p);
 
 private:
 
     void setGameOver(const PlayerManagement::Player& winner);
-    PlayerManagement::Player winningPlayer() const;
+    PlayerManagement::Player getWinningPlayer() const;
 
     QVector<PlayFieldCoords> getEmptyFields() const;
     bool areEmptyFieldsLeft() const;

@@ -10,12 +10,12 @@ bool PlayField::setField(const PlayFieldCoords coords, const PlayerManagement::P
             return false;
     }
 
-    if( _grid[coords.first][coords.second] != PlayerManagement::Player::none )
+    if( _grid[coords.x()][coords.y()] != PlayerManagement::Player::none )
     {
         return false;
     }
 
-    _grid[coords.first][coords.second] = p;
+    _grid[coords.x()][coords.y()] = p;
 
     checkForWinner();
 
@@ -24,7 +24,7 @@ bool PlayField::setField(const PlayFieldCoords coords, const PlayerManagement::P
 
 void PlayField::checkForWinner()
 {
-    const auto p = winningPlayer();
+    const auto p = getWinningPlayer();
     if( p != PlayerManagement::Player::none)
     {
         setGameOver(p);
@@ -67,7 +67,6 @@ void PlayField::reset()
 PlayField::PlayFieldCoords PlayField::getRandomEmptyField()
 {
     QVector<PlayFieldCoords> emptyFields = getEmptyFields();
-
     std::random_shuffle(emptyFields.begin(), emptyFields.end());
     return emptyFields.first();
 }
@@ -76,10 +75,10 @@ PlayField::PlayFieldCoords PlayField::getWinningMove(const PlayerManagement::Pla
 {
     for( const auto field : getEmptyFields())
     {
-        assert(_grid[field.first][field.second] == PlayerManagement::Player::none);
-        _grid[field.first][field.second] = p;
-        const auto winner = winningPlayer();
-        _grid[field.first][field.second] = PlayerManagement::Player::none;
+        assert(_grid[field.x()][field.y()] == PlayerManagement::Player::none);
+        _grid[field.x()][field.y()] = p;
+        const auto winner = getWinningPlayer();
+        _grid[field.x()][field.y()] = PlayerManagement::Player::none;
         if( winner== p)
         {
             return field;
@@ -103,7 +102,7 @@ void PlayField::setGameOver(const PlayerManagement::Player &winner)
     _winner = winner;
 }
 
-PlayerManagement::Player PlayField::winningPlayer() const
+PlayerManagement::Player PlayField::getWinningPlayer() const
 {
     //Hat ein spieler waagerecht TicTacToe?
     for(int line = 0; line <= 2; line ++)

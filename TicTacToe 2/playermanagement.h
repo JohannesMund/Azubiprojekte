@@ -13,6 +13,10 @@ class PlayerManagement
 {
 public:
 
+    /**
+     * @brief The Player enum
+     * Spieler X, Spieler O oder keiner
+     */
     enum class Player{
         none,
         plX,
@@ -70,7 +74,6 @@ private:
     static Player computerPlayer();
 
     QString playerName(const Player& p) const;
-
 
     Player _currentPlayer;
 
