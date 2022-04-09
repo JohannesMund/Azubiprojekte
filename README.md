@@ -2,7 +2,7 @@
 ## HowTo
 Alle Projekte sind mit QtCreator erzeugt und können damit auch einfach gebaut werden
 
-siehe: [https://qt.io/download](QT Download) Die Opensource version ist ausreichend.
+siehe: [QT Download](https://qt.io/download) Die Opensource version ist ausreichend.
 
 Anleitung: https://www.youtube.com/watch?v=8bE01C267YU
 
