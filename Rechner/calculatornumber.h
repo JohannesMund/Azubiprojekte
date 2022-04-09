@@ -165,7 +165,6 @@ static double sqrt(CalculatorNumber& op)
     if( op<0 )
     {
         op.emitError();
-        assert("irrationale Zahlen lassen wir mal");
         return 0;
     }
     return std::sqrt(op.get());
