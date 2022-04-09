@@ -1,4 +1,9 @@
 # Azubiprojekte
+## HowTo
+Alle Projekte sind mit QtCreator erzeugt und können damit auch einfach gebaut werden
+siehe: https://qt.io
+
+
 ## Rechner
 Einfache Taschenrechner-Implementierung
 ### Features:
