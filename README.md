@@ -1,7 +1,12 @@
 # Azubiprojekte
 ## HowTo
 Alle Projekte sind mit QtCreator erzeugt und können damit auch einfach gebaut werden
-siehe: https://qt.io
+
+siehe: https://qt.io/download Die Opensource version ist ausreichend.
+
+Anleitung: https://www.youtube.com/watch?v=8bE01C267YU
+
+Für den Einstieg in C++ empfehler ich https://www.youtube.com/c/TheChernoProject insbesondere die Playlist, die sich mit den Grundlagen von c++ und objektorientierter Entwicklung beschäftigt: https://www.youtube.com/watch?v=18c3MTX0PK0&list=PLlrATfBNZ98dudnM48yfGUldqGD0S4FFb
 
 
 ## Rechner
