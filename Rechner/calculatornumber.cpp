@@ -158,6 +158,13 @@ void CalculatorNumber::reset()
     _negated = false;
     _commaPressed = false;
     _volatile = false;
+
+    emit errorOccured(false);
+}
+
+void CalculatorNumber::emitError() const
+{
+    emit errorOccured(true);
 }
 
 bool CalculatorNumber::operator==(const CalculatorNumber &op) const

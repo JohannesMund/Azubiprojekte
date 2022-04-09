@@ -89,6 +89,12 @@ public:
     void reset();
 
     /**
+     * @brief emitError
+     * Emitiert einen Fehler
+     */
+    void emitError() const;
+
+    /**
      * @brief Überladene Operatoren
      */
 
@@ -161,6 +167,7 @@ static double sqrt(const CalculatorNumber& op)
 {
     if( op<0 )
     {
+        op.emitError();
         assert("irrationale Zahlen lassen wir mal");
         return 0;
     }
