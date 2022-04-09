@@ -6,7 +6,7 @@ siehe: [QT Download](https://qt.io/download) Die Opensource version ist ausreich
 
 Anleitung: [Installation von QT (Quick-Tutorial) ](https://www.youtube.com/watch?v=8bE01C267YU)
 
-Für den Einstieg in C++ empfehle ich [The Cerno Project](https://www.youtube.com/c/TheChernoProject) insbesondere die Playlist, die sich mit den Grundlagen von c++ und objektorientierter Entwicklung beschäftigt: https://www.youtube.com/watch?v=18c3MTX0PK0&list=PLlrATfBNZ98dudnM48yfGUldqGD0S4FFb
+Für den Einstieg in C++ empfehle ich [The Cerno Project](https://www.youtube.com/c/TheChernoProject) insbesondere die Playlist, die sich mit den Grundlagen von c++ und objektorientierter Entwicklung beschäftigt: [C++](https://www.youtube.com/watch?v=18c3MTX0PK0&list=PLlrATfBNZ98dudnM48yfGUldqGD0S4FFb)
 
 
 ## Rechner
