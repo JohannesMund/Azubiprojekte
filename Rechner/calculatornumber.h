@@ -18,6 +18,9 @@ public:
 
     static const int MaxPrecisision;
 
+    CalculatorNumber() : QObject(0){};
+    CalculatorNumber(const CalculatorNumber& c);
+
     /**
      * @brief addDigit
      * fügt eine Ziffer hinzu. hierbei wird darauf geachtet, dass andere Eingaben (Komma, +/-, etc) beachtet werden
@@ -82,8 +85,11 @@ public:
      */
     void reset();
 
+    bool operator==(const CalculatorNumber &op) const;
+    bool operator!=(const CalculatorNumber &op) const;
 
-
+    CalculatorNumber operator=(const CalculatorNumber &op) const;
+    CalculatorNumber operator=(const double &op) const;
 
 signals:
 
@@ -112,15 +118,6 @@ private:
 };
 
 /**
- * @brief globale rechnerei
- */
-
-static double sqrt(const CalculatorNumber& op)
-{
-    return std::sqrt(op.get());
-}
-
-/**
  * @brief Überladene Operatoren
  */
 
@@ -140,5 +137,25 @@ double operator/(const double op1, const CalculatorNumber &op2);
 double operator/(const CalculatorNumber &op1, const double op2 );
 double operator/(const CalculatorNumber &op1, const CalculatorNumber &op2 );
 
+bool operator>(const double op1, const CalculatorNumber &op2);
+bool operator>(const CalculatorNumber &op1, const double op2 );
+bool operator>(const CalculatorNumber &op1, const CalculatorNumber &op2 );
 
+bool operator<(const double op1, const CalculatorNumber &op2);
+bool operator<(const CalculatorNumber &op1, const double op2 );
+bool operator<(const CalculatorNumber &op1, const CalculatorNumber &op2 );
+
+/**
+ * @brief globale rechnerei
+ */
+
+static double sqrt(const CalculatorNumber& op)
+{
+    if( op<0 )
+    {
+        assert("irrationale Zahlen lassen wir mal");
+        return 0;
+    }
+    return std::sqrt(op.get());
+}
 #endif // CALCULATORNUMBER_H

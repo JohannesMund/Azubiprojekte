@@ -3,6 +3,13 @@
 
 const int CalculatorNumber::MaxPrecisision = 15;
 
+
+
+CalculatorNumber::CalculatorNumber(const CalculatorNumber &c) : QObject(0)
+{
+    *this = c;
+}
+
 void CalculatorNumber::addDigit(const int i)
 {
     if( _volatile)
@@ -95,7 +102,7 @@ void CalculatorNumber::set(const double d)
     reset();
     if( d > 0 )
     {
-        _integerPart = trunc(d);
+        _integerPart = abs(trunc(d));
     }
 
     unsigned int remainingDigits = MaxPrecisision - countDigits(_integerPart);
@@ -107,6 +114,9 @@ void CalculatorNumber::set(const double d)
         _floatPart /= 10;
         _floatLeadingZeroes++;
     }
+
+    _commaPressed = ( _floatPart != 0);
+    _negated = d < 0;
 }
 
 void CalculatorNumber::setVolatile()
@@ -149,6 +159,39 @@ void CalculatorNumber::reset()
     _commaPressed = false;
     _volatile = false;
 }
+
+bool CalculatorNumber::operator==(const CalculatorNumber &op) const
+{
+    return( op._integerPart == _integerPart &&
+            op._floatPart == _floatPart &&
+            op._floatLeadingZeroes == _floatLeadingZeroes &&
+            op._negated == _negated);
+}
+
+bool CalculatorNumber::operator!=(const CalculatorNumber &op) const
+{
+    return !(op == *this);
+}
+
+CalculatorNumber CalculatorNumber::operator=(const CalculatorNumber &op) const
+{
+    CalculatorNumber c;
+    c._integerPart = op._integerPart;
+    c._floatPart = op._floatPart;
+    c._floatLeadingZeroes = op._floatLeadingZeroes;
+    c._negated = op._negated;
+    c._commaPressed = op._commaPressed;
+    return c;
+}
+
+CalculatorNumber CalculatorNumber::operator=(const double &op) const
+{
+    CalculatorNumber c;
+    c.set(op);
+    return c;
+}
+
+
 
 void CalculatorNumber::removeLast()
 {
@@ -279,5 +322,32 @@ double operator/(const CalculatorNumber &op1, const double op2)
 double operator/(const CalculatorNumber &op1, const CalculatorNumber &op2)
 {
     return op1.get() / op2.get();
+}
+
+bool operator>(const double op1, const CalculatorNumber &op2)
+{
+    return op1 > op2.get();
+}
+bool operator>(const CalculatorNumber &op1, const double op2 )
+{
+    return op1.get() > op2;
+}
+bool operator>(const CalculatorNumber &op1, const CalculatorNumber &op2 )
+{
+    return op1.get() > op2.get();
+}
+
+
+bool operator<(const double op1, const CalculatorNumber &op2)
+{
+    return !(op1 > op2);
+}
+bool operator<(const CalculatorNumber &op1, const double op2 )
+{
+    return !(op1 > op2);
+}
+bool operator<(const CalculatorNumber &op1, const CalculatorNumber &op2 )
+{
+    return !(op1 > op2);
 }
 
