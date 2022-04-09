@@ -13,6 +13,7 @@ Für den Einstieg in C++ empfehle ich [The Cerno Project](https://www.youtube.co
 Einfache Taschenrechner-Implementierung
 ### Features:
   * Grundrechenarten
+  * Positive / Negative Zahlen
   * Wurzel / Quadratrechnung
   * Rechnen mit reellen Zahlen
   * Berechnungen verketten
