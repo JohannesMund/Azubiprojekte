@@ -173,17 +173,6 @@ bool CalculatorNumber::operator!=(const CalculatorNumber &op) const
     return !(op == *this);
 }
 
-CalculatorNumber CalculatorNumber::operator=(const CalculatorNumber &op) const
-{
-    CalculatorNumber c;
-    c._integerPart = op._integerPart;
-    c._floatPart = op._floatPart;
-    c._floatLeadingZeroes = op._floatLeadingZeroes;
-    c._negated = op._negated;
-    c._commaPressed = op._commaPressed;
-    return c;
-}
-
 void CalculatorNumber::operator<<(const int i)
 {
 
@@ -201,11 +190,38 @@ void CalculatorNumber::operator<<(const int i)
     }
 }
 
-CalculatorNumber CalculatorNumber::operator=(const double &op) const
+bool CalculatorNumber::operator>(const double op) const
 {
-    CalculatorNumber c;
-    c.set(op);
-    return c;
+    return get() > op;
+}
+
+bool CalculatorNumber::operator<(const double op) const
+{
+    return !(*this > op);
+}
+
+bool CalculatorNumber::operator<(const CalculatorNumber &op) const
+{
+    return !(*this > op);
+}
+
+bool CalculatorNumber::operator>(const CalculatorNumber &op) const
+{
+    return get() > op.get();
+}
+
+void CalculatorNumber::operator=(const CalculatorNumber &op)
+{
+    _integerPart = op._integerPart;
+    _floatPart = op._floatPart;
+    _floatLeadingZeroes = op._floatLeadingZeroes;
+    _negated = op._negated;
+    _commaPressed = op._commaPressed;
+}
+
+void CalculatorNumber::operator=(const double &op)
+{
+    set(op);
 }
 
 
@@ -339,32 +355,5 @@ double operator/(const CalculatorNumber &op1, const double op2)
 double operator/(const CalculatorNumber &op1, const CalculatorNumber &op2)
 {
     return op1.get() / op2.get();
-}
-
-bool operator>(const double op1, const CalculatorNumber &op2)
-{
-    return op1 > op2.get();
-}
-bool operator>(const CalculatorNumber &op1, const double op2 )
-{
-    return op1.get() > op2;
-}
-bool operator>(const CalculatorNumber &op1, const CalculatorNumber &op2 )
-{
-    return op1.get() > op2.get();
-}
-
-
-bool operator<(const double op1, const CalculatorNumber &op2)
-{
-    return !(op1 > op2);
-}
-bool operator<(const CalculatorNumber &op1, const double op2 )
-{
-    return !(op1 > op2);
-}
-bool operator<(const CalculatorNumber &op1, const CalculatorNumber &op2 )
-{
-    return !(op1 > op2);
 }
 

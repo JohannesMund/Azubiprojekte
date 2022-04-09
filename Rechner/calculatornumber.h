@@ -95,10 +95,17 @@ public:
     bool operator==(const CalculatorNumber &op) const;
     bool operator!=(const CalculatorNumber &op) const;
 
-    CalculatorNumber operator=(const CalculatorNumber &op) const;
-    CalculatorNumber operator=(const double &op) const;
+    void operator=(const CalculatorNumber &op);
+    void operator=(const double &op);
 
     void operator<<(const int i);
+
+
+    bool operator>(const double op) const;
+    bool operator>(const CalculatorNumber &op) const;
+
+    bool operator<(const double op) const;
+    bool operator<(const CalculatorNumber &op) const;
 
 signals:
 
@@ -145,14 +152,6 @@ double operator*(const CalculatorNumber &op1, const CalculatorNumber &op2 );
 double operator/(const double op1, const CalculatorNumber &op2);
 double operator/(const CalculatorNumber &op1, const double op2 );
 double operator/(const CalculatorNumber &op1, const CalculatorNumber &op2 );
-
-bool operator>(const double op1, const CalculatorNumber &op2);
-bool operator>(const CalculatorNumber &op1, const double op2 );
-bool operator>(const CalculatorNumber &op1, const CalculatorNumber &op2 );
-
-bool operator<(const double op1, const CalculatorNumber &op2);
-bool operator<(const CalculatorNumber &op1, const double op2 );
-bool operator<(const CalculatorNumber &op1, const CalculatorNumber &op2 );
 
 /**
  * @brief globale rechnerei
