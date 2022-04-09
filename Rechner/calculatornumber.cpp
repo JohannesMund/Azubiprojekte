@@ -184,6 +184,23 @@ CalculatorNumber CalculatorNumber::operator=(const CalculatorNumber &op) const
     return c;
 }
 
+void CalculatorNumber::operator<<(const int i)
+{
+
+    int ii(i);
+    QVector<int> digits;
+    while(ii)
+    {
+        digits.push_front(ii%10);
+        ii/=10;
+    }
+
+    for( const auto digit : digits)
+    {
+        addDigit(digit);
+    }
+}
+
 CalculatorNumber CalculatorNumber::operator=(const double &op) const
 {
     CalculatorNumber c;

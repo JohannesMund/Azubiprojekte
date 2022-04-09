@@ -51,7 +51,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::numberPressed(const int i)
 {
-    _currentNumber.addDigit(i);
+    _currentNumber << i;
     updateDisplay();
 }
 

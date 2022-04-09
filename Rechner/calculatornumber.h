@@ -98,6 +98,8 @@ public:
     CalculatorNumber operator=(const CalculatorNumber &op) const;
     CalculatorNumber operator=(const double &op) const;
 
+    void operator<<(const int i);
+
 signals:
 
     /**
