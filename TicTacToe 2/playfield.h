@@ -77,7 +77,7 @@ public:
      * @param p Der Spieler der Gewinnen soll
      * @return Ein Feld, mit dem p auf jeden fall gewinnt oder invalid coords
      * @remark Nicht die effizienteste Art... Es wird nacheinander jedes freie feld besetzt
-     *         und geschaut ob p damit gewinnt. Kann auch permutiert werden
+     *         und geschaut ob p damit gewinnt.
      */
     PlayFieldCoords getWinningMove(const PlayerManagement::Player p);
 
@@ -87,7 +87,7 @@ public:
      * @param p der Spieler der nicht verlieren will
      * @return Ein Feld, das Spieler p besetzen muss um nicht zu verlieren, oder invalid coords
      * @remark Nicht die effizienteste Art... Es wird nacheinander jedes freie feld besetzt
-     *         und geschaut ob der andere Spieler damit gewinnt. Kann auch permutiert werden
+     *         und geschaut ob der andere Spieler damit gewinnt.
      */
     PlayFieldCoords getPreventLosingMove(const PlayerManagement::Player p);
 
