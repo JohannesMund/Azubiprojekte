@@ -162,7 +162,7 @@ void CalculatorNumber::reset()
     emit errorOccured(false);
 }
 
-void CalculatorNumber::emitError() const
+void CalculatorNumber::emitError()
 {
     emit errorOccured(true);
 }
@@ -182,7 +182,6 @@ bool CalculatorNumber::operator!=(const CalculatorNumber &op) const
 
 void CalculatorNumber::operator<<(const int i)
 {
-
     int ii(i);
     QVector<int> digits;
     while(ii)
@@ -194,6 +193,19 @@ void CalculatorNumber::operator<<(const int i)
     for( const auto digit : digits)
     {
         addDigit(digit);
+    }
+}
+
+void CalculatorNumber::operator<<(const char c)
+{
+    if( c == '-')
+    {
+        _negated=true;
+        return;
+    }
+    if( c == '.' || c == ',' )
+    {
+        _commaPressed = true;
     }
 }
 
@@ -231,8 +243,6 @@ void CalculatorNumber::operator=(const double &op)
     set(op);
 }
 
-
-
 void CalculatorNumber::removeLast()
 {
     if( _volatile)
@@ -268,7 +278,7 @@ bool CalculatorNumber::isNull() const
     return _floatPart == 0 && _integerPart == 0;
 }
 
-bool CalculatorNumber::checkMaxPrecision() const
+bool CalculatorNumber::checkMaxPrecision()
 {
     int digitCount = countDigits(_integerPart);
     if( _commaPressed )

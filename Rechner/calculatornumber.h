@@ -92,7 +92,7 @@ public:
      * @brief emitError
      * Emitiert einen Fehler
      */
-    void emitError() const;
+    void emitError();
 
     /**
      * @brief Überladene Operatoren
@@ -105,7 +105,7 @@ public:
     void operator=(const double &op);
 
     void operator<<(const int i);
-
+    void operator<<(const char c);
 
     bool operator>(const double op) const;
     bool operator>(const CalculatorNumber &op) const;
@@ -121,8 +121,7 @@ signals:
      * Präzision eines floats erreicht wird
      * @param b fehler oder nicht fehler, das ist hier die frage
      */
-
-    void errorOccured(const bool b) const;
+    void errorOccured(const bool b);
 
 private:
     unsigned long long _integerPart = 0;
@@ -133,10 +132,8 @@ private:
     bool _negated = false;
     bool _volatile = false;
 
-
-    bool checkMaxPrecision() const;
+    bool checkMaxPrecision();
     unsigned int countDigits(const unsigned long long i) const;
-
 };
 
 /**
@@ -163,7 +160,7 @@ double operator/(const CalculatorNumber &op1, const CalculatorNumber &op2 );
  * @brief globale rechnerei
  */
 
-static double sqrt(const CalculatorNumber& op)
+static double sqrt(CalculatorNumber& op)
 {
     if( op<0 )
     {

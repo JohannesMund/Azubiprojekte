@@ -73,7 +73,8 @@ PlayField::PlayFieldCoords PlayField::getRandomEmptyField()
 
 PlayField::PlayFieldCoords PlayField::getWinningMove(const PlayerManagement::Player p)
 {
-    for( const auto field : getEmptyFields())
+    const auto emptyFields = getEmptyFields();
+    for( const auto field : emptyFields)
     {
         assert(_grid[field.x()][field.y()] == PlayerManagement::Player::none);
         _grid[field.x()][field.y()] = p;
