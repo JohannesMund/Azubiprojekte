@@ -22,7 +22,7 @@ Einfache Taschenrechner-Implementierung
   * Erste Schritte mit Qt
   * Abstraktion / Modularisierung / Objektorientierung
   * Operatorüberladung
-  * Datentypen (insbesondere cahlen)
+  * Datentypen (insbesondere Zahlen)
 
 ## TicTacToe
 Ein Tic Tac Toe Spiel für 2 Spieler
