@@ -21,7 +21,7 @@ public:
     /**
      * @brief Standard- und Copykonstruktor
      */
-    CalculatorNumber() : QObject(0){};
+    CalculatorNumber() : QObject(0){}
     CalculatorNumber(const CalculatorNumber& c);
 
     /**
