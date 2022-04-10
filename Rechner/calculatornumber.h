@@ -15,6 +15,14 @@ class CalculatorNumber : public QObject
 {
     Q_OBJECT
 
+    /**
+     * @brief sqrt
+     * Berechnet die Wurzel einer Calculatornumber
+     * @param op Die Zahl aus der die Wurzel zu ziehen ist.
+     * @remark op ist nicht const, weil op im fehlerfall ein Signal senden soll
+     * @remark friend weil es eine globale rechenfunktion sein soll, die allerdings ein signal von
+     *         CalculatorNumber senden soll
+     */
     friend double sqrt(CalculatorNumber &op);
 
 public:
