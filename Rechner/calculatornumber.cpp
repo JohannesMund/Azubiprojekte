@@ -86,7 +86,7 @@ double CalculatorNumber::get() const
     if( _commaPressed )
     {
         double flt = _floatPart;
-        while( flt > 1 )
+        while( flt >= 1 )
         {
             flt /= 10;
         }
@@ -115,12 +115,13 @@ void CalculatorNumber::set(const double d)
 
     double dd = d;
     if( dd < 0 ) dd *= -1;
-    dd -= _integerPart;
+    dd-=_integerPart;
 
     while( remainingDigits )
     {
         remainingDigits--;
         dd*=10;
+        if( dd < 1.0) _floatLeadingZeroes++;
     }
 
     _floatPart = trunc(dd);

@@ -63,6 +63,11 @@ private slots:
         QTest::newRow("Test4") << -12345.23456;
         QTest::newRow("Test5") << 99.0;
         QTest::newRow("Test6") << -99.0;
+        QTest::newRow("Test7") << 1.0000001;
+        QTest::newRow("Test8") << 0.0000001;
+        QTest::newRow("Test9") << 99.0050001;
+        QTest::newRow("Test10") << -1.0000021;
+
     }
 
     void test_getAndSet()
