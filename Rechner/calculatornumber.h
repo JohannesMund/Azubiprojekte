@@ -14,6 +14,9 @@
 class CalculatorNumber : public QObject
 {
     Q_OBJECT
+
+    friend double sqrt(CalculatorNumber &op);
+
 public:
 
     static const int MaxPrecisision;
@@ -89,12 +92,6 @@ public:
     void reset();
 
     /**
-     * @brief emitError
-     * Emitiert einen Fehler
-     */
-    void emitError();
-
-    /**
      * @brief Überladene Operatoren
      */
 
@@ -156,17 +153,4 @@ double operator/(const double op1, const CalculatorNumber &op2);
 double operator/(const CalculatorNumber &op1, const double op2 );
 double operator/(const CalculatorNumber &op1, const CalculatorNumber &op2 );
 
-/**
- * @brief globale rechnerei
- */
-
-static double sqrt(CalculatorNumber& op)
-{
-    if( op<0 )
-    {
-        op.emitError();
-        return 0;
-    }
-    return std::sqrt(op.get());
-}
 #endif // CALCULATORNUMBER_H

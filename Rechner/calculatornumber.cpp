@@ -3,7 +3,15 @@
 
 const int CalculatorNumber::MaxPrecisision = 15;
 
-
+double sqrt(CalculatorNumber& op)
+{
+    if( op<0 )
+    {
+        emit op.errorOccured(true);
+        return 0;
+    }
+    return std::sqrt(op.get());
+}
 
 CalculatorNumber::CalculatorNumber(const CalculatorNumber &c) : QObject(0)
 {
@@ -17,7 +25,7 @@ void CalculatorNumber::addDigit(const int i)
         reset();
     }
 
-    if(i < 0 || i > 9 )
+    if((i < 0) || (i > 9))
     {
         return;
     }
@@ -160,11 +168,6 @@ void CalculatorNumber::reset()
     _volatile = false;
 
     emit errorOccured(false);
-}
-
-void CalculatorNumber::emitError()
-{
-    emit errorOccured(true);
 }
 
 bool CalculatorNumber::operator==(const CalculatorNumber &op) const
