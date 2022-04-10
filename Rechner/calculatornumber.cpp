@@ -91,7 +91,7 @@ double CalculatorNumber::get() const
             flt /= 10;
         }
 
-        for( int i = _floatLeadingZeroes+1; i > 0; i--)
+        for( int i = _floatLeadingZeroes; i > 0; i--)
         {
             flt /= 10 ;
         }
@@ -108,19 +108,26 @@ double CalculatorNumber::get() const
 void CalculatorNumber::set(const double d)
 {
     reset();
-    if( d > 0 )
-    {
+
         _integerPart = abs(trunc(d));
-    }
 
     unsigned int remainingDigits = MaxPrecisision - countDigits(_integerPart);
 
-    _floatPart = trunc(trunc(d) * 10 * remainingDigits);
+    double dd = d;
+    if( dd < 0 ) dd *= -1;
+    dd -= _integerPart;
+
+    while( remainingDigits )
+    {
+        remainingDigits--;
+        dd*=10;
+    }
+
+    _floatPart = trunc(dd);
 
     while( _floatPart % 10 == 0 && _floatPart != 0)
     {
         _floatPart /= 10;
-        _floatLeadingZeroes++;
     }
 
     _commaPressed = ( _floatPart != 0);
@@ -138,7 +145,6 @@ QString CalculatorNumber::toString() const
     if( _commaPressed )
     {
         s.append(",");
-
 
         for( int i = _floatLeadingZeroes; i > 0; --i)
         {
