@@ -141,7 +141,7 @@ QPushButton *MainWindow::getPushButtonAtCoords(int x, int y)
         if(y == 2) return ui->pb9;
     }
 
-    assert("das ist kaputt!");
+    assert(!"das ist kaputt!");
     return 0;
 }
 
