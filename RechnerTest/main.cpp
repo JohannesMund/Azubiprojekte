@@ -5,16 +5,13 @@
 #include "calculatornumber_test.h"
 #include "result_test.h"
 
-int main(int argc, char *argv[])
-{
-    int ret = 0;
-    CalculatorNumber_Test t1;
-    ret |= QTest::qExec(&t1);
+int main(int argc, char *argv[]) {
+  int ret = 0;
+  CalculatorNumber_Test t1;
+  ret |= QTest::qExec(&t1);
 
-    Result_Test t2;
-    ret |= QTest::qExec(&t2);
+  Result_Test t2;
+  ret |= QTest::qExec(&t2);
 
-
-
-return ret;
+  return ret;
 }

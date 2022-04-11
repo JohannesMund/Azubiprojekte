@@ -4,33 +4,23 @@
 #include <QColor>
 #include <QString>
 
-
-
-class PlayerManagement
-{
+class PlayerManagement {
 public:
+  enum Player { none, plX, plO };
 
-    enum Player{
-        none,
-        plX,
-        plO
-    };
+  PlayerManagement();
 
-    PlayerManagement();
+  void togglePlayer();
+  QString currentPlayerText() const;
+  QColor currentPlayerColor() const;
 
-    void togglePlayer();
-    QString currentPlayerText() const;
-    QColor currentPlayerColor() const;
+  Player getCurrentPlayer() const;
 
-    Player getCurrentPlayer() const;
-
-    static QString playerToText(const Player& p);
-    static QColor playerToColor(const Player& p);
+  static QString playerToText(const Player &p);
+  static QColor playerToColor(const Player &p);
 
 private:
-    Player _currentPlayer;
-
-
+  Player _currentPlayer;
 };
 
 #endif // PLAYERMANAGEMENT_H
