@@ -8,16 +8,14 @@
  * kapselt das Ergebnis der Rechnerei als float
  */
 
-class Result
-{
-public:
+class Result {
 
+public:
     /**
      * @brief get
      * @return die enthaltene Zahl als float
      */
     double get() const;
-
 
     /**
      * @brief isValid
@@ -31,7 +29,6 @@ public:
      * @param i
      */
     void set(const double i);
-
 
     /**
      * @brief reset
@@ -48,7 +45,6 @@ public:
 private:
     double _val = 0;
     bool _valid = false;
-
 };
 
 #endif // RESULT_H

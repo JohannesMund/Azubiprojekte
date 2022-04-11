@@ -10,19 +10,17 @@ namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
 private slots:
 
     void on_pb_pt_clicked();
     void on_pb_plus_minus_clicked();
-
 
     void on_pb_1_clicked();
     void on_pb_2_clicked();
@@ -40,6 +38,8 @@ private slots:
     void on_pb_op_min_clicked();
     void on_pb_op_plus_clicked();
     void on_pb_op_percent_clicked();
+    void on_pb_op_sqrt_clicked();
+    void on_pb_op_sq_clicked();
 
     void on_pb_cmd_enter_clicked();
     void on_pb_cmd_clear_clicked();
@@ -47,15 +47,10 @@ private slots:
 
     void on_pb_cmd_back_clicked();
 
-    void on_pb_op_sqrt_clicked();
-
-    void on_pb_op_sq_clicked();
-
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindow* ui;
 
-    enum eOperator
-    {
+    enum eOperator {
         none,
         plus,
         minus,
@@ -65,9 +60,6 @@ private:
         square,
         squareroot
     };
-
-
-
 
     void calc();
 
@@ -80,14 +72,11 @@ private:
 
     eOperator _operator = none;
 
-
-
     void setCurrentResult(const double i);
     void resetCurrentResult();
 
     CalculatorNumber _currentNumber;
     Result _currentResult;
-
 };
 
 #endif // MAINWINDOW_H

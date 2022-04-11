@@ -1,8 +1,8 @@
 #ifndef CALCULATORNUMBER_H
 #define CALCULATORNUMBER_H
 
-#include <QString>
 #include <QObject>
+#include <QString>
 
 #include <math.h>
 
@@ -11,8 +11,7 @@
  * Kapselt eine Zahl, die in der Anzeige des Taschenrechners angezeigt werden kann
  */
 
-class CalculatorNumber : public QObject
-{
+class CalculatorNumber : public QObject {
     Q_OBJECT
 
     /**
@@ -23,16 +22,18 @@ class CalculatorNumber : public QObject
      * @remark friend weil es eine globale rechenfunktion sein soll, die allerdings ein signal von
      *         CalculatorNumber senden soll
      */
-    friend double sqrt(CalculatorNumber &op);
+    friend double sqrt(CalculatorNumber& op);
 
 public:
-
     static const int MaxPrecisision;
 
     /**
      * @brief Standard- und Copykonstruktor
      */
-    CalculatorNumber() : QObject(0){}
+    CalculatorNumber()
+        : QObject(0)
+    {
+    }
     CalculatorNumber(const CalculatorNumber& c);
 
     /**
@@ -103,20 +104,20 @@ public:
      * @brief Überladene Operatoren
      */
 
-    bool operator==(const CalculatorNumber &op) const;
-    bool operator!=(const CalculatorNumber &op) const;
+    bool operator==(const CalculatorNumber& op) const;
+    bool operator!=(const CalculatorNumber& op) const;
 
-    void operator=(const CalculatorNumber &op);
-    void operator=(const double &op);
+    void operator=(const CalculatorNumber& op);
+    void operator=(const double& op);
 
     void operator<<(const int i);
     void operator<<(const char c);
 
     bool operator>(const double op) const;
-    bool operator>(const CalculatorNumber &op) const;
+    bool operator>(const CalculatorNumber& op) const;
 
     bool operator<(const double op) const;
-    bool operator<(const CalculatorNumber &op) const;
+    bool operator<(const CalculatorNumber& op) const;
 
 signals:
 
@@ -145,20 +146,20 @@ private:
  * @brief Überladene Operatoren
  */
 
-double operator+(const double op1, const CalculatorNumber &op2);
-double operator+(const CalculatorNumber &op1, const double op2 );
-double operator+(const CalculatorNumber &op1, const CalculatorNumber &op2 );
+double operator+(const double op1, const CalculatorNumber& op2);
+double operator+(const CalculatorNumber& op1, const double op2);
+double operator+(const CalculatorNumber& op1, const CalculatorNumber& op2);
 
-double operator-(const double op1, const CalculatorNumber &op2);
-double operator-(const CalculatorNumber &op1, const double op2 );
-double operator-(const CalculatorNumber &op1, const CalculatorNumber &op2 );
+double operator-(const double op1, const CalculatorNumber& op2);
+double operator-(const CalculatorNumber& op1, const double op2);
+double operator-(const CalculatorNumber& op1, const CalculatorNumber& op2);
 
-double operator*(const double op1, const CalculatorNumber &op2);
-double operator*(const CalculatorNumber &op1, const double op2 );
-double operator*(const CalculatorNumber &op1, const CalculatorNumber &op2 );
+double operator*(const double op1, const CalculatorNumber& op2);
+double operator*(const CalculatorNumber& op1, const double op2);
+double operator*(const CalculatorNumber& op1, const CalculatorNumber& op2);
 
-double operator/(const double op1, const CalculatorNumber &op2);
-double operator/(const CalculatorNumber &op1, const double op2 );
-double operator/(const CalculatorNumber &op1, const CalculatorNumber &op2 );
+double operator/(const double op1, const CalculatorNumber& op2);
+double operator/(const CalculatorNumber& op1, const double op2);
+double operator/(const CalculatorNumber& op1, const CalculatorNumber& op2);
 
 #endif // CALCULATORNUMBER_H

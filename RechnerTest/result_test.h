@@ -7,33 +7,36 @@
 #include "result.h"
 
 class Result_Test : public QObject {
-  Q_OBJECT
+    Q_OBJECT
 
 private slots:
-  void test_addDigit_data() {
-    QTest::addColumn<double>("in");
-    QTest::addColumn<QString>("asString");
 
-    QTest::newRow("Test1") << 12345.0 << "12345";
-    QTest::newRow("Test2") << 12345.6789 << "12345.6789";
-    QTest::newRow("Test3") << -12345.6789 << "-12345.6789";
-    QTest::newRow("Test4") << -12345.6789000000000000000001 << "-12345.6789";
-    QTest::newRow("Test5") << 12345.6789000000000000000001 << "12345.6789";
-  }
+    void test_addDigit_data()
+    {
+        QTest::addColumn<double>("in");
+        QTest::addColumn<QString>("asString");
 
-  void test_addDigit() {
-    Result r;
-    QVERIFY(!r.isValid());
+        QTest::newRow("Test1") << 12345.0 << "12345";
+        QTest::newRow("Test2") << 12345.6789 << "12345.6789";
+        QTest::newRow("Test3") << -12345.6789 << "-12345.6789";
+        QTest::newRow("Test4") << -12345.6789000000000000000001 << "-12345.6789";
+        QTest::newRow("Test5") << 12345.6789000000000000000001 << "12345.6789";
+    }
 
-    QFETCH(double, in);
-    r.set(in);
+    void test_addDigit()
+    {
+        Result r;
+        QVERIFY(!r.isValid());
 
-    QVERIFY(r.isValid());
-    QCOMPARE(r.get(), in);
+        QFETCH(double, in);
+        r.set(in);
 
-    QFETCH(QString, asString);
-    QCOMPARE(r.toString(), asString);
-  }
+        QVERIFY(r.isValid());
+        QCOMPARE(r.get(), in);
+
+        QFETCH(QString, asString);
+        QCOMPARE(r.toString(), asString);
+    }
 };
 
 #endif // RESULT_TEST_H
