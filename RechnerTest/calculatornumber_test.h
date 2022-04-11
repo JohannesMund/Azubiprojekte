@@ -6,15 +6,11 @@
 
 #include "calculatornumber.h"
 
-
 class CalculatorNumber_Test : public QObject
 {
     Q_OBJECT
 
-
 private slots:
-
-
 
     void test_addDigit_data()
     {
@@ -62,7 +58,6 @@ private slots:
         }
         QCOMPARE(n1.get(),res);
         QCOMPARE(n2.get(),res);
-
     }
 
     void test_getAndSet_data()
@@ -79,7 +74,6 @@ private slots:
         QTest::newRow("Test8") << 0.0000001;
         QTest::newRow("Test9") << 99.0050001;
         QTest::newRow("Test10") << -1.0000021;
-
     }
 
     void test_getAndSet()
@@ -103,7 +97,6 @@ private slots:
         QTest::newRow("Test Add 4") << 1.000001 << 1.0 << 2.000001;
         QTest::newRow("Test Add 5") << 12345.0 << 0.12345 << 12345.12345;
         QTest::newRow("Test Add 6") << 12345.12345 << 12345.12345 << 24690.2469;
-
     }
 
     void test_add()
@@ -135,7 +128,6 @@ private slots:
         QTest::newRow("Test Sub 4") << 1.00001 << 1.0 << 0.00001;
         QTest::newRow("Test Sub 5") << 12345.0 << 0.12345 << 12344.87655;
         QTest::newRow("Test Sub 6") << 12345.12345 << 12345.12345 << 0.0;
-
     }
 
     void test_sub()
@@ -240,9 +232,6 @@ private slots:
         o1 = sqrt(o1);
         QCOMPARE(o1.get(), res);
     }
-
-
 };
-
 
 #endif // CALCULATORNUMBER_TEST_H
