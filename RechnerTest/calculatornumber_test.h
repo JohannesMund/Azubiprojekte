@@ -196,7 +196,6 @@ private slots:
     QTest::newRow("Test sqrt 1") << 9.0 << 3.0;
     QTest::newRow("Test sqrt 2") << 4.0 << 2.0;
     QTest::newRow("Test sqrt 3") << 100.0 << 10.0;
-
     QTest::newRow("Test sqrt 4") << -1.0 << 0.0;
     QTest::newRow("Test sqrt 5") << 0.0 << 0.0;
   }

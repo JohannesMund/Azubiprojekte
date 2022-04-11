@@ -5,6 +5,9 @@
 
 bool PlayField::setField(const PlayFieldCoords coords,
                          const PlayerManagement::Player p) {
+  if (!coords.isValid()) {
+    return false;
+  }
 
   if (!coords.isValid()) {
     return false;
