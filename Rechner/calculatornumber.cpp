@@ -194,6 +194,7 @@ void CalculatorNumber::operator<<(const int i)
 {
     int ii(i);
     QVector<int> digits;
+
     while(ii)
     {
         digits.push_front(ii%10);
