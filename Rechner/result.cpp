@@ -32,7 +32,7 @@ void Result::reset()
 QString Result::toString() const
 {
     int precision = 15; //Maximale Anzahl an stellen laut IEEE 754
-    float f(std::floor(_val));
+    float f(abs(std::floor(_val)));
 
     while( f > 1 && precision > 0)
     {
@@ -43,7 +43,7 @@ QString Result::toString() const
     QString s;
     QTextStream ts(&s);
     ts.setRealNumberNotation(QTextStream::RealNumberNotation::FixedNotation);
-    ts.setRealNumberPrecision(precision);
+    ts.setRealNumberPrecision(precision-1);
     ts << _val;
 
     s.remove( QRegExp("0+$") );

@@ -13,6 +13,7 @@ INCLUDEPATH += ../Rechner
 
 SOURCES += \
         ../Rechner/calculatornumber.cpp \
+        ../Rechner/result.cpp \
         main.cpp
 
 # Default rules for deployment.
@@ -22,4 +23,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     ../Rechner/calculatornumber.h \
-    calculatornumber_test.h
+    ../Rechner/result.h \
+    calculatornumber_test.h \
+    result_test.h
+

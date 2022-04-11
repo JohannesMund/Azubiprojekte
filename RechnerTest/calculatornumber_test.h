@@ -244,4 +244,5 @@ private slots:
 
 };
 
+
 #endif // CALCULATORNUMBER_TEST_H
