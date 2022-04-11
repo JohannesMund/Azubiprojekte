@@ -7,7 +7,7 @@ bool PlayField::setField(const PlayFieldCoords coords, const PlayerManagement::P
 {
     if( !coords.isValid())
     {
-            return false;
+        return false;
     }
 
     if( _grid[coords.x()][coords.y()] != PlayerManagement::Player::none )
