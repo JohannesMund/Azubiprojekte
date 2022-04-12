@@ -49,8 +49,8 @@ void PlayField::checkWinner()
     // Schauen wir ob es noch leere felder gibt
     bool gameOver = true;
 
-    for (int i = 0; i <= 3; i++) {
-        for (int j = 0; j <= 3; j++) {
+    for (int i = 0; i <= 2; i++) {
+        for (int j = 0; j <= 2; j++) {
             if (_grid[i][j] == PlayerManagement::none) {
                 // Es gibt noch ein leeres Feld, also geht es weiter
                 gameOver = false;
