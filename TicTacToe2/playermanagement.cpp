@@ -8,7 +8,10 @@ void PlayerManagement::togglePlayer()
 
         _currentPlayer = Player::plO;
     }
-    _currentPlayer = Player::plX;
+    else
+    {
+        _currentPlayer = Player::plX;
+    }
 }
 
 QColor PlayerManagement::currentPlayerColor() const

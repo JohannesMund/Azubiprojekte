@@ -4,11 +4,16 @@ PlayerManagement::PlayerManagement() { }
 
 void PlayerManagement::togglePlayer()
 {
-    if (_currentPlayer == plX) {
+    if (_currentPlayer == plX)
+    {
         _currentPlayer = plO;
     }
+    else
+    {
+        _currentPlayer = plX;
+    }
 
-    _currentPlayer = plX;
+
 }
 
 QColor PlayerManagement::currentPlayerColor() const
