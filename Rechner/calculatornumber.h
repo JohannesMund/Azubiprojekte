@@ -11,7 +11,8 @@
  * Kapselt eine Zahl, die in der Anzeige des Taschenrechners angezeigt werden kann
  */
 
-class CalculatorNumber : public QObject {
+class CalculatorNumber : public QObject
+{
     Q_OBJECT
 
     /**
@@ -30,8 +31,7 @@ public:
     /**
      * @brief Standard- und Copykonstruktor
      */
-    CalculatorNumber()
-        : QObject(0)
+    CalculatorNumber() : QObject(0)
     {
     }
     CalculatorNumber(const CalculatorNumber& c);

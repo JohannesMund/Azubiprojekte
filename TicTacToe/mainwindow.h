@@ -7,11 +7,13 @@
 #include "playermanagement.h"
 #include "playfield.h"
 
-namespace Ui {
+namespace Ui
+{
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow
+{
     Q_OBJECT
 
 public:

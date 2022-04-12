@@ -5,13 +5,17 @@
 
 double Result::get() const
 {
-    if (_valid) {
+    if (_valid)
+    {
         return _val;
     }
     return 0;
 }
 
-bool Result::isValid() const { return _valid; }
+bool Result::isValid() const
+{
+    return _valid;
+}
 
 void Result::set(const double i)
 {
@@ -30,7 +34,8 @@ QString Result::toString() const
     int precision = 15; // Maximale Anzahl an stellen laut IEEE 754
     float f(abs(std::floor(_val)));
 
-    while (f > 1 && precision > 0) {
+    while (f > 1 && precision > 0)
+    {
         f /= 10;
         precision--;
     }

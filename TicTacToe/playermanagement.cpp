@@ -1,6 +1,8 @@
 #include "playermanagement.h"
 
-PlayerManagement::PlayerManagement() { }
+PlayerManagement::PlayerManagement()
+{
+}
 
 void PlayerManagement::togglePlayer()
 {
@@ -12,8 +14,6 @@ void PlayerManagement::togglePlayer()
     {
         _currentPlayer = plX;
     }
-
-
 }
 
 QColor PlayerManagement::currentPlayerColor() const
@@ -28,11 +28,16 @@ PlayerManagement::Player PlayerManagement::getCurrentPlayer() const
 
 QColor PlayerManagement::playerToColor(const Player& p)
 {
-    if (p == plX) {
+    if (p == plX)
+    {
         return QColor(Qt::red);
-    } else if (p == plO) {
+    }
+    else if (p == plO)
+    {
         return QColor(Qt::blue);
-    } else {
+    }
+    else
+    {
         return QColor(Qt::black);
     }
 }
@@ -44,11 +49,16 @@ QString PlayerManagement::currentPlayerText() const
 
 QString PlayerManagement::playerToText(const Player& p)
 {
-    if (p == plX) {
+    if (p == plX)
+    {
         return "X";
-    } else if (p == plO) {
+    }
+    else if (p == plO)
+    {
         return "O";
-    } else {
+    }
+    else
+    {
         return "PlayerManagement::none";
     }
 }

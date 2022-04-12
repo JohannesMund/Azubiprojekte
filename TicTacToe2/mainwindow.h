@@ -7,11 +7,13 @@
 #include "playermanagement.h"
 #include "playfield.h"
 
-namespace Ui {
+namespace Ui
+{
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow
+{
     Q_OBJECT
 
 public:
@@ -32,10 +34,13 @@ private slots:
     void on_cbModeSelect_currentIndexChanged(int index);
 
 private:
-    enum class GameMode { pvp = 0,
+    enum class GameMode
+    {
+        pvp = 0,
         pvcEasy = 1,
         pvcMedium = 2,
-        pvcHard = 3 };
+        pvcHard = 3
+    };
 
     Ui::MainWindow* ui;
 

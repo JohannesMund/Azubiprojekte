@@ -8,7 +8,8 @@
  * kapselt das Ergebnis der Rechnerei als float
  */
 
-class Result {
+class Result
+{
 
 public:
     /**

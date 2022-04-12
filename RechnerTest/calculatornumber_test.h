@@ -6,7 +6,8 @@
 
 #include "calculatornumber.h"
 
-class CalculatorNumber_Test : public QObject {
+class CalculatorNumber_Test : public QObject
+{
     Q_OBJECT
 
 private slots:
@@ -36,15 +37,20 @@ private slots:
 
         CalculatorNumber n1;
         CalculatorNumber n2;
-        for (auto i : in) {
-            if (i == ',') {
+        for (auto i : in)
+        {
+            if (i == ',')
+            {
                 n1.setCommaPressed(true);
                 n2 << '.';
-            } else if (i == '-') {
+            }
+            else if (i == '-')
+            {
                 n1.toggleNegated();
                 n2 << '-';
-
-            } else {
+            }
+            else
+            {
                 n1.addDigit(i);
                 n2 << i;
             }

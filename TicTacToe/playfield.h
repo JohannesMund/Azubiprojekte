@@ -3,7 +3,8 @@
 
 #include "playermanagement.h"
 
-class PlayField {
+class PlayField
+{
 public:
     PlayField();
 

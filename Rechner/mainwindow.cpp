@@ -1,15 +1,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
     ui->pb_0->setShortcut(QKeySequence(Qt::Key_0));
     ui->pb_1->setShortcut(QKeySequence(Qt::Key_1));
     ui->pb_2->setShortcut(QKeySequence(Qt::Key_2));
+
     ui->pb_3->setShortcut(QKeySequence(Qt::Key_3));
     ui->pb_4->setShortcut(QKeySequence(Qt::Key_4));
     ui->pb_5->setShortcut(QKeySequence(Qt::Key_5));
@@ -28,19 +27,28 @@ MainWindow::MainWindow(QWidget* parent)
     ui->pb_op_mul->setShortcut(QKeySequence(Qt::Key_Asterisk));
     ui->pb_op_plus->setShortcut(QKeySequence(Qt::Key_Plus));
 
-    connect(&_currentNumber, &CalculatorNumber::errorOccured, this,
-        [&](const bool b) {
-            if (b) {
-                ui->lb_ErrorDisplay->setText("ERR");
-            } else {
-                ui->lb_ErrorDisplay->setText("");
-            }
-        });
+    connect(&_currentNumber,
+            &CalculatorNumber::errorOccured,
+            this,
+            [&](const bool b)
+            {
+                if (b)
+                {
+                    ui->lb_ErrorDisplay->setText("ERR");
+                }
+                else
+                {
+                    ui->lb_ErrorDisplay->setText("");
+                }
+            });
 
     updateDisplay();
 }
 
-MainWindow::~MainWindow() { delete ui; }
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
 
 void MainWindow::numberPressed(const int i)
 {
@@ -54,7 +62,8 @@ void MainWindow::updateDisplay()
 
     ui->lb_display->setText(s);
 
-    switch (_operator) {
+    switch (_operator)
+    {
     case plus:
         ui->lb_operator->setText("+");
         break;
@@ -81,9 +90,12 @@ void MainWindow::updateDisplay()
         break;
     }
 
-    if (_currentResult.isValid()) {
+    if (_currentResult.isValid())
+    {
         ui->lb_lastResult->setText(_currentResult.toString());
-    } else {
+    }
+    else
+    {
         ui->lb_lastResult->setNum(0);
     }
 }
@@ -100,25 +112,55 @@ void MainWindow::on_pb_plus_minus_clicked()
     updateDisplay();
 }
 
-void MainWindow::on_pb_1_clicked() { numberPressed(1); }
+void MainWindow::on_pb_1_clicked()
+{
+    numberPressed(1);
+}
 
-void MainWindow::on_pb_2_clicked() { numberPressed(2); }
+void MainWindow::on_pb_2_clicked()
+{
+    numberPressed(2);
+}
 
-void MainWindow::on_pb_3_clicked() { numberPressed(3); }
+void MainWindow::on_pb_3_clicked()
+{
+    numberPressed(3);
+}
 
-void MainWindow::on_pb_4_clicked() { numberPressed(4); }
+void MainWindow::on_pb_4_clicked()
+{
+    numberPressed(4);
+}
 
-void MainWindow::on_pb_5_clicked() { numberPressed(5); }
+void MainWindow::on_pb_5_clicked()
+{
+    numberPressed(5);
+}
 
-void MainWindow::on_pb_6_clicked() { numberPressed(6); }
+void MainWindow::on_pb_6_clicked()
+{
+    numberPressed(6);
+}
 
-void MainWindow::on_pb_7_clicked() { numberPressed(7); }
+void MainWindow::on_pb_7_clicked()
+{
+    numberPressed(7);
+}
 
-void MainWindow::on_pb_8_clicked() { numberPressed(8); }
+void MainWindow::on_pb_8_clicked()
+{
+    numberPressed(8);
+}
 
-void MainWindow::on_pb_9_clicked() { numberPressed(9); }
+void MainWindow::on_pb_9_clicked()
+{
+    numberPressed(9);
+}
 
-void MainWindow::on_pb_0_clicked() { numberPressed(0); }
+void MainWindow::on_pb_0_clicked()
+{
+    numberPressed(0);
+}
 
 void MainWindow::setOperator(const MainWindow::eOperator op)
 {
@@ -127,25 +169,44 @@ void MainWindow::setOperator(const MainWindow::eOperator op)
     updateDisplay();
 }
 
-void MainWindow::on_pb_op_div_clicked() { setOperator(division); }
+void MainWindow::on_pb_op_div_clicked()
+{
+    setOperator(division);
+}
 
-void MainWindow::on_pb_op_mul_clicked() { setOperator(multiplication); }
+void MainWindow::on_pb_op_mul_clicked()
+{
+    setOperator(multiplication);
+}
 
-void MainWindow::on_pb_op_min_clicked() { setOperator(minus); }
+void MainWindow::on_pb_op_min_clicked()
+{
+    setOperator(minus);
+}
 
-void MainWindow::on_pb_op_plus_clicked() { setOperator(plus); }
+void MainWindow::on_pb_op_plus_clicked()
+{
+    setOperator(plus);
+}
 
-void MainWindow::on_pb_op_percent_clicked() { setOperator(percent); }
+void MainWindow::on_pb_op_percent_clicked()
+{
+    setOperator(percent);
+}
 
 void MainWindow::calc()
 {
-    if (_currentResult.isValid() == false && _operator != square && _operator != squareroot) {
+    if (_currentResult.isValid() == false && _operator != square && _operator != squareroot)
+    {
         _currentResult.set(_currentNumber.get());
-    } else {
+    }
+    else
+    {
         double op1 = _currentResult.get();
         double res = 0;
 
-        switch (_operator) {
+        switch (_operator)
+        {
         case plus:
             res = op1 + _currentNumber;
             break;
@@ -193,11 +254,20 @@ void MainWindow::clearAll()
     clearCurrent();
 }
 
-void MainWindow::on_pb_cmd_enter_clicked() { calc(); }
+void MainWindow::on_pb_cmd_enter_clicked()
+{
+    calc();
+}
 
-void MainWindow::on_pb_cmd_clear_clicked() { clearAll(); }
+void MainWindow::on_pb_cmd_clear_clicked()
+{
+    clearAll();
+}
 
-void MainWindow::on_pb_cmd_clearE_clicked() { clearCurrent(); }
+void MainWindow::on_pb_cmd_clearE_clicked()
+{
+    clearCurrent();
+}
 
 void MainWindow::on_pb_cmd_back_clicked()
 {

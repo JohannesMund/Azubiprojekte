@@ -9,58 +9,62 @@
  * Klasse um die SPieler zu verwalten
  */
 
-class PlayerManagement {
+class PlayerManagement
+{
 public:
     /**
-   * @brief The Player enum
-   * Spieler X, Spieler O oder keiner
-   */
+     * @brief The Player enum
+     * Spieler X, Spieler O oder keiner
+     */
 
-    enum class Player { none,
+    enum class Player
+    {
+        none,
         plX,
-        plO };
+        plO
+    };
 
     /**
-   * @brief setComputerEnemy
-   * Gibt an ob ein computer im spiel ist
-   * @param b ja oder nein
-   */
+     * @brief setComputerEnemy
+     * Gibt an ob ein computer im spiel ist
+     * @param b ja oder nein
+     */
     void setComputerEnemy(const bool b);
 
     /**
-   * @brief togglePlayer
-   *Schaltet den current player um
-   */
+     * @brief togglePlayer
+     *Schaltet den current player um
+     */
     void togglePlayer();
 
     /**
-   * @brief currentPlayerText
-   * @return Buttonbeschriftung des aktuellen Spielers
-   */
+     * @brief currentPlayerText
+     * @return Buttonbeschriftung des aktuellen Spielers
+     */
     QString currentPlayerText() const;
 
     /**
-   * @brief currentPlayerColor
-   * @return passende Farbe für den aktuellen Spieler
-   */
+     * @brief currentPlayerColor
+     * @return passende Farbe für den aktuellen Spieler
+     */
     QColor currentPlayerColor() const;
 
     /**
-   * @brief getCurrentPlayer
-   * @return der aktuelle Spieler
-   */
+     * @brief getCurrentPlayer
+     * @return der aktuelle Spieler
+     */
     Player getCurrentPlayer() const;
 
     /**
-   * @brief currentPlayerName
-   * @return name des aktuellen Spielers
-   */
+     * @brief currentPlayerName
+     * @return name des aktuellen Spielers
+     */
     QString currentPlayerName() const;
 
     /**
-   * @brief isPlayerTurn
-   * @return ist ein Spieler am zug oder der Computer
-   */
+     * @brief isPlayerTurn
+     * @return ist ein Spieler am zug oder der Computer
+     */
     bool isPlayerTurn() const;
 
 private:

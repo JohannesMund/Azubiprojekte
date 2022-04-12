@@ -4,9 +4,11 @@
 #include <QColor>
 #include <QString>
 
-class PlayerManagement {
+class PlayerManagement
+{
 public:
-    enum Player {
+    enum Player
+    {
         none,
         plX,
         plO

@@ -6,7 +6,8 @@
 
 #include "result.h"
 
-class Result_Test : public QObject {
+class Result_Test : public QObject
+{
     Q_OBJECT
 
 private slots:
