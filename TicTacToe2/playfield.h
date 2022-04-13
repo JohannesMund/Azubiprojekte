@@ -2,6 +2,7 @@
 #define PLAYFIELD_H
 
 #include "playermanagement.h"
+#include "playfieldcoords.h"
 
 /**
  * @brief The PlayField class
@@ -11,41 +12,21 @@ class PlayField
 {
 public:
     /**
-     * @brief The PlayFieldCoords struct
-     * Koordinaten auf dem Spielfeld, mit valid funktion
-     */
-    struct PlayFieldCoords : public QPair<int, int>
-    {
-    public:
-        PlayFieldCoords() : QPair<int, int>(-1, -1)
-        {
-        }
-        PlayFieldCoords(const int i1, const int i2) : QPair<int, int>(i1, i2)
-        {
-        }
-
-        bool isValid() const
-        {
-            return first >= 0 && first <= 2 && second >= 0 && second <= 2;
-        }
-        int x() const
-        {
-            return first;
-        }
-        int y() const
-        {
-            return second;
-        }
-    };
-
-    /**
      * @brief setField
      * Setzt ein Feld
      * @param coords die Koordinaten eines Feldes
      * @param p der Spieler der das Feld besetzt
-     * @return
+     * @return true, wenns geklappt hat, false, wenn das Feld. z.b. schon besetzt ist.
      */
-    bool setField(const PlayFieldCoords coords, const PlayerManagement::Player p);
+    bool set(const PlayFieldCoords coords, const PlayerManagement::Player p);
+
+    /**
+     * @brief at
+     * gibt den Wert eines Feldes zurück
+     * @param coords die Koordinaten des Feldes
+     * @return den spieler an coords
+     */
+    PlayerManagement::Player at(const PlayFieldCoords coords) const;
 
     /**
      * @brief reset
@@ -67,40 +48,15 @@ public:
      */
     PlayerManagement::Player getWinner() const;
 
-    /**
-     * @brief getRandomEmptyField
-     * @return gibt ein zufälliges leeres Feld zurück
-     */
-    PlayFieldCoords getRandomEmptyField();
-
-    /**
-     * @brief getWinningMove
-     * Gibt ein Feld zurück, mit dem Spieler p gewinnen kann (wenn verfügbar)
-     * @param p Der Spieler der Gewinnen soll
-     * @return Ein Feld, mit dem p auf jeden fall gewinnt oder invalid coords
-     * @remark Nicht die effizienteste Art... Es wird nacheinander jedes freie
-     * feld besetzt und geschaut ob p damit gewinnt.
-     */
-    PlayFieldCoords getWinningMove(const PlayerManagement::Player p);
-
-    /**
-     * @brief getPreventLosingMove
-     * Gibt ein Feld zurück das eine Niederlage für Spieler p verhindern kann
-     * @param p der Spieler der nicht verlieren will
-     * @return Ein Feld, das Spieler p besetzen muss um nicht zu verlieren, oder
-     * invalid coords
-     * @remark Nicht die effizienteste Art... Es wird nacheinander jedes freie
-     * feld besetzt und geschaut ob der andere Spieler damit gewinnt.
-     */
-    PlayFieldCoords getPreventLosingMove(const PlayerManagement::Player p);
+    QVector<PlayFieldCoords> getEmptyFields() const;
 
 private:
     void setGameOver(const PlayerManagement::Player& winner);
-    PlayerManagement::Player getWinningPlayer() const;
 
-    QVector<PlayFieldCoords> getEmptyFields() const;
     bool areEmptyFieldsLeft() const;
     void checkForWinner();
+
+    PlayerManagement::Player getWinningPlayer() const;
 
     PlayerManagement::Player _winner = PlayerManagement::Player::none;
     PlayerManagement::Player _grid[3][3];

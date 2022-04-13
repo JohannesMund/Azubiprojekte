@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <qpushbutton.h>
 
+#include "computerenemy.h"
 #include "playermanagement.h"
 #include "playfield.h"
 
@@ -11,7 +12,7 @@ namespace Ui
 {
 class MainWindow;
 }
-
+struct PlayFieldCoords;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -34,30 +35,22 @@ private slots:
     void on_cbModeSelect_currentIndexChanged(int index);
 
 private:
-    enum class GameMode
-    {
-        pvp = 0,
-        pvcEasy = 1,
-        pvcMedium = 2,
-        pvcHard = 3
-    };
+    static constexpr int gameModePvP = 0;
 
     Ui::MainWindow* ui;
 
     PlayerManagement _playerManagement;
     PlayField _grid;
+    ComputerEnemy _enemy;
 
     void buttonPressed(const int x, const int y);
+    void buttonPressed(const PlayFieldCoords& coords);
     void newTurn();
 
     void haveWinner(const PlayerManagement::Player&);
     void resetGame();
 
-    void setGameMode(const GameMode mode);
-
-    QPushButton* getPushButtonAtCoords(int x, int y);
-
-    GameMode _currentMode;
+    QPushButton* getPushButtonAtCoords(const int x, const int y);
 };
 
 #endif // MAINWINDOW_H

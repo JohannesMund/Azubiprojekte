@@ -1,8 +1,8 @@
 #include "playermanagement.h"
 
-void PlayerManagement::setComputerEnemy(const bool b)
+void PlayerManagement::setGameMode(const GameMode mode)
 {
-    _computerEnemy = b;
+    _gameMode = mode;
 }
 
 void PlayerManagement::togglePlayer()
@@ -30,9 +30,9 @@ PlayerManagement::Player PlayerManagement::getCurrentPlayer() const
 
 QString PlayerManagement::playerName(const PlayerManagement::Player& p) const
 {
-    if (_computerEnemy)
+    if (_gameMode == GameMode::pvc)
     {
-        if (p == computerPlayer())
+        if (p == computerPlayer)
         {
             return "Computer";
         }
@@ -51,7 +51,7 @@ QString PlayerManagement::currentPlayerName() const
 
 bool PlayerManagement::isPlayerTurn() const
 {
-    if (_computerEnemy && _currentPlayer == computerPlayer())
+    if (_gameMode == GameMode::pvc && _currentPlayer == computerPlayer)
     {
         return false;
     }
@@ -72,11 +72,6 @@ QColor PlayerManagement::playerToColor(const Player& p)
     {
         return QColor(Qt::black);
     }
-}
-
-PlayerManagement::Player PlayerManagement::computerPlayer()
-{
-    return Player::plX;
 }
 
 QString PlayerManagement::currentPlayerText() const

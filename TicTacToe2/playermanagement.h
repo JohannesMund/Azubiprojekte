@@ -24,12 +24,21 @@ public:
         plO
     };
 
+    enum class GameMode
+    {
+        pvp,
+        pvc
+    };
+
+    static constexpr Player computerPlayer = Player::plX;
+    static constexpr Player humanPlayer = Player::plO;
+
     /**
      * @brief setComputerEnemy
      * Gibt an ob ein computer im spiel ist
      * @param b ja oder nein
      */
-    void setComputerEnemy(const bool b);
+    void setGameMode(const GameMode mode);
 
     /**
      * @brief togglePlayer
@@ -70,13 +79,12 @@ public:
 private:
     static QString playerToText(const Player& p);
     static QColor playerToColor(const Player& p);
-    static Player computerPlayer();
 
     QString playerName(const Player& p) const;
 
     Player _currentPlayer;
 
-    bool _computerEnemy = false;
+    GameMode _gameMode = GameMode::pvp;
 };
 
 #endif // PLAYERMANAGEMENT_H

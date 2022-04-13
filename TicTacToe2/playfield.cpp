@@ -1,15 +1,9 @@
 #include "playfield.h"
 
 #include <QVector>
-#include <random>
 
-bool PlayField::setField(const PlayFieldCoords coords, const PlayerManagement::Player p)
+bool PlayField::set(const PlayFieldCoords coords, const PlayerManagement::Player p)
 {
-    if (!coords.isValid())
-    {
-        return false;
-    }
-
     if (!coords.isValid())
     {
         return false;
@@ -25,6 +19,15 @@ bool PlayField::setField(const PlayFieldCoords coords, const PlayerManagement::P
     checkForWinner();
 
     return true;
+}
+
+PlayerManagement::Player PlayField::at(const PlayFieldCoords coords) const
+{
+    if (!coords.isValid())
+    {
+        return PlayerManagement::Player::none;
+    }
+    return _grid[coords.x()][coords.y()];
 }
 
 void PlayField::checkForWinner()
@@ -69,39 +72,6 @@ void PlayField::reset()
     _winner = PlayerManagement::Player::none;
 }
 
-PlayField::PlayFieldCoords PlayField::getRandomEmptyField()
-{
-    QVector<PlayFieldCoords> emptyFields = getEmptyFields();
-    std::random_shuffle(emptyFields.begin(), emptyFields.end());
-    return emptyFields.first();
-}
-
-PlayField::PlayFieldCoords PlayField::getWinningMove(const PlayerManagement::Player p)
-{
-    const auto emptyFields = getEmptyFields();
-    for (const auto field : emptyFields)
-    {
-        assert(_grid[field.x()][field.y()] == PlayerManagement::Player::none);
-        _grid[field.x()][field.y()] = p;
-        const auto winner = getWinningPlayer();
-        _grid[field.x()][field.y()] = PlayerManagement::Player::none;
-        if (winner == p)
-        {
-            return field;
-        }
-    }
-    return PlayFieldCoords();
-}
-
-PlayField::PlayFieldCoords PlayField::getPreventLosingMove(const PlayerManagement::Player p)
-{
-    if (p == PlayerManagement::Player::plX)
-        return getWinningMove(PlayerManagement::Player::plO);
-    if (p == PlayerManagement::Player::plO)
-        return getWinningMove(PlayerManagement::Player::plX);
-    return PlayFieldCoords();
-}
-
 void PlayField::setGameOver(const PlayerManagement::Player& winner)
 {
     _gameOver = true;
@@ -143,7 +113,7 @@ PlayerManagement::Player PlayField::getWinningPlayer() const
     return PlayerManagement::Player::none;
 }
 
-QVector<PlayField::PlayFieldCoords> PlayField::getEmptyFields() const
+QVector<PlayFieldCoords> PlayField::getEmptyFields() const
 {
     QVector<PlayFieldCoords> v;
     for (int i = 0; i <= 2; i++)

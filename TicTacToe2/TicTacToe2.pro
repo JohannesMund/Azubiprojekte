@@ -25,15 +25,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    computerenemy.cpp \
         main.cpp \
         mainwindow.cpp \
     playermanagement.cpp \
-    playfield.cpp
+    playfield.cpp \
+    playfieldcoords.cpp
 
 HEADERS += \
+    computerenemy.h \
         mainwindow.h \
     playermanagement.h \
-    playfield.h
+    playfield.h \
+    playfieldcoords.h
 
 FORMS += \
         mainwindow.ui

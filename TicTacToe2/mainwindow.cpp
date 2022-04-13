@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "playfieldcoords.h"
+
 #include <QComboBox>
 #include <QDebug>
 #include <QMessageBox>
@@ -9,10 +11,14 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     ui->setupUi(this);
 
-    ui->cbModeSelect->insertItem(static_cast<int>(GameMode::pvp), "Mensch");
-    ui->cbModeSelect->insertItem(static_cast<int>(GameMode::pvcEasy), "Computer (leicht)");
-    ui->cbModeSelect->insertItem(static_cast<int>(GameMode::pvcMedium), "Computer (medium)");
-    ui->cbModeSelect->insertItem(static_cast<int>(GameMode::pvcHard), "Computer (schwer)");
+    ui->cbModeSelect->insertItem(gameModePvP, "Mensch");
+
+    ComputerEnemy::DifficultyMapIterator i(ComputerEnemy::getAvailableDifficulties());
+    while (i.hasNext())
+    {
+        i.next();
+        ui->cbModeSelect->insertItem(static_cast<int>(i.key()), QString("Computer (%1)").arg(i.value()));
+    }
 
     resetGame();
 
@@ -27,7 +33,7 @@ MainWindow::~MainWindow()
 void MainWindow::buttonPressed(const int x, const int y)
 {
     QPushButton* p = getPushButtonAtCoords(x, y);
-    if (_grid.setField(PlayField::PlayFieldCoords(x, y), _playerManagement.getCurrentPlayer()))
+    if (_grid.set(PlayFieldCoords(x, y), _playerManagement.getCurrentPlayer()))
     {
         p->setText(_playerManagement.currentPlayerText());
 
@@ -44,6 +50,11 @@ void MainWindow::buttonPressed(const int x, const int y)
     newTurn();
 }
 
+void MainWindow::buttonPressed(const PlayFieldCoords& coords)
+{
+    buttonPressed(coords.x(), coords.y());
+}
+
 void MainWindow::newTurn()
 {
     _playerManagement.togglePlayer();
@@ -54,24 +65,7 @@ void MainWindow::newTurn()
     }
     else
     {
-
-        PlayField::PlayFieldCoords coords;
-
-        if (_currentMode == GameMode::pvcMedium || _currentMode == GameMode::pvcHard)
-        {
-            coords = _grid.getWinningMove(_playerManagement.getCurrentPlayer());
-        }
-
-        if (_currentMode == GameMode::pvcHard && !coords.isValid())
-        {
-            coords = _grid.getPreventLosingMove(_playerManagement.getCurrentPlayer());
-        }
-
-        if (!coords.isValid())
-        {
-            coords = _grid.getRandomEmptyField();
-        }
-        buttonPressed(coords.first, coords.second);
+        buttonPressed(_enemy.doMove(_grid));
     }
 }
 
@@ -105,15 +99,7 @@ void MainWindow::resetGame()
     _grid.reset();
 }
 
-void MainWindow::setGameMode(const MainWindow::GameMode mode)
-{
-    ui->lbMode->setText(ui->cbModeSelect->currentText());
-    _currentMode = mode;
-    _playerManagement.setComputerEnemy(mode != GameMode::pvp);
-    newTurn();
-}
-
-QPushButton* MainWindow::getPushButtonAtCoords(int x, int y)
+QPushButton* MainWindow::getPushButtonAtCoords(const int x, const int y)
 {
     if (x == 0)
     {
@@ -197,5 +183,17 @@ void MainWindow::on_pb9_clicked()
 void MainWindow::on_cbModeSelect_currentIndexChanged(int index)
 {
     resetGame();
-    setGameMode(static_cast<GameMode>(index));
+
+    ui->lbMode->setText(ui->cbModeSelect->currentText());
+
+    if (index == gameModePvP)
+    {
+        _playerManagement.setGameMode(PlayerManagement::GameMode::pvp);
+    }
+    else
+    {
+        _playerManagement.setGameMode(PlayerManagement::GameMode::pvc);
+        _enemy.setDifficulty(static_cast<ComputerEnemy::Difficulty>(index));
+    }
+    newTurn();
 }
