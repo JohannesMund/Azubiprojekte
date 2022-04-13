@@ -21,7 +21,8 @@ public:
     {
         easy = 1,
         medium = 2,
-        hard = 3
+        hard = 3,
+        insane = 4
     };
 
     using DifficultyMap = QMap<Difficulty, QString>;
@@ -31,13 +32,14 @@ public:
 
     /**
      * @brief getAvailableDifficulties
-     * @return gibt eine liste verfügbarer schwierigkeitsstufen zurück
+     * @return gibt eine liste verfügbarer Schwierigkeitsstufen zurück
      */
     static DifficultyMap getAvailableDifficulties()
     {
         return {{ComputerEnemy::Difficulty::easy, "leicht"},
                 {ComputerEnemy::Difficulty::medium, "medium"},
-                {ComputerEnemy::Difficulty::hard, "schwer"}};
+                {ComputerEnemy::Difficulty::hard, "schwer"},
+                {ComputerEnemy::Difficulty::insane, "insane"}};
     }
 
     /**
@@ -57,25 +59,34 @@ private:
 
     /**
      * @brief getWinningMove
-     * Gibt ein Feld zurück, mit dem Spieler p gewinnen kann (wenn verfügbar)
-     * @param p Der Spieler der Gewinnen soll
+     * Gibt ein Feld zurück, mit dem der Spieler gewinnen kann (wenn verfügbar)
+     * @param snapShot Referenz auf das Spielfeld
      * @return Ein Feld, mit dem p auf jeden fall gewinnt oder invalid coords
      * @remark Nicht die effizienteste Art... Es wird nacheinander jedes freie
-     * feld besetzt und geschaut ob p damit gewinnt.
+     * feld besetzt und geschaut ob der Spieler damit gewinnt.
      */
     static PlayFieldCoords getWinningMove(const PlayField& snapShot,
                                           const PlayerManagement::Player p = PlayerManagement::computerPlayer);
 
     /**
      * @brief getPreventLosingMove
-     * Gibt ein Feld zurück das eine Niederlage für Spieler p verhindern kann
-     * @param p der Spieler der nicht verlieren will
-     * @return Ein Feld, das Spieler p besetzen muss um nicht zu verlieren, oder
+     * Gibt ein Feld zurück das eine Niederlage für den Spieler verhindern kann
+     * @param snapshot referenz auf das Spielfeld
+     * @return Ein Feld, das der Spieler besetzen muss um nicht zu verlieren, oder
      * invalid coords
      * @remark Nicht die effizienteste Art... Es wird nacheinander jedes freie
      * feld besetzt und geschaut ob der andere Spieler damit gewinnt.
      */
     static PlayFieldCoords getPreventLosingMove(const PlayField& snapShot);
+
+    /**
+     * @brief getIdealFirstMove
+     * ermittelt den idealen ersten Move
+     * @param snapShot
+     * @return der beste erste move für den spieler
+     */
+
+    static PlayFieldCoords getIdealFirstMove(const PlayField& snapShot);
 
     Difficulty _difficulty = Difficulty::easy;
 };

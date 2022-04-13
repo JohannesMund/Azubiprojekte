@@ -11,11 +11,14 @@ void ComputerEnemy::setDifficulty(const ComputerEnemy::Difficulty difficulty)
 
 PlayFieldCoords ComputerEnemy::doMove(const PlayField& snapShot)
 {
-    PlayField playField(snapShot);
-
     PlayFieldCoords coords;
 
-    if (_difficulty >= Difficulty::medium)
+    if (_difficulty == Difficulty::insane)
+    {
+        coords = getIdealFirstMove(snapShot);
+    }
+
+    if (_difficulty >= Difficulty::medium && !coords.isValid())
     {
         coords = getWinningMove(snapShot);
     }
@@ -62,4 +65,37 @@ PlayFieldCoords ComputerEnemy::getWinningMove(const PlayField& snapShot, const P
 PlayFieldCoords ComputerEnemy::getPreventLosingMove(const PlayField& snapShot)
 {
     return getWinningMove(snapShot, PlayerManagement::humanPlayer);
+}
+
+PlayFieldCoords ComputerEnemy::getIdealFirstMove(const PlayField& snapShot)
+{
+    const auto emptyFields = snapShot.getEmptyFields();
+    if (emptyFields.size() == 9)
+    {
+        return {0, 0};
+    }
+    if (emptyFields.size() == 8)
+    {
+        if (snapShot.at({1, 1}) == PlayerManagement::humanPlayer)
+        {
+            return {0, 0};
+        }
+
+        if (snapShot.at({0, 0}) == PlayerManagement::humanPlayer ||
+            snapShot.at({0, 2}) == PlayerManagement::humanPlayer ||
+            snapShot.at({2, 0}) == PlayerManagement::humanPlayer ||
+            snapShot.at({2, 2}) == PlayerManagement::humanPlayer)
+        {
+            return {1, 1};
+        }
+
+        if (snapShot.at({0, 1}) == PlayerManagement::humanPlayer ||
+            snapShot.at({1, 0}) == PlayerManagement::humanPlayer ||
+            snapShot.at({1, 2}) == PlayerManagement::humanPlayer ||
+            snapShot.at({2, 1}) == PlayerManagement::humanPlayer)
+        {
+            return {1, 1};
+        }
+    }
+    return PlayFieldCoords();
 }
