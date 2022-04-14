@@ -11,7 +11,7 @@ class PlayField;
 
 /**
  * @brief The ComputerEnemy class
- * Repräsentiert den COmputergegner
+ * Repräsentiert den Computergegner
  */
 
 class ComputerEnemy
