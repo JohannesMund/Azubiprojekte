@@ -132,6 +132,8 @@ int ComputerEnemy::calculateMoveValue(const PlayField& snapShot, PlayerManagemen
         return calculateValueForFinishedBoard(snapShot, depth);
     }
 
+    depth++;
+
     const auto emptyFields = snapShot.getEmptyFields();
 
     int value;
@@ -145,7 +147,7 @@ int ComputerEnemy::calculateMoveValue(const PlayField& snapShot, PlayerManagemen
         {
             PlayField copyField(snapShot);
             copyField.set(f, p);
-            value = std::min(value, calculateMoveValue(copyField, p, ++depth));
+            value = std::min(value, calculateMoveValue(copyField, p, depth));
         }
     }
     else
@@ -157,7 +159,7 @@ int ComputerEnemy::calculateMoveValue(const PlayField& snapShot, PlayerManagemen
         {
             PlayField copyField(snapShot);
             copyField.set(f, p);
-            value = std::max(value, calculateMoveValue(copyField, p, ++depth));
+            value = std::max(value, calculateMoveValue(copyField, p, depth));
         }
     }
 
