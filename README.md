@@ -41,3 +41,6 @@ Ein Tic Tac Toe Spiel für 1 oder 2 Spieler
    * Medium (wird gezielt einen Siegzug setzen)
    * Hard (wird gezielt Niederlagen verhindern oder einen Siegzug setzen) 
    * Insane (Macht einen ordentlichen Startzug bzw. reagiert angemessen auf den startzug des Gegners) 
+   * MinMax (Ermittelt den nächsten Zug mittels MinMax Analyse)
+### Was lernen wir?
+ * Rekursionen
