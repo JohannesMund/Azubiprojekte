@@ -22,7 +22,8 @@ public:
         easy = 1,
         medium = 2,
         hard = 3,
-        insane = 4
+        insane = 4,
+        minmax = 5
     };
 
     using DifficultyMap = QMap<Difficulty, QString>;
@@ -36,10 +37,11 @@ public:
      */
     static DifficultyMap getAvailableDifficulties()
     {
-        return {{ComputerEnemy::Difficulty::easy, "leicht"},
-                {ComputerEnemy::Difficulty::medium, "medium"},
-                {ComputerEnemy::Difficulty::hard, "schwer"},
-                {ComputerEnemy::Difficulty::insane, "insane"}};
+        return {{ComputerEnemy::Difficulty::easy, "Leicht"},
+                {ComputerEnemy::Difficulty::medium, "Medium"},
+                {ComputerEnemy::Difficulty::hard, "Schwer"},
+                {ComputerEnemy::Difficulty::insane, "Insane"},
+                {ComputerEnemy::Difficulty::minmax, "MinMax"}};
     }
 
     /**
@@ -85,8 +87,34 @@ private:
      * @param snapShot
      * @return der beste erste move für den spieler
      */
-
     static PlayFieldCoords getIdealFirstMove(const PlayField& snapShot);
+
+    /**
+     * @brief getMinMaxEvaluatedMove
+     * Min-Max Evaluierung des nächsten Moves
+     * @param snapShot
+     * @return Der nach Min-Max ideale Move
+     */
+    static PlayFieldCoords getMinMaxEvaluatedMove(const PlayField& snapShot);
+
+    /**
+     * @brief calculateMoveValue
+     * Funktion zum bewerten eines Spielstandes
+     * @param snapShot
+     * @param p
+     * @param depth
+     * @return den Wert des aktuellen Moves
+     * @remark Rekursion
+     */
+    static int calculateMoveValue(const PlayField& snapShot, PlayerManagement::Player p, int depth = 0);
+
+    /**
+     * @brief calculateValueForFinishedBoard
+     * ermittelt den Wert eines Feldes
+     * @param snapShot
+     * @return der wert des Feldes
+     */
+    static int calculateValueForFinishedBoard(const PlayField& snapShot, const int depth);
 
     Difficulty _difficulty = Difficulty::easy;
 };

@@ -33,7 +33,11 @@ MainWindow::~MainWindow()
 void MainWindow::buttonPressed(const int x, const int y)
 {
     QPushButton* p = getPushButtonAtCoords(x, y);
-    if (_grid.set(PlayFieldCoords(x, y), _playerManagement.getCurrentPlayer()))
+    if (!_grid.set(PlayFieldCoords(x, y), _playerManagement.getCurrentPlayer()))
+    {
+        return;
+    }
+    else
     {
         p->setText(_playerManagement.currentPlayerText());
 

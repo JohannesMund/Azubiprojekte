@@ -11,6 +11,11 @@ void ComputerEnemy::setDifficulty(const ComputerEnemy::Difficulty difficulty)
 
 PlayFieldCoords ComputerEnemy::doMove(const PlayField& snapShot)
 {
+    if (_difficulty == Difficulty::minmax)
+    {
+        return getMinMaxEvaluatedMove(snapShot);
+    }
+
     PlayFieldCoords coords;
 
     if (_difficulty == Difficulty::insane)
@@ -98,4 +103,79 @@ PlayFieldCoords ComputerEnemy::getIdealFirstMove(const PlayField& snapShot)
         }
     }
     return PlayFieldCoords();
+}
+
+PlayFieldCoords ComputerEnemy::getMinMaxEvaluatedMove(const PlayField& snapShot)
+{
+    const auto emptyFields = snapShot.getEmptyFields();
+
+    PlayFieldCoords bestCoords;
+    int bestValue = INT_MIN;
+    for (const auto f : emptyFields)
+    {
+        PlayField copyField(snapShot);
+        copyField.set(f, PlayerManagement::computerPlayer);
+        int value = calculateMoveValue(copyField, PlayerManagement::computerPlayer);
+        if (value > bestValue)
+        {
+            bestCoords = f;
+            bestValue = value;
+        }
+    }
+    return bestCoords;
+}
+
+int ComputerEnemy::calculateMoveValue(const PlayField& snapShot, PlayerManagement::Player p, int depth)
+{
+    if (snapShot.getGameOver())
+    {
+        return calculateValueForFinishedBoard(snapShot, depth);
+    }
+
+    const auto emptyFields = snapShot.getEmptyFields();
+
+    int value;
+
+    if (p == PlayerManagement::computerPlayer)
+    {
+        p = PlayerManagement::humanPlayer;
+        value = INT_MAX;
+
+        for (auto f : emptyFields)
+        {
+            PlayField copyField(snapShot);
+            copyField.set(f, p);
+            value = std::min(value, calculateMoveValue(copyField, p, ++depth));
+        }
+    }
+    else
+    {
+        p = PlayerManagement::computerPlayer;
+        value = INT_MIN;
+
+        for (auto f : emptyFields)
+        {
+            PlayField copyField(snapShot);
+            copyField.set(f, p);
+            value = std::max(value, calculateMoveValue(copyField, p, ++depth));
+        }
+    }
+
+    return value;
+}
+
+int ComputerEnemy::calculateValueForFinishedBoard(const PlayField& snapShot, const int depth)
+{
+    if (snapShot.getWinner() == PlayerManagement::computerPlayer)
+    {
+        return 10 - depth;
+    }
+    else if (snapShot.getWinner() == PlayerManagement::humanPlayer)
+    {
+        return -10 + depth;
+    }
+    else
+    {
+        return 0;
+    }
 }
