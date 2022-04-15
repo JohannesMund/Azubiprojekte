@@ -40,7 +40,7 @@ Ein Tic Tac Toe Spiel für 1 oder 2 Spieler
    * Einfach (setzt Random)
    * Mittel (wird gezielt einen Siegzug setzen)
    * Schwer (wird gezielt Niederlagen verhindern oder einen Siegzug setzen) 
-   * Insane (Wie schwer, macht aber zusaätzlich einen ordentlichen Startzug bzw. reagiert angemessen auf den Startzug des Gegners) 
+   * Insane (Wie schwer, macht aber zusätzlich einen ordentlichen Startzug bzw. reagiert angemessen auf den Startzug des Gegners) 
    * MinMax (Ermittelt den nächsten Zug mittels MinMax Analyse)
 ### Was lernen wir?
  * Rekursionen
