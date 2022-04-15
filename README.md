@@ -37,10 +37,10 @@ Ein Tic Tac Toe Spiel für 2 Spieler
 Ein Tic Tac Toe Spiel für 1 oder 2 Spieler
 ### Features:
  * Computergegner mit 5 Schwierigkeitsstufen:
-   * Easy (setzt Random)
-   * Medium (wird gezielt einen Siegzug setzen)
-   * Hard (wird gezielt Niederlagen verhindern oder einen Siegzug setzen) 
-   * Insane (Macht einen ordentlichen Startzug bzw. reagiert angemessen auf den startzug des Gegners) 
+   * Einfach (setzt Random)
+   * Mittel (wird gezielt einen Siegzug setzen)
+   * Schwer (wird gezielt Niederlagen verhindern oder einen Siegzug setzen) 
+   * Insane (Wie schwer, macht aber zusaätzlich einen ordentlichen Startzug bzw. reagiert angemessen auf den Startzug des Gegners) 
    * MinMax (Ermittelt den nächsten Zug mittels MinMax Analyse)
 ### Was lernen wir?
  * Rekursionen
