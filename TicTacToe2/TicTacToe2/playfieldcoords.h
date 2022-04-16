@@ -1,5 +1,4 @@
-#ifndef PLAYFIELDCOORDS_H
-#define PLAYFIELDCOORDS_H
+#pragma once
 
 #include <QPair>
 
@@ -19,5 +18,3 @@ public:
 
     bool operator==(const PlayFieldCoords& op);
 };
-
-#endif // PLAYFIELDCOORDS_H

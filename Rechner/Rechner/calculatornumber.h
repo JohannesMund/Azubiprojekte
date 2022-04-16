@@ -1,5 +1,4 @@
-#ifndef CALCULATORNUMBER_H
-#define CALCULATORNUMBER_H
+#pragme once
 
 #include <QObject>
 #include <QString>
@@ -161,5 +160,3 @@ double operator*(const CalculatorNumber& op1, const CalculatorNumber& op2);
 double operator/(const double op1, const CalculatorNumber& op2);
 double operator/(const CalculatorNumber& op1, const double op2);
 double operator/(const CalculatorNumber& op1, const CalculatorNumber& op2);
-
-#endif // CALCULATORNUMBER_H

@@ -1,5 +1,4 @@
-#ifndef PLAYERMANAGEMENT_H
-#define PLAYERMANAGEMENT_H
+#pragma once
 
 #include <QColor>
 #include <QString>
@@ -86,5 +85,3 @@ private:
 
     GameMode _gameMode = GameMode::pvp;
 };
-
-#endif // PLAYERMANAGEMENT_H

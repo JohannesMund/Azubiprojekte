@@ -1,5 +1,4 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragme once
 
 #include "calculatornumber.h"
 #include "result.h"
@@ -81,5 +80,3 @@ private:
     CalculatorNumber _currentNumber;
     Result _currentResult;
 };
-
-#endif // MAINWINDOW_H

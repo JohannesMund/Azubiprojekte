@@ -1,5 +1,4 @@
-#ifndef COMPUTERENEMY_H
-#define COMPUTERENEMY_H
+#pragma once
 
 #include "playermanagement.h"
 #include "playfieldcoords.h"
@@ -118,5 +117,3 @@ private:
 
     Difficulty _difficulty = Difficulty::easy;
 };
-
-#endif // COMPUTERENEMY_H

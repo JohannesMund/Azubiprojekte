@@ -1,5 +1,4 @@
-#ifndef CALCULATORNUMBER_TEST_H
-#define CALCULATORNUMBER_TEST_H
+#pragme once
 
 #include <QObject>
 #include <QTest>
@@ -231,5 +230,3 @@ private slots:
         QCOMPARE(o1.get(), res);
     }
 };
-
-#endif // CALCULATORNUMBER_TEST_H

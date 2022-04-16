@@ -1,5 +1,4 @@
-#ifndef PLAYFIELD_H
-#define PLAYFIELD_H
+#pragma once
 
 #include "playermanagement.h"
 #include "playfieldcoords.h"
@@ -64,5 +63,3 @@ private:
     PlayerManagement::Player _grid[3][3];
     bool _gameOver = false;
 };
-
-#endif // PLAYFIELD_H

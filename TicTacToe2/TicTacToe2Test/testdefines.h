@@ -1,5 +1,4 @@
-#ifndef TESTDEFINES_H
-#define TESTDEFINES_H
+#pragma once
 
 #include "playermanagement.h"
 #include "playfield.h"
@@ -19,5 +18,3 @@ inline PlayField populatePlayField(const PlayFieldRepresentation& fieldRep)
     }
     return field;
 }
-
-#endif // TESTDEFINES_H

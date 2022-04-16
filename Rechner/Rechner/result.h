@@ -1,5 +1,4 @@
-#ifndef RESULT_H
-#define RESULT_H
+#pragme once
 
 #include <QString>
 
@@ -47,5 +46,3 @@ private:
     double _val = 0;
     bool _valid = false;
 };
-
-#endif // RESULT_H

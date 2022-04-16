@@ -1,5 +1,4 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 #include <qpushbutton.h>
@@ -52,5 +51,3 @@ private:
 
     QPushButton* getPushButtonAtCoords(const int x, const int y);
 };
-
-#endif // MAINWINDOW_H

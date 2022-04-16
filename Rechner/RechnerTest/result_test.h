@@ -1,5 +1,4 @@
-#ifndef RESULT_TEST_H
-#define RESULT_TEST_H
+#pragme once
 
 #include <QObject>
 #include <QTest>
@@ -39,5 +38,3 @@ private slots:
         QCOMPARE(r.toString(), asString);
     }
 };
-
-#endif // RESULT_TEST_H

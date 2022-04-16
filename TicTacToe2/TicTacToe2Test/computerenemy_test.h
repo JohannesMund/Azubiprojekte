@@ -1,5 +1,4 @@
-#ifndef COMPUTERENEMY_TEST_H
-#define COMPUTERENEMY_TEST_H
+#pragma once
 
 #include <QObject>
 #include <QTest>
@@ -212,5 +211,3 @@ private slots:
         doTheMove(c);
     }
 };
-
-#endif // COMPUTERENEMY_TEST_H

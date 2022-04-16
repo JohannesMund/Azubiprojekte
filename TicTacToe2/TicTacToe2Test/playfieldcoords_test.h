@@ -1,5 +1,4 @@
-#ifndef PLAYFIELD_TEST_H
-#define PLAYFIELD_TEST_H
+#pragma once
 
 #include <QObject>
 #include <QTest>
@@ -70,5 +69,3 @@ private slots:
         QCOMPARE(coords.isValid(), valid);
     }
 };
-
-#endif // COORDS_TEST_H

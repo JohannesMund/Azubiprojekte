@@ -1,5 +1,4 @@
-#ifndef PLAYFIELDCOORDS_TEST_H
-#define PLAYFIELDCOORDS_TEST_H
+#pragma once
 
 #include <QObject>
 #include <QTest>
@@ -135,5 +134,3 @@ private slots:
         }
     }
 };
-
-#endif // PLAYFIELDCOORDS_TEST_H
