@@ -44,3 +44,4 @@ Ein Tic Tac Toe Spiel für 1 oder 2 Spieler
    * MinMax (Ermittelt den nächsten Zug mittels MinMax Analyse)
 ### Was lernen wir?
  * Rekursionen
+ * Unittests mit QtTest
