@@ -14,6 +14,8 @@ INCLUDEPATH += ../Rechner
 SOURCES += \
         ../Rechner/calculatornumber.cpp \
         ../Rechner/result.cpp \
+        calculatornumber_test.cpp \
+        result_test.cpp \
         main.cpp
 
 # Default rules for deployment.
