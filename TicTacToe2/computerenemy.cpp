@@ -54,8 +54,6 @@ PlayFieldCoords ComputerEnemy::getWinningMove(const PlayField& snapShot, const P
 
     for (const auto field : emptyFields)
     {
-        assert(snapShot.at(field) == PlayerManagement::Player::none);
-
         auto playField(snapShot);
         playField.set(field, p);
 
