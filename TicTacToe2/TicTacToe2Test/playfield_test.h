@@ -8,10 +8,13 @@
 #include "playfield.h"
 
 Q_DECLARE_METATYPE(PlayerManagement::Player)
+Q_DECLARE_METATYPE(PlayFieldCoords)
 
 class PlayField_Test : public QObject
 {
     Q_OBJECT
+
+    using PlayFieldRepresentation = QVector<QPair<PlayFieldCoords, PlayerManagement::Player>>;
 
 private slots:
 
@@ -44,6 +47,98 @@ private slots:
         if (coords.isValid())
         {
             QVERIFY(field.at(coords) == p);
+        }
+    }
+
+    void test_getEmptyFields_data()
+    {
+        QTest::addColumn<QVector<PlayFieldCoords>>("coords");
+
+        QTest::newRow("Test1") << QVector<PlayFieldCoords>({{0, 0}});
+        QTest::newRow("Test1") << QVector<PlayFieldCoords>({{0, 0}, {1, 1}});
+        QTest::newRow("Test1") << QVector<PlayFieldCoords>({{0, 0}, {1, 1}, {2, 2}});
+        QTest::newRow("Test1") << QVector<PlayFieldCoords>({{0, 0}, {1, 1}, {2, 2}, {0, 1}});
+        QTest::newRow("Test1") << QVector<PlayFieldCoords>({{0, 0}, {1, 1}, {2, 2}, {1, 0}});
+    }
+
+    void test_getEmptyFields()
+    {
+        QFETCH(QVector<PlayFieldCoords>, coords);
+        PlayField p;
+        for (const auto c : coords)
+        {
+            p.set(c, PlayerManagement::Player::plX);
+        }
+
+        const auto emptyFields = p.getEmptyFields();
+        QCOMPARE(emptyFields.size(), (9 - coords.size()));
+
+        for (const auto f : emptyFields)
+        {
+            QVERIFY(p.at(f) == PlayerManagement::Player::none);
+        }
+    }
+
+    void test_getWinner_data()
+    {
+        QTest::addColumn<PlayFieldRepresentation>("fieldRep");
+        QTest::addColumn<PlayerManagement::Player>("winner");
+
+        QTest::newRow("Test1") << PlayFieldRepresentation({{{0, 0}, PlayerManagement::Player::plX}})
+                               << PlayerManagement::Player::none;
+        QTest::newRow("Test2") << PlayFieldRepresentation({{{0, 0}, PlayerManagement::Player::plX},
+                                                           {{1, 0}, PlayerManagement::Player::plO}})
+                               << PlayerManagement::Player::none;
+
+        QTest::newRow("Test3") << PlayFieldRepresentation({{{0, 0}, PlayerManagement::Player::plX},
+                                                           {{1, 0}, PlayerManagement::Player::plO},
+                                                           {{0, 1}, PlayerManagement::Player::plX}})
+                               << PlayerManagement::Player::none;
+        QTest::newRow("Test3") << PlayFieldRepresentation({{{0, 0}, PlayerManagement::Player::plX},
+                                                           {{1, 1}, PlayerManagement::Player::plX},
+                                                           {{2, 2}, PlayerManagement::Player::plX},
+
+                                                           {{0, 1}, PlayerManagement::Player::plO},
+                                                           {{0, 2}, PlayerManagement::Player::plO},
+                                                           {{1, 2}, PlayerManagement::Player::plO}})
+                               << PlayerManagement::Player::plX;
+        QTest::newRow("Test4") << PlayFieldRepresentation({{{0, 0}, PlayerManagement::Player::plX},
+                                                           {{0, 1}, PlayerManagement::Player::plX},
+                                                           {{0, 2}, PlayerManagement::Player::plX},
+
+                                                           {{1, 1}, PlayerManagement::Player::plO},
+                                                           {{1, 2}, PlayerManagement::Player::plO},
+                                                           {{2, 1}, PlayerManagement::Player::plO}})
+                               << PlayerManagement::Player::plX;
+        QTest::newRow("Test4") << PlayFieldRepresentation({{{0, 0}, PlayerManagement::Player::plX},
+                                                           {{1, 0}, PlayerManagement::Player::plX},
+                                                           {{0, 1}, PlayerManagement::Player::plX},
+
+                                                           {{0, 2}, PlayerManagement::Player::plO},
+                                                           {{1, 2}, PlayerManagement::Player::plO},
+                                                           {{2, 2}, PlayerManagement::Player::plO}})
+                               << PlayerManagement::Player::plO;
+    }
+
+    void test_getWinner()
+    {
+        QFETCH(PlayFieldRepresentation, fieldRep);
+        PlayField field;
+        for (const auto f : fieldRep)
+        {
+            field.set(f.first, f.second);
+        }
+
+        QFETCH(PlayerManagement::Player, winner);
+
+        if ((winner != PlayerManagement::Player::none))
+        {
+            QCOMPARE(winner, field.getWinner());
+            QVERIFY(field.getGameOver());
+        }
+        else
+        {
+            QVERIFY(!field.getGameOver());
         }
     }
 };
