@@ -9,7 +9,7 @@ void ComputerEnemy::setDifficulty(const ComputerEnemy::Difficulty difficulty)
     _difficulty = difficulty;
 }
 
-PlayFieldCoords ComputerEnemy::doMove(const PlayField& snapShot)
+PlayFieldCoords ComputerEnemy::doMove(const PlayField& snapShot) const
 {
     if (_difficulty == Difficulty::minmax)
     {

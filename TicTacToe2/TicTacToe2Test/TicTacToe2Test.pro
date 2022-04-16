@@ -13,6 +13,7 @@ INCLUDEPATH += ../TicTacToe2
 SOURCES += \
         ../TicTacToe2/playfieldcoords.cpp \
         ../TicTacToe2/playfield.cpp \
+        ../TicTacToe2/computerenemy.cpp \
         main.cpp
 
 # Default rules for deployment.
@@ -23,7 +24,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     ../TicTacToe2/playfieldcoords.h \
     ../TicTacToe2/playfield.h \
+    ../TicTacToe2/computerenemy.h \
     playfieldcoords_test.h \
     playfield_test.h \
-    result_test.h
+    computerenemy_test.h \
+    testdefines.h
 

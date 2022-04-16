@@ -6,15 +6,11 @@
 
 #include "playermanagement.h"
 #include "playfield.h"
-
-Q_DECLARE_METATYPE(PlayerManagement::Player)
-Q_DECLARE_METATYPE(PlayFieldCoords)
+#include "testdefines.h"
 
 class PlayField_Test : public QObject
 {
     Q_OBJECT
-
-    using PlayFieldRepresentation = QVector<QPair<PlayFieldCoords, PlayerManagement::Player>>;
 
 private slots:
 
@@ -123,11 +119,8 @@ private slots:
     void test_getWinner()
     {
         QFETCH(PlayFieldRepresentation, fieldRep);
-        PlayField field;
-        for (const auto f : fieldRep)
-        {
-            field.set(f.first, f.second);
-        }
+
+        const auto field = populatePlayField(fieldRep);
 
         QFETCH(PlayerManagement::Player, winner);
 

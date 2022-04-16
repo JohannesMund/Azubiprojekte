@@ -50,7 +50,7 @@ public:
      * @param snapShot das Spielfeld
      * @return Gibt die Koordinaten für den Move zurück
      */
-    PlayFieldCoords doMove(const PlayField& snapShot);
+    PlayFieldCoords doMove(const PlayField& snapShot) const;
 
 private:
     /**

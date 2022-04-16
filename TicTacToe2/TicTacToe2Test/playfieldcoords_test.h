@@ -5,6 +5,7 @@
 #include <QTest>
 
 #include "playfieldcoords.h"
+#include "testdefines.h"
 
 class PlayFieldCoords_Test : public QObject
 {
