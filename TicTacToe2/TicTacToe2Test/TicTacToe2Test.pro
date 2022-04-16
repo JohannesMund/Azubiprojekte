@@ -14,6 +14,9 @@ SOURCES += \
         ../TicTacToe2/playfieldcoords.cpp \
         ../TicTacToe2/playfield.cpp \
         ../TicTacToe2/computerenemy.cpp \
+        playfieldcoords_test.cpp \
+        playfield_test.cpp \
+        computerenemy_test.cpp \
         main.cpp
 
 # Default rules for deployment.
