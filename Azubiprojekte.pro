@@ -1,7 +1,8 @@
 TEMPLATE = subdirs
 
 SUBDIRS = \
-Rechner \
-RechnerTest \
+Rechner/Rechner \
+Rechner/RechnerTest \
 TicTacToe \
-TicTacToe2 
+TicTacToe2/TicTacToe2 \
+TicTacToe2/TicTacToe2Test
