@@ -11,6 +11,8 @@
 class PlayField
 {
 public:
+    PlayField();
+
     /**
      * @brief setField
      * Setzt ein Feld

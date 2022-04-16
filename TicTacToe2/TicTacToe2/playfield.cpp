@@ -2,6 +2,11 @@
 
 #include <QVector>
 
+PlayField::PlayField()
+{
+    reset();
+}
+
 bool PlayField::set(const PlayFieldCoords coords, const PlayerManagement::Player p)
 {
     if (!coords.isValid())
