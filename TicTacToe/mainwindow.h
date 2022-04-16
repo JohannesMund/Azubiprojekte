@@ -1,5 +1,4 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 #include <qpushbutton.h>
@@ -44,5 +43,3 @@ private:
     void haveWinner(const PlayerManagement::Player&);
     void resetGame();
 };
-
-#endif // MAINWINDOW_H

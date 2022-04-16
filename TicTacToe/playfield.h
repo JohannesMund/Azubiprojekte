@@ -1,5 +1,4 @@
-#ifndef PLAYFIELD_H
-#define PLAYFIELD_H
+#pragma once
 
 #include "playermanagement.h"
 
@@ -21,5 +20,3 @@ private:
     PlayerManagement::Player _winner = PlayerManagement::none;
     PlayerManagement::Player _grid[3][3];
 };
-
-#endif // PLAYFIELD_H

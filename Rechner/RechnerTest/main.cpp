@@ -5,7 +5,7 @@
 #include "calculatornumber_test.h"
 #include "result_test.h"
 
-int main(int argc, char* argv[])
+int main()
 {
     int ret = 0;
     CalculatorNumber_Test t1;

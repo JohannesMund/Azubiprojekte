@@ -1,6 +1,4 @@
-#ifndef PLAYERMANAGEMENT_H
-#define PLAYERMANAGEMENT_H
-
+#pragma once
 #include <QColor>
 #include <QString>
 
@@ -28,5 +26,3 @@ public:
 private:
     Player _currentPlayer;
 };
-
-#endif // PLAYERMANAGEMENT_H
