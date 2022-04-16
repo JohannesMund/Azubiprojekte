@@ -32,18 +32,21 @@ MainWindow::~MainWindow()
 
 void MainWindow::buttonPressed(const int x, const int y)
 {
-    QPushButton* p = getPushButtonAtCoords(x, y);
     if (!_grid.set(PlayFieldCoords(x, y), _playerManagement.getCurrentPlayer()))
     {
         return;
     }
     else
     {
-        p->setText(_playerManagement.currentPlayerText());
+        QPushButton* p = getPushButtonAtCoords(x, y);
+        if (p)
+        {
+            p->setText(_playerManagement.currentPlayerText());
 
-        auto pal = p->palette();
-        pal.setColor(QPalette::Normal, QPalette::ButtonText, _playerManagement.currentPlayerColor());
-        p->setPalette(pal);
+            auto pal = p->palette();
+            pal.setColor(QPalette::Normal, QPalette::ButtonText, _playerManagement.currentPlayerColor());
+            p->setPalette(pal);
+        }
     }
 
     if (_grid.getGameOver())
