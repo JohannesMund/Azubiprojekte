@@ -50,6 +50,9 @@ PlayFieldCoords ComputerEnemy::getRandomEmptyField(const PlayField& snapShot)
 
 PlayFieldCoords ComputerEnemy::getWinningMove(const PlayField& snapShot, const PlayerManagement::Player p)
 {
+    /**
+     * Einfach mal jedes feld nacheinander besetzen und gucken ob wir gewinnen
+     */
     const auto emptyFields = snapShot.getEmptyFields();
 
     for (const auto field : emptyFields)
@@ -67,17 +70,27 @@ PlayFieldCoords ComputerEnemy::getWinningMove(const PlayField& snapShot, const P
 
 PlayFieldCoords ComputerEnemy::getPreventLosingMove(const PlayField& snapShot)
 {
+    /**
+     * Straight forward: wir gucken einfach ob der gegner mit einem Zug gewinnen kann, und verhindern das, indem wir
+     * statt ihm diesen zug machen
+     */
     return getWinningMove(snapShot, PlayerManagement::humanPlayer);
 }
 
 PlayFieldCoords ComputerEnemy::getIdealFirstMove(const PlayField& snapShot)
 {
+    /**
+     * Sind wir erster, besetzen wir eine Ecke.
+     * Sind wir zweiter, besetzen wir die Ecke, wenn der Gegner nicht in einer Ecke begonnen hat, ansonsten die Mitte
+     */
+
     const auto emptyFields = snapShot.getEmptyFields();
-    if (emptyFields.size() == 9)
+    const auto sz = emptyFields.size();
+    if (sz == 9)
     {
         return {0, 0};
     }
-    if (emptyFields.size() == 8)
+    if (sz == 8)
     {
         if (snapShot.at({1, 1}) == PlayerManagement::humanPlayer)
         {
@@ -105,6 +118,11 @@ PlayFieldCoords ComputerEnemy::getIdealFirstMove(const PlayField& snapShot)
 
 PlayFieldCoords ComputerEnemy::getMinMaxEvaluatedMove(const PlayField& snapShot)
 {
+    /**
+     * Wir besetzen nacheinander jedes leere Feld und bewerten den Zug.
+     * Der Beste Zug wird dann gemacht.
+     */
+
     const auto emptyFields = snapShot.getEmptyFields();
 
     PlayFieldCoords bestCoords;
@@ -127,6 +145,9 @@ int ComputerEnemy::calculateMoveValue(const PlayField& snapShot, PlayerManagemen
 {
     if (snapShot.getGameOver())
     {
+        /**
+         * Wenn wir einen Move machen, der das Spiel beendet, wird bewerted
+         */
         return calculateValueForFinishedBoard(snapShot, depth);
     }
 
@@ -136,8 +157,15 @@ int ComputerEnemy::calculateMoveValue(const PlayField& snapShot, PlayerManagemen
 
     int value;
 
+    /**
+     * Wir spielen rekursiv jede Möglichkeit durch
+     */
+
     if (p == PlayerManagement::computerPlayer)
     {
+        /**
+         * Sind wir der Menschenspieler, interessiert uns der wertlosesten Move
+         */
         p = PlayerManagement::humanPlayer;
         value = INT_MAX;
 
@@ -150,6 +178,9 @@ int ComputerEnemy::calculateMoveValue(const PlayField& snapShot, PlayerManagemen
     }
     else
     {
+        /**
+         * Sind wir der Computerspieler, interessiert uns der wertvollste move
+         */
         p = PlayerManagement::computerPlayer;
         value = INT_MIN;
 
@@ -166,6 +197,9 @@ int ComputerEnemy::calculateMoveValue(const PlayField& snapShot, PlayerManagemen
 
 int ComputerEnemy::calculateValueForFinishedBoard(const PlayField& snapShot, const int depth)
 {
+    /**
+     * Trivial: je Weiter weg der move ist, desto irellevanter ist der am ende
+     */
     if (snapShot.getWinner() == PlayerManagement::computerPlayer)
     {
         return 10 - depth;
