@@ -29,4 +29,7 @@ private slots:
 
     void test_sqrt_data();
     void test_sqrt();
+
+    void test_sq_data();
+    void test_sq();
 };

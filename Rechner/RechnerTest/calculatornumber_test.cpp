@@ -220,3 +220,27 @@ void CalculatorNumber_Test::test_sqrt()
     o1 = sqrt(o1);
     QCOMPARE(o1.get(), res);
 }
+
+void CalculatorNumber_Test::test_sq_data()
+{
+    QTest::addColumn<double>("op1");
+    QTest::addColumn<double>("res");
+
+    QTest::newRow("Test sqrt 1") << 9.0 << 81.0;
+    QTest::newRow("Test sqrt 2") << 4.0 << 16.0;
+    QTest::newRow("Test sqrt 3") << 100.0 << 10000.0;
+    QTest::newRow("Test sqrt 4") << -1.0 << 1.0;
+    QTest::newRow("Test sqrt 5") << 0.0 << 0.0;
+}
+
+void CalculatorNumber_Test::test_sq()
+{
+    QFETCH(double, op1);
+    CalculatorNumber o1;
+    o1.set(op1);
+
+    QFETCH(double, res);
+
+    o1 = o1 * o1;
+    QCOMPARE(o1.get(), res);
+}
