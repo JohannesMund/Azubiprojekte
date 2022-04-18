@@ -48,7 +48,6 @@ void ComputerEnemy_Test::easyData()
 
 void ComputerEnemy_Test::easyData2()
 {
-
     QTest::newRow("Test E1") << PlayFieldRepresentation({{{0, 0}, PlayerManagement::Player::plX},
                                                          {{0, 1}, PlayerManagement::Player::plX},
                                                          {{0, 2}, PlayerManagement::Player::plO},
