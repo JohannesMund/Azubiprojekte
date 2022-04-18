@@ -18,6 +18,7 @@ private:
     void makeColumns();
 
     void easyData();
+    void easyData2();
     void mediumData();
     void hardData();
     void insaneData();

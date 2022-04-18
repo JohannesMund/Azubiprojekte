@@ -46,6 +46,38 @@ void ComputerEnemy_Test::easyData()
                            << PlayFieldCoords();
 }
 
+void ComputerEnemy_Test::easyData2()
+{
+
+    QTest::newRow("Test E1") << PlayFieldRepresentation({{{0, 0}, PlayerManagement::Player::plX},
+                                                         {{0, 1}, PlayerManagement::Player::plX},
+                                                         {{0, 2}, PlayerManagement::Player::plO},
+                                                         {{1, 0}, PlayerManagement::Player::plO},
+                                                         {{1, 1}, PlayerManagement::Player::plO},
+                                                         {{1, 2}, PlayerManagement::Player::plX},
+                                                         {{2, 0}, PlayerManagement::Player::plX},
+                                                         {{2, 1}, PlayerManagement::Player::plO}})
+                             << PlayFieldCoords(2, 2);
+    QTest::newRow("Test E2") << PlayFieldRepresentation({{{0, 1}, PlayerManagement::Player::plX},
+                                                         {{0, 2}, PlayerManagement::Player::plO},
+                                                         {{1, 0}, PlayerManagement::Player::plO},
+                                                         {{1, 1}, PlayerManagement::Player::plO},
+                                                         {{1, 2}, PlayerManagement::Player::plX},
+                                                         {{2, 0}, PlayerManagement::Player::plX},
+                                                         {{2, 1}, PlayerManagement::Player::plO},
+                                                         {{2, 2}, PlayerManagement::Player::plO}})
+                             << PlayFieldCoords(0, 0);
+    QTest::newRow("Test E3") << PlayFieldRepresentation({{{0, 0}, PlayerManagement::Player::plX},
+                                                         {{0, 1}, PlayerManagement::Player::plX},
+                                                         {{0, 2}, PlayerManagement::Player::plO},
+                                                         {{1, 0}, PlayerManagement::Player::plO},
+                                                         {{1, 2}, PlayerManagement::Player::plX},
+                                                         {{2, 0}, PlayerManagement::Player::plX},
+                                                         {{2, 1}, PlayerManagement::Player::plO},
+                                                         {{2, 2}, PlayerManagement::Player::plO}})
+                             << PlayFieldCoords(1, 1);
+}
+
 void ComputerEnemy_Test::mediumData()
 {
 
@@ -147,6 +179,7 @@ void ComputerEnemy_Test::test_doMove_easy_data()
 {
     makeColumns();
     easyData();
+    easyData2();
 }
 
 void ComputerEnemy_Test::test_doMove_easy()
