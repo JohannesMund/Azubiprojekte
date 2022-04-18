@@ -15,6 +15,4 @@ public:
     bool isValid() const;
     int x() const;
     int y() const;
-
-    bool operator==(const PlayFieldCoords& op);
 };

@@ -22,8 +22,3 @@ int PlayFieldCoords::y() const
 {
     return second;
 }
-
-bool PlayFieldCoords::operator==(const PlayFieldCoords& op)
-{
-    return op.x() == x() && op.y() == y();
-}
