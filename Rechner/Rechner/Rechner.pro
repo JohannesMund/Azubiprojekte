@@ -25,12 +25,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    calculator.cpp \
         main.cpp \
         mainwindow.cpp \
     result.cpp \
     calculatornumber.cpp
 
 HEADERS += \
+    calculator.h \
         mainwindow.h \
     result.h \
     calculatornumber.h

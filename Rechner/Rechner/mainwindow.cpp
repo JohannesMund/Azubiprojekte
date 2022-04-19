@@ -27,8 +27,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->pb_op_mul->setShortcut(QKeySequence(Qt::Key_Asterisk));
     ui->pb_op_plus->setShortcut(QKeySequence(Qt::Key_Plus));
 
-    connect(&_currentNumber,
-            &CalculatorNumber::errorOccured,
+    connect(&_calc,
+            &Calculator::errorOccured,
             this,
             [&](const bool b)
             {
@@ -42,7 +42,12 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
                 }
             });
 
-    updateDisplay();
+    connect(&_calc, &Calculator::numberUpdated, this, [&](const QString& number) { ui->lb_display->setText(number); });
+
+    connect(
+        &_calc, &Calculator::resultUpdated, this, [&](const QString& number) { ui->lb_lastResult->setText(number); });
+
+    connect(&_calc, &Calculator::operatorUpdated, this, [&](const QString& op) { ui->lb_operator->setText(op); });
 }
 
 MainWindow::~MainWindow()
@@ -50,243 +55,117 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::numberPressed(const int i)
-{
-    _currentNumber << i;
-    updateDisplay();
-}
-
-void MainWindow::updateDisplay()
-{
-    QString s = _currentNumber.toString();
-
-    ui->lb_display->setText(s);
-
-    switch (_operator)
-    {
-    case plus:
-        ui->lb_operator->setText("+");
-        break;
-    case minus:
-        ui->lb_operator->setText("-");
-        break;
-    case multiplication:
-        ui->lb_operator->setText("*");
-        break;
-    case division:
-        ui->lb_operator->setText("/");
-        break;
-    case percent:
-        ui->lb_operator->setText("%");
-        break;
-    case square:
-        ui->lb_operator->setText("x²");
-        break;
-    case squareroot:
-        ui->lb_operator->setText("√");
-        break;
-    case none:
-        ui->lb_operator->setText("");
-        break;
-    }
-
-    if (_currentResult.isValid())
-    {
-        ui->lb_lastResult->setText(_currentResult.toString());
-    }
-    else
-    {
-        ui->lb_lastResult->setNum(0);
-    }
-}
-
 void MainWindow::on_pb_pt_clicked()
 {
-    _currentNumber.setCommaPressed(true);
-    updateDisplay();
+    _calc.commaPressed();
 }
 
 void MainWindow::on_pb_plus_minus_clicked()
 {
-    _currentNumber.toggleNegated();
-    updateDisplay();
+    _calc.negatedPressed();
 }
 
 void MainWindow::on_pb_1_clicked()
 {
-    numberPressed(1);
+    _calc.numberPressed(1);
 }
 
 void MainWindow::on_pb_2_clicked()
 {
-    numberPressed(2);
+    _calc.numberPressed(2);
 }
 
 void MainWindow::on_pb_3_clicked()
 {
-    numberPressed(3);
+    _calc.numberPressed(3);
 }
 
 void MainWindow::on_pb_4_clicked()
 {
-    numberPressed(4);
+    _calc.numberPressed(4);
 }
 
 void MainWindow::on_pb_5_clicked()
 {
-    numberPressed(5);
+    _calc.numberPressed(5);
 }
 
 void MainWindow::on_pb_6_clicked()
 {
-    numberPressed(6);
+    _calc.numberPressed(6);
 }
 
 void MainWindow::on_pb_7_clicked()
 {
-    numberPressed(7);
+    _calc.numberPressed(7);
 }
 
 void MainWindow::on_pb_8_clicked()
 {
-    numberPressed(8);
+    _calc.numberPressed(8);
 }
 
 void MainWindow::on_pb_9_clicked()
 {
-    numberPressed(9);
+    _calc.numberPressed(9);
 }
 
 void MainWindow::on_pb_0_clicked()
 {
-    numberPressed(0);
-}
-
-void MainWindow::setOperator(const MainWindow::eOperator op)
-{
-    calc();
-    _operator = op;
-    updateDisplay();
+    _calc.numberPressed(0);
 }
 
 void MainWindow::on_pb_op_div_clicked()
 {
-    setOperator(division);
+    _calc.setOperator(Calculator::eOperator::division);
 }
 
 void MainWindow::on_pb_op_mul_clicked()
 {
-    setOperator(multiplication);
+    _calc.setOperator(Calculator::eOperator::multiplication);
 }
 
 void MainWindow::on_pb_op_min_clicked()
 {
-    setOperator(minus);
+    _calc.setOperator(Calculator::eOperator::minus);
 }
 
 void MainWindow::on_pb_op_plus_clicked()
 {
-    setOperator(plus);
+    _calc.setOperator(Calculator::eOperator::plus);
 }
 
 void MainWindow::on_pb_op_percent_clicked()
 {
-    setOperator(percent);
-}
-
-void MainWindow::calc()
-{
-    if (_currentResult.isValid() == false && _operator != square && _operator != squareroot)
-    {
-        _currentResult.set(_currentNumber.get());
-    }
-    else
-    {
-        double op1 = _currentResult.get();
-        double res = 0;
-
-        switch (_operator)
-        {
-        case plus:
-            res = op1 + _currentNumber;
-            break;
-        case minus:
-            res = op1 - _currentNumber;
-            break;
-        case multiplication:
-            res = op1 * _currentNumber;
-            break;
-        case division:
-            res = op1 / _currentNumber;
-            break;
-        case percent:
-            res = op1 * (_currentNumber / 100);
-            break;
-        case square:
-            res = _currentNumber * _currentNumber;
-            break;
-        case squareroot:
-            res = sqrt(_currentNumber);
-            break;
-        case none:
-            res = _currentNumber.get();
-            break;
-        }
-
-        _currentResult.set(res);
-        _currentNumber.set(res);
-    }
-
-    _currentNumber.setVolatile();
-    updateDisplay();
-}
-
-void MainWindow::clearCurrent()
-{
-    _currentNumber.reset();
-    updateDisplay();
-}
-
-void MainWindow::clearAll()
-{
-    _currentResult.reset();
-    _operator = none;
-    clearCurrent();
+    _calc.setOperator(Calculator::eOperator::percent);
 }
 
 void MainWindow::on_pb_cmd_enter_clicked()
 {
-    calc();
+    _calc.calc();
 }
 
 void MainWindow::on_pb_cmd_clear_clicked()
 {
-    clearAll();
+    _calc.clearAll();
 }
 
 void MainWindow::on_pb_cmd_clearE_clicked()
 {
-    clearCurrent();
+    _calc.clearCurrent();
 }
 
 void MainWindow::on_pb_cmd_back_clicked()
 {
-    _currentNumber.removeLast();
-    updateDisplay();
+    _calc.removeLast();
 }
 
 void MainWindow::on_pb_op_sqrt_clicked()
 {
-    _operator = squareroot;
-    calc();
-    updateDisplay();
-    _operator = none;
+    _calc.setOperator(Calculator::eOperator::squareroot);
 }
 
 void MainWindow::on_pb_op_sq_clicked()
 {
-    _operator = square;
-    calc();
-    updateDisplay();
-    _operator = none;
+    _calc.setOperator(Calculator::eOperator::square);
 }

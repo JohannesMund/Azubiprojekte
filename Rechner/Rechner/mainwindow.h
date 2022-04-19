@@ -5,6 +5,8 @@
 
 #include <QMainWindow>
 
+#include "calculator.h"
+
 namespace Ui
 {
 class MainWindow;
@@ -51,32 +53,8 @@ private slots:
 private:
     Ui::MainWindow* ui;
 
-    enum eOperator
-    {
-        none,
-        plus,
-        minus,
-        division,
-        multiplication,
-        percent,
-        square,
-        squareroot
-    };
-
-    void calc();
-
-    void clearCurrent();
-    void clearAll();
-
-    void setOperator(const eOperator op);
-    void numberPressed(const int i);
-    void updateDisplay();
-
-    eOperator _operator = none;
-
     void setCurrentResult(const double i);
     void resetCurrentResult();
 
-    CalculatorNumber _currentNumber;
-    Result _currentResult;
+    Calculator _calc;
 };
