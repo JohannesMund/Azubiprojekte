@@ -117,27 +117,27 @@ void MainWindow::on_pb_0_clicked()
 
 void MainWindow::on_pb_op_div_clicked()
 {
-    _calc.setOperator(Calculator::eOperator::division);
+    _calc.setOperator(Calculator::Operator::division);
 }
 
 void MainWindow::on_pb_op_mul_clicked()
 {
-    _calc.setOperator(Calculator::eOperator::multiplication);
+    _calc.setOperator(Calculator::Operator::multiplication);
 }
 
 void MainWindow::on_pb_op_min_clicked()
 {
-    _calc.setOperator(Calculator::eOperator::minus);
+    _calc.setOperator(Calculator::Operator::minus);
 }
 
 void MainWindow::on_pb_op_plus_clicked()
 {
-    _calc.setOperator(Calculator::eOperator::plus);
+    _calc.setOperator(Calculator::Operator::plus);
 }
 
 void MainWindow::on_pb_op_percent_clicked()
 {
-    _calc.setOperator(Calculator::eOperator::percent);
+    _calc.setOperator(Calculator::Operator::percent);
 }
 
 void MainWindow::on_pb_cmd_enter_clicked()
@@ -162,10 +162,10 @@ void MainWindow::on_pb_cmd_back_clicked()
 
 void MainWindow::on_pb_op_sqrt_clicked()
 {
-    _calc.setOperator(Calculator::eOperator::squareroot);
+    _calc.setOperator(Calculator::Operator::squareroot);
 }
 
 void MainWindow::on_pb_op_sq_clicked()
 {
-    _calc.setOperator(Calculator::eOperator::square);
+    _calc.setOperator(Calculator::Operator::square);
 }

@@ -29,13 +29,13 @@ void Calculator::negatedPressed()
     emitNumber();
 }
 
-void Calculator::setOperator(const Calculator::eOperator op)
+void Calculator::setOperator(const Calculator::Operator op)
 {
-    if (op == eOperator::squareroot || op == eOperator::square)
+    if (op == Operator::squareroot || op == Operator::square)
     {
         _operator = op;
         calc();
-        _operator = eOperator::none;
+        _operator = Operator::none;
         emitOperator();
     }
     else
@@ -56,7 +56,7 @@ void Calculator::clearCurrent()
 void Calculator::clearAll()
 {
     _currentResult.reset();
-    _operator = eOperator::none;
+    _operator = Operator::none;
     clearCurrent();
 }
 
@@ -85,7 +85,7 @@ void Calculator::emitOperator()
 void Calculator::calc()
 {
 
-    if (_currentResult.isValid() == false && _operator != eOperator::square && _operator != eOperator::squareroot)
+    if (_currentResult.isValid() == false && _operator != Operator::square && _operator != Operator::squareroot)
     {
         _currentResult.set(_currentNumber.get());
     }
@@ -96,28 +96,28 @@ void Calculator::calc()
 
         switch (_operator)
         {
-        case eOperator::plus:
+        case Operator::plus:
             res = op1 + _currentNumber;
             break;
-        case eOperator::minus:
+        case Operator::minus:
             res = op1 - _currentNumber;
             break;
-        case eOperator::multiplication:
+        case Operator::multiplication:
             res = op1 * _currentNumber;
             break;
-        case eOperator::division:
+        case Operator::division:
             res = op1 / _currentNumber;
             break;
-        case eOperator::percent:
+        case Operator::percent:
             res = op1 * (_currentNumber / 100);
             break;
-        case eOperator::square:
+        case Operator::square:
             res = _currentNumber * _currentNumber;
             break;
-        case eOperator::squareroot:
+        case Operator::squareroot:
             res = sqrt(_currentNumber);
             break;
-        case eOperator::none:
+        case Operator::none:
             res = _currentNumber.get();
             break;
         }
@@ -131,32 +131,32 @@ void Calculator::calc()
     emitResult();
 }
 
-QString Calculator::operator2String(const Calculator::eOperator& op)
+QString Calculator::operator2String(const Calculator::Operator& op)
 {
     switch (op)
     {
-    case eOperator::plus:
+    case Operator::plus:
         return "+";
         break;
-    case eOperator::minus:
+    case Operator::minus:
         return "-";
         break;
-    case eOperator::multiplication:
+    case Operator::multiplication:
         return "*";
         break;
-    case eOperator::division:
+    case Operator::division:
         return "/";
         break;
-    case eOperator::percent:
+    case Operator::percent:
         return "%";
         break;
-    case eOperator::square:
+    case Operator::square:
         return "x²";
         break;
-    case eOperator::squareroot:
+    case Operator::squareroot:
         return "√";
         break;
-    case eOperator::none:
+    case Operator::none:
         return "";
         break;
     }
