@@ -29,7 +29,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::reset()
 {
-    ui->frmPlayfield->init(ui->sbNumFields->value());
+    ui->frmPlayfield->init(ensureEven(ui->sbNumFields->value()));
     ui->lDisplay->reset();
 }
 

@@ -45,3 +45,6 @@ Ein Tic Tac Toe Spiel für 1 oder 2 Spieler
 ### Was lernen wir?
  * Rekursionen
  * Unittests mit QtTest
+ 
+ ## Memory
+ Ein Memory SPiel
