@@ -17,6 +17,9 @@ public:
     void buttonClicked(const bool checked);
     void unreveal();
 
+protected:
+    void resizeEvent(QResizeEvent* e) override;
+
 private:
     void reveal();
 

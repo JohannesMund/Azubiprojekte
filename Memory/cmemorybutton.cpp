@@ -2,7 +2,7 @@
 
 #include <QEvent>
 
-CMemoryButton::CMemoryButton(const int internalValue) : QPushButton("?"), _internalValue(internalValue)
+CMemoryButton::CMemoryButton(const int internalValue) : QPushButton(""), _internalValue(internalValue)
 {
     setCheckable(true);
     setMinimumSize(QSize(16, 16));
@@ -10,6 +10,8 @@ CMemoryButton::CMemoryButton(const int internalValue) : QPushButton("?"), _inter
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     connect(this, &QAbstractButton::clicked, this, &CMemoryButton::buttonClicked);
+
+    setIcon(QPixmap(":/cards/img/back.png"));
 }
 
 int CMemoryButton::getInternalValue() const
@@ -28,14 +30,13 @@ void CMemoryButton::buttonClicked(const bool checked)
 void CMemoryButton::unreveal()
 {
     setChecked(false);
-    setIcon(QIcon());
-    setText("?");
+    setIcon(QPixmap(":/cards/img/back.png"));
+    setText("");
     setEnabled(true);
 }
 
-void CMemoryButton::reveal()
+void CMemoryButton::resizeEvent(QResizeEvent* e)
 {
-
     if (width() > height())
     {
         setIconSize(QSize(height() - 5, height() - 5));
@@ -44,7 +45,11 @@ void CMemoryButton::reveal()
     {
         setIconSize(QSize(width() - 5, width() - 5));
     }
+    QPushButton::resizeEvent(e);
+}
 
+void CMemoryButton::reveal()
+{
     QString ressourceText = QString(":/cards/img/%1.png").arg(_internalValue);
 
     QIcon icon;

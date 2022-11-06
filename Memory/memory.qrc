@@ -32,5 +32,6 @@
         <file>img/30.png</file>
         <file>img/31.png</file>
         <file>img/32.png</file>
+        <file>img/back.png</file>
     </qresource>
 </RCC>
