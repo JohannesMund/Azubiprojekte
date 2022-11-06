@@ -30,16 +30,7 @@ void CMemoryButton::unreveal()
     setChecked(false);
     setIcon(QIcon());
     setText("?");
-}
-
-bool CMemoryButton::event(QEvent* e)
-{
-    if (isChecked() && (e->type() == QEvent::KeyPress || e->type() == QEvent::MouseButtonPress))
-    {
-        e->ignore();
-        return false;
-    }
-    return QPushButton::event(e);
+    setEnabled(true);
 }
 
 void CMemoryButton::reveal()
@@ -56,8 +47,15 @@ void CMemoryButton::reveal()
 
     QString ressourceText = QString(":/cards/img/%1.png").arg(_internalValue);
 
+    QIcon icon;
     setText("");
-    setIcon(QIcon(ressourceText));
+
+    icon.addPixmap(QPixmap(ressourceText), QIcon::Active);
+    // Wir setzen explizit die gleiche Grafik für Disabled, damit wird die nicht grau.
+    icon.addPixmap(QPixmap(ressourceText), QIcon::Disabled);
+    setIcon(icon);
+
+    setEnabled(false);
 
     emit buttonSelected();
 }

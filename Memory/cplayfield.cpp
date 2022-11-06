@@ -35,9 +35,12 @@ void CPlayField::init(const int fields)
     for (int i = 0; i < fields; i++)
     {
         CMemoryButton* btn = new CMemoryButton(values.at(i));
-        connect(btn, &CMemoryButton::buttonSelected, this, [=]() { buttonClicked(i); });
         buttonLayout->addWidget(btn, row, col);
         _buttons.push_back(btn);
+
+        // Man bemerke das Lambda, wir kopieren das i in den scope
+        connect(btn, &CMemoryButton::buttonSelected, this, [=]() { buttonClicked(i); });
+
         col++;
         if (col >= numRowsCols)
         {
@@ -102,23 +105,30 @@ void CPlayField::clearButtons()
 
 std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
 {
+    // Randomisierer initialisieren
+    unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
+    auto rng = std::default_random_engine{seed};
+
+    // Einen Vektor mit allen möglichen werten fülle (1..32, das was wir in den Ressourcen haben
     std::vector<unsigned int> possibleValues;
 
-    for (int i = 1; i < round(_maxFields / 2); i++)
+    for (unsigned int i = 1; i <= round(_maxFields / 2); i++)
     {
         possibleValues.push_back(i);
     }
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    auto rng = std::default_random_engine{seed};
 
+    // Zahlen schön mischeln
     std::shuffle(possibleValues.begin(), possibleValues.end(), rng);
 
+    // aus dem gemischen Vektor nehmen wir die ersten number/2 stück, so haben wir jede runde andere Bilder
     std::vector<unsigned int> values;
-    for (int i = 1; i <= round(number / 2); i++)
+    for (int i = 0; i < round(number / 2); i++)
     {
         values.push_back(possibleValues.at(i));
         values.push_back(possibleValues.at(i));
     }
+
+    // und dann nochmal schön mischeln
     std::shuffle(values.begin(), values.end(), rng);
     return values;
 }
