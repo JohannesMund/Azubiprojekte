@@ -20,14 +20,14 @@ public:
 
 private slots:
     void on_pbReset_clicked();
+    void on_sbNumFields_valueChanged(int arg1);
 
 private:
-    static const int _defaultFields;
-
     Ui::MainWindow* ui;
 
-    void reset();
+    static const unsigned int _defaultFields;
 
+    void reset();
     static int ensureEven(const int i);
     int getMaxFields() const;
     int getDefaultFields() const;

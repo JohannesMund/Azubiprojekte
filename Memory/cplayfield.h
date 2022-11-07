@@ -40,20 +40,22 @@ signals:
      */
     void playerScored();
 
+    /**
+     * @brief gameOver Wird gesendet, wenn das Spiel vorbei ist.
+     */
+    void gameOver();
+
 private:
-    void buttonClicked(const unsigned int index);
-
-    void clearButtonsAndLayout();
-    void alignButtons();
-
-    static std::vector<unsigned int> generateRandomNumbers(const int number);
-
     CMemoryButton* _btnPressed1 = nullptr;
     CMemoryButton* _btnPressed2 = nullptr;
-
     std::vector<CMemoryButton*> _buttons = {};
 
-    static unsigned int _maxFields;
+    void buttonClicked(const unsigned int index);
+    void clearButtonsAndLayout();
+    void alignButtons();
+    void checkGameOver();
+
+    static std::vector<unsigned int> generateRandomNumbers(const int number);
 };
 
 #endif // CPLAYFIELD_H

@@ -10,8 +10,25 @@
 #include <math.h>
 #include <random>
 
-unsigned int CPlayField::_maxFields = -1;
+namespace
+{
+unsigned int _maxFields = (unsigned)-1;
 
+unsigned int countMaxFields()
+{
+    QDirIterator it(":/cards/");
+    unsigned int count = 0;
+    while (it.hasNext())
+    {
+        it.next();
+        count++;
+    }
+
+    _maxFields = count * 2;
+    return _maxFields;
+}
+
+} // namespace
 CPlayField::CPlayField(QWidget* parent, Qt::WindowFlags f) : QFrame(parent, f)
 {
     setLayout(new QGridLayout(this));
@@ -87,6 +104,7 @@ void CPlayField::buttonClicked(const unsigned int index)
     if (_btnPressed1->getInternalValue() == _btnPressed2->getInternalValue())
     {
         emit playerScored();
+        checkGameOver();
     }
     else
     {
@@ -117,6 +135,18 @@ void CPlayField::alignButtons()
     {
         pLayout->setRowStretch(i, 1);
     }
+}
+
+void CPlayField::checkGameOver()
+{
+    for (auto btn : _buttons)
+    {
+        if (btn->isSelectable())
+        {
+            return;
+        }
+    }
+    emit gameOver();
 }
 
 std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
@@ -150,22 +180,10 @@ std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
 }
 unsigned int CPlayField::getMaxFields()
 {
-    if (_maxFields != -1)
+    if (_maxFields == (unsigned)-1)
     {
-        return _maxFields;
+        countMaxFields();
     }
 
-    QDirIterator it(":/cards/img");
-    unsigned int count = 0;
-    while (it.hasNext())
-    {
-        it.next();
-        if (it.fileName() != "back.png")
-        {
-            count++;
-        }
-    }
-
-    _maxFields = count * 2;
     return _maxFields;
 }

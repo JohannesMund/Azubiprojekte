@@ -9,10 +9,9 @@ CMemoryButton::CMemoryButton(const int internalValue) : QPushButton(""), _intern
     setMaximumSize(QSize(256, 256));
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    QString ressourceText = QString(":/cards/img/%1.png");
     QIcon icon;
-    icon.addPixmap(QPixmap(ressourceText.arg("back")), QIcon::Active);
-    icon.addPixmap(QPixmap(ressourceText.arg(_internalValue)), QIcon::Disabled);
+    icon.addPixmap(QPixmap(":/img/back.png"), QIcon::Active);
+    icon.addPixmap(QPixmap(QString(":/cards/%1.png").arg(_internalValue)), QIcon::Disabled);
     setIcon(icon);
 
     connect(this, &QAbstractButton::clicked, this, &CMemoryButton::buttonClicked);
@@ -37,6 +36,11 @@ void CMemoryButton::unreveal()
 {
     setChecked(false);
     setEnabled(true);
+}
+
+bool CMemoryButton::isSelectable() const
+{
+    return !isChecked();
 }
 
 void CMemoryButton::resizeEvent(QResizeEvent* e)

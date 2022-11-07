@@ -29,6 +29,11 @@ public:
      */
     void reset();
 
+    /**
+     * @brief gameOver ermittelt den Gewinner und macht eine MessageBox auf
+     */
+    void gameOver();
+
 private:
     enum class EPlayer
     {
@@ -38,10 +43,9 @@ private:
 
     int _pointsPlayer1 = 0;
     int _pointsPlayer2 = 0;
+    EPlayer _currentPlayer = EPlayer::ePlayer1;
 
     void print();
-
-    EPlayer _currentPlayer = EPlayer::ePlayer1;
 };
 
 #endif // CDISPLAYLABEL_H

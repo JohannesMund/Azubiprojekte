@@ -4,7 +4,7 @@
 
 #include "ui_mainwindow.h"
 
-const int MainWindow::_defaultFields = 36;
+const unsigned int MainWindow::_defaultFields = 36;
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     connect(ui->frmPlayfield, &CPlayField::togglePlayer, ui->lDisplay, &CDisplayLabel::togglePlayer);
     connect(ui->frmPlayfield, &CPlayField::playerScored, ui->lDisplay, &CDisplayLabel::addPoints);
+    connect(ui->frmPlayfield, &CPlayField::gameOver, ui->lDisplay, &CDisplayLabel::gameOver);
 
     reset();
 }
@@ -54,5 +55,11 @@ int MainWindow::getDefaultFields() const
 
 void MainWindow::on_pbReset_clicked()
 {
+    reset();
+}
+
+void MainWindow::on_sbNumFields_valueChanged(int arg1)
+{
+    Q_UNUSED(arg1);
     reset();
 }
