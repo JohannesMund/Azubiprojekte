@@ -9,9 +9,14 @@ CMemoryButton::CMemoryButton(const int internalValue) : QPushButton(""), _intern
     setMaximumSize(QSize(256, 256));
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    connect(this, &QAbstractButton::clicked, this, &CMemoryButton::buttonClicked);
+    QString ressourceText = QString(":/cards/img/%1.png");
+    QIcon icon;
+    icon.addPixmap(QPixmap(ressourceText.arg("back")), QIcon::Active);
+    icon.addPixmap(QPixmap(ressourceText.arg(_internalValue)), QIcon::Disabled);
+    setIcon(icon);
 
-    setIcon(QPixmap(":/cards/img/back.png"));
+    connect(this, &QAbstractButton::clicked, this, &CMemoryButton::buttonClicked);
+    unreveal();
 }
 
 int CMemoryButton::getInternalValue() const
@@ -23,15 +28,14 @@ void CMemoryButton::buttonClicked(const bool checked)
 {
     if (checked)
     {
-        reveal();
+        setEnabled(false);
+        emit buttonSelected();
     }
 }
 
 void CMemoryButton::unreveal()
 {
     setChecked(false);
-    setIcon(QPixmap(":/cards/img/back.png"));
-    setText("");
     setEnabled(true);
 }
 
@@ -46,21 +50,4 @@ void CMemoryButton::resizeEvent(QResizeEvent* e)
         setIconSize(QSize(width() - 5, width() - 5));
     }
     QPushButton::resizeEvent(e);
-}
-
-void CMemoryButton::reveal()
-{
-    QString ressourceText = QString(":/cards/img/%1.png").arg(_internalValue);
-
-    QIcon icon;
-    setText("");
-
-    icon.addPixmap(QPixmap(ressourceText), QIcon::Active);
-    // Wir setzen explizit die gleiche Grafik für Disabled, damit wird die nicht grau.
-    icon.addPixmap(QPixmap(ressourceText), QIcon::Disabled);
-    setIcon(icon);
-
-    setEnabled(false);
-
-    emit buttonSelected();
 }
