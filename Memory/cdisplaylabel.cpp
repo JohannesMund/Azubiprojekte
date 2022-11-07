@@ -9,6 +9,7 @@ CDisplayLabel::CDisplayLabel(QWidget* parent, Qt::WindowFlags f) : QLabel(parent
 
 void CDisplayLabel::togglePlayer()
 {
+    _gameIsRunning = true;
     if (_currentPlayer == EPlayer::ePlayer1)
     {
         _currentPlayer = EPlayer::ePlayer2;
@@ -22,6 +23,7 @@ void CDisplayLabel::togglePlayer()
 
 void CDisplayLabel::addPoints()
 {
+    _gameIsRunning = true;
     if (_currentPlayer == EPlayer::ePlayer1)
     {
         _pointsPlayer1++;
@@ -38,11 +40,13 @@ void CDisplayLabel::reset()
     _pointsPlayer1 = 0;
     _pointsPlayer2 = 0;
 
+    _gameIsRunning = false;
     print();
 }
 
 void CDisplayLabel::gameOver()
 {
+    _gameIsRunning = false;
     QString title("Spielende");
     QString text("");
     if (_pointsPlayer1 > _pointsPlayer2)
@@ -59,6 +63,11 @@ void CDisplayLabel::gameOver()
     }
 
     QMessageBox::information(0, title, text);
+}
+
+bool CDisplayLabel::isGameRunning() const
+{
+    return _gameIsRunning;
 }
 
 void CDisplayLabel::print()

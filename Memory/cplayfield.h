@@ -1,5 +1,4 @@
-#ifndef CPLAYFIELD_H
-#define CPLAYFIELD_H
+#pragma once
 
 #include <QFrame>
 
@@ -57,5 +56,3 @@ private:
 
     static std::vector<unsigned int> generateRandomNumbers(const int number);
 };
-
-#endif // CPLAYFIELD_H

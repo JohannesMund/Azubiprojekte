@@ -12,9 +12,9 @@
 
 namespace
 {
-unsigned int _maxFields = (unsigned)-1;
+unsigned int _numRecourceFiles = (unsigned)-1;
 
-unsigned int countMaxFields()
+unsigned int countRecourceFiles()
 {
     QDirIterator it(":/cards/");
     unsigned int count = 0;
@@ -24,11 +24,20 @@ unsigned int countMaxFields()
         count++;
     }
 
-    _maxFields = count * 2;
-    return _maxFields;
+    _numRecourceFiles = count;
+    return _numRecourceFiles;
+}
+unsigned int getRecourceFiles()
+{
+    if (_numRecourceFiles == (unsigned)-1)
+    {
+        countRecourceFiles();
+    }
+    return _numRecourceFiles;
 }
 
 } // namespace
+
 CPlayField::CPlayField(QWidget* parent, Qt::WindowFlags f) : QFrame(parent, f)
 {
     setLayout(new QGridLayout(this));
@@ -158,7 +167,7 @@ std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
     // Einen Vektor mit allen möglichen werten fülle (1..32, das was wir in den Ressourcen haben
     std::vector<unsigned int> possibleValues;
 
-    for (unsigned int i = 1; i <= round(_maxFields / 2); i++)
+    for (unsigned int i = 1; i <= getRecourceFiles(); i++)
     {
         possibleValues.push_back(i);
     }
@@ -180,10 +189,5 @@ std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
 }
 unsigned int CPlayField::getMaxFields()
 {
-    if (_maxFields == (unsigned)-1)
-    {
-        countMaxFields();
-    }
-
-    return _maxFields;
+    return getRecourceFiles() * 2;
 }
