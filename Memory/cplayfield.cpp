@@ -13,7 +13,9 @@ const int CPlayField::_maxFields = 64;
 
 CPlayField::CPlayField(QWidget* parent, Qt::WindowFlags f) : QFrame(parent, f)
 {
-    setLayout(new QGridLayout(this));
+    _pLayout = new QGridLayout(this);
+
+    setLayout(_pLayout);
 }
 
 void CPlayField::init(const int fields)
@@ -26,16 +28,14 @@ void CPlayField::init(const int fields)
     _btnPressed1 = nullptr;
     _btnPressed2 = nullptr;
 
-    clearButtons();
+    clearButtonsAndLayout();
 
     auto values = generateRandomNumbers(fields);
-
-    QGridLayout* buttonLayout = qobject_cast<QGridLayout*>(layout());
 
     for (int i = 0; i < fields; i++)
     {
         CMemoryButton* btn = new CMemoryButton(values.at(i));
-        buttonLayout->addWidget(btn, row, col);
+        _pLayout->addWidget(btn, row, col);
         _buttons.push_back(btn);
 
         // Man bemerke das Lambda, wir kopieren das i in den scope
@@ -48,8 +48,6 @@ void CPlayField::init(const int fields)
             row++;
         }
     }
-
-    setLayout(buttonLayout);
 }
 
 void CPlayField::buttonClicked(const unsigned int index)
@@ -93,13 +91,13 @@ void CPlayField::buttonClicked(const unsigned int index)
     }
 }
 
-void CPlayField::clearButtons()
+void CPlayField::clearButtonsAndLayout()
 {
     for (auto btn : _buttons)
     {
+        _pLayout->removeWidget(btn);
         delete btn;
     }
-
     _buttons.clear();
 }
 

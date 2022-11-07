@@ -21,7 +21,5 @@ protected:
     void resizeEvent(QResizeEvent* e) override;
 
 private:
-    void reveal();
-
     const int _internalValue = -1;
 };

@@ -3,6 +3,7 @@
 
 #include <QFrame>
 
+class QGridLayout;
 class CMemoryButton;
 class CPlayField : public QFrame
 {
@@ -20,12 +21,14 @@ signals:
 private:
     void buttonClicked(const unsigned int index);
 
-    void clearButtons();
+    void clearButtonsAndLayout();
 
     static std::vector<unsigned int> generateRandomNumbers(const int number);
 
     CMemoryButton* _btnPressed1 = nullptr;
     CMemoryButton* _btnPressed2 = nullptr;
+
+    QGridLayout* _pLayout = nullptr;
 
     std::vector<CMemoryButton*> _buttons = {};
 };

@@ -5,4 +5,5 @@ Rechner/Rechner \
 Rechner/RechnerTest \
 TicTacToe \
 TicTacToe2/TicTacToe2 \
-TicTacToe2/TicTacToe2Test
+TicTacToe2/TicTacToe2Test \
+Memory
