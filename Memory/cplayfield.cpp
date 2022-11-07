@@ -1,6 +1,7 @@
 #include "cplayfield.h"
 #include "cmemorybutton.h"
 
+#include <QDirIterator>
 #include <QGridLayout>
 #include <QPushButton>
 
@@ -9,13 +10,11 @@
 #include <math.h>
 #include <random>
 
-const int CPlayField::_maxFields = 64;
+unsigned int CPlayField::_maxFields = -1;
 
 CPlayField::CPlayField(QWidget* parent, Qt::WindowFlags f) : QFrame(parent, f)
 {
-    _pLayout = new QGridLayout(this);
-
-    setLayout(_pLayout);
+    setLayout(new QGridLayout(this));
 }
 
 void CPlayField::init(const int fields)
@@ -32,10 +31,13 @@ void CPlayField::init(const int fields)
 
     auto values = generateRandomNumbers(fields);
 
+    setLayout(new QGridLayout(this));
+    auto pLayout = qobject_cast<QGridLayout*>(layout());
+
     for (int i = 0; i < fields; i++)
     {
         CMemoryButton* btn = new CMemoryButton(values.at(i));
-        _pLayout->addWidget(btn, row, col);
+        pLayout->addWidget(btn, row, col);
         _buttons.push_back(btn);
 
         // Man bemerke das Lambda, wir kopieren das i in den scope
@@ -48,6 +50,7 @@ void CPlayField::init(const int fields)
             row++;
         }
     }
+    alignButtons();
 }
 
 void CPlayField::buttonClicked(const unsigned int index)
@@ -95,10 +98,25 @@ void CPlayField::clearButtonsAndLayout()
 {
     for (auto btn : _buttons)
     {
-        _pLayout->removeWidget(btn);
+        layout()->removeWidget(btn);
         delete btn;
     }
+    delete layout();
     _buttons.clear();
+}
+
+void CPlayField::alignButtons()
+{
+    auto pLayout = qobject_cast<QGridLayout*>(layout());
+    for (int i = 0; i < pLayout->columnCount(); i++)
+    {
+        pLayout->setColumnStretch(i, 1);
+    }
+
+    for (int i = 0; i < pLayout->rowCount(); i++)
+    {
+        pLayout->setRowStretch(i, 1);
+    }
 }
 
 std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
@@ -129,4 +147,25 @@ std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
     // und dann nochmal schön mischeln
     std::shuffle(values.begin(), values.end(), rng);
     return values;
+}
+unsigned int CPlayField::getMaxFields()
+{
+    if (_maxFields != -1)
+    {
+        return _maxFields;
+    }
+
+    QDirIterator it(":/cards/img");
+    unsigned int count = 0;
+    while (it.hasNext())
+    {
+        it.next();
+        if (it.fileName() != "back.png")
+        {
+            count++;
+        }
+    }
+
+    _maxFields = count * 2;
+    return _maxFields;
 }

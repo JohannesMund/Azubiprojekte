@@ -44,12 +44,12 @@ int MainWindow::ensureEven(const int i)
 
 int MainWindow::getMaxFields() const
 {
-    return ensureEven(CPlayField::_maxFields);
+    return ensureEven(CPlayField::getMaxFields());
 }
 
 int MainWindow::getDefaultFields() const
 {
-    return ensureEven(_defaultFields);
+    return std::min(ensureEven(_defaultFields), getMaxFields());
 }
 
 void MainWindow::on_pbReset_clicked()

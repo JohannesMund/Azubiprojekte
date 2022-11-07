@@ -5,32 +5,55 @@
 
 class QGridLayout;
 class CMemoryButton;
+
+/**
+ * @brief Repräsentiert das Spielfeld
+ */
+
 class CPlayField : public QFrame
 {
     Q_OBJECT
 public:
     CPlayField(QWidget* parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
+
+    /**
+     * @brief init initialisiert das Spielfeld mit fields feldern
+     * @param fields anzahl der Felder für das Spiel
+     */
     void init(const int fields);
 
-    static const int _maxFields;
+    /**
+     * @brief getMaxFields Berechnet die maximale anzahl Spielfelder anhand der Ressourcendatei
+     * @return die maximale Anzahl der Spielfelder
+     */
+    static unsigned int getMaxFields();
 
 signals:
+
+    /**
+     * @brief togglePlayer Wird gesendet, wenn der Spieler wechelt
+     */
     void togglePlayer();
+
+    /**
+     * @brief playerScored Wird gesendet, wenn der aktuelle Spieler scored
+     */
     void playerScored();
 
 private:
     void buttonClicked(const unsigned int index);
 
     void clearButtonsAndLayout();
+    void alignButtons();
 
     static std::vector<unsigned int> generateRandomNumbers(const int number);
 
     CMemoryButton* _btnPressed1 = nullptr;
     CMemoryButton* _btnPressed2 = nullptr;
 
-    QGridLayout* _pLayout = nullptr;
-
     std::vector<CMemoryButton*> _buttons = {};
+
+    static unsigned int _maxFields;
 };
 
 #endif // CPLAYFIELD_H
