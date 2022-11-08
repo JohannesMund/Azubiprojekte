@@ -44,12 +44,16 @@
        </spacer>
       </item>
       <item>
-       <widget class="QSpinBox" name="sbNumFields"/>
+       <widget class="QSpinBox" name="sbNumFields">
+        <property name="prefix">
+         <string/>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="pbReset">
         <property name="text">
-         <string>Reset</string>
+         <string>Neues Spiel</string>
         </property>
        </widget>
       </item>

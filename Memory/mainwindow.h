@@ -1,5 +1,4 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 
@@ -18,18 +17,13 @@ public:
     MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
-private slots:
-    void on_pbReset_clicked();
-
 private:
-    static const int _defaultFields;
-
     Ui::MainWindow* ui;
 
     void reset();
-
-    static int ensureEven(const int i);
     int getMaxFields() const;
     int getDefaultFields() const;
+
+    static int ensureEven(const int i);
+    static const unsigned int _defaultFields;
 };
-#endif // MAINWINDOW_H

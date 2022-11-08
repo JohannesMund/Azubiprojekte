@@ -10,7 +10,33 @@
 #include <math.h>
 #include <random>
 
-unsigned int CPlayField::_maxFields = -1;
+namespace
+{
+unsigned int _numRecourceFiles = (unsigned)-1;
+
+unsigned int countRecourceFiles()
+{
+    QDirIterator it(":/cards/");
+    unsigned int count = 0;
+    while (it.hasNext())
+    {
+        it.next();
+        count++;
+    }
+
+    _numRecourceFiles = count;
+    return _numRecourceFiles;
+}
+unsigned int getRecourceFiles()
+{
+    if (_numRecourceFiles == (unsigned)-1)
+    {
+        countRecourceFiles();
+    }
+    return _numRecourceFiles;
+}
+
+} // namespace
 
 CPlayField::CPlayField(QWidget* parent, Qt::WindowFlags f) : QFrame(parent, f)
 {
@@ -87,6 +113,7 @@ void CPlayField::buttonClicked(const unsigned int index)
     if (_btnPressed1->getInternalValue() == _btnPressed2->getInternalValue())
     {
         emit playerScored();
+        checkGameOver();
     }
     else
     {
@@ -119,6 +146,18 @@ void CPlayField::alignButtons()
     }
 }
 
+void CPlayField::checkGameOver()
+{
+    for (auto btn : _buttons)
+    {
+        if (btn->isSelectable())
+        {
+            return;
+        }
+    }
+    emit gameOver();
+}
+
 std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
 {
     // Randomisierer initialisieren
@@ -128,7 +167,7 @@ std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
     // Einen Vektor mit allen möglichen werten fülle (1..32, das was wir in den Ressourcen haben
     std::vector<unsigned int> possibleValues;
 
-    for (unsigned int i = 1; i <= round(_maxFields / 2); i++)
+    for (unsigned int i = 1; i <= getRecourceFiles(); i++)
     {
         possibleValues.push_back(i);
     }
@@ -150,22 +189,5 @@ std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
 }
 unsigned int CPlayField::getMaxFields()
 {
-    if (_maxFields != -1)
-    {
-        return _maxFields;
-    }
-
-    QDirIterator it(":/cards/img");
-    unsigned int count = 0;
-    while (it.hasNext())
-    {
-        it.next();
-        if (it.fileName() != "back.png")
-        {
-            count++;
-        }
-    }
-
-    _maxFields = count * 2;
-    return _maxFields;
+    return getRecourceFiles() * 2;
 }

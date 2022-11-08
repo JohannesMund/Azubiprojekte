@@ -13,7 +13,6 @@ class CMemoryButton : public QPushButton
     Q_OBJECT
 
 signals:
-
     /**
      * @brief buttonSelected wird gesendet, wenn ein Spieler diese Karte ausgewählt hat.
      */
@@ -24,7 +23,6 @@ public:
 
     /**
      * @brief getInternalValue gibt den internen Wert (der für die Auswahl des Bildes veramtwortlich ist) zurück
-     * @return
      */
 
     int getInternalValue() const;
@@ -34,10 +32,20 @@ public:
      */
     void unreveal();
 
+    /**
+     * @brief isSelectable prüft ob der Button noch gewählt werden kann
+     */
+    bool isSelectable() const;
+
 protected:
+    /**
+     * @brief resizeEvent überschrieben von QPushButton. Wird benötigt, um bei Größenänderung die Pixmap anzupassen
+     * @param e das ResizeEvent (nicht vergessen weiterzuschicken)
+     */
     void resizeEvent(QResizeEvent* e) override;
 
 private:
-    void buttonClicked(const bool checked);
     const int _internalValue = -1;
+
+    void buttonClicked(const bool checked);
 };

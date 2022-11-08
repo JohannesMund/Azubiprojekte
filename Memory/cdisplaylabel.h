@@ -1,11 +1,10 @@
-#ifndef CDISPLAYLABEL_H
-#define CDISPLAYLABEL_H
+#pragma once
 
 #include <QLabel>
 
 /**
- * @brief Die Anzeige des Spielstandes
- * @remark Diese Klasse weiß, welcher Spieler gerade am Zug ist.
+ * @brief Handelt das Gamemanagement und die Anzeige des Spielstandes
+ * @remark Diese Klasse weiß, welcher Spieler gerade am Zug ist, ob gerade ein SPiel läuft und zählt die Punkte.
  */
 
 class CDisplayLabel : public QLabel
@@ -29,6 +28,16 @@ public:
      */
     void reset();
 
+    /**
+     * @brief gameOver ermittelt den Gewinner und macht eine MessageBox auf
+     */
+    void gameOver();
+
+    /**
+     * @brief isGameRunning ermittelt ob ein Spiel läuft
+     */
+    bool isGameRunning() const;
+
 private:
     enum class EPlayer
     {
@@ -38,10 +47,9 @@ private:
 
     int _pointsPlayer1 = 0;
     int _pointsPlayer2 = 0;
+    EPlayer _currentPlayer = EPlayer::ePlayer1;
+
+    bool _gameIsRunning = false;
 
     void print();
-
-    EPlayer _currentPlayer = EPlayer::ePlayer1;
 };
-
-#endif // CDISPLAYLABEL_H
