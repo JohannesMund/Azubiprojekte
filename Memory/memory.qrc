@@ -63,5 +63,13 @@
 		<file alias="58.png">img/cards/58.png</file>
 		<file alias="59.png">img/cards/59.png</file>
 		<file alias="60.png">img/cards/60.png</file>
+		<file alias="61.png">img/cards/61.png</file>
+		<file alias="62.png">img/cards/62.png</file>
+		<file alias="63.png">img/cards/63.png</file>
+		<file alias="64.png">img/cards/64.png</file>
+		<file alias="65.png">img/cards/65.png</file>
+		<file alias="66.png">img/cards/66.png</file>
+		<file alias="67.png">img/cards/67.png</file>
+		<file alias="68.png">img/cards/68.png</file>
 	</qresource>
 </RCC>
