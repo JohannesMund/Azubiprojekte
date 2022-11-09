@@ -71,5 +71,7 @@
 		<file alias="66.png">img/cards/66.png</file>
 		<file alias="67.png">img/cards/67.png</file>
 		<file alias="68.png">img/cards/68.png</file>
+		<file alias="69.png">img/cards/69.png</file>
+		<file alias="70.png">img/cards/70.png</file>
 	</qresource>
 </RCC>
