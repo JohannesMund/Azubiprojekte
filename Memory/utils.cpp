@@ -6,9 +6,9 @@
 namespace
 {
 unsigned int _numRecourceFiles = (unsigned)-1;
-unsigned int countRecourceFiles()
+unsigned int countRecourceFiles(const QString dir)
 {
-    QDirIterator it(":/cards/");
+    QDirIterator it(dir);
     unsigned int count = 0;
     while (it.hasNext())
     {
@@ -22,11 +22,11 @@ unsigned int countRecourceFiles()
 
 } // namespace
 
-unsigned int ResourceHelper::getRecourceFiles()
+unsigned int ResourceHelper::countCards()
 {
     if (_numRecourceFiles == (unsigned)-1)
     {
-        countRecourceFiles();
+        countRecourceFiles(":/cards/");
     }
     return _numRecourceFiles;
 }

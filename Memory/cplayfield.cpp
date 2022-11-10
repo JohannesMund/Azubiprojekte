@@ -101,8 +101,11 @@ void CPlayField::clearButtonsAndLayout()
 {
     for (auto btn : _buttons)
     {
-        layout()->removeWidget(btn);
-        delete btn;
+        if (btn != nullptr)
+        {
+            layout()->removeWidget(btn);
+            delete btn;
+        }
     }
     delete layout();
     _buttons.clear();
@@ -140,7 +143,7 @@ std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
     // Einen Vektor mit allen möglichen werten fülle (1..32, das was wir in den Ressourcen haben
     std::vector<unsigned int> possibleValues;
 
-    for (unsigned int i = 1; i <= ResourceHelper::getRecourceFiles(); i++)
+    for (unsigned int i = 1; i <= ResourceHelper::countCards(); i++)
     {
         possibleValues.push_back(i);
     }
@@ -160,5 +163,5 @@ std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
 }
 unsigned int CPlayField::getMaxFields()
 {
-    return ResourceHelper::getRecourceFiles() * 2;
+    return ResourceHelper::countCards() * 2;
 }
