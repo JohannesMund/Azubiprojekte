@@ -47,4 +47,11 @@ Ein Tic Tac Toe Spiel für 1 oder 2 Spieler
  * Unittests mit QtTest
  
  ## Memory
- Ein Memory SPiel
+ Ein Memory Spiel für 2 Spieler
+ ### Features:
+ * 100 Unterschiedliche Bilder
+ * resizing der Gui
+ * variable Anzahl an Feldern
+ ### Was lernen wir?
+ * Recourcenverwaltung mit Qt
+ * Benutzung der Qt Gui Elemente
