@@ -72,6 +72,36 @@
 		<file alias="67.png">img/cards/67.png</file>
 		<file alias="68.png">img/cards/68.png</file>
 		<file alias="69.png">img/cards/69.png</file>
-		<file alias="70.png">img/cards/70.png</file>
+		<file alias="70.png">img/cards/70.png</file>		
+		<file alias="71.png">img/cards/71.png</file>
+		<file alias="72.png">img/cards/72.png</file>
+		<file alias="73.png">img/cards/73.png</file>
+		<file alias="74.png">img/cards/74.png</file>
+		<file alias="75.png">img/cards/75.png</file>
+		<file alias="76.png">img/cards/76.png</file>
+		<file alias="77.png">img/cards/77.png</file>
+		<file alias="78.png">img/cards/78.png</file>
+		<file alias="79.png">img/cards/79.png</file>
+		<file alias="80.png">img/cards/80.png</file>
+		<file alias="81.png">img/cards/81.png</file>
+		<file alias="82.png">img/cards/82.png</file>
+		<file alias="83.png">img/cards/83.png</file>
+		<file alias="84.png">img/cards/84.png</file>
+		<file alias="85.png">img/cards/85.png</file>
+		<file alias="86.png">img/cards/86.png</file>
+		<file alias="87.png">img/cards/87.png</file>
+		<file alias="88.png">img/cards/88.png</file>
+		<file alias="89.png">img/cards/89.png</file>
+		<file alias="90.png">img/cards/90.png</file>
+		<file alias="91.png">img/cards/91.png</file>
+		<file alias="92.png">img/cards/92.png</file>
+		<file alias="93.png">img/cards/93.png</file>
+		<file alias="94.png">img/cards/94.png</file>
+		<file alias="95.png">img/cards/95.png</file>
+		<file alias="96.png">img/cards/96.png</file>
+		<file alias="97.png">img/cards/97.png</file>
+		<file alias="98.png">img/cards/98.png</file>
+		<file alias="99.png">img/cards/99.png</file>
+		<file alias="100.png">img/cards/100.png</file>
 	</qresource>
 </RCC>

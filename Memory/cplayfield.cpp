@@ -140,7 +140,7 @@ void CPlayField::checkGameOver()
 std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
 {
 
-    // Einen Vektor mit allen möglichen werten fülle (1..32, das was wir in den Ressourcen haben
+    // Einen Vektor mit allen möglichen werten fülle (alles das, was wir in den Ressourcen haben
     std::vector<unsigned int> possibleValues;
 
     for (unsigned int i = 1; i <= ResourceHelper::countCards(); i++)
