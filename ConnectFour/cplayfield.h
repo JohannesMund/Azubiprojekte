@@ -6,20 +6,40 @@
 #include "cplayermanagement.h"
 
 class CField;
+
+/**
+ * @brief CPlayField Das Spielfeld
+ */
+
 class CPlayField : public QFrame
 {
 public:
-    CPlayField(QWidget* parent = nullptr);
-    void init();
-
     static constexpr unsigned int _width = 7;
     static constexpr unsigned int _height = 6;
 
+    CPlayField(QWidget* parent = nullptr);
+
+    /**
+     * @brief addToColumn fügt Spieler p zu Spalte column hinzu
+     * @remark packt den Spielstein oben drauf
+     * @see getTopEmptyField
+     */
     void addToColumn(const unsigned int column, const CPlayerManagement::Player p);
+
+    /**
+     * @brief isColumnFull ermittelt, ob Spalte column voll ist
+     */
     bool isColumnFull(const unsigned int column) const;
 
+    /**
+     * @brief checkWinner prüft, ob es einen Gewinner gibt
+     * @return den Gewinner oder CPlayerManagement::Player::none
+     */
     CPlayerManagement::Player checkWinner() const;
 
+    /**
+     * @brief reset setzt das Spielfeld zurück
+     */
     void reset();
 
 private:
@@ -33,6 +53,8 @@ private:
 
     CPlayerManagement::Player getFieldState(const unsigned int row, const unsigned int column) const;
     CField* getField(const unsigned int row, const unsigned int column) const;
+
+    void init();
 
     CField* _grid[_height][_width];
 };

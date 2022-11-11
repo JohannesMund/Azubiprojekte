@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
 
     connect(ui->frmButtonBox, &CButtonBox::buttonClicked, this, &MainWindow::buttonBoxButtonClicked);
+    connect(ui->pbReset, &QPushButton::clicked, this, &MainWindow::reset);
     _playerManagement.reset();
 }
 
@@ -30,7 +31,7 @@ void MainWindow::buttonBoxButtonClicked(const unsigned int i)
     }
 }
 
-void MainWindow::on_pbReset_clicked()
+void MainWindow::reset()
 {
     ui->frmPlayfield->reset();
     ui->frmButtonBox->reset();

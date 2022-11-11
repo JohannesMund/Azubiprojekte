@@ -18,12 +18,10 @@ public:
     MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
-private slots:
-    void on_pbReset_clicked();
-
 private:
     Ui::MainWindow* ui;
 
+    void reset();
     void buttonBoxButtonClicked(const unsigned int i);
     CPlayerManagement _playerManagement;
 };

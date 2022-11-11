@@ -3,5 +3,6 @@
         <file>img/empty.png</file>
         <file>img/red.png</file>
         <file>img/yellow.png</file>
+        <file>img/arrow.png</file>
     </qresource>
 </RCC>
