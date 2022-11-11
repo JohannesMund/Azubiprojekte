@@ -12,14 +12,18 @@ SOURCES += \
     cdisplaylabel.cpp \
     cmemorybutton.cpp \
     cplayfield.cpp \
+    gamemanagement.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    utils.cpp
 
 HEADERS += \
     cdisplaylabel.h \
     cmemorybutton.h \
     cplayfield.h \
-    mainwindow.h
+    gamemanagement.h \
+    mainwindow.h \
+    utils.h
 
 FORMS += \
     mainwindow.ui

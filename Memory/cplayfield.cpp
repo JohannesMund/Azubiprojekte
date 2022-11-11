@@ -1,40 +1,16 @@
 #include "cplayfield.h"
 #include "cmemorybutton.h"
+#include "utils.h"
 
 #include <QDirIterator>
 #include <QGridLayout>
 #include <QPushButton>
 
-#include <algorithm>
 #include <chrono>
 #include <math.h>
-#include <random>
 
 namespace
 {
-unsigned int _numRecourceFiles = (unsigned)-1;
-
-unsigned int countRecourceFiles()
-{
-    QDirIterator it(":/cards/");
-    unsigned int count = 0;
-    while (it.hasNext())
-    {
-        it.next();
-        count++;
-    }
-
-    _numRecourceFiles = count;
-    return _numRecourceFiles;
-}
-unsigned int getRecourceFiles()
-{
-    if (_numRecourceFiles == (unsigned)-1)
-    {
-        countRecourceFiles();
-    }
-    return _numRecourceFiles;
-}
 
 } // namespace
 
@@ -125,8 +101,11 @@ void CPlayField::clearButtonsAndLayout()
 {
     for (auto btn : _buttons)
     {
-        layout()->removeWidget(btn);
-        delete btn;
+        if (btn != nullptr)
+        {
+            layout()->removeWidget(btn);
+            delete btn;
+        }
     }
     delete layout();
     _buttons.clear();
@@ -160,20 +139,16 @@ void CPlayField::checkGameOver()
 
 std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
 {
-    // Randomisierer initialisieren
-    unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
-    auto rng = std::default_random_engine{seed};
 
-    // Einen Vektor mit allen möglichen werten fülle (1..32, das was wir in den Ressourcen haben
+    // Einen Vektor mit allen möglichen werten fülle (alles das, was wir in den Ressourcen haben
     std::vector<unsigned int> possibleValues;
 
-    for (unsigned int i = 1; i <= getRecourceFiles(); i++)
+    for (unsigned int i = 1; i <= ResourceHelper::countCards(); i++)
     {
         possibleValues.push_back(i);
     }
 
-    // Zahlen schön mischeln
-    std::shuffle(possibleValues.begin(), possibleValues.end(), rng);
+    Randomizer::shuffle(possibleValues);
 
     // aus dem gemischen Vektor nehmen wir die ersten number/2 stück, so haben wir jede runde andere Bilder
     std::vector<unsigned int> values;
@@ -183,11 +158,10 @@ std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
         values.push_back(possibleValues.at(i));
     }
 
-    // und dann nochmal schön mischeln
-    std::shuffle(values.begin(), values.end(), rng);
+    Randomizer::shuffle(values);
     return values;
 }
 unsigned int CPlayField::getMaxFields()
 {
-    return getRecourceFiles() * 2;
+    return ResourceHelper::countCards() * 2;
 }

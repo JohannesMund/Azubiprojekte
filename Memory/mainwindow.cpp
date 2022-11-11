@@ -1,7 +1,10 @@
 #include "mainwindow.h"
 #include "cdisplaylabel.h"
 #include "cplayfield.h"
+#include "gamemanagement.h"
+#include "utils.h"
 
+#include <QComboBox>
 #include <QMessageBox>
 
 #include "ui_mainwindow.h"
@@ -11,18 +14,28 @@ const unsigned int MainWindow::_defaultFields = 36;
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->lDisplay->reset();
+    ui->frmDisplay->reset();
 
     ui->sbNumFields->setMaximum(getMaxFields());
     ui->sbNumFields->setMinimum(2);
     ui->sbNumFields->setSingleStep(2);
     ui->sbNumFields->setValue(getDefaultFields());
 
-    connect(ui->frmPlayfield, &CPlayField::togglePlayer, ui->lDisplay, &CDisplayLabel::togglePlayer);
-    connect(ui->frmPlayfield, &CPlayField::playerScored, ui->lDisplay, &CDisplayLabel::addPoints);
-    connect(ui->frmPlayfield, &CPlayField::gameOver, ui->lDisplay, &CDisplayLabel::gameOver);
+    connect(ui->frmPlayfield, &CPlayField::togglePlayer, &GameManagement::toggleCurrentPlayer);
+    connect(ui->frmPlayfield, &CPlayField::playerScored, &GameManagement::startGame);
+    connect(ui->frmPlayfield, &CPlayField::gameOver, &GameManagement::stopGame);
+
+    connect(ui->frmPlayfield, &CPlayField::togglePlayer, ui->frmDisplay, &CDisplayLabel::togglePlayer);
+    connect(ui->frmPlayfield, &CPlayField::playerScored, ui->frmDisplay, &CDisplayLabel::addPoints);
+    connect(ui->frmPlayfield, &CPlayField::gameOver, ui->frmDisplay, &CDisplayLabel::gameOver);
 
     connect(ui->pbReset, &QPushButton::clicked, this, &MainWindow::reset);
+
+    for (const QString& s : ResourceHelper::getRecourceDirectories())
+    {
+        ui->cbGameMode->insertItem(0, s);
+    }
+    connect(ui->cbGameMode, &QComboBox::currentTextChanged, this, &MainWindow::changeGameMode);
 
     reset();
 }
@@ -34,16 +47,16 @@ MainWindow::~MainWindow()
 
 void MainWindow::reset()
 {
-    if (ui->lDisplay->isGameRunning() && QMessageBox::question(0,
-                                                               "Spiel läuft",
-                                                               "Es läuft bereits ein Spiel. Abbrechen?",
-                                                               QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
+    if (GameManagement::isGameRunning() && QMessageBox::question(0,
+                                                                 "Spiel läuft",
+                                                                 "Es läuft bereits ein Spiel. Abbrechen?",
+                                                                 QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
     {
         return;
     }
 
     ui->frmPlayfield->init(ensureEven(ui->sbNumFields->value()));
-    ui->lDisplay->reset();
+    ui->frmDisplay->reset();
 }
 
 int MainWindow::ensureEven(const int i)
@@ -63,4 +76,10 @@ int MainWindow::getMaxFields() const
 int MainWindow::getDefaultFields() const
 {
     return std::min(ensureEven(_defaultFields), getMaxFields());
+}
+
+void MainWindow::changeGameMode(const QString& mode)
+{
+    ResourceHelper::setGameMode(mode);
+    ui->sbNumFields->setMaximum(getMaxFields());
 }

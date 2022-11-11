@@ -1,30 +1,64 @@
 #include "cdisplaylabel.h"
+#include "gamemanagement.h"
 
+#include <QHBoxLayout>
 #include <QMessageBox>
 #include <QString>
 
-CDisplayLabel::CDisplayLabel(QWidget* parent, Qt::WindowFlags f) : QLabel(parent, f)
+const QColor CDisplayLabel::_player1Color = QColor(255, 0, 0, 25);
+const QColor CDisplayLabel::_player2Color = QColor(0, 0, 255, 25);
+
+CDisplayLabel::CDisplayLabel(QWidget* parent, Qt::WindowFlags f) : QFrame(parent, f)
 {
+    auto makeLabel = [this](const GameManagement::EPlayer player) -> QLabel*
+    {
+        QLabel* lb = new QLabel(this);
+        lb->setContentsMargins(5, 1, 5, 1);
+        lb->setAutoFillBackground(true);
+
+        auto palette = lb->palette();
+        if (player == GameManagement::EPlayer::ePlayer1)
+        {
+            palette.setColor(QPalette::Window, _player1Color);
+        }
+        else
+        {
+            palette.setColor(QPalette::Window, _player2Color);
+        }
+        lb->setPalette(palette);
+        return lb;
+    };
+
+    _player1Text = makeLabel(GameManagement::EPlayer::ePlayer1);
+    _player2Text = makeLabel(GameManagement::EPlayer::ePlayer2);
+
+    _arrow = new QLabel(this);
+
+    QHBoxLayout* pLayout = new QHBoxLayout(this);
+    pLayout->addWidget(_player1Text);
+    pLayout->addWidget(_arrow);
+    pLayout->addWidget(_player2Text);
+
+    setLayout(pLayout);
+}
+
+QColor CDisplayLabel::getCurrentPlayerColor()
+{
+    if (GameManagement::getCurrentPlayer() == GameManagement::EPlayer::ePlayer1)
+    {
+        return _player1Color;
+    }
+    return _player2Color;
 }
 
 void CDisplayLabel::togglePlayer()
 {
-    _gameIsRunning = true;
-    if (_currentPlayer == EPlayer::ePlayer1)
-    {
-        _currentPlayer = EPlayer::ePlayer2;
-    }
-    else
-    {
-        _currentPlayer = EPlayer::ePlayer1;
-    }
     print();
 }
 
 void CDisplayLabel::addPoints()
 {
-    _gameIsRunning = true;
-    if (_currentPlayer == EPlayer::ePlayer1)
+    if (GameManagement::getCurrentPlayer() == GameManagement::EPlayer::ePlayer1)
     {
         _pointsPlayer1++;
     }
@@ -40,13 +74,11 @@ void CDisplayLabel::reset()
     _pointsPlayer1 = 0;
     _pointsPlayer2 = 0;
 
-    _gameIsRunning = false;
     print();
 }
 
 void CDisplayLabel::gameOver()
 {
-    _gameIsRunning = false;
     QString title("Spielende");
     QString text("");
     if (_pointsPlayer1 > _pointsPlayer2)
@@ -65,22 +97,24 @@ void CDisplayLabel::gameOver()
     QMessageBox::information(0, title, text);
 }
 
-bool CDisplayLabel::isGameRunning() const
-{
-    return _gameIsRunning;
-}
-
 void CDisplayLabel::print()
 {
-    QString textPlayer1 = QString("Player1: %1").arg(_pointsPlayer1);
-    QString textPlayer2 = QString("Player2: %1").arg(_pointsPlayer2);
+    _player1Text->setText(QString("Player1: %1").arg(_pointsPlayer1));
+    _player2Text->setText(QString("Player2: %1").arg(_pointsPlayer2));
 
-    if (_currentPlayer == EPlayer::ePlayer1)
+    auto f = font();
+    f.setBold(true);
+
+    if (GameManagement::getCurrentPlayer() == GameManagement::EPlayer::ePlayer1)
     {
-        setText(QString("[%1] <- %2").arg(textPlayer1, textPlayer2));
+        _player1Text->setFont(f);
+        _player2Text->setFont(font());
+        _arrow->setText("<-");
     }
     else
     {
-        setText(QString("%1 -> [%2]").arg(textPlayer1, textPlayer2));
+        _player1Text->setFont(font());
+        _player2Text->setFont(f);
+        _arrow->setText("->");
     }
 }
