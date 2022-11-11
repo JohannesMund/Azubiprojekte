@@ -64,5 +64,5 @@ Ein Memory SPiel
 ### Features
  * 2 SPieler im Hot-Seat
  * Gewinnerkennung
-### Was lernen wird
+### Was lernen wir?
  * nichts was wir nicht vorher auch gelernt haben
