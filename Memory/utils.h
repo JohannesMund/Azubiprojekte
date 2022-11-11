@@ -17,7 +17,7 @@ namespace ResourceHelper
  * @remark die Zahl wird gecached
  */
 unsigned int countCards();
-
+QString getCurrentRecourceDirectory();
 } // namespace ResourceHelper
 
 /**

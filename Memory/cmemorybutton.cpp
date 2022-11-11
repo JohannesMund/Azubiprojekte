@@ -1,17 +1,22 @@
 #include "cmemorybutton.h"
-
+#include "utils.h"
 #include <QEvent>
 
 CMemoryButton::CMemoryButton(const int internalValue) : QPushButton(""), _internalValue(internalValue)
 {
     setCheckable(true);
+    setFlat(true);
+    setAutoFillBackground(true);
+
     setMinimumSize(QSize(16, 16));
     setMaximumSize(QSize(256, 256));
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     QIcon icon;
     icon.addPixmap(QPixmap(":/img/back.png"), QIcon::Active);
-    icon.addPixmap(QPixmap(QString(":/cards/%1.png").arg(_internalValue)), QIcon::Disabled);
+
+    auto s = QString("%1%2.png").arg(ResourceHelper::getCurrentRecourceDirectory()).arg(_internalValue);
+    icon.addPixmap(QPixmap(s), QIcon::Disabled);
     setIcon(icon);
 
     connect(this, &QAbstractButton::clicked, this, &CMemoryButton::buttonClicked);

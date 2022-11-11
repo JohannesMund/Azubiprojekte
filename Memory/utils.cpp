@@ -6,6 +6,7 @@
 namespace
 {
 unsigned int _numRecourceFiles = (unsigned)-1;
+QString _currentRecourceDirectory = ":/cards/normal/";
 unsigned int countRecourceFiles(const QString dir)
 {
     QDirIterator it(dir);
@@ -26,7 +27,7 @@ unsigned int ResourceHelper::countCards()
 {
     if (_numRecourceFiles == (unsigned)-1)
     {
-        countRecourceFiles(":/cards/");
+        countRecourceFiles(_currentRecourceDirectory);
     }
     return _numRecourceFiles;
 }
@@ -39,4 +40,9 @@ void Randomizer::shuffle(std::vector<unsigned int>& v)
 
     // Zahlen schön mischeln
     std::shuffle(v.begin(), v.end(), rng);
+}
+
+QString ResourceHelper::getCurrentRecourceDirectory()
+{
+    return _currentRecourceDirectory;
 }

@@ -18,15 +18,12 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="CDisplayLabel" name="lDisplay">
-        <property name="minimumSize">
-         <size>
-          <width>200</width>
-          <height>0</height>
-         </size>
+       <widget class="CDisplayLabel" name="frmDisplay">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
         </property>
-        <property name="text">
-         <string/>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
         </property>
        </widget>
       </item>
@@ -44,6 +41,9 @@
        </spacer>
       </item>
       <item>
+       <widget class="QComboBox" name="cbGameMode"/>
+      </item>
+      <item>
        <widget class="QSpinBox" name="sbNumFields">
         <property name="prefix">
          <string/>
@@ -52,8 +52,14 @@
       </item>
       <item>
        <widget class="QPushButton" name="pbReset">
+        <property name="autoFillBackground">
+         <bool>true</bool>
+        </property>
         <property name="text">
          <string>Neues Spiel</string>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -91,14 +97,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>CDisplayLabel</class>
-   <extends>QLabel</extends>
-   <header>cdisplaylabel.h</header>
-  </customwidget>
-  <customwidget>
    <class>CPlayField</class>
    <extends>QFrame</extends>
    <header location="global">cplayfield.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CDisplayLabel</class>
+   <extends>QFrame</extends>
+   <header>cdisplaylabel.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

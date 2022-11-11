@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QFrame>
 #include <QLabel>
 
 /**
@@ -7,11 +8,13 @@
  * @remark Diese Klasse weiß, welcher Spieler gerade am Zug ist, ob gerade ein SPiel läuft und zählt die Punkte.
  */
 
-class CDisplayLabel : public QLabel
+class CDisplayLabel : public QFrame
 {
     Q_OBJECT
 public:
     CDisplayLabel(QWidget* parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
+
+    static QColor getCurrentPlayerColor();
 
     /**
      * @brief togglePlayer wechselt den Spieler
@@ -33,23 +36,16 @@ public:
      */
     void gameOver();
 
-    /**
-     * @brief isGameRunning ermittelt ob ein Spiel läuft
-     */
-    bool isGameRunning() const;
-
 private:
-    enum class EPlayer
-    {
-        ePlayer1,
-        ePlayer2
-    };
-
     int _pointsPlayer1 = 0;
     int _pointsPlayer2 = 0;
-    EPlayer _currentPlayer = EPlayer::ePlayer1;
 
-    bool _gameIsRunning = false;
+    QLabel* _player1Text;
+    QLabel* _player2Text;
+    QLabel* _arrow;
+
+    static const QColor _player1Color;
+    static const QColor _player2Color;
 
     void print();
 };

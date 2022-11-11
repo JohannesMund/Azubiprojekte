@@ -21,6 +21,8 @@ private:
     Ui::MainWindow* ui;
 
     void reset();
+    void changeGameMode(const QString& mode);
+
     int getMaxFields() const;
     int getDefaultFields() const;
 
