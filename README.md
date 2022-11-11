@@ -46,5 +46,23 @@ Ein Tic Tac Toe Spiel für 1 oder 2 Spieler
  * Rekursionen
  * Unittests mit QtTest
  
- ## Memory
- Ein Memory SPiel
+## Memory
+Ein Memory SPiel
+### Features 
+ * 2 SPieler im Hot-Seat
+ * Karten werden Dynamisch den Ressourcen entnommen
+ * Kartensätze werden dynamisch den Ressourcen entnommen
+ * Gewinnerkennung
+ * variable Anzahl an Karten
+### Was lernen wir?
+ * Kreativer Umgang mit Qt Widgets
+ * Kreativer Umgang Signal Slots 
+ * Namespaces
+ 
+## Connect Four
+4 Gewinnt Spiel
+### Features
+ * 2 SPieler im Hot-Seat
+ * Gewinnerkennung
+### Was lernen wird
+ * nichts was wir nicht vorher auch gelernt haben
