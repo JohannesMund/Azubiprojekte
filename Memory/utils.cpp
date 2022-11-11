@@ -46,3 +46,21 @@ QString ResourceHelper::getCurrentRecourceDirectory()
 {
     return _currentRecourceDirectory;
 }
+
+const QStringList ResourceHelper::getRecourceDirectories()
+{
+    QStringList l;
+    QDirIterator it(":/cards/");
+    while (it.hasNext())
+    {
+        it.next();
+        l << it.fileName();
+    }
+    return l;
+}
+
+void ResourceHelper::setGameMode(const QString& s)
+{
+    _currentRecourceDirectory = QString(":/cards/%1/").arg(s);
+    _numRecourceFiles = (unsigned)-1;
+}

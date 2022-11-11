@@ -2,6 +2,7 @@
 #include "cdisplaylabel.h"
 #include "cplayfield.h"
 #include "gamemanagement.h"
+#include "utils.h"
 
 #include <QComboBox>
 #include <QMessageBox>
@@ -29,7 +30,13 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->frmPlayfield, &CPlayField::gameOver, ui->frmDisplay, &CDisplayLabel::gameOver);
 
     connect(ui->pbReset, &QPushButton::clicked, this, &MainWindow::reset);
+
+    for (const QString& s : ResourceHelper::getRecourceDirectories())
+    {
+        ui->cbGameMode->insertItem(0, s);
+    }
     connect(ui->cbGameMode, &QComboBox::currentTextChanged, this, &MainWindow::changeGameMode);
+
     reset();
 }
 
@@ -73,4 +80,6 @@ int MainWindow::getDefaultFields() const
 
 void MainWindow::changeGameMode(const QString& mode)
 {
+    ResourceHelper::setGameMode(mode);
+    ui->sbNumFields->setMaximum(getMaxFields());
 }

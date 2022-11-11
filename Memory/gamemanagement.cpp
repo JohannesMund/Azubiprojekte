@@ -3,6 +3,7 @@
 namespace
 {
 GameManagement::EPlayer _currentPlayer = GameManagement::EPlayer::ePlayer1;
+
 bool _gameIsRunning = false;
 } // namespace
 

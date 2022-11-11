@@ -17,7 +17,11 @@ namespace ResourceHelper
  * @remark die Zahl wird gecached
  */
 unsigned int countCards();
+const QStringList getRecourceDirectories();
 QString getCurrentRecourceDirectory();
+
+void setGameMode(const QString& s);
+
 } // namespace ResourceHelper
 
 /**

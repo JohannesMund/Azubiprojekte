@@ -1,4 +1,6 @@
 #pragma once
+#include <QMapIterator>
+#include <QString>
 
 namespace GameManagement
 {
@@ -9,14 +11,9 @@ enum class EPlayer
     ePlayer2
 };
 
-enum class EGameMode
-{
-    eNormal,
-    eChicken
-};
-
 void toggleCurrentPlayer();
 EPlayer getCurrentPlayer();
+
 bool isGameRunning();
 void startGame();
 void stopGame();
