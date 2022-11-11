@@ -5,31 +5,32 @@
 
 namespace
 {
-unsigned int _numRecourceFiles = (unsigned)-1;
 QString _currentRecourceDirectory = ":/cards/normal/";
-unsigned int countRecourceFiles(const QString dir)
+unsigned int countResourceFiles(const QString dir)
 {
     QDirIterator it(dir);
     unsigned int count = 0;
     while (it.hasNext())
     {
         it.next();
-        count++;
-    }
 
-    _numRecourceFiles = count;
-    return _numRecourceFiles;
+        if (it.fileName() != ".info")
+        {
+            count++;
+        }
+    }
+    return count;
 }
 
 } // namespace
 
-unsigned int ResourceHelper::countCards()
+unsigned int ResourceHelper::countCards(const QString& resourceDir)
 {
-    if (_numRecourceFiles == (unsigned)-1)
+    if (resourceDir.isEmpty())
     {
-        countRecourceFiles(_currentRecourceDirectory);
+        return countResourceFiles(_currentRecourceDirectory);
     }
-    return _numRecourceFiles;
+    return countResourceFiles(QString(":/cards/%1/").arg(resourceDir));
 }
 
 void Randomizer::shuffle(std::vector<unsigned int>& v)
@@ -62,5 +63,24 @@ const QStringList ResourceHelper::getRecourceDirectories()
 void ResourceHelper::setGameMode(const QString& s)
 {
     _currentRecourceDirectory = QString(":/cards/%1/").arg(s);
-    _numRecourceFiles = (unsigned)-1;
+}
+
+QString ResourceHelper::getResourceName(const QString& resourceDir)
+{
+    QString resourceFile;
+    if (resourceDir.isEmpty())
+    {
+        resourceFile = QString("%1.info").arg(_currentRecourceDirectory);
+    }
+    else
+    {
+        resourceFile = QString(":/cards/%1/.info").arg(resourceDir);
+    }
+
+    QFile f(resourceFile);
+    if (!f.open(QIODevice::ReadOnly))
+    {
+        return resourceDir;
+    }
+    return f.readLine().trimmed();
 }

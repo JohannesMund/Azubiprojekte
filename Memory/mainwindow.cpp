@@ -33,9 +33,14 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     for (const QString& s : ResourceHelper::getRecourceDirectories())
     {
-        ui->cbGameMode->insertItem(0, s);
+        QString text =
+            QString("%1 (%2 Karten)").arg(ResourceHelper::getResourceName(s)).arg(ResourceHelper::countCards(s));
+        ui->cbGameMode->insertItem(0, text, s);
     }
-    connect(ui->cbGameMode, &QComboBox::currentTextChanged, this, &MainWindow::changeGameMode);
+    connect(ui->cbGameMode,
+            static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            this,
+            &MainWindow::changeGameMode);
 
     reset();
 }
@@ -78,8 +83,9 @@ int MainWindow::getDefaultFields() const
     return std::min(ensureEven(_defaultFields), getMaxFields());
 }
 
-void MainWindow::changeGameMode(const QString& mode)
+void MainWindow::changeGameMode(int i)
 {
+    auto mode = ui->cbGameMode->itemData(i).toString();
     ResourceHelper::setGameMode(mode);
     ui->sbNumFields->setMaximum(getMaxFields());
 }

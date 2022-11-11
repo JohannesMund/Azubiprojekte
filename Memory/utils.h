@@ -13,10 +13,19 @@ namespace ResourceHelper
 {
 
 /**
- * @brief zählt die für uns relevanten Resourcendateien
- * @remark die Zahl wird gecached
+ * @brief zählt die für uns relevanten Resourcendateien in resourceDir
+ * @param[in] (optional) resourceDir das unterverzeichnis um das es geht. Ist nichts angegeben wird das
+ * _currentResourceDir genommen
+ * @remark die Zahl wird gecached, wenn es um das aktelle Verzeichnis geht
  */
-unsigned int countCards();
+unsigned int countCards(const QString& resourceDir = QString());
+
+/**
+ * @brief Ermittelt den ResourcenNamen in resourceDir
+ * @param[in] (optional) resourceDir das unterverzeichnis um das es geht. Ist nichts angegeben wird das
+ * _currentResourceDir genommen
+ */
+QString getResourceName(const QString& resourceDir = QString());
 
 /**
  * @brief getRecourceDirectories listet die Karten-Unterverzeichnisse auf, und gibt damit die Spielmodi vor
