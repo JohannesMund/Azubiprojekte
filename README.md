@@ -58,6 +58,7 @@ Ein Memory SPiel
  * Kreativer Umgang mit Qt Widgets
  * Kreativer Umgang Signal Slots 
  * Namespaces
+ * Singletons
  
 ## Connect Four
 4 Gewinnt Spiel
