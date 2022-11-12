@@ -1,8 +1,8 @@
 #include "mainwindow.h"
 #include "cdisplaylabel.h"
 #include "cplayfield.h"
+#include "cresourcehelper.h"
 #include "gamemanagement.h"
-#include "utils.h"
 
 #include <QComboBox>
 #include <QMessageBox>
@@ -16,11 +16,6 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
     ui->frmDisplay->reset();
 
-    ui->sbNumFields->setMaximum(getMaxFields());
-    ui->sbNumFields->setMinimum(2);
-    ui->sbNumFields->setSingleStep(2);
-    ui->sbNumFields->setValue(getDefaultFields());
-
     connect(ui->frmPlayfield, &CPlayField::togglePlayer, &GameManagement::toggleCurrentPlayer);
     connect(ui->frmPlayfield, &CPlayField::playerScored, &GameManagement::startGame);
     connect(ui->frmPlayfield, &CPlayField::gameOver, &GameManagement::stopGame);
@@ -31,16 +26,26 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     connect(ui->pbReset, &QPushButton::clicked, this, &MainWindow::reset);
 
-    for (const QString& s : ResourceHelper::getRecourceDirectories())
+    const auto modes = CResourceHelper::getInstance()->getRecourceDirectories();
+
+    for (const QString& s : modes)
     {
-        QString text =
-            QString("%1 (%2 Karten)").arg(ResourceHelper::getResourceName(s)).arg(ResourceHelper::countCards(s));
+        QString text = QString("%1 (%2 Karten)")
+                           .arg(CResourceHelper::getInstance()->getResourceName(s))
+                           .arg(CResourceHelper::getInstance()->countCards(s));
         ui->cbGameMode->insertItem(0, text, s);
     }
+
+    changeGameMode(modes.first());
+
+    ui->sbNumFields->setMinimum(2);
+    ui->sbNumFields->setSingleStep(2);
+    ui->sbNumFields->setValue(getDefaultFields());
+
     connect(ui->cbGameMode,
             static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this,
-            &MainWindow::changeGameMode);
+            static_cast<void (MainWindow::*)(int)>(&MainWindow::changeGameMode));
 
     reset();
 }
@@ -86,6 +91,11 @@ int MainWindow::getDefaultFields() const
 void MainWindow::changeGameMode(int i)
 {
     auto mode = ui->cbGameMode->itemData(i).toString();
-    ResourceHelper::setGameMode(mode);
+    changeGameMode(mode);
+}
+
+void MainWindow::changeGameMode(const QString& mode)
+{
+    CResourceHelper::getInstance()->setGameMode(mode);
     ui->sbNumFields->setMaximum(getMaxFields());
 }

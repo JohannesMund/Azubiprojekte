@@ -1,5 +1,5 @@
 #include "cmemorybutton.h"
-#include "utils.h"
+#include "cresourcehelper.h"
 #include <QEvent>
 
 CMemoryButton::CMemoryButton(const int internalValue) : QPushButton(""), _internalValue(internalValue)
@@ -15,7 +15,7 @@ CMemoryButton::CMemoryButton(const int internalValue) : QPushButton(""), _intern
     QIcon icon;
     icon.addPixmap(QPixmap(":/img/back.png"), QIcon::Active);
 
-    auto s = QString("%1%2.png").arg(ResourceHelper::getCurrentRecourceDirectory()).arg(_internalValue);
+    auto s = QString("%1%2.png").arg(CResourceHelper::getInstance()->getCurrentRecourceDirectory()).arg(_internalValue);
     icon.addPixmap(QPixmap(s), QIcon::Disabled);
     setIcon(icon);
 

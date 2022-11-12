@@ -12,6 +12,7 @@ SOURCES += \
     cdisplaylabel.cpp \
     cmemorybutton.cpp \
     cplayfield.cpp \
+    cresourcehelper.cpp \
     gamemanagement.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -21,6 +22,7 @@ HEADERS += \
     cdisplaylabel.h \
     cmemorybutton.h \
     cplayfield.h \
+    cresourcehelper.h \
     gamemanagement.h \
     mainwindow.h \
     utils.h

@@ -22,6 +22,7 @@ private:
 
     void reset();
     void changeGameMode(int i);
+    void changeGameMode(const QString& s);
 
     // void changeGameMode(const QString& mode);
 
