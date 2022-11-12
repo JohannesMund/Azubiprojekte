@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     for (const QString& s : modes)
     {
-        QString text = QString("%1 (%2 Karten)")
+        QString text = QString("%1 (%2 Bilder)")
                            .arg(CResourceHelper::getInstance()->getResourceName(s))
                            .arg(CResourceHelper::getInstance()->countCards(s));
         ui->cbGameMode->insertItem(0, text, s);
@@ -38,14 +38,15 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     changeGameMode(modes.first());
 
-    ui->sbNumFields->setMinimum(2);
-    ui->sbNumFields->setSingleStep(2);
-    ui->sbNumFields->setValue(getDefaultFields());
-
     connect(ui->cbGameMode,
             static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this,
             static_cast<void (MainWindow::*)(int)>(&MainWindow::changeGameMode));
+
+    ui->sbNumFields->setMinimum(2);
+    ui->sbNumFields->setSingleStep(2);
+    ui->sbNumFields->setValue(getDefaultFields());
+    connect(ui->sbNumFields, &QSpinBox::editingFinished, this, &MainWindow::fixUpSpinBox);
 
     reset();
 }
@@ -73,7 +74,7 @@ int MainWindow::ensureEven(const int i)
 {
     if (i % 2 != 0)
     {
-        return i + 1;
+        return i - 1;
     }
     return i;
 }
@@ -98,4 +99,9 @@ void MainWindow::changeGameMode(const QString& mode)
 {
     CResourceHelper::getInstance()->setGameMode(mode);
     ui->sbNumFields->setMaximum(getMaxFields());
+}
+
+void MainWindow::fixUpSpinBox()
+{
+    ui->sbNumFields->setValue(ensureEven(ui->sbNumFields->value()));
 }

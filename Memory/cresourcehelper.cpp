@@ -8,7 +8,7 @@ const QString CResourceHelper::_resourceDirInfoFileName = ".info";
 
 CResourceHelper::CResourceHelper() : _currentRecourceDirectory(_resourceDir.arg("normal"))
 {
-    _currentCardCount = countCards("normal");
+    _currentCardCount = countResourceFiles(_currentRecourceDirectory);
 }
 
 unsigned int CResourceHelper::countCards(const QString& resourceDir)
