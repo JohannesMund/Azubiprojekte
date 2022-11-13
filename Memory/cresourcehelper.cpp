@@ -6,9 +6,9 @@
 const QString CResourceHelper::_resourceDir = ":/cards/%1/";
 const QString CResourceHelper::_resourceDirInfoFileName = ".info";
 
-CResourceHelper::CResourceHelper() : _currentRecourceDirectory(_resourceDir.arg("normal"))
+CResourceHelper::CResourceHelper() : _currentResourceDirectory(_resourceDir.arg("normal"))
 {
-    _currentCardCount = countResourceFiles(_currentRecourceDirectory);
+    _currentCardCount = countResourceFiles(_currentResourceDirectory);
 }
 
 unsigned int CResourceHelper::countCards(const QString& resourceDir)
@@ -22,7 +22,22 @@ unsigned int CResourceHelper::countCards(const QString& resourceDir)
 
 QString CResourceHelper::getCurrentRecourceDirectory()
 {
-    return _currentRecourceDirectory;
+    return _currentResourceDirectory;
+}
+
+QString CResourceHelper::getRecourceFileName(const QString& fileName, const QString& resourceDirectory)
+{
+    QString retVal("%1%2.png");
+    if (resourceDirectory.isEmpty())
+    {
+        return retVal.arg(_currentResourceDirectory).arg(fileName);
+    }
+    return retVal.arg(_resourceDir.arg(resourceDirectory)).arg(fileName);
+}
+
+QString CResourceHelper::getRecourceFileName(const unsigned int fileName, const QString& resourceDirectoy)
+{
+    return getRecourceFileName(QString::number(fileName), resourceDirectoy);
 }
 
 const QStringList CResourceHelper::getRecourceDirectories()
@@ -39,7 +54,7 @@ const QStringList CResourceHelper::getRecourceDirectories()
 
 void CResourceHelper::setGameMode(const QString& s)
 {
-    _currentRecourceDirectory = _resourceDir.arg(s);
+    _currentResourceDirectory = _resourceDir.arg(s);
     _currentCardCount = countCards(s);
 }
 
@@ -48,7 +63,7 @@ QString CResourceHelper::getResourceName(const QString& resourceDir)
     QString resourceFile;
     if (resourceDir.isEmpty())
     {
-        resourceFile = QString("%1.info").arg(_currentRecourceDirectory);
+        resourceFile = QString("%1.info").arg(_currentResourceDirectory);
     }
     else
     {

@@ -23,6 +23,7 @@ void MainWindow::buttonBoxButtonClicked(const unsigned int i)
     if (ui->frmPlayfield->checkWinner() != CPlayerManagement::Player::none)
     {
         QMessageBox::information(0, "Ende", "Wir haben einen Gewinner!");
+        reset();
     }
     _playerManagement.toggleCurrentPlayer();
     if (ui->frmPlayfield->isColumnFull(i))

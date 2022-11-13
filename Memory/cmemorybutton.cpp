@@ -15,8 +15,7 @@ CMemoryButton::CMemoryButton(const int internalValue) : QPushButton(""), _intern
     QIcon icon;
     icon.addPixmap(QPixmap(":/img/back.png"), QIcon::Active);
 
-    auto s = QString("%1%2.png").arg(CResourceHelper::getInstance()->getCurrentRecourceDirectory()).arg(_internalValue);
-    icon.addPixmap(QPixmap(s), QIcon::Disabled);
+    icon.addPixmap(QPixmap(CResourceHelper::getInstance()->getRecourceFileName(_internalValue)), QIcon::Disabled);
     setIcon(icon);
 
     connect(this, &QAbstractButton::clicked, this, &CMemoryButton::buttonClicked);

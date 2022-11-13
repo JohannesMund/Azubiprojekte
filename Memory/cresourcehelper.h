@@ -44,6 +44,19 @@ public:
     QString getCurrentRecourceDirectory();
 
     /**
+     * @brief getRecourceFileName Gibt den kompletten Resourcendateinamen für fileName zurück
+     * @param fileName der Name der Datei ohne Extension
+     * @param resourceDirectoy (optional) das unterverzeichnis, wenn leer wird das aktuelle Verzeichnis genommen
+     */
+    QString getRecourceFileName(const QString& fileName, const QString& resourceDirectoy = QString());
+
+    /**
+     * @brief getRecourceFileName Convinience, da die Resourcen durchnummeriert sind kann man auch eine Zahl angeben
+     * @see getRecourceFileName(const QString& fileName, const QString& resourceDirectoy = QString())
+     */
+    QString getRecourceFileName(const unsigned int fileName, const QString& resourceDirectoy = QString());
+
+    /**
      * @brief setGameMode ändert den Spielmodus
      * @remark Es sollte einer sein der in getRecourceDirectories angegeben wurde, es findet keine Prüfung statt
      */
@@ -57,7 +70,7 @@ private:
     static const QString _resourceDir;
     static const QString _resourceDirInfoFileName;
 
-    QString _currentRecourceDirectory;
+    QString _currentResourceDirectory;
     unsigned int _currentCardCount;
 };
 

@@ -28,12 +28,14 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     const auto modes = CResourceHelper::getInstance()->getRecourceDirectories();
 
+    ui->cbGameMode->setIconSize(QSize(32, 32));
     for (const QString& s : modes)
     {
+
         QString text = QString("%1 (%2 Bilder)")
                            .arg(CResourceHelper::getInstance()->getResourceName(s))
                            .arg(CResourceHelper::getInstance()->countCards(s));
-        ui->cbGameMode->insertItem(0, text, s);
+        ui->cbGameMode->insertItem(0, QIcon(CResourceHelper::getInstance()->getRecourceFileName(1, s)), text, s);
     }
 
     changeGameMode(modes.first());
