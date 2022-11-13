@@ -155,6 +155,7 @@ std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
     std::vector<unsigned int> values;
     for (int i = 0; i < round(number / 2); i++)
     {
+        // Jedem wert 2x!
         values.push_back(possibleValues.at(i));
         values.push_back(possibleValues.at(i));
     }
