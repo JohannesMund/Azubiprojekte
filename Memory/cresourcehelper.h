@@ -57,6 +57,11 @@ public:
     QString getRecourceFileName(const unsigned int fileName, const QString& resourceDirectoy = QString());
 
     /**
+     * @brief getCardBackSide gibt den kompletten Resourcendateinamen der Kartenrückseite zurück
+     */
+    QString getCardBackSide();
+
+    /**
      * @brief setGameMode ändert den Spielmodus
      * @remark Es sollte einer sein der in getRecourceDirectories angegeben wurde, es findet keine Prüfung statt
      */

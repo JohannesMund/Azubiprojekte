@@ -13,7 +13,7 @@ CMemoryButton::CMemoryButton(const int internalValue) : QPushButton(""), _intern
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     QIcon icon;
-    icon.addPixmap(QPixmap(":/img/back.png"), QIcon::Active);
+    icon.addPixmap(QPixmap(CResourceHelper::getInstance()->getCardBackSide()), QIcon::Active);
 
     icon.addPixmap(QPixmap(CResourceHelper::getInstance()->getRecourceFileName(_internalValue)), QIcon::Disabled);
     setIcon(icon);

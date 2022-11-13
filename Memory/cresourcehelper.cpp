@@ -30,14 +30,19 @@ QString CResourceHelper::getRecourceFileName(const QString& fileName, const QStr
     QString retVal("%1%2.png");
     if (resourceDirectory.isEmpty())
     {
-        return retVal.arg(_currentResourceDirectory).arg(fileName);
+        return retVal.arg(_currentResourceDirectory, fileName);
     }
-    return retVal.arg(_resourceDir.arg(resourceDirectory)).arg(fileName);
+    return retVal.arg(_resourceDir.arg(resourceDirectory), fileName);
 }
 
 QString CResourceHelper::getRecourceFileName(const unsigned int fileName, const QString& resourceDirectoy)
 {
     return getRecourceFileName(QString::number(fileName), resourceDirectoy);
+}
+
+QString CResourceHelper::getCardBackSide()
+{
+    return ":/img/back.png";
 }
 
 const QStringList CResourceHelper::getRecourceDirectories()
