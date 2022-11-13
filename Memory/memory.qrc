@@ -105,6 +105,31 @@
         <file alias="99.png">img/cards/normal/99.png</file>
         <file alias="100.png">img/cards/normal/100.png</file>
         <file alias="101.png">img/cards/normal/101.png</file>
+        <file alias="102.png">img/cards/normal/102.png</file>
+        <file alias="103.png">img/cards/normal/103.png</file>
+        <file alias="104.png">img/cards/normal/104.png</file>
+        <file alias="105.png">img/cards/normal/105.png</file>
+        <file alias="106.png">img/cards/normal/106.png</file>
+        <file alias="107.png">img/cards/normal/107.png</file>
+        <file alias="108.png">img/cards/normal/108.png</file>
+        <file alias="109.png">img/cards/normal/109.png</file>
+        <file alias="110.png">img/cards/normal/110.png</file>
+        <file alias="111.png">img/cards/normal/111.png</file>
+        <file alias="112.png">img/cards/normal/112.png</file>
+        <file alias="113.png">img/cards/normal/113.png</file>
+        <file alias="114.png">img/cards/normal/114.png</file>
+        <file alias="115.png">img/cards/normal/115.png</file>
+        <file alias="116.png">img/cards/normal/116.png</file>
+        <file alias="117.png">img/cards/normal/117.png</file>
+        <file alias="118.png">img/cards/normal/118.png</file>
+        <file alias="119.png">img/cards/normal/119.png</file>
+        <file alias="120.png">img/cards/normal/120.png</file>
+        <file alias="121.png">img/cards/normal/121.png</file>
+        <file alias="122.png">img/cards/normal/122.png</file>
+        <file alias="123.png">img/cards/normal/123.png</file>
+        <file alias="124.png">img/cards/normal/124.png</file>
+        <file alias="125.png">img/cards/normal/125.png</file>
+        
     </qresource>
     <qresource prefix="/cards/chicken">
 	<file alias=".info">img/cards/chicken/.info</file>
