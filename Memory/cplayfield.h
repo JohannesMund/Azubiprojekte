@@ -7,6 +7,7 @@ class CMemoryButton;
 
 /**
  * @brief Repräsentiert das Spielfeld
+ * @remark Es wird in erster Linie nur ein Layout mit Buttons gefüllt und ein wenig der Spielablauf gemanaged
  */
 
 class CPlayField : public QFrame

@@ -4,13 +4,21 @@
 #include <QString>
 #include <QStringList>
 
+/**
+ * @brief CResourceHelper Managed die Recourcen
+ * @remark In den Resourcen findet sich pro Bildersatz ein Verzeichnis im Unterverzeichnis /cards
+ *         Bilder sind im png format und durchnummeriert
+ *         Eine datei ".info" im unterverzeichnis enthält den Namen des Bildersatzes.
+ *         ToDo: Es sollte mit Lücken umgegangen werden.
+ */
+
 class CResourceHelper
 {
 public:
     /**
      * @brief getInstance Getter für den Singleton
+     * @remark Es wird eine statische instanz erzeugt und eine Referenz darauf als Zeiger zurückgegeben.
      */
-
     static CResourceHelper* getInstance()
     {
         static CResourceHelper instance;
@@ -68,6 +76,10 @@ public:
     void setGameMode(const QString& s);
 
 private:
+    /**
+     * @brief CResourceHelper Konstruktor
+     * @remark private, weil man auf diese Klasse nur als Singleton zugreifen soll
+     */
     CResourceHelper();
 
     unsigned int countResourceFiles(const QString dir);
