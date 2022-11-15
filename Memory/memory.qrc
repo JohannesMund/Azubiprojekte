@@ -196,5 +196,11 @@
 	<file alias="34.png">img/cards/chicken/34.png</file>
 	<file alias="35.png">img/cards/chicken/35.png</file>
 	<file alias="36.png">img/cards/chicken/36.png</file>
+	<file alias="37.png">img/cards/chicken/37.png</file>
+	<file alias="38.png">img/cards/chicken/38.png</file>
+	<file alias="39.png">img/cards/chicken/39.png</file>
+	<file alias="40.png">img/cards/chicken/40.png</file>
+	<file alias="41.png">img/cards/chicken/41.png</file>
+	<file alias="42.png">img/cards/chicken/42.png</file>
 	</qresource>
 </RCC>

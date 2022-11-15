@@ -26,6 +26,17 @@ void CPlayField::init()
     }
 }
 
+void CPlayField::reset()
+{
+    for (unsigned int i = 0; i < _width; i++)
+    {
+        for (auto j = 0; j < _height; j++)
+        {
+            getField(j, i)->reset();
+        }
+    }
+}
+
 void CPlayField::addToColumn(const unsigned int column, const CPlayerManagement::Player p)
 {
     auto field = getTopEmptyField(column);
@@ -44,6 +55,7 @@ CPlayerManagement::Player CPlayField::checkWinner() const
 {
     for (unsigned int i = 0; i < _width; i++)
     {
+        // Einmal durch alle Spalten, schauen, ob man einen Gewinner senkrecht hat
         auto p = winnerInColumn(i);
         if (p != CPlayerManagement::Player::none)
         {
@@ -53,6 +65,7 @@ CPlayerManagement::Player CPlayField::checkWinner() const
 
     for (unsigned int i = 0; i < _height; i++)
     {
+        // Einmal durch alle Zeilen, schauen, ob man einen Gewinner waagerecht hat
         auto p = winnerInRow(i);
         if (p != CPlayerManagement::Player::none)
         {
@@ -61,6 +74,7 @@ CPlayerManagement::Player CPlayField::checkWinner() const
     }
     for (unsigned int i = 0; i < _height - 3; i++)
     {
+        // Einmal durch alle Zeilen, schauen, ob man einen Gewinner diagonal hat
         auto p = winnerInDiagonale(i);
         if (p != CPlayerManagement::Player::none)
         {
@@ -69,17 +83,6 @@ CPlayerManagement::Player CPlayField::checkWinner() const
     }
 
     return CPlayerManagement::Player::none;
-}
-
-void CPlayField::reset()
-{
-    for (unsigned int i = 0; i < _width; i++)
-    {
-        for (auto j = 0; j < _height; j++)
-        {
-            getField(j, i)->reset();
-        }
-    }
 }
 
 CPlayerManagement::Player CPlayField::winnerInRow(const unsigned int row) const
@@ -96,37 +99,6 @@ CPlayerManagement::Player CPlayField::winnerInRow(const unsigned int row) const
             return f;
         }
     }
-    return CPlayerManagement::Player::none;
-}
-
-CPlayerManagement::Player CPlayField::winnerInDiagonale(const unsigned int row) const
-{
-    for (unsigned int i = 0; i < _width - 3; i++)
-    {
-        auto f1 = getField(row, i);
-        auto f2 = getField(row + 1, i + 1);
-        auto f3 = getField(row + 2, i + 2);
-        auto f4 = getField(row + 3, i + 3);
-        auto f = winnerInCombination(f1, f2, f3, f4);
-        if (f != CPlayerManagement::Player::none)
-        {
-            return f;
-        }
-    }
-
-    for (unsigned int i = _width - 1; i > 2; i--)
-    {
-        auto f1 = getField(row, i);
-        auto f2 = getField(row + 1, i - 1);
-        auto f3 = getField(row + 2, i - 2);
-        auto f4 = getField(row + 3, i - 3);
-        auto f = winnerInCombination(f1, f2, f3, f4);
-        if (f != CPlayerManagement::Player::none)
-        {
-            return f;
-        }
-    }
-
     return CPlayerManagement::Player::none;
 }
 
@@ -148,6 +120,40 @@ CPlayerManagement::Player CPlayField::winnerInColumn(const unsigned int column) 
     return CPlayerManagement::Player::none;
 }
 
+CPlayerManagement::Player CPlayField::winnerInDiagonale(const unsigned int row) const
+{
+
+    // In der Zeile alle Spalten abklappern und nach einer Diagonale nach rechts oben suchen
+    for (unsigned int i = 0; i < _width - 3; i++)
+    {
+        auto f1 = getField(row, i);
+        auto f2 = getField(row + 1, i + 1);
+        auto f3 = getField(row + 2, i + 2);
+        auto f4 = getField(row + 3, i + 3);
+        auto f = winnerInCombination(f1, f2, f3, f4);
+        if (f != CPlayerManagement::Player::none)
+        {
+            return f;
+        }
+    }
+
+    // Noch einmal  alle Spalten rückwärts abklappern und nach einer Diagonale nach links oben suchen
+    for (unsigned int i = _width - 1; i > 2; i--)
+    {
+        auto f1 = getField(row, i);
+        auto f2 = getField(row + 1, i - 1);
+        auto f3 = getField(row + 2, i - 2);
+        auto f4 = getField(row + 3, i - 3);
+        auto f = winnerInCombination(f1, f2, f3, f4);
+        if (f != CPlayerManagement::Player::none)
+        {
+            return f;
+        }
+    }
+
+    return CPlayerManagement::Player::none;
+}
+
 CPlayerManagement::Player CPlayField::winnerInCombination(CField* f1, CField* f2, CField* f3, CField* f4) const
 {
     auto f1s = f1->getState();
@@ -155,18 +161,15 @@ CPlayerManagement::Player CPlayField::winnerInCombination(CField* f1, CField* f2
     auto f3s = f3->getState();
     auto f4s = f4->getState();
 
-    if (f1s == CPlayerManagement::Player::none || f2s == CPlayerManagement::Player::none ||
-        f3s == CPlayerManagement::Player::none || f4s == CPlayerManagement::Player::none)
-    {
-        return CPlayerManagement::Player::none;
-    }
-
     if (f1s == f2s && f1s == f3s && f1s == f4s)
     {
-        f1->setWinningField();
-        f2->setWinningField();
-        f3->setWinningField();
-        f4->setWinningField();
+        if (f1s != CPlayerManagement::Player::none)
+        {
+            f1->setWinningField();
+            f2->setWinningField();
+            f3->setWinningField();
+            f4->setWinningField();
+        }
         return f1s;
     }
     return CPlayerManagement::Player::none;
@@ -185,9 +188,9 @@ CField* CPlayField::getTopEmptyField(const unsigned int column) const
     return nullptr;
 }
 
-void CPlayField::setField(const unsigned int row, const unsigned int column, CField* pField)
+CField* CPlayField::getField(const unsigned int row, const unsigned int column) const
 {
-    _grid[row][column] = pField;
+    return _grid[row][column];
 }
 
 CPlayerManagement::Player CPlayField::getFieldState(const unsigned int row, const unsigned int column) const
@@ -195,7 +198,7 @@ CPlayerManagement::Player CPlayField::getFieldState(const unsigned int row, cons
     return getField(row, column)->getState();
 }
 
-CField* CPlayField::getField(const unsigned int row, const unsigned int column) const
+void CPlayField::setField(const unsigned int row, const unsigned int column, CField* pField)
 {
-    return _grid[row][column];
+    _grid[row][column] = pField;
 }
