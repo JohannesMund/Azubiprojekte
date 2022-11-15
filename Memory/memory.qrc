@@ -157,6 +157,11 @@
         <file alias="148.png">img/cards/normal/148.png</file>
         <file alias="149.png">img/cards/normal/149.png</file>
         <file alias="150.png">img/cards/normal/150.png</file>
+		<file alias="151.png">img/cards/normal/151.png</file>
+		<file alias="152.png">img/cards/normal/152.png</file>
+		<file alias="153.png">img/cards/normal/153.png</file>
+		<file alias="154.png">img/cards/normal/154.png</file>
+		<file alias="155.png">img/cards/normal/155.png</file>
     </qresource>
     <qresource prefix="/cards/chicken">
 	<file alias=".info">img/cards/chicken/.info</file>
