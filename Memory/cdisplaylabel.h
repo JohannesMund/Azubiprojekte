@@ -4,8 +4,7 @@
 #include <QLabel>
 
 /**
- * @brief Handelt das Gamemanagement und die Anzeige des Spielstandes
- * @remark Diese Klasse weiß, welcher Spieler gerade am Zug ist, ob gerade ein SPiel läuft und zählt die Punkte.
+ * @brief Handelt die Anzeige des Spielstandes
  */
 
 class CDisplayLabel : public QFrame

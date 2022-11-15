@@ -1,5 +1,6 @@
 #include "cplayfield.h"
 #include "cmemorybutton.h"
+#include "cresourcehelper.h"
 #include "utils.h"
 
 #include <QDirIterator>
@@ -142,8 +143,8 @@ std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
 
     // Einen Vektor mit allen möglichen werten fülle (alles das, was wir in den Ressourcen haben
     std::vector<unsigned int> possibleValues;
-
-    for (unsigned int i = 1; i <= ResourceHelper::countCards(); i++)
+    unsigned int numCards = CResourceHelper::getInstance()->countCards();
+    for (unsigned int i = 1; i <= numCards; i++)
     {
         possibleValues.push_back(i);
     }
@@ -154,6 +155,7 @@ std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
     std::vector<unsigned int> values;
     for (int i = 0; i < round(number / 2); i++)
     {
+        // Jedem wert 2x!
         values.push_back(possibleValues.at(i));
         values.push_back(possibleValues.at(i));
     }
@@ -163,5 +165,5 @@ std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
 }
 unsigned int CPlayField::getMaxFields()
 {
-    return ResourceHelper::countCards() * 2;
+    return CResourceHelper::getInstance()->countCards() * 2;
 }

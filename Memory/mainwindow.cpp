@@ -1,8 +1,8 @@
 #include "mainwindow.h"
 #include "cdisplaylabel.h"
 #include "cplayfield.h"
+#include "cresourcehelper.h"
 #include "gamemanagement.h"
-#include "utils.h"
 
 #include <QComboBox>
 #include <QMessageBox>
@@ -16,11 +16,6 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
     ui->frmDisplay->reset();
 
-    ui->sbNumFields->setMaximum(getMaxFields());
-    ui->sbNumFields->setMinimum(2);
-    ui->sbNumFields->setSingleStep(2);
-    ui->sbNumFields->setValue(getDefaultFields());
-
     connect(ui->frmPlayfield, &CPlayField::togglePlayer, &GameManagement::toggleCurrentPlayer);
     connect(ui->frmPlayfield, &CPlayField::playerScored, &GameManagement::startGame);
     connect(ui->frmPlayfield, &CPlayField::gameOver, &GameManagement::stopGame);
@@ -31,11 +26,29 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     connect(ui->pbReset, &QPushButton::clicked, this, &MainWindow::reset);
 
-    for (const QString& s : ResourceHelper::getRecourceDirectories())
+    const auto modes = CResourceHelper::getInstance()->getRecourceDirectories();
+
+    ui->cbGameMode->setIconSize(QSize(32, 32));
+    for (const QString& s : modes)
     {
-        ui->cbGameMode->insertItem(0, s);
+
+        QString text = QString("%1 (%2 Bilder)")
+                           .arg(CResourceHelper::getInstance()->getResourceName(s))
+                           .arg(CResourceHelper::getInstance()->countCards(s));
+        ui->cbGameMode->insertItem(0, QIcon(CResourceHelper::getInstance()->getRecourceFileName(1, s)), text, s);
     }
-    connect(ui->cbGameMode, &QComboBox::currentTextChanged, this, &MainWindow::changeGameMode);
+
+    changeGameMode(modes.first());
+
+    connect(ui->cbGameMode,
+            static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            this,
+            static_cast<void (MainWindow::*)(int)>(&MainWindow::changeGameMode));
+
+    ui->sbNumFields->setMinimum(2);
+    ui->sbNumFields->setSingleStep(2);
+    ui->sbNumFields->setValue(getDefaultFields());
+    connect(ui->sbNumFields, &QSpinBox::editingFinished, this, &MainWindow::fixUpSpinBox);
 
     reset();
 }
@@ -63,7 +76,7 @@ int MainWindow::ensureEven(const int i)
 {
     if (i % 2 != 0)
     {
-        return i + 1;
+        return i - 1;
     }
     return i;
 }
@@ -78,8 +91,19 @@ int MainWindow::getDefaultFields() const
     return std::min(ensureEven(_defaultFields), getMaxFields());
 }
 
+void MainWindow::changeGameMode(int i)
+{
+    auto mode = ui->cbGameMode->itemData(i).toString();
+    changeGameMode(mode);
+}
+
 void MainWindow::changeGameMode(const QString& mode)
 {
-    ResourceHelper::setGameMode(mode);
+    CResourceHelper::getInstance()->setGameMode(mode);
     ui->sbNumFields->setMaximum(getMaxFields());
+}
+
+void MainWindow::fixUpSpinBox()
+{
+    ui->sbNumFields->setValue(ensureEven(ui->sbNumFields->value()));
 }
