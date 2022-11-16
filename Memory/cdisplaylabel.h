@@ -38,10 +38,12 @@ public:
 private:
     int _pointsPlayer1 = 0;
     int _pointsPlayer2 = 0;
+    int _turns = 0;
 
     QLabel* _player1Text;
     QLabel* _player2Text;
     QLabel* _arrow;
+    QLabel* _turnsText;
 
     static const QColor _player1Color;
     static const QColor _player2Color;

@@ -33,11 +33,14 @@ CDisplayLabel::CDisplayLabel(QWidget* parent, Qt::WindowFlags f) : QFrame(parent
     _player2Text = makeLabel(GameManagement::EPlayer::ePlayer2);
 
     _arrow = new QLabel(this);
+    _turnsText = new QLabel(this);
 
     QHBoxLayout* pLayout = new QHBoxLayout(this);
     pLayout->addWidget(_player1Text);
     pLayout->addWidget(_arrow);
     pLayout->addWidget(_player2Text);
+    pLayout->addSpacing(50);
+    pLayout->addWidget(_turnsText);
 
     setLayout(pLayout);
 }
@@ -53,6 +56,7 @@ QColor CDisplayLabel::getCurrentPlayerColor()
 
 void CDisplayLabel::togglePlayer()
 {
+    _turns++;
     print();
 }
 
@@ -66,6 +70,7 @@ void CDisplayLabel::addPoints()
     {
         _pointsPlayer2++;
     }
+    _turns++;
     print();
 }
 
@@ -73,7 +78,7 @@ void CDisplayLabel::reset()
 {
     _pointsPlayer1 = 0;
     _pointsPlayer2 = 0;
-
+    _turns = 0;
     print();
 }
 
@@ -101,7 +106,7 @@ void CDisplayLabel::print()
 {
     _player1Text->setText(QString("Player1: %1").arg(_pointsPlayer1));
     _player2Text->setText(QString("Player2: %1").arg(_pointsPlayer2));
-
+    _turnsText->setText(QString("Züge: %1").arg(_turns));
     auto f = font();
     f.setBold(true);
 
