@@ -45,15 +45,20 @@ signals:
      */
     void gameOver();
 
+protected:
+    void resizeEvent(QResizeEvent* e) override;
+
 private:
     CMemoryButton* _btnPressed1 = nullptr;
     CMemoryButton* _btnPressed2 = nullptr;
     std::vector<CMemoryButton*> _buttons = {};
 
     void buttonClicked(const unsigned int index);
-    void clearButtonsAndLayout();
     void alignButtons();
     void checkGameOver();
+    unsigned int calcNumColumns() const;
 
     static std::vector<unsigned int> generateRandomNumbers(const int number);
+    void createNewButtons(const unsigned int number);
+    void addButtonsToLayout();
 };

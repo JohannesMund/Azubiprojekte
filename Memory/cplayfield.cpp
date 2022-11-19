@@ -22,7 +22,38 @@ CPlayField::CPlayField(QWidget* parent, Qt::WindowFlags f) : QFrame(parent, f)
 
 void CPlayField::init(const int fields)
 {
-    const int numRowsCols = std::ceil(std::sqrt(fields));
+    createNewButtons(fields);
+    addButtonsToLayout();
+}
+
+void CPlayField::createNewButtons(const unsigned int number)
+{
+    for (auto btn : _buttons)
+    {
+        if (btn != nullptr)
+        {
+            layout()->removeWidget(btn);
+            delete btn;
+        }
+    }
+    _buttons.clear();
+
+    auto values = generateRandomNumbers(number);
+
+    for (auto val : values)
+    {
+        CMemoryButton* btn = new CMemoryButton(val);
+
+        // Man bemerke das Lambda, wir kopieren idx in den scope
+        auto idx = _buttons.size();
+        connect(btn, &CMemoryButton::buttonSelected, this, [=]() { buttonClicked(idx); });
+        _buttons.push_back(btn);
+    }
+}
+
+void CPlayField::addButtonsToLayout()
+{
+    const int numRowsCols = calcNumColumns();
 
     int row = 0;
     int col = 0;
@@ -30,21 +61,13 @@ void CPlayField::init(const int fields)
     _btnPressed1 = nullptr;
     _btnPressed2 = nullptr;
 
-    clearButtonsAndLayout();
+    delete layout();
 
-    auto values = generateRandomNumbers(fields);
+    QGridLayout* pLayout = new QGridLayout(this);
 
-    setLayout(new QGridLayout(this));
-    auto pLayout = qobject_cast<QGridLayout*>(layout());
-
-    for (int i = 0; i < fields; i++)
+    for (const auto btn : _buttons)
     {
-        CMemoryButton* btn = new CMemoryButton(values.at(i));
         pLayout->addWidget(btn, row, col);
-        _buttons.push_back(btn);
-
-        // Man bemerke das Lambda, wir kopieren das i in den scope
-        connect(btn, &CMemoryButton::buttonSelected, this, [=]() { buttonClicked(i); });
 
         col++;
         if (col >= numRowsCols)
@@ -53,6 +76,8 @@ void CPlayField::init(const int fields)
             row++;
         }
     }
+
+    setLayout(pLayout);
     alignButtons();
 }
 
@@ -98,20 +123,6 @@ void CPlayField::buttonClicked(const unsigned int index)
     }
 }
 
-void CPlayField::clearButtonsAndLayout()
-{
-    for (auto btn : _buttons)
-    {
-        if (btn != nullptr)
-        {
-            layout()->removeWidget(btn);
-            delete btn;
-        }
-    }
-    delete layout();
-    _buttons.clear();
-}
-
 void CPlayField::alignButtons()
 {
     auto pLayout = qobject_cast<QGridLayout*>(layout());
@@ -138,6 +149,27 @@ void CPlayField::checkGameOver()
     emit gameOver();
 }
 
+unsigned int CPlayField::calcNumColumns() const
+{
+    const double factor = double(height()) / double(width());
+    const auto numButtons = _buttons.size();
+
+    if (factor == 0)
+    {
+        return round(std::sqrt(numButtons));
+    }
+
+    double rows = 0;
+    int cols = 0;
+
+    while ((floor(rows) * cols) < numButtons)
+    {
+        cols++;
+        rows += factor;
+    }
+    return cols;
+}
+
 std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
 {
 
@@ -155,7 +187,7 @@ std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
     std::vector<unsigned int> values;
     for (int i = 0; i < round(number / 2); i++)
     {
-        // Jedem wert 2x!
+        // Jeden wert 2x!
         values.push_back(possibleValues.at(i));
         values.push_back(possibleValues.at(i));
     }
@@ -166,4 +198,10 @@ std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
 unsigned int CPlayField::getMaxFields()
 {
     return CResourceHelper::getInstance()->countCards() * 2;
+}
+
+void CPlayField::resizeEvent(QResizeEvent* e)
+{
+    QFrame::resizeEvent(e);
+    addButtonsToLayout();
 }
