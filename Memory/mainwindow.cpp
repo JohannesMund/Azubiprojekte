@@ -4,6 +4,7 @@
 #include "cresourcehelper.h"
 #include "gamemanagement.h"
 
+#include <QCloseEvent>
 #include <QComboBox>
 #include <QMessageBox>
 
@@ -58,12 +59,19 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::closeEvent(QCloseEvent* e)
+{
+    if (askEndGame() == false)
+    {
+        e->ignore();
+        return;
+    }
+    QMainWindow::closeEvent(e);
+}
+
 void MainWindow::reset()
 {
-    if (GameManagement::isGameRunning() && QMessageBox::question(0,
-                                                                 "Spiel läuft",
-                                                                 "Es läuft bereits ein Spiel. Abbrechen?",
-                                                                 QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
+    if (askEndGame() == false)
     {
         return;
     }
@@ -89,6 +97,18 @@ int MainWindow::getMaxFields() const
 int MainWindow::getDefaultFields() const
 {
     return std::min(ensureEven(_defaultFields), getMaxFields());
+}
+
+bool MainWindow::askEndGame() const
+{
+    if (GameManagement::isGameRunning() && QMessageBox::question(0,
+                                                                 "Spiel läuft",
+                                                                 "Es läuft bereits ein Spiel. Abbrechen?",
+                                                                 QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
+    {
+        return false;
+    }
+    return true;
 }
 
 void MainWindow::changeGameMode(int i)
