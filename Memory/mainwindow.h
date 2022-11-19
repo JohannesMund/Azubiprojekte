@@ -17,6 +17,9 @@ public:
     MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
+protected:
+    void closeEvent(QCloseEvent* e) override;
+
 private:
     Ui::MainWindow* ui;
 
@@ -28,6 +31,8 @@ private:
 
     int getMaxFields() const;
     int getDefaultFields() const;
+
+    bool askEndGame() const;
 
     static int ensureEven(const int i);
     static const unsigned int _defaultFields;
