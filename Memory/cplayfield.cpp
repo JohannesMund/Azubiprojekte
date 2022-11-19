@@ -44,7 +44,7 @@ void CPlayField::createNewButtons(const unsigned int number)
     {
         CMemoryButton* btn = new CMemoryButton(val);
 
-        // Man bemerke das Lambda, wir kopieren idx in den scope
+        /// Man bemerke das Lambda, wir kopieren idx in den scope
         auto idx = _buttons.size();
         connect(btn, &CMemoryButton::buttonSelected, this, [=]() { buttonClicked(idx); });
         _buttons.push_back(btn);
@@ -151,16 +151,13 @@ void CPlayField::checkGameOver()
 
 unsigned int CPlayField::calcNumColumns() const
 {
+    /// Wir versuchen, die Anzahl Zeilen / Spalten in Abhängigkeit von Höhe /Breite zu bekommen
     const double factor = double(height()) / double(width());
     const auto numButtons = _buttons.size();
 
-    if (factor == 0)
-    {
-        return round(std::sqrt(numButtons));
-    }
-
-    double rows = 0;
-    int cols = 0;
+    /// Wir fangen bei 1 an zu zählen, weil wir wollen hier nicht mit 0 Zeilen oder 0 Spalten rauskommen
+    double rows = 1;
+    int cols = 1;
 
     while ((floor(rows) * cols) < numButtons)
     {
@@ -172,8 +169,7 @@ unsigned int CPlayField::calcNumColumns() const
 
 std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
 {
-
-    // Einen Vektor mit allen möglichen werten fülle (alles das, was wir in den Ressourcen haben
+    /// Einen Vektor mit allen möglichen werten fülle (alles das, was wir in den Ressourcen haben
     std::vector<unsigned int> possibleValues;
     unsigned int numCards = CResourceHelper::getInstance()->countCards();
     for (unsigned int i = 1; i <= numCards; i++)
@@ -183,11 +179,11 @@ std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
 
     Randomizer::shuffle(possibleValues);
 
-    // aus dem gemischen Vektor nehmen wir die ersten number/2 stück, so haben wir jede runde andere Bilder
+    /// aus dem gemischen Vektor nehmen wir die ersten number/2 stück, so haben wir jede runde andere Bilder
     std::vector<unsigned int> values;
     for (int i = 0; i < round(number / 2); i++)
     {
-        // Jeden wert 2x!
+        /// Jeden wert 2x!
         values.push_back(possibleValues.at(i));
         values.push_back(possibleValues.at(i));
     }
