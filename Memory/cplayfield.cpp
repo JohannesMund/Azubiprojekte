@@ -23,6 +23,10 @@ CPlayField::CPlayField(QWidget* parent, Qt::WindowFlags f) : QFrame(parent, f)
 void CPlayField::init(const int fields)
 {
     createNewButtons(fields);
+
+    _btnPressed1 = nullptr;
+    _btnPressed2 = nullptr;
+
     addButtonsToLayout();
 }
 
@@ -57,9 +61,6 @@ void CPlayField::addButtonsToLayout()
 
     int row = 0;
     int col = 0;
-
-    _btnPressed1 = nullptr;
-    _btnPressed2 = nullptr;
 
     delete layout();
 
