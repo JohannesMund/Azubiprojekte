@@ -3,6 +3,7 @@
 #include "cresourcehelper.h"
 #include "utils.h"
 
+#include <QApplication>
 #include <QDirIterator>
 #include <QGridLayout>
 #include <QPushButton>
@@ -22,6 +23,9 @@ CPlayField::CPlayField(QWidget* parent, Qt::WindowFlags f) : QFrame(parent, f)
 
 void CPlayField::init(const int fields)
 {
+    _btnPressed1 = nullptr;
+    _btnPressed2 = nullptr;
+
     createNewButtons(fields);
 
     _btnPressed1 = nullptr;
@@ -42,10 +46,11 @@ void CPlayField::createNewButtons(const unsigned int number)
     }
     _buttons.clear();
 
-    auto values = generateRandomNumbers(number);
+    auto values = getRandomizedCardPairs(number);
 
     for (auto val : values)
     {
+        qApp->processEvents();
         CMemoryButton* btn = new CMemoryButton(val);
 
         /// Man bemerke das Lambda, wir kopieren idx in den scope
@@ -168,7 +173,7 @@ unsigned int CPlayField::calcNumColumns() const
     return cols;
 }
 
-std::vector<unsigned int> CPlayField::generateRandomNumbers(const int number)
+std::vector<unsigned int> CPlayField::getRandomizedCardPairs(const int number)
 {
     /// Einen Vektor mit allen möglichen werten fülle (alles das, was wir in den Ressourcen haben
     std::vector<unsigned int> possibleValues;

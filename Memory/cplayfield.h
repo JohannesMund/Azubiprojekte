@@ -58,7 +58,7 @@ private:
     void checkGameOver();
     unsigned int calcNumColumns() const;
 
-    static std::vector<unsigned int> generateRandomNumbers(const int number);
+    static std::vector<unsigned int> getRandomizedCardPairs(const int number);
     void createNewButtons(const unsigned int number);
     void addButtonsToLayout();
 };

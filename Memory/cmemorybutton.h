@@ -19,6 +19,10 @@ signals:
     void buttonSelected();
 
 public:
+    /**
+     * @brief CMemoryButton Konstruktor
+     * @param internalValue in interner Wert der das Bild auf dem Button indentifiziert
+     */
     CMemoryButton(const int internalValue);
 
     /**
