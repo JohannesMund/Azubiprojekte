@@ -7,6 +7,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     ui->setupUi(this);
 
+    setWindowTitle("4 Gewinnt");
+
     connect(ui->frmButtonBox, &CButtonBox::buttonClicked, this, &MainWindow::buttonBoxButtonClicked);
     connect(ui->pbReset, &QPushButton::clicked, this, &MainWindow::reset);
     _playerManagement.reset();
