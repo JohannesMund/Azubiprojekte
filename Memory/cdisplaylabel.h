@@ -5,6 +5,7 @@
 
 /**
  * @brief Handelt die Anzeige des Spielstandes
+ * @remark eine Änderung
  */
 
 class CDisplayLabel : public QFrame
