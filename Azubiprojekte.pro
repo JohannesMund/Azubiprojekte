@@ -1,6 +1,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS = \
+    Minesweeper \
 Rechner/Rechner \
 Rechner/RechnerTest \
 TicTacToe \
