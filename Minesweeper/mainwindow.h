@@ -1,5 +1,4 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 
@@ -9,6 +8,8 @@ namespace Ui
 class MainWindow;
 }
 QT_END_NAMESPACE
+
+class QActionGroup;
 
 class MainWindow : public QMainWindow
 {
@@ -20,8 +21,13 @@ public:
 
 private:
     Ui::MainWindow* ui;
+    void initMenu();
+
+    QActionGroup* _playFieldSizeActions;
+    QActionGroup* _bombCountActions;
+
+    void newGame();
 
 private slots:
     void resizeEvent(QResizeEvent* e);
 };
-#endif // MAINWINDOW_H

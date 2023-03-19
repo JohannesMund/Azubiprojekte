@@ -12,26 +12,42 @@ int CPlayField::getNumBombs() const
     return _bombs;
 }
 
-void CPlayField::init()
+void CPlayField::init(const PlayFieldSize size, const BombCount bombCount)
 {
     _bombs = 0;
+    setBombChance(bombCount);
+    setPlayFieldSize(size);
+
+    deleteButtons();
     createButtons();
     addButtonsToLayout();
+}
+
+void CPlayField::deleteButtons()
+{
+    for (auto& l : _buttons)
+    {
+        for (auto b : l)
+        {
+            delete b;
+        }
+    }
+    _buttons.clear();
 }
 
 void CPlayField::createButtons()
 {
     std::srand(std::time(nullptr));
 
-    for (int i = 0; i < h; i++)
+    for (int i = 0; i < _height; i++)
     {
         std::vector<CMineSweeperButton*> line;
-        for (int j = 0; j < w; j++)
+        for (int j = 0; j < _width; j++)
         {
-            CMineSweeperButton* p = new CMineSweeperButton(bombChance);
+            CMineSweeperButton* p = new CMineSweeperButton(_bombChance);
             connect(p, &CMineSweeperButton::boom, this, &CPlayField::boom);
             connect(p, &CMineSweeperButton::buttonFlagged, this, [this](const bool b) { emit buttonFlagged(b); });
-            connect(p, &CMineSweeperButton::buttonSelected, this, [this, i, j]() { lookAround(i, j); });
+            connect(p, &CMineSweeperButton::buttonSelected, this, [this, i, j]() { buttonRevealed(i, j); });
 
             if (p->hasBomb())
                 _bombs++;
@@ -62,21 +78,55 @@ void CPlayField::addButtonsToLayout()
     setLayout(l);
 }
 
-bool CPlayField::outOfXRange(const int i)
+void CPlayField::setBombChance(const BombCount bombCount)
 {
-    return (i < 0) || (i >= w);
+    switch (bombCount)
+    {
+    case BombCount::little:
+    default:
+        _bombChance = 12;
+        break;
+    case BombCount::few:
+        _bombChance = 10;
+        break;
+    case BombCount::many:
+        _bombChance = 8;
+        break;
+    case BombCount::shitLoad:
+        _bombChance = 5;
+        break;
+    }
 }
 
-bool CPlayField::outOfYRange(const int i)
+void CPlayField::setPlayFieldSize(const PlayFieldSize size)
 {
-    return (i < 0) || (i >= h);
+    switch (size)
+    {
+    case PlayFieldSize::s:
+    default:
+        _width = 10;
+        _height = 10;
+        break;
+    case PlayFieldSize::m:
+        _width = 15;
+        _height = 15;
+        break;
+    case PlayFieldSize::l:
+        _width = 20;
+        _height = 20;
+        break;
+    case PlayFieldSize::xl:
+        _width = 50;
+        _height = 25;
+        break;
+    }
 }
 
 void CPlayField::countAllBombCounts()
 {
-    for (int i = 0; i < h; i++)
+    for (int i = 0; i < _height; i++)
     {
-        for (int j = 0; j < w; j++)
+        for (int j = 0; j < _width; j++)
         {
             countBombsAround(i, j);
         }
@@ -85,26 +135,16 @@ void CPlayField::countAllBombCounts()
 
 void CPlayField::countBombsAround(const int x, const int y)
 {
-    auto b = _buttons.at(x).at(y);
-
     int count = 0;
+    around(x,
+           y,
+           [this, &count](const int i, const int j)
+           {
+               if (_buttons.at(i).at(j)->hasBomb())
+                   count++;
+           });
 
-    for (int i = x - 1; i <= x + 1; i++)
-    {
-        if (outOfYRange(i))
-            continue;
-        for (int j = y - 1; j <= y + 1; j++)
-        {
-            if (outOfXRange(j))
-                continue;
-            if (j == y && i == x)
-                continue;
-
-            if (_buttons.at(i).at(j)->hasBomb())
-                count++;
-        }
-    }
-
+    auto b = _buttons.at(x).at(y);
     b->setBombsAround(count);
 }
 
@@ -115,13 +155,16 @@ void CPlayField::checkGameOver()
     {
         for (auto& b : l)
         {
-            if (b->isCheckable())
+            if (b->isSelectable())
                 checkableFields++;
         }
     }
 
     if (checkableFields <= _bombs)
+    {
+        revealAll();
         emit gameOver(true);
+    }
 }
 
 void CPlayField::revealAll()
@@ -137,52 +180,55 @@ void CPlayField::revealAll()
 
 void CPlayField::revealAround(const int x, const int y)
 {
-    for (int i = x - 1; i <= x + 1; i++)
-    {
-        if (outOfYRange(i))
-            continue;
-        for (int j = y - 1; j <= y + 1; j++)
-        {
-            if (outOfXRange(j))
-                continue;
-            if (j == y && i == x)
-                continue;
-
-            _buttons.at(i).at(j)->reveal();
-        }
-    }
+    around(x, y, [this](const int i, const int j) { _buttons.at(i).at(j)->reveal(); });
 }
 
 void CPlayField::lookAround(const int x, const int y)
+{
+    around(x, y, [this](const int i, const int j) { autoReveal(i, j); });
+}
+
+void CPlayField::buttonRevealed(const int x, const int y)
 {
     auto b = _buttons.at(x).at(y);
     if (b->hasBomb())
         return;
 
-    for (int i = x - 1; i <= x + 1; i++)
-    {
-        if (outOfYRange(i))
-            continue;
-        for (int j = y - 1; j <= y + 1; j++)
-        {
-            if (outOfXRange(j))
-                continue;
-            if (j == y && i == x)
-                continue;
-
-            auto bb = _buttons.at(i).at(j);
-            if (bb->getBombsAround() == 0 && !bb->hasBomb() && bb->isSelectable())
-            {
-                bb->reveal();
-                revealAround(i, j);
-                lookAround(i, j);
-            }
-        }
-    }
+    lookAround(x, y);
+    checkGameOver();
 }
 
 void CPlayField::boom()
 {
     revealAll();
     emit gameOver(false);
+}
+
+void CPlayField::autoReveal(const int i, const int j)
+{
+    auto bb = _buttons.at(i).at(j);
+    if (bb->getBombsAround() == 0 && !bb->hasBomb() && bb->isSelectable())
+    {
+        bb->reveal();
+        revealAround(i, j);
+        lookAround(i, j);
+    }
+}
+
+void CPlayField::around(const int x, const int y, std::function<void(const int i, const int j)> f)
+{
+    for (int i = x - 1; i <= x + 1; i++)
+    {
+        if ((i < 0) || (i >= _width))
+            continue;
+        for (int j = y - 1; j <= y + 1; j++)
+        {
+            if ((j < 0) || (j >= _height))
+                continue;
+            if (j == y && i == x)
+                continue;
+
+            f(i, j);
+        }
+    }
 }
