@@ -9,9 +9,25 @@ class CPlayField : public QFrame
 {
     Q_OBJECT
 public:
+    enum class PlayFieldSize
+    {
+        s,
+        m,
+        l,
+        xl
+    };
+
+    enum class BombCount
+    {
+        little,
+        few,
+        many,
+        shitLoad
+    };
+
     CPlayField(QWidget* parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
     int getNumBombs() const;
-    void init();
+    void init(const PlayFieldSize size, const BombCount bombCount);
 
 signals:
 
@@ -19,13 +35,12 @@ signals:
     void buttonFlagged(const bool b);
 
 private:
+    void deleteButtons();
     void createButtons();
     void addButtonsToLayout();
 
-    std::vector<std::vector<CMineSweeperButton*>> _buttons;
-
-    bool outOfXRange(const int i);
-    bool outOfYRange(const int i);
+    void setBombChance(const BombCount bombCount);
+    void setPlayFieldSize(const PlayFieldSize size);
 
     void countAllBombCounts();
     void countBombsAround(const int x, const int y);
@@ -35,13 +50,19 @@ private:
     void revealAround(const int x, const int y);
     void lookAround(const int x, const int y);
 
+    void buttonRevealed(const int x, const int y);
     void boom();
+
+    void autoReveal(const int x, const int y);
+
+    void around(const int x, const int y, std::function<void(const int i, const int j)> f);
 
     int _bombs = 0;
 
-    static constexpr int w = 10;
-    static constexpr int h = 10;
-    static constexpr unsigned int bombChance = 5;
+    int _width = 10;
+    int _height = 10;
+    unsigned int _bombChance = 10;
+    std::vector<std::vector<CMineSweeperButton*>> _buttons;
 };
 
 #endif // CPLAYFIELD_H
