@@ -7,7 +7,7 @@ CPlayField::CPlayField(QWidget* parent, Qt::WindowFlags f) : QFrame(parent, f)
     setLayout(new QGridLayout(this));
 }
 
-int CPlayField::getNumBombs() const
+unsigned int CPlayField::getNumBombs() const
 {
     return _bombs;
 }
@@ -150,7 +150,7 @@ void CPlayField::countBombsAround(const int x, const int y)
 
 void CPlayField::checkGameOver()
 {
-    int checkableFields = 0;
+    unsigned int checkableFields = 0;
     for (const auto& l : _buttons)
     {
         for (auto& b : l)
