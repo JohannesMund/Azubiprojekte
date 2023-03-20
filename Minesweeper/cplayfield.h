@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QFrame>
+#include <functional>
 
 #include "cminesweeperbutton.h"
 
@@ -84,4 +85,6 @@ private:
     unsigned int _bombChance = 10;
 
     std::vector<std::vector<CMineSweeperButton*>> _buttons;
+
+    std::vector<std::pair<int, int>> _lookedAround;
 };

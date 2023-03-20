@@ -1,5 +1,8 @@
 #include "cplayfield.h"
 
+#include <ctime>
+
+#include <QApplication>
 #include <QGridLayout>
 
 CPlayField::CPlayField(QWidget* parent, Qt::WindowFlags f) : QFrame(parent, f)
@@ -61,18 +64,19 @@ void CPlayField::createButtons()
 void CPlayField::addButtonsToLayout()
 {
     delete layout();
-    QGridLayout* l = new QGridLayout(this);
+    QGridLayout* l = new QGridLayout(0);
 
     l->setMargin(0);
     l->setContentsMargins(0, 0, 0, 0);
 
     for (size_t row = 0; row < _buttons.size(); row++)
     {
+        qApp->processEvents();
         const auto line = _buttons.at(row);
         for (size_t col = 0; col < line.size(); col++)
         {
             const auto button = line.at(col);
-            l->addWidget(button, row, col);
+            l->addWidget(button, static_cast<int>(row), static_cast<int>(col));
         }
     }
     setLayout(l);
@@ -124,9 +128,9 @@ void CPlayField::setPlayFieldSize(const PlayFieldSize size)
 
 void CPlayField::countAllBombCounts()
 {
-    for (int i = 0; i < _height; i++)
+    for (int i = 0; i < _buttons.size(); i++)
     {
-        for (int j = 0; j < _width; j++)
+        for (int j = 0; j < _buttons.at(i).size(); j++)
         {
             countBombsAround(i, j);
         }
@@ -144,8 +148,7 @@ void CPlayField::countBombsAround(const int x, const int y)
                    count++;
            });
 
-    auto b = _buttons.at(x).at(y);
-    b->setBombsAround(count);
+    _buttons.at(x).at(y)->setBombsAround(count);
 }
 
 void CPlayField::checkGameOver()
@@ -175,16 +178,19 @@ void CPlayField::revealAll()
         {
             b->reveal();
         }
+        qApp->processEvents();
     }
 }
 
 void CPlayField::revealAround(const int x, const int y)
 {
     around(x, y, [this](const int i, const int j) { _buttons.at(i).at(j)->reveal(); });
+    qApp->processEvents();
 }
 
 void CPlayField::lookAround(const int x, const int y)
 {
+    _lookedAround.push_back(std::make_pair(x, y));
     around(x, y, [this](const int i, const int j) { autoReveal(i, j); });
 }
 
@@ -193,6 +199,7 @@ void CPlayField::buttonRevealed(const int x, const int y)
     auto b = _buttons.at(x).at(y);
     if (b->hasBomb())
         return;
+    _lookedAround.clear();
 
     lookAround(x, y);
     checkGameOver();
@@ -207,11 +214,13 @@ void CPlayField::boom()
 void CPlayField::autoReveal(const int i, const int j)
 {
     auto bb = _buttons.at(i).at(j);
-    if (bb->getBombsAround() == 0 && !bb->hasBomb() && bb->isSelectable())
+    if (bb->getBombsAround() == 0)
     {
-        bb->reveal();
         revealAround(i, j);
-        lookAround(i, j);
+        if (std::find(_lookedAround.begin(), _lookedAround.end(), std::make_pair(i, j)) == _lookedAround.end())
+        {
+            lookAround(i, j);
+        }
     }
 }
 
@@ -219,11 +228,11 @@ void CPlayField::around(const int x, const int y, std::function<void(const int i
 {
     for (int i = x - 1; i <= x + 1; i++)
     {
-        if ((i < 0) || (i >= _width))
+        if ((i < 0) || (i >= _height))
             continue;
         for (int j = y - 1; j <= y + 1; j++)
         {
-            if ((j < 0) || (j >= _height))
+            if ((j < 0) || (j >= _width))
                 continue;
             if (j == y && i == x)
                 continue;
