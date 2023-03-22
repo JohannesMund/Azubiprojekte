@@ -17,6 +17,7 @@ unsigned int CPlayField::getNumBombs() const
 
 void CPlayField::init(const PlayFieldSize size, const BombCount bombCount)
 {
+    std::srand(std::time(nullptr));
     _bombs = 0;
     setBombChance(bombCount);
     setPlayFieldSize(size);
@@ -38,23 +39,25 @@ void CPlayField::deleteButtons()
     _buttons.clear();
 }
 
+CMineSweeperButton* CPlayField::createButtonAt(const int x, const int y)
+{
+    CMineSweeperButton* p = new CMineSweeperButton(_bombChance);
+    connect(p, &CMineSweeperButton::boom, this, &CPlayField::boom);
+    connect(p, &CMineSweeperButton::buttonFlagged, this, [this](const bool b) { emit buttonFlagged(b); });
+    connect(p, &CMineSweeperButton::buttonSelected, this, [this, x, y]() { buttonRevealed(x, y); });
+    return p;
+}
+
 void CPlayField::createButtons()
 {
-    std::srand(std::time(nullptr));
-
     for (int i = 0; i < _height; i++)
     {
         std::vector<CMineSweeperButton*> line;
         for (int j = 0; j < _width; j++)
         {
-            CMineSweeperButton* p = new CMineSweeperButton(_bombChance);
-            connect(p, &CMineSweeperButton::boom, this, &CPlayField::boom);
-            connect(p, &CMineSweeperButton::buttonFlagged, this, [this](const bool b) { emit buttonFlagged(b); });
-            connect(p, &CMineSweeperButton::buttonSelected, this, [this, i, j]() { buttonRevealed(i, j); });
-
+            const auto p = createButtonAt(i, j);
             if (p->hasBomb())
                 _bombs++;
-
             line.push_back(p);
         }
         _buttons.push_back(line);

@@ -30,19 +30,21 @@ void CMineSweeperButton::reveal()
 {
     if (_hasBomb)
     {
-        QIcon icon;
-        icon.addPixmap(QPixmap(":/img/bomb.png"), QIcon::Disabled);
-        icon.addPixmap(QPixmap(":/img/bomb.png"), QIcon::Active);
-        setIcon(icon);
+        setIcon(createIcon(":/img/bomb.png"));
     }
     else
     {
-        if (_bombsAround > 0)
+
+        if (_markerSet)
         {
-            QIcon icon;
-            icon.addPixmap(QPixmap(QString(":/img/%1.png").arg(_bombsAround)), QIcon::Disabled);
-            icon.addPixmap(QPixmap(QString(":/img/%1.png").arg(_bombsAround)), QIcon::Active);
-            setIcon(icon);
+            setIcon(createIcon(QString(":/img/no-bomb.png")));
+        }
+        else
+        {
+            if (_bombsAround > 0)
+            {
+                setIcon(createIcon(QString(":/img/%1.png").arg(_bombsAround)));
+            }
         }
     }
 
@@ -111,14 +113,18 @@ void CMineSweeperButton::setMarker()
     else
     {
         _markerSet = true;
-
-        QIcon icon;
-        icon.addPixmap(QPixmap(":/img/flag.png"), QIcon::Disabled);
-        icon.addPixmap(QPixmap(":/img/flag.png"), QIcon::Active);
-        setIcon(icon);
+        setIcon(createIcon(":/img/flag.png"));
     }
 
     emit buttonFlagged(_markerSet);
+}
+
+QIcon CMineSweeperButton::createIcon(const QString& path)
+{
+    QIcon icon;
+    icon.addPixmap(QPixmap(path), QIcon::Disabled);
+    icon.addPixmap(QPixmap(path), QIcon::Active);
+    return icon;
 }
 
 void CMineSweeperButton::mousePressEvent(QMouseEvent* e)

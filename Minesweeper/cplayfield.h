@@ -59,6 +59,8 @@ signals:
 
 private:
     void deleteButtons();
+
+    CMineSweeperButton* createButtonAt(const int x, const int y);
     void createButtons();
     void addButtonsToLayout();
 

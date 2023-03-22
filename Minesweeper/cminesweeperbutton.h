@@ -70,6 +70,8 @@ private:
     void buttonClicked(const bool checked);
     void setMarker();
 
+    QIcon createIcon(const QString& path);
+
     bool _markerSet = false;
     bool _hasBomb = false;
 
