@@ -43,7 +43,7 @@ void CComputerBattleField::buttonToggled(const bool, const BattleFieldCoords coo
     }
 }
 
-void CComputerBattleField::shipHit(const BattleFieldCoords coords)
+void CComputerBattleField::shipHit(const BattleFieldCoords)
 {
 }
 void CComputerBattleField::autoPlaceBattleShips()

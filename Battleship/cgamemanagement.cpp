@@ -47,7 +47,11 @@ QString CGameManagement::ship2Text(EShips ship)
         return "Aircraft carrier";
     case EShips::eBattleShip:
         return "Battleship";
+    case EShips::eNoShip:
+    default:
+        break;
     }
+    return QString();
 }
 
 unsigned int CGameManagement::getSizeOfShip(EShips ship)
