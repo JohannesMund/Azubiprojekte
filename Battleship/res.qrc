@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/img">
+        <file alias="bomb.png">img/bomb.png</file>
+        <file alias="flag.png">img/flag.png</file>
+        <file alias="fadenkreuz.png">img/fadenkreuz.png</file>
+
+    </qresource>
+</RCC>

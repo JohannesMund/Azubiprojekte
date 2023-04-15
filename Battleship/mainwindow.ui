@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>598</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QLabel" name="_enemyShoutbox">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="CPlayerBattleFieldLabel" name="_playerDisplay">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="CComputerBattleField" name="_enemyGround">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="CPlayerBattleField" name="_playerGround">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="CComputerBattleFieldLabel" name="_enemyDisplay">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="_playerShoutBox">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>598</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menunew_game">
+    <property name="title">
+     <string>new game</string>
+    </property>
+    <addaction name="actionstart"/>
+   </widget>
+   <addaction name="menunew_game"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionstart">
+   <property name="text">
+    <string>start</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CComputerBattleFieldLabel</class>
+   <extends>QLabel</extends>
+   <header>ccomputerbattlefieldlabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CPlayerBattleFieldLabel</class>
+   <extends>QLabel</extends>
+   <header>cplayerbattlefieldlabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CComputerBattleField</class>
+   <extends>QFrame</extends>
+   <header>ccomputerbattlefield.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CPlayerBattleField</class>
+   <extends>QFrame</extends>
+   <header>cplayerbattlefield.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
