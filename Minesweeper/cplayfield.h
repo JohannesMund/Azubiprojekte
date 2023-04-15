@@ -25,7 +25,8 @@ public:
         little,
         few,
         many,
-        shitLoad
+        shitLoad,
+        custom
     };
 
     CPlayField(QWidget* parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
