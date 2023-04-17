@@ -74,16 +74,18 @@ QString CPlayerPlacement::placementText() const
     return text;
 }
 
-void CPlayerPlacement::set(const CAbstractBattleField::BattleFieldCoords coords)
+void CPlayerPlacement::set(const BattleFieldCoords::BattleFieldCoords coords)
 {
-    if (!isInLineWithRest(coords))
+    BattleFieldCoords::ShipAtCoords s = {coords, (unsigned)currentId()};
+
+    if (!_moves.isInLine(s))
     {
         emit unsetButtons(_moves);
         _moves.clear();
     }
 
-    _moves.push_back(coords);
-    emit setButton(coords, currentId());
+    _moves.push_back(s);
+    emit setButton(s);
 
     if (_moves.size() >= CGameManagement::getSizeOfShip(currentShip()))
     {
@@ -99,36 +101,4 @@ void CPlayerPlacement::set(const CAbstractBattleField::BattleFieldCoords coords)
     {
         _label->setText(text);
     }
-}
-
-bool CPlayerPlacement::isInLineWithRest(const CAbstractBattleField::BattleFieldCoords coords)
-{
-    if (_moves.empty())
-    {
-        return true;
-    }
-
-    if (coords.x == _moves.at(0).x)
-    {
-        for (auto m : _moves)
-        {
-            if (coords.y == m.y + 1 || coords.y == m.y - 1)
-            {
-                return true;
-            }
-        }
-    }
-
-    if (coords.y == _moves.at(0).y)
-    {
-        for (auto m : _moves)
-        {
-            if (coords.x == m.x + 1 || coords.x == m.x - 1)
-            {
-                return true;
-            }
-        }
-    }
-
-    return false;
 }

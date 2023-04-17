@@ -16,9 +16,22 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->_enemyGround->setLabel(ui->_enemyDisplay);
     ui->_playerGround->setLabel(ui->_playerDisplay);
 
-    connect(ui->actionstart, &QAction::triggered, gameManagement, &CGameManagement::initGame);
+    connect(ui->_actionStartEasy,
+            &QAction::triggered,
+            gameManagement,
+            []() { CGameManagement::getInstance()->initGame(CGameManagement::EDifficulty::eEasy); });
 
-    gameManagement->initGame();
+    connect(ui->_actionStartMedium,
+            &QAction::triggered,
+            gameManagement,
+            []() { CGameManagement::getInstance()->initGame(CGameManagement::EDifficulty::eMedium); });
+
+    connect(ui->_actionStartHard,
+            &QAction::triggered,
+            gameManagement,
+            []() { CGameManagement::getInstance()->initGame(CGameManagement::EDifficulty::eHard); });
+
+    gameManagement->initGame(CGameManagement::EDifficulty::eMedium);
 
     new CComputerPlayer(ui->_playerGround, this);
 }

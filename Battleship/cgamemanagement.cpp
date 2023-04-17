@@ -7,14 +7,20 @@ CGameManagement::CGameManagement(QObject* parent) : QObject{parent}
     _instance = this;
 }
 
-void CGameManagement::initGame()
+void CGameManagement::initGame(EDifficulty difficulty)
 {
+    _difficulty = difficulty;
     emit newGame();
 }
 
 void CGameManagement::start()
 {
     emit startGame();
+}
+
+CGameManagement::EDifficulty CGameManagement::getDifficulty() const
+{
+    return _difficulty;
 }
 
 CGameManagement::ShipVector CGameManagement::getAvailableShips() const

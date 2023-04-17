@@ -1,12 +1,10 @@
 #include "ccomputerbattlefield.h"
+#include "randomizer.h"
 #include "cabstractbattlefieldlabel.h"
 #include "cbattlefieldbutton.h"
 #include "cgamemanagement.h"
 
 #include <QApplication>
-
-#include <algorithm>
-#include <random>
 
 CComputerBattleField::CComputerBattleField(QWidget* parent) : CAbstractBattleField(parent)
 {
@@ -25,7 +23,7 @@ void CComputerBattleField::startGame()
     enableAll(true);
 }
 
-void CComputerBattleField::buttonToggled(const bool, const BattleFieldCoords coords)
+void CComputerBattleField::buttonToggled(const bool, const BattleFieldCoords::BattleFieldCoords coords)
 {
     if (!isInRange(coords))
         return;
@@ -43,7 +41,7 @@ void CComputerBattleField::buttonToggled(const bool, const BattleFieldCoords coo
     }
 }
 
-void CComputerBattleField::shipHit(const BattleFieldCoords)
+void CComputerBattleField::shipHit(const BattleFieldCoords::BattleFieldCoords)
 {
 }
 void CComputerBattleField::autoPlaceBattleShips()
@@ -58,18 +56,15 @@ void CComputerBattleField::autoPlaceBattleShips()
 
 void CComputerBattleField::autoPlaceBattleShip(const int size, const int shipId)
 {
-    unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
-    auto rng = std::default_random_engine{seed};
-
     while (true)
     {
         qApp->processEvents();
         unsigned int x = std::rand() / ((RAND_MAX + 1u) / _grid.at(0).size());
         unsigned int y = std::rand() / ((RAND_MAX + 1u) / _grid.size());
 
-        std::vector<EDirections> directions = {EDirections::eHorizontal, EDirections::eVertical};
-
-        std::shuffle(std::begin(directions), std::end(directions), rng);
+        std::vector<BattleFieldCoords::EDirections> directions = {BattleFieldCoords::EDirections::eHorizontal,
+                                                                  BattleFieldCoords::EDirections::eVertical};
+        Randomizer::shuffle(directions);
 
         for (auto dir : directions)
         {
@@ -81,9 +76,9 @@ void CComputerBattleField::autoPlaceBattleShip(const int size, const int shipId)
     }
 }
 
-bool CComputerBattleField::autoPlaceBattleShipRecursion(BattleFieldCoords coords,
+bool CComputerBattleField::autoPlaceBattleShipRecursion(BattleFieldCoords::BattleFieldCoords coords,
                                                         const int size,
-                                                        const EDirections dir,
+                                                        const BattleFieldCoords::EDirections dir,
                                                         const int shipId)
 {
     if (!isInRange(coords))
@@ -102,7 +97,7 @@ bool CComputerBattleField::autoPlaceBattleShipRecursion(BattleFieldCoords coords
         return true;
     }
 
-    if (dir == EDirections::eVertical)
+    if (dir == BattleFieldCoords::EDirections::eVertical)
     {
         coords.y++;
     }
