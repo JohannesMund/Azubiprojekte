@@ -31,7 +31,7 @@ void CAbstractBattleField::init()
         for (int j = 0; j < size.width(); j++)
         {
             auto button = new CBattleFieldButton();
-            const BattleFieldCoords coords = {(unsigned)i, (unsigned)j};
+            const BattleFieldCoords::BattleFieldCoords coords = {(unsigned)i, (unsigned)j};
 
             connect(button,
                     &CBattleFieldButton::toggled,
@@ -76,7 +76,7 @@ void CAbstractBattleField::enableAll(const bool bEnable)
     }
 }
 
-bool CAbstractBattleField::isInRange(const BattleFieldCoords coords) const
+bool CAbstractBattleField::isInRange(const BattleFieldCoords::BattleFieldCoords coords) const
 {
     if (_grid.size() <= 0)
     {
@@ -85,14 +85,14 @@ bool CAbstractBattleField::isInRange(const BattleFieldCoords coords) const
     return (coords.x >= 0 && coords.x < _grid.at(0).size()) && (coords.y >= 0 && coords.y < _grid.size());
 }
 
-bool CAbstractBattleField::hasShipAround(const BattleFieldCoords coords,
-                                         std::function<bool(const BattleFieldCoords coords)> f) const
+bool CAbstractBattleField::hasShipAround(const BattleFieldCoords::BattleFieldCoords coords,
+                                         std::function<bool(const BattleFieldCoords::BattleFieldCoords coords)> f) const
 {
     for (int i = coords.x - 1; i <= static_cast<int>(coords.x + 1); i++)
     {
         for (int j = coords.y - 1; j <= static_cast<int>(coords.y + 1); j++)
         {
-            const BattleFieldCoords coords = {(unsigned)i, (unsigned)j};
+            const BattleFieldCoords::BattleFieldCoords coords = {(unsigned)i, (unsigned)j};
 
             if (!isInRange(coords))
             {
@@ -108,13 +108,14 @@ bool CAbstractBattleField::hasShipAround(const BattleFieldCoords coords,
     return false;
 }
 
-bool CAbstractBattleField::hasShipAround(const BattleFieldCoords coords) const
+bool CAbstractBattleField::hasShipAround(const BattleFieldCoords::BattleFieldCoords coords) const
 {
     return hasShipAround(coords,
-                         [this](const BattleFieldCoords coords) { return _grid.at(coords.x).at(coords.y)->hasShip(); });
+                         [this](const BattleFieldCoords::BattleFieldCoords coords)
+                         { return _grid.at(coords.x).at(coords.y)->hasShip(); });
 }
 
-CBattleFieldButton* CAbstractBattleField::get(const BattleFieldCoords coords) const
+CBattleFieldButton* CAbstractBattleField::get(const BattleFieldCoords::BattleFieldCoords coords) const
 {
     if (isInRange(coords))
     {

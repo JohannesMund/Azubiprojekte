@@ -18,10 +18,19 @@ public:
         eSubMarine = 1
     };
 
+    enum class EDifficulty
+    {
+        eEasy,
+        eMedium,
+        eHard
+    };
+
     using ShipVector = std::vector<EShips>;
 
-    void initGame();
+    void initGame(EDifficulty difficulty);
     void start();
+
+    EDifficulty getDifficulty() const;
 
     ShipVector getAvailableShips() const;
     QSize getGridSize() const;
@@ -42,4 +51,6 @@ signals:
 
 private:
     explicit CGameManagement(QObject* parent = nullptr);
+
+    EDifficulty _difficulty;
 };

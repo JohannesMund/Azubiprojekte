@@ -11,13 +11,13 @@ public:
 private:
     virtual void placeBattleShips() override;
 
-    void unsetButtons(const std::vector<BattleFieldCoords> coords);
+    void unsetButtons(const CShipsAtCoords coords);
 
     virtual void startGame() override;
-    virtual void buttonToggled(const bool toggleState, const BattleFieldCoords coords) override;
-    virtual void shipHit(const BattleFieldCoords coords) override;
+    virtual void buttonToggled(const bool toggleState, const BattleFieldCoords::BattleFieldCoords coords) override;
+    virtual void shipHit(const BattleFieldCoords::BattleFieldCoords coords) override;
 
-    bool isMoveValid(const BattleFieldCoords coords) const;
+    bool isMoveValid(const BattleFieldCoords::BattleFieldCoords coords) const;
 
     CPlayerPlacement _placementHelper;
 };

@@ -88,16 +88,28 @@
    </property>
    <widget class="QMenu" name="menunew_game">
     <property name="title">
-     <string>new game</string>
+     <string>Neues Spiel</string>
     </property>
-    <addaction name="actionstart"/>
+    <addaction name="_actionStartEasy"/>
+    <addaction name="_actionStartMedium"/>
+    <addaction name="_actionStartHard"/>
    </widget>
    <addaction name="menunew_game"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionstart">
+  <action name="_actionStartEasy">
    <property name="text">
-    <string>start</string>
+    <string>Leicht</string>
+   </property>
+  </action>
+  <action name="_actionStartMedium">
+   <property name="text">
+    <string>Mittel</string>
+   </property>
+  </action>
+  <action name="_actionStartHard">
+   <property name="text">
+    <string>Schwer</string>
    </property>
   </action>
  </widget>

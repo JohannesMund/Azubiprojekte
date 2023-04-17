@@ -8,7 +8,7 @@ CPlayerBattleField::CPlayerBattleField(QWidget* parent) : CAbstractBattleField(p
     connect(&_placementHelper,
             &CPlayerPlacement::setButton,
             this,
-            [this](const BattleFieldCoords coords, const int shipId) { get(coords)->setHasShip(shipId, true); });
+            [this](const BattleFieldCoords::ShipAtCoords s) { get(s.coords)->setHasShip(s.shipId, true); });
 }
 
 void CPlayerBattleField::placeBattleShips()
@@ -17,11 +17,11 @@ void CPlayerBattleField::placeBattleShips()
     enableAll(true);
 }
 
-void CPlayerBattleField::unsetButtons(const std::vector<BattleFieldCoords> coords)
+void CPlayerBattleField::unsetButtons(const CShipsAtCoords coords)
 {
     for (auto c : coords)
     {
-        auto button = get({c.x, c.y});
+        auto button = get({c.coords.x, c.coords.y});
         button->setHasShip(-1, true);
         button->setEnabled(true);
     }
@@ -33,7 +33,7 @@ void CPlayerBattleField::startGame()
     enableAll(false);
 }
 
-void CPlayerBattleField::buttonToggled(const bool toggleState, const BattleFieldCoords coords)
+void CPlayerBattleField::buttonToggled(const bool toggleState, const BattleFieldCoords::BattleFieldCoords coords)
 {
     if (_placementHelper.isDone())
     {
@@ -55,7 +55,7 @@ void CPlayerBattleField::buttonToggled(const bool toggleState, const BattleField
     }
 }
 
-void CPlayerBattleField::shipHit(const BattleFieldCoords coords)
+void CPlayerBattleField::shipHit(const BattleFieldCoords::BattleFieldCoords coords)
 {
     auto button = get(coords);
     if (button->hasShip())
@@ -65,13 +65,13 @@ void CPlayerBattleField::shipHit(const BattleFieldCoords coords)
     return;
 }
 
-bool CPlayerBattleField::isMoveValid(const BattleFieldCoords coords) const
+bool CPlayerBattleField::isMoveValid(const BattleFieldCoords::BattleFieldCoords coords) const
 {
     if (!isInRange(coords))
         return false;
 
     return !hasShipAround(coords,
-                          [this](const BattleFieldCoords coords) {
+                          [this](const BattleFieldCoords::BattleFieldCoords coords) {
                               return get(coords)->hasShip() && get(coords)->getShipId() != _placementHelper.currentId();
                           });
 }
