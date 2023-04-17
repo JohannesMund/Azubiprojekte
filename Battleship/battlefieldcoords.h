@@ -2,6 +2,12 @@
 
 namespace BattleFieldCoords
 {
+enum class EDirections
+{
+    eHorizontal,
+    eVertical
+};
+
 struct BattleFieldCoords
 {
     unsigned int x;
@@ -12,13 +18,39 @@ struct BattleFieldCoords
         return x == other.x && y == other.y;
     }
 
-    BattleFieldCoords operator+(const BattleFieldCoords& other)
+    void transpose(const EDirections dir, const bool min)
     {
-        return {x + other.x, y + other.y};
+        if (min)
+        {
+            dec(dir);
+        }
+        else
+        {
+            inc(dir);
+        }
     }
-    BattleFieldCoords operator-(const BattleFieldCoords& other)
+
+    void inc(const EDirections dir)
     {
-        return {x - other.x, y - other.y};
+        if (dir == EDirections::eHorizontal)
+        {
+            x++;
+        }
+        else
+        {
+            y++;
+        }
+    }
+    void dec(EDirections dir)
+    {
+        if (dir == EDirections::eHorizontal)
+        {
+            x--;
+        }
+        else
+        {
+            y--;
+        }
     }
 };
 
@@ -28,9 +60,4 @@ struct ShipAtCoords
     unsigned int shipId;
 };
 
-enum class EDirections
-{
-    eHorizontal,
-    eVertical
-};
 } // namespace BattleFieldCoords

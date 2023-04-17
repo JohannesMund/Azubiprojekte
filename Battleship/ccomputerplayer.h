@@ -20,13 +20,21 @@ private:
     BattleFieldCoords::BattleFieldCoords doMoveHard();
 
     BattleFieldCoords::BattleFieldCoords justSomeRandomMove();
-    void hit(const BattleFieldCoords::ShipAtCoords s);
-
     std::optional<BattleFieldCoords::BattleFieldCoords> findNextHit();
 
+    void hit(const BattleFieldCoords::ShipAtCoords s);
+
     std::vector<BattleFieldCoords::BattleFieldCoords> getAvailableFields();
+    bool isValidField(const BattleFieldCoords::ShipAtCoords s) const;
+    CShipsAtCoords::const_iterator getMinOrMax(const bool isMin,
+                                               const BattleFieldCoords::EDirections dir,
+                                               const CShipsAtCoords& filtered) const;
+    std::optional<BattleFieldCoords::BattleFieldCoords> appendToMinOrMax(const bool isMin,
+                                                                         const BattleFieldCoords::EDirections dir,
+                                                                         const CShipsAtCoords& filtered) const;
+
     CAbstractBattleField* _battleField;
 
     std::vector<unsigned int> _sunkShips = {};
-    CShipsAtCoords _hits;
+    CShipsAtCoords _hits = {};
 };
