@@ -1,9 +1,9 @@
 #include "ccomputerplayer.h"
-#include "randomizer.h"
 #include "battlefieldcoords.h"
 #include "cabstractbattlefield.h"
 #include "cbattlefieldbutton.h"
 #include "cgamemanagement.h"
+#include "randomizer.h"
 
 CComputerPlayer::CComputerPlayer(CAbstractBattleField* battleField, QObject* parent) :
     QObject(parent),
@@ -100,88 +100,24 @@ std::optional<BattleFieldCoords::BattleFieldCoords> CComputerPlayer::findNextHit
         return {};
     }
 
-    const auto isValidField = [this](const BattleFieldCoords::ShipAtCoords s)
-    {
-        if (!_battleField->isInRange(s.coords))
-        {
-            return false;
-        }
-        if (_battleField->get(s.coords)->isRevealed())
-        {
-            return false;
-        }
-
-        if (_battleField->hasShipAround(s.coords,
-                                        [this, s](const auto coords)
-                                        {
-                                            auto b = _battleField->get(coords);
-                                            return (b->hasShip() && ((unsigned)b->getShipId() != s.shipId));
-                                        }))
-        {
-            return false;
-        }
-
-        return true;
-    };
-
-    const auto checkMinMax = [&filtered, &isValidField](const bool isMin, const BattleFieldCoords::EDirections dir)
-        -> std::optional<BattleFieldCoords::BattleFieldCoords>
-    {
-        CShipsAtCoords::const_iterator it;
-
-        if (isMin)
-        {
-            it = std::min_element(filtered.begin(), filtered.end(), CShipsAtCoords::battleFieldCoordLT(dir));
-        }
-        else
-        {
-            it = std::max_element(filtered.begin(), filtered.end(), CShipsAtCoords::battleFieldCoordLT(dir));
-        }
-
-        if (it == filtered.end())
-        {
-            return {};
-        }
-
-        auto mod = dir == BattleFieldCoords::EDirections::eVertical ? BattleFieldCoords::BattleFieldCoords{0, 1}
-                                                                    : BattleFieldCoords::BattleFieldCoords{1, 0};
-
-        auto s = *it;
-
-        if (isMin)
-        {
-            s.coords = s.coords - mod;
-        }
-        else
-        {
-            s.coords = s.coords + mod;
-        }
-        if (isValidField(s))
-        {
-            return s.coords;
-        }
-
-        return {};
-    };
-
     if (filtered.isHorizontalLine())
     {
-        auto sMin = checkMinMax(true, BattleFieldCoords::EDirections::eHorizontal);
+        auto sMin = appendToMinOrMax(true, BattleFieldCoords::EDirections::eHorizontal, filtered);
         if (sMin.has_value())
             return sMin.value();
 
-        auto sMax = checkMinMax(false, BattleFieldCoords::EDirections::eHorizontal);
+        auto sMax = appendToMinOrMax(false, BattleFieldCoords::EDirections::eHorizontal, filtered);
         if (sMax.has_value())
             return sMax.value();
     }
 
     if (filtered.isVerticalLine())
     {
-        auto sMin = checkMinMax(true, BattleFieldCoords::EDirections::eVertical);
+        auto sMin = appendToMinOrMax(true, BattleFieldCoords::EDirections::eVertical, filtered);
         if (sMin.has_value())
             return sMin.value();
 
-        auto sMax = checkMinMax(false, BattleFieldCoords::EDirections::eVertical);
+        auto sMax = appendToMinOrMax(false, BattleFieldCoords::EDirections::eVertical, filtered);
         if (sMax.has_value())
             return sMax.value();
     }
@@ -207,4 +143,63 @@ std::vector<BattleFieldCoords::BattleFieldCoords> CComputerPlayer::getAvailableF
         }
     }
     return coordList;
+}
+
+bool CComputerPlayer::isValidField(const BattleFieldCoords::ShipAtCoords s) const
+{
+    if (!_battleField->isInRange(s.coords))
+    {
+        return false;
+    }
+    if (_battleField->get(s.coords)->isRevealed())
+    {
+        return false;
+    }
+
+    if (_battleField->hasShipAround(s.coords,
+                                    [this, s](const auto coords)
+                                    {
+                                        auto b = _battleField->get(coords);
+                                        return (b->hasShip() && ((unsigned)b->getShipId() != s.shipId));
+                                    }))
+    {
+        return false;
+    }
+
+    return true;
+}
+
+CShipsAtCoords::const_iterator CComputerPlayer::getMinOrMax(const bool isMin,
+                                                            const BattleFieldCoords::EDirections dir,
+                                                            const CShipsAtCoords& filtered) const
+{
+    if (isMin)
+    {
+        return std::min_element(filtered.begin(), filtered.end(), CShipsAtCoords::battleFieldCoordLT(dir));
+    }
+    else
+    {
+        return std::max_element(filtered.begin(), filtered.end(), CShipsAtCoords::battleFieldCoordLT(dir));
+    }
+}
+
+std::optional<BattleFieldCoords::BattleFieldCoords> CComputerPlayer::appendToMinOrMax(
+    const bool isMin, const BattleFieldCoords::EDirections dir, const CShipsAtCoords& filtered) const
+{
+    const auto it = getMinOrMax(isMin, dir, filtered);
+
+    if (it == filtered.end())
+    {
+        return {};
+    }
+
+    BattleFieldCoords::ShipAtCoords s = *it;
+    s.coords.transpose(dir, isMin);
+
+    if (isValidField(s))
+    {
+        return s.coords;
+    }
+
+    return {};
 }
