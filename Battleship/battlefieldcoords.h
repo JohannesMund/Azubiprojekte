@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 namespace BattleFieldCoords
 {
 enum class EDirections
@@ -52,12 +54,6 @@ struct BattleFieldCoords
             y--;
         }
     }
-};
-
-struct ShipAtCoords
-{
-    BattleFieldCoords coords;
-    unsigned int shipId;
 };
 
 } // namespace BattleFieldCoords

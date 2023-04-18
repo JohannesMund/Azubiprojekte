@@ -22,10 +22,10 @@ private:
     BattleFieldCoords::BattleFieldCoords justSomeRandomMove();
     std::optional<BattleFieldCoords::BattleFieldCoords> findNextHit();
 
-    void hit(const BattleFieldCoords::ShipAtCoords s);
+    void hit(const CShipAtCoords s);
 
     std::vector<BattleFieldCoords::BattleFieldCoords> getAvailableFields();
-    bool isValidField(const BattleFieldCoords::ShipAtCoords s) const;
+    bool isValidField(const CShipAtCoords s) const;
     CShipsAtCoords::const_iterator getMinOrMax(const bool isMin,
                                                const BattleFieldCoords::EDirections dir,
                                                const CShipsAtCoords& filtered) const;

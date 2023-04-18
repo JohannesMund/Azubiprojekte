@@ -2,7 +2,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++17
+CONFIG += c++2a
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -19,6 +19,7 @@ SOURCES += \
     cplayerbattlefield.cpp \
     cplayerbattlefieldlabel.cpp \
     cplayerplacement.cpp \
+    cshipatcoords.cpp \
     cshipsatcoords.cpp \
     main.cpp \
     mainwindow.cpp
@@ -35,6 +36,7 @@ HEADERS += \
     cplayerbattlefield.h \
     cplayerbattlefieldlabel.h \
     cplayerplacement.h \
+    cshipatcoords.h \
     cshipsatcoords.h \
     mainwindow.h \
     randomizer.h
