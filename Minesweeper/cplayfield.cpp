@@ -131,9 +131,9 @@ void CPlayField::setPlayFieldSize(const PlayFieldSize size)
 
 void CPlayField::countAllBombCounts()
 {
-    for (int i = 0; i < _buttons.size(); i++)
+    for (size_t i = 0; i < _buttons.size(); i++)
     {
-        for (int j = 0; j < _buttons.at(i).size(); j++)
+        for (size_t j = 0; j < _buttons.at(i).size(); j++)
         {
             countBombsAround(i, j);
         }
