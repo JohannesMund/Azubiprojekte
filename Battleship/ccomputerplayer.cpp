@@ -34,8 +34,28 @@ void CComputerPlayer::doMove()
     button->reveal(true);
     if (button->hasShip())
     {
-        hit({coords, (unsigned)button->getShipId()});
+        hit(CShipAtCoords(coords, button->getShipId()));
         doMove();
+    }
+}
+
+void CComputerPlayer::hit(const CShipAtCoords& s)
+{
+    auto hits = std::count_if(_hits.begin(), _hits.end(), CShipAtCoords::shipIdFilter(s.getShipId()));
+    hits++;
+
+    const auto hitpoints =
+        CGameManagement::getSizeOfShip(CGameManagement::getInstance()->getAvailableShips().at(s.getShipId()));
+
+    if (hits >= hitpoints)
+    {
+        _sunkShips.push_back(s.getShipId());
+        _hits.erase(std::remove_if(_hits.begin(), _hits.end(), CShipAtCoords::shipIdFilter(s.getShipId())),
+                    _hits.end());
+    }
+    else
+    {
+        _hits.push_back(s);
     }
 }
 
@@ -57,7 +77,40 @@ BattleFieldCoords::BattleFieldCoords CComputerPlayer::doMoveMedium()
 
 BattleFieldCoords::BattleFieldCoords CComputerPlayer::doMoveHard()
 {
+    auto coords = findNextHit();
+    if (coords.has_value())
+    {
+        return coords.value();
+    }
+
+    coords = strategicMove();
+    if (coords.has_value())
+    {
+        return coords.value();
+    }
+
     return justSomeRandomMove();
+}
+
+std::optional<BattleFieldCoords::BattleFieldCoords> CComputerPlayer::strategicMove()
+{
+    auto size = CGameManagement::getInstance()->getGridSize();
+
+    for (int offset : {1, 2, 0})
+    {
+        for (unsigned int i = offset; i < (unsigned)size.height(); i += 2)
+        {
+            for (unsigned int j = offset; j < (unsigned)size.width(); j += 2)
+            {
+                auto ship = CShipAtCoords({i, j}, CGameManagement::InvalidShipId);
+                if (isValidMove(ship))
+                {
+                    return ship.getCoords();
+                }
+            }
+        }
+    }
+    return {};
 }
 
 BattleFieldCoords::BattleFieldCoords CComputerPlayer::justSomeRandomMove()
@@ -65,26 +118,6 @@ BattleFieldCoords::BattleFieldCoords CComputerPlayer::justSomeRandomMove()
     auto coords = getAvailableFields();
     Randomizer::shuffle(coords);
     return coords.at(0);
-}
-
-void CComputerPlayer::hit(const CShipAtCoords s)
-{
-    auto hits = std::count_if(_hits.begin(), _hits.end(), CShipAtCoords::shipIdFilter(s.getShipId()));
-    hits++;
-
-    const auto hitpoints =
-        CGameManagement::getSizeOfShip(CGameManagement::getInstance()->getAvailableShips().at(s.getShipId()));
-
-    if (hits >= hitpoints)
-    {
-        _sunkShips.push_back(s.getShipId());
-        _hits.erase(std::remove_if(_hits.begin(), _hits.end(), CShipAtCoords::shipIdFilter(s.getShipId())),
-                    _hits.end());
-    }
-    else
-    {
-        _hits.push_back(s);
-    }
 }
 
 std::optional<BattleFieldCoords::BattleFieldCoords> CComputerPlayer::findNextHit()
@@ -129,10 +162,10 @@ std::optional<BattleFieldCoords::BattleFieldCoords> CComputerPlayer::findNextHit
 std::vector<BattleFieldCoords::BattleFieldCoords> CComputerPlayer::getAvailableFields()
 {
     auto size = CGameManagement::getInstance()->getGridSize();
+
     std::vector<BattleFieldCoords::BattleFieldCoords> coordList;
     for (int i = 0; i < size.width(); i++)
     {
-
         for (int j = 0; j < size.height(); j++)
         {
             const BattleFieldCoords::BattleFieldCoords coords = {(unsigned)i, (unsigned)j};
@@ -146,7 +179,7 @@ std::vector<BattleFieldCoords::BattleFieldCoords> CComputerPlayer::getAvailableF
     return coordList;
 }
 
-bool CComputerPlayer::isValidField(const CShipAtCoords s) const
+bool CComputerPlayer::isValidMove(const CShipAtCoords& s) const
 {
     if (!_battleField->isInRange(s.getCoords()))
     {
@@ -161,7 +194,8 @@ bool CComputerPlayer::isValidField(const CShipAtCoords s) const
                                     [this, s](const auto coords)
                                     {
                                         auto b = _battleField->get(coords);
-                                        return (b->hasShip() && ((unsigned)b->getShipId() != s.getShipId()));
+                                        return (b->isRevealed() && b->hasShip() &&
+                                                ((unsigned)b->getShipId() != s.getShipId()));
                                     }))
     {
         return false;
@@ -197,7 +231,7 @@ std::optional<BattleFieldCoords::BattleFieldCoords> CComputerPlayer::appendToMin
     CShipAtCoords s = *it;
     s.transposeCoords(dir, isMin);
 
-    if (isValidField(s))
+    if (isValidMove(s))
     {
         return s.getCoords();
     }
