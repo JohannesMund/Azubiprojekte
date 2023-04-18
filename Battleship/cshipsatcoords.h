@@ -4,8 +4,6 @@
 #include "cabstractbattlefield.h"
 #include "cshipatcoords.h"
 
-#include <algorithm>
-#include <functional>
 #include <vector>
 
 class CShipsAtCoords : public std::vector<CShipAtCoords>

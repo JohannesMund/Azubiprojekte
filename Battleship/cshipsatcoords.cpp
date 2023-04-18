@@ -1,5 +1,8 @@
 #include "cshipsatcoords.h"
 
+#include <algorithm>
+#include <functional>
+
 CShipsAtCoords::CShipsAtCoords()
 {
 }

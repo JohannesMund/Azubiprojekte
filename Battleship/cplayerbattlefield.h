@@ -1,8 +1,9 @@
 #pragma once
 
-#include "cabstractbattlefield.h"
+#include "battlefieldcoords.h"
 #include "cplayerplacement.h"
 
+class CShipsAtCoords;
 class CPlayerBattleField : public CAbstractBattleField
 {
 public:
@@ -11,7 +12,7 @@ public:
 private:
     virtual void placeBattleShips() override;
 
-    void unsetButtons(const CShipsAtCoords coords);
+    void unsetButtons(const CShipsAtCoords& coords);
 
     virtual void startGame() override;
     virtual void buttonToggled(const bool toggleState, const BattleFieldCoords::BattleFieldCoords coords) override;

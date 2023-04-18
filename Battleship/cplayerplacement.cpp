@@ -21,7 +21,7 @@ int CPlayerPlacement::currentId() const
 
 CGameManagement::EShips CPlayerPlacement::currentShip() const
 {
-    if (_currentId > -1 && _currentId < (int)_ships.size())
+    if (_currentId > CGameManagement::InvalidShipId && _currentId < (int)_ships.size())
     {
         return _ships.at(_currentId);
     }
@@ -34,14 +34,14 @@ void CPlayerPlacement::next()
     _currentId++;
     if (_currentId >= (int)_ships.size())
     {
-        _currentId = -1;
+        _currentId = CGameManagement::InvalidShipId;
         CGameManagement::getInstance()->start();
     }
 }
 
 bool CPlayerPlacement::isDone() const
 {
-    return _currentId == -1;
+    return _currentId <= CGameManagement::InvalidShipId;
 }
 
 QString CPlayerPlacement::placementText() const
@@ -76,7 +76,7 @@ QString CPlayerPlacement::placementText() const
 
 void CPlayerPlacement::set(const BattleFieldCoords::BattleFieldCoords coords)
 {
-    CShipAtCoords s = {coords, (unsigned)currentId()};
+    CShipAtCoords s = {coords, currentId()};
 
     if (!_moves.isInLine(s))
     {
