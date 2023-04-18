@@ -8,8 +8,8 @@
 class CShipAtCoords
 {
 public:
-    using fnFilter = std::function<bool(CShipAtCoords const&)>;
     using fnLT = std::function<bool(CShipAtCoords const&, CShipAtCoords const&)>;
+    using fnFilter = std::function<bool(CShipAtCoords const&)>;
 
     CShipAtCoords();
     CShipAtCoords(const BattleFieldCoords::BattleFieldCoords& coords, const int shipId);
