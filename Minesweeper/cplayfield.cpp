@@ -179,7 +179,7 @@ void CPlayField::revealAll()
     {
         for (auto& b : l)
         {
-            b->reveal();
+            b->reveal(true);
         }
         qApp->processEvents();
     }

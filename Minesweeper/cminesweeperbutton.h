@@ -23,8 +23,9 @@ public:
     void unreveal();
     /**
      * @brief unreveal dreht eine audgwedeckte Karte um.
+     * @param bRevealAll wenn true, wird das ganze feld aufgedeckt, und es dürfen falsche Marker angezeigt werden.
      */
-    void reveal();
+    void reveal(const bool bRevealAll = false);
 
     /**
      * @brief isSelectable prüft ob der Button noch gewählt werden kann
