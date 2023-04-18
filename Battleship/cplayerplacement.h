@@ -23,7 +23,7 @@ public:
 
 signals:
     void unsetButtons(const CShipsAtCoords);
-    void setButton(const BattleFieldCoords::ShipAtCoords);
+    void setButton(const CShipAtCoords);
 
 private:
     int _currentId;

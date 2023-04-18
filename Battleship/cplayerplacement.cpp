@@ -76,7 +76,7 @@ QString CPlayerPlacement::placementText() const
 
 void CPlayerPlacement::set(const BattleFieldCoords::BattleFieldCoords coords)
 {
-    BattleFieldCoords::ShipAtCoords s = {coords, (unsigned)currentId()};
+    CShipAtCoords s = {coords, (unsigned)currentId()};
 
     if (!_moves.isInLine(s))
     {

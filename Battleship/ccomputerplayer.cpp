@@ -67,18 +67,19 @@ BattleFieldCoords::BattleFieldCoords CComputerPlayer::justSomeRandomMove()
     return coords.at(0);
 }
 
-void CComputerPlayer::hit(const BattleFieldCoords::ShipAtCoords s)
+void CComputerPlayer::hit(const CShipAtCoords s)
 {
-    auto hits = std::count_if(_hits.begin(), _hits.end(), CShipsAtCoords::shipIdFilter(s.shipId));
+    auto hits = std::count_if(_hits.begin(), _hits.end(), CShipAtCoords::shipIdFilter(s.getShipId()));
     hits++;
 
     const auto hitpoints =
-        CGameManagement::getSizeOfShip(CGameManagement::getInstance()->getAvailableShips().at(s.shipId));
+        CGameManagement::getSizeOfShip(CGameManagement::getInstance()->getAvailableShips().at(s.getShipId()));
 
     if (hits >= hitpoints)
     {
-        _sunkShips.push_back(s.shipId);
-        std::remove_if(_hits.begin(), _hits.end(), CShipsAtCoords::shipIdFilter(s.shipId));
+        _sunkShips.push_back(s.getShipId());
+        _hits.erase(std::remove_if(_hits.begin(), _hits.end(), CShipAtCoords::shipIdFilter(s.getShipId())),
+                    _hits.end());
     }
     else
     {
@@ -93,7 +94,7 @@ std::optional<BattleFieldCoords::BattleFieldCoords> CComputerPlayer::findNextHit
         return {};
     }
 
-    auto filtered = _hits.filter(CShipsAtCoords::shipIdFilter(_hits.at(0).shipId));
+    auto filtered = _hits.filter(CShipAtCoords::shipIdFilter(_hits.at(0).getShipId()));
 
     if (filtered.empty())
     {
@@ -145,22 +146,22 @@ std::vector<BattleFieldCoords::BattleFieldCoords> CComputerPlayer::getAvailableF
     return coordList;
 }
 
-bool CComputerPlayer::isValidField(const BattleFieldCoords::ShipAtCoords s) const
+bool CComputerPlayer::isValidField(const CShipAtCoords s) const
 {
-    if (!_battleField->isInRange(s.coords))
+    if (!_battleField->isInRange(s.getCoords()))
     {
         return false;
     }
-    if (_battleField->get(s.coords)->isRevealed())
+    if (_battleField->get(s.getCoords())->isRevealed())
     {
         return false;
     }
 
-    if (_battleField->hasShipAround(s.coords,
+    if (_battleField->hasShipAround(s.getCoords(),
                                     [this, s](const auto coords)
                                     {
                                         auto b = _battleField->get(coords);
-                                        return (b->hasShip() && ((unsigned)b->getShipId() != s.shipId));
+                                        return (b->hasShip() && ((unsigned)b->getShipId() != s.getShipId()));
                                     }))
     {
         return false;
@@ -175,11 +176,11 @@ CShipsAtCoords::const_iterator CComputerPlayer::getMinOrMax(const bool isMin,
 {
     if (isMin)
     {
-        return std::min_element(filtered.begin(), filtered.end(), CShipsAtCoords::battleFieldCoordLT(dir));
+        return std::min_element(filtered.begin(), filtered.end(), CShipAtCoords::battleFieldCoordLT(dir));
     }
     else
     {
-        return std::max_element(filtered.begin(), filtered.end(), CShipsAtCoords::battleFieldCoordLT(dir));
+        return std::max_element(filtered.begin(), filtered.end(), CShipAtCoords::battleFieldCoordLT(dir));
     }
 }
 
@@ -193,12 +194,12 @@ std::optional<BattleFieldCoords::BattleFieldCoords> CComputerPlayer::appendToMin
         return {};
     }
 
-    BattleFieldCoords::ShipAtCoords s = *it;
-    s.coords.transpose(dir, isMin);
+    CShipAtCoords s = *it;
+    s.transposeCoords(dir, isMin);
 
     if (isValidField(s))
     {
-        return s.coords;
+        return s.getCoords();
     }
 
     return {};
