@@ -190,13 +190,13 @@ bool CComputerPlayer::isValidMove(const CShipAtCoords& s) const
         return false;
     }
 
-    if (_battleField->hasShipAround(s.getCoords(),
-                                    [this, s](const auto coords)
-                                    {
-                                        auto b = _battleField->get(coords);
-                                        return (b->isRevealed() && b->hasShip() &&
-                                                ((unsigned)b->getShipId() != s.getShipId()));
-                                    }))
+    auto fnOtherRevealedShipAround = [this, s](const auto coords)
+    {
+        auto b = _battleField->get(coords);
+        return (b->isRevealed() && b->hasShip() && ((unsigned)b->getShipId() != s.getShipId()));
+    };
+
+    if (_battleField->hasShipAround(s.getCoords(), fnOtherRevealedShipAround))
     {
         return false;
     }
