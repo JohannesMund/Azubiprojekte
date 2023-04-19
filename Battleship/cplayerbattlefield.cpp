@@ -17,14 +17,19 @@ void CPlayerBattleField::placeBattleShips()
     enableAll(true);
 }
 
-void CPlayerBattleField::unsetButtons(const CShipsAtCoords& coords)
+void CPlayerBattleField::unsetButtons(const CShipsAtCoords& ships)
 {
-    for (auto c : coords)
+    for (auto ship : ships)
     {
-        auto button = get(c.getCoords());
-        button->setHasShip(CGameManagement::InvalidShipId, true);
-        button->setEnabled(true);
+        unsetButton(ship.getCoords());
     }
+}
+
+void CPlayerBattleField::unsetButton(const BattleFieldCoords::BattleFieldCoords coords)
+{
+    auto button = get(coords);
+    button->setHasShip(CGameManagement::InvalidShipId, true);
+    button->setEnabled(true);
 }
 
 void CPlayerBattleField::startGame()
@@ -44,14 +49,13 @@ void CPlayerBattleField::buttonToggled(const bool toggleState, const BattleField
         return;
     }
 
-    auto button = get(coords);
-    if (isMoveValid(coords))
+    if (isValidMove(coords))
     {
         _placementHelper.set(coords);
     }
     else
     {
-        button->setHasShip(CGameManagement::InvalidShipId, true);
+        unsetButton(coords);
     }
 }
 
@@ -65,7 +69,7 @@ void CPlayerBattleField::shipHit(const BattleFieldCoords::BattleFieldCoords coor
     return;
 }
 
-bool CPlayerBattleField::isMoveValid(const BattleFieldCoords::BattleFieldCoords coords) const
+bool CPlayerBattleField::isValidMove(const BattleFieldCoords::BattleFieldCoords coords) const
 {
     if (!isInRange(coords))
         return false;

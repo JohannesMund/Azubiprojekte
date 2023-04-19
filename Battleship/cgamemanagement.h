@@ -3,6 +3,7 @@
 #include <QObject>
 #include <QSize>
 
+class QLabel;
 class CGameManagement : public QObject
 {
     friend class MainWindow;
@@ -53,6 +54,11 @@ signals:
 
 private:
     explicit CGameManagement(QObject* parent = nullptr);
+    QLabel* _shoutBox = nullptr;
+
+    void setShoutBox(QLabel* shoutBox);
+
+    void updateShoutBox();
 
     EDifficulty _difficulty;
 };

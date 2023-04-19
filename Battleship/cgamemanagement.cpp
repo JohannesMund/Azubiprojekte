@@ -1,15 +1,53 @@
 #include "cgamemanagement.h"
 
+#include <QLabel>
+
 static CGameManagement* _instance = nullptr;
 
-CGameManagement::CGameManagement(QObject* parent) : QObject{parent}
+CGameManagement::CGameManagement(QObject* parent) : QObject(parent)
 {
     _instance = this;
+}
+
+void CGameManagement::setShoutBox(QLabel* shoutBox)
+{
+    _shoutBox = shoutBox;
+    _shoutBox->setContentsMargins(15, 15, 15, 15);
+    _shoutBox->setAlignment(Qt::AlignCenter | Qt::AlignHCenter);
+}
+
+void CGameManagement::updateShoutBox()
+{
+    QString text;
+
+    QString difficulty;
+    QString opponent;
+    switch (_difficulty)
+    {
+    case EDifficulty::eEasy:
+        difficulty = "Easy";
+        opponent = "Louis<br/>Lusche";
+        break;
+    case EDifficulty::eMedium:
+        opponent = "Melvin<br/>Mediocre";
+        difficulty = "Medium";
+    default:
+        break;
+    case EDifficulty::eHard:
+        difficulty = "Hard";
+        opponent = "Hardy<br/>Hard";
+        break;
+    };
+
+    text.append(QStringLiteral("<p><b>playing against:</p><p><font size=\"25\">%1</font></b></p>").arg(opponent));
+
+    _shoutBox->setText(text);
 }
 
 void CGameManagement::initGame(EDifficulty difficulty)
 {
     _difficulty = difficulty;
+    updateShoutBox();
     emit newGame();
 }
 

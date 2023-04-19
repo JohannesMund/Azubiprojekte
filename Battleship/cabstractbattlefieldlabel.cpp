@@ -32,15 +32,14 @@ void CAbstractBattleFieldLabel::update()
         auto hitpoints = CGameManagement::getSizeOfShip(ship);
 
         QString hitarea;
+
+        hitarea = updateHitArea(i);
+
         if (hits >= hitpoints)
         {
-            hitarea = "destroyed";
+            hitarea = QStringLiteral("<s>%1</s>").arg(hitarea);
+            shipName = QStringLiteral("<s>%1</s>").arg(shipName);
         }
-        else
-        {
-            hitarea = updateHitArea(i);
-        }
-
         QString line = QString("<tr><td align=\"right\">%1:</td><td>%3</td></tr>").arg(shipName, hitarea);
         text.append(line);
     }

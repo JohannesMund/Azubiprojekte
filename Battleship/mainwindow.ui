@@ -83,12 +83,12 @@
      <x>0</x>
      <y>0</y>
      <width>598</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menunew_game">
     <property name="title">
-     <string>Neues Spiel</string>
+     <string>New Game</string>
     </property>
     <addaction name="_actionStartEasy"/>
     <addaction name="_actionStartMedium"/>
@@ -99,17 +99,17 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="_actionStartEasy">
    <property name="text">
-    <string>Leicht</string>
+    <string>Easy</string>
    </property>
   </action>
   <action name="_actionStartMedium">
    <property name="text">
-    <string>Mittel</string>
+    <string>Medium</string>
    </property>
   </action>
   <action name="_actionStartHard">
    <property name="text">
-    <string>Schwer</string>
+    <string>Hard</string>
    </property>
   </action>
  </widget>
