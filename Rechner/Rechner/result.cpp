@@ -1,5 +1,6 @@
 #include "result.h"
 
+#include <QRegularExpression>
 #include <QTextStream>
 #include <math.h>
 
@@ -46,7 +47,7 @@ QString Result::toString() const
     ts.setRealNumberPrecision(precision - 1);
     ts << _val;
 
-    s.remove(QRegExp("0+$"));
-    s.remove(QRegExp("\\.$"));
+    s.remove(QRegularExpression("0+$"));
+    s.remove(QRegularExpression("\\.$"));
     return s;
 }

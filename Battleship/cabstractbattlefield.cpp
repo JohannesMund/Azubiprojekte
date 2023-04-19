@@ -21,7 +21,6 @@ void CAbstractBattleField::init()
 
     auto size = CGameManagement::getInstance()->getGridSize();
 
-    l->setMargin(0);
     l->setContentsMargins(0, 0, 0, 0);
 
     for (int i = 0; i < size.height(); i++)
@@ -82,7 +81,7 @@ bool CAbstractBattleField::isInRange(const BattleFieldCoords::BattleFieldCoords 
     {
         return false;
     }
-    return (coords.x >= 0 && coords.x < _grid.at(0).size()) && (coords.y >= 0 && coords.y < _grid.size());
+    return (coords.x < _grid.at(0).size()) && (coords.y < _grid.size());
 }
 
 bool CAbstractBattleField::hasShipAround(const BattleFieldCoords::BattleFieldCoords coords,

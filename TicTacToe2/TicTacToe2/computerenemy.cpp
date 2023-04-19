@@ -55,7 +55,7 @@ PlayFieldCoords ComputerEnemy::getWinningMove(const PlayField& snapShot, const P
      */
     const auto emptyFields = snapShot.getEmptyFields();
 
-    for (const auto field : emptyFields)
+    for (const auto& field : emptyFields)
     {
         auto playField(snapShot);
         playField.set(field, p);
@@ -127,7 +127,7 @@ PlayFieldCoords ComputerEnemy::getMinMaxEvaluatedMove(const PlayField& snapShot)
 
     PlayFieldCoords bestCoords;
     int bestValue = INT_MIN;
-    for (const auto f : emptyFields)
+    for (const auto& f : emptyFields)
     {
         PlayField copyField(snapShot);
         copyField.set(f, PlayerManagement::computerPlayer);

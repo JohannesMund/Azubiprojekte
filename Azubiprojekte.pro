@@ -1,7 +1,8 @@
 TEMPLATE = subdirs
 
 SUBDIRS = \
-    Minesweeper \
+Battleship \
+Minesweeper \
 Rechner/Rechner \
 Rechner/RechnerTest \
 TicTacToe \

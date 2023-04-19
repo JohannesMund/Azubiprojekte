@@ -13,12 +13,13 @@ private:
     virtual void placeBattleShips() override;
 
     void unsetButtons(const CShipsAtCoords& coords);
+    void unsetButton(const BattleFieldCoords::BattleFieldCoords coords);
 
     virtual void startGame() override;
     virtual void buttonToggled(const bool toggleState, const BattleFieldCoords::BattleFieldCoords coords) override;
     virtual void shipHit(const BattleFieldCoords::BattleFieldCoords coords) override;
 
-    bool isMoveValid(const BattleFieldCoords::BattleFieldCoords coords) const;
+    bool isValidMove(const BattleFieldCoords::BattleFieldCoords coords) const;
 
     CPlayerPlacement _placementHelper;
 };

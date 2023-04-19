@@ -69,7 +69,6 @@ void CPlayField::addButtonsToLayout()
     delete layout();
     QGridLayout* l = new QGridLayout(0);
 
-    l->setMargin(0);
     l->setContentsMargins(0, 0, 0, 0);
 
     for (size_t row = 0; row < _buttons.size(); row++)
@@ -179,7 +178,7 @@ void CPlayField::revealAll()
     {
         for (auto& b : l)
         {
-            b->reveal();
+            b->reveal(true);
         }
         qApp->processEvents();
     }

@@ -13,6 +13,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->setupUi(this);
 
+    gameManagement->setShoutBox(ui->_enemyShoutbox);
+
     ui->_enemyGround->setLabel(ui->_enemyDisplay);
     ui->_playerGround->setLabel(ui->_playerDisplay);
 

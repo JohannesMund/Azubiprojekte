@@ -12,7 +12,7 @@ CButtonBox::CButtonBox(QWidget* parent) : QFrame(parent)
     {
         auto p = new QPushButton("", this);
         p->setIcon(QPixmap(":/img/arrow.png"));
-        connect(p, &QPushButton::clicked, this, [=]() { emit buttonClicked(i); });
+        connect(p, &QPushButton::clicked, this, [this, i]() { emit buttonClicked(i); });
         pLayout->insertWidget(i, p);
         _buttons.push_back(p);
     }

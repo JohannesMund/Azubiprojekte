@@ -30,7 +30,7 @@ void CPlayField::reset()
 {
     for (unsigned int i = 0; i < _width; i++)
     {
-        for (auto j = 0; j < _height; j++)
+        for (unsigned int j = 0; j < _height; j++)
         {
             getField(j, i)->reset();
         }

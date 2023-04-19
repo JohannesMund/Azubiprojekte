@@ -55,7 +55,7 @@ void CPlayField::createNewButtons(const unsigned int number)
 
         /// Man bemerke das Lambda, wir kopieren idx in den scope
         auto idx = _buttons.size();
-        connect(btn, &CMemoryButton::buttonSelected, this, [=]() { buttonClicked(idx); });
+        connect(btn, &CMemoryButton::buttonSelected, this, [this, idx]() { buttonClicked(idx); });
         _buttons.push_back(btn);
     }
 }

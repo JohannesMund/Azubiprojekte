@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <functional>
 
+#include <ranges>
 CShipsAtCoords::CShipsAtCoords()
 {
 }
@@ -69,13 +70,11 @@ bool CShipsAtCoords::isHorizontalLine() const
 CShipsAtCoords CShipsAtCoords::filter(CShipAtCoords::fnFilter fn)
 {
     CShipsAtCoords filtered;
-    for (auto s : *this)
+    for (auto s : *this | std::views::filter(fn))
     {
-        if (fn(s))
-        {
-            filtered.push_back(s);
-        }
+        filtered.push_back(s);
     }
+
     return filtered;
 }
 

@@ -26,7 +26,7 @@ void CMineSweeperButton::unreveal()
     setEnabled(true);
 }
 
-void CMineSweeperButton::reveal()
+void CMineSweeperButton::reveal(const bool bRevealAll)
 {
     if (_hasBomb)
     {
@@ -35,7 +35,7 @@ void CMineSweeperButton::reveal()
     else
     {
 
-        if (_markerSet)
+        if (_markerSet && bRevealAll)
         {
             setIcon(createIcon(QString(":/img/no-bomb.png")));
         }

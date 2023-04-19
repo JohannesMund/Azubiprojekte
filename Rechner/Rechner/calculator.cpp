@@ -157,7 +157,8 @@ QString Calculator::operator2String(const Calculator::Operator& op)
         return "√";
         break;
     case Operator::none:
-        return "";
+        return QString();
         break;
     }
+    return QString();
 }
