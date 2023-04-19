@@ -101,7 +101,7 @@ void PlayField_Test::test_getEmptyFields()
 {
     QFETCH(QVector<PlayFieldCoords>, coords);
     PlayField p;
-    for (const auto c : coords)
+    for (const auto& c : coords)
     {
         p.set(c, PlayerManagement::Player::plX);
     }

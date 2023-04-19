@@ -12,7 +12,7 @@ inline PlayField populatePlayField(const PlayFieldRepresentation& fieldRep)
 {
 
     PlayField field;
-    for (const auto f : fieldRep)
+    for (const auto& f : fieldRep)
     {
         field.set(f.first, f.second);
     }

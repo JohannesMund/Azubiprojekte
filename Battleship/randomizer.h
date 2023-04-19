@@ -1,10 +1,16 @@
 #pragma once
 
 #include <algorithm>
+#include <ctime>
 #include <random>
 
 namespace Randomizer
 {
+
+inline void initRand()
+{
+    std::srand(std::time(nullptr));
+}
 
 template <typename T>
 void shuffle(T& v)

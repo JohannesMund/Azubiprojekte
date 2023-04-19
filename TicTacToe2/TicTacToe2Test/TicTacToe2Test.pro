@@ -1,6 +1,6 @@
 
 QT += testlib
-CONFIG += c++11 console testcase
+CONFIG += c++2a console testcase
 CONFIG -= app_bundle
 
 INCLUDEPATH += ../TicTacToe2

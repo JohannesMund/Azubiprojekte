@@ -116,6 +116,7 @@ std::optional<BattleFieldCoords::BattleFieldCoords> CComputerPlayer::strategicMo
 BattleFieldCoords::BattleFieldCoords CComputerPlayer::justSomeRandomMove()
 {
     auto coords = getAvailableFields();
+    Randomizer::initRand();
     Randomizer::shuffle(coords);
     return coords.at(0);
 }

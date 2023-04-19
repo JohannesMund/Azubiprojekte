@@ -1,10 +1,11 @@
 #include "ccomputerbattlefield.h"
-#include "randomizer.h"
 #include "cabstractbattlefieldlabel.h"
 #include "cbattlefieldbutton.h"
 #include "cgamemanagement.h"
+#include "randomizer.h"
 
 #include <QApplication>
+#include <ctime>
 
 CComputerBattleField::CComputerBattleField(QWidget* parent) : CAbstractBattleField(parent)
 {
@@ -46,7 +47,7 @@ void CComputerBattleField::shipHit(const BattleFieldCoords::BattleFieldCoords)
 }
 void CComputerBattleField::autoPlaceBattleShips()
 {
-    std::srand(std::time(nullptr));
+    Randomizer::initRand();
     auto ships = CGameManagement::getInstance()->getAvailableShips();
     for (unsigned int i = 0; i < ships.size(); i++)
     {
