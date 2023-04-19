@@ -24,6 +24,6 @@ signals:
 private:
     void setIcon(const QString& path);
     void clearIcon();
-    int _shipId = -1;
+    int _shipId = CGameManagement::InvalidShipId;
     bool _isRevealed = false;
 };

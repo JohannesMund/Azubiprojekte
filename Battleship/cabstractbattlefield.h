@@ -1,11 +1,12 @@
 #pragma once
 
-#include "cshipsatcoords.h"
+#include "battlefieldcoords.h"
 
 #include <QFrame>
 
 class CAbstractBattleFieldLabel;
 class CBattleFieldButton;
+class CShipsAtCoords;
 class CAbstractBattleField : public QFrame
 {
 

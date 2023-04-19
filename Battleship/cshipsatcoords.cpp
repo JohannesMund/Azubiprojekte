@@ -1,49 +1,52 @@
 #include "cshipsatcoords.h"
 
+#include <algorithm>
+#include <functional>
+
 CShipsAtCoords::CShipsAtCoords()
 {
 }
 
 bool CShipsAtCoords::contains(const BattleFieldCoords::BattleFieldCoords coords)
 {
-    return std::count_if(begin(), end(), battleFieldCoordFilter(coords)) != 0;
+    return std::count_if(begin(), end(), CShipAtCoords::battleFieldCoordFilter(coords)) != 0;
 }
 
 bool CShipsAtCoords::contains(const unsigned int shipId)
 {
-    return std::count_if(begin(), end(), shipIdFilter(shipId)) != 0;
+    return std::count_if(begin(), end(), CShipAtCoords::shipIdFilter(shipId)) != 0;
 }
 
-bool CShipsAtCoords::isInLine(const BattleFieldCoords::ShipAtCoords s)
+bool CShipsAtCoords::isInLine(const CShipAtCoords s)
 {
-    if (!contains(s.shipId))
+    if (!contains(s.getShipId()))
     {
         return true;
     }
 
-    if (contains(s.coords))
+    if (contains(s.getCoords()))
     {
         return false;
     }
 
-    auto filtered = filter(shipIdFilter(s.shipId));
+    auto filtered = filter(CShipAtCoords::shipIdFilter(s.getShipId()));
 
-    if (s.coords.x == filtered.at(0).coords.x)
+    if (s.getCoords().x == filtered.at(0).getCoords().x)
     {
         for (auto m : filtered)
         {
-            if (s.coords.y == m.coords.y + 1 || s.coords.y == m.coords.y - 1)
+            if (s.getCoords().y == m.getCoords().y + 1 || s.getCoords().y == m.getCoords().y - 1)
             {
                 return true;
             }
         }
     }
 
-    if (s.coords.y == filtered.at(0).coords.y)
+    if (s.getCoords().y == filtered.at(0).getCoords().y)
     {
         for (auto m : filtered)
         {
-            if (s.coords.x == m.coords.x + 1 || s.coords.x == m.coords.x - 1)
+            if (s.getCoords().x == m.getCoords().x + 1 || s.getCoords().x == m.getCoords().x - 1)
             {
                 return true;
             }
@@ -55,15 +58,15 @@ bool CShipsAtCoords::isInLine(const BattleFieldCoords::ShipAtCoords s)
 
 bool CShipsAtCoords::isVerticalLine() const
 {
-    return isLine(true);
+    return isLine(BattleFieldCoords::EDirections::eVertical);
 }
 
 bool CShipsAtCoords::isHorizontalLine() const
 {
-    return isLine(false);
+    return isLine(BattleFieldCoords::EDirections::eHorizontal);
 }
 
-CShipsAtCoords CShipsAtCoords::filter(fnFilter fn)
+CShipsAtCoords CShipsAtCoords::filter(CShipAtCoords::fnFilter fn)
 {
     CShipsAtCoords filtered;
     for (auto s : *this)
@@ -76,27 +79,27 @@ CShipsAtCoords CShipsAtCoords::filter(fnFilter fn)
     return filtered;
 }
 
-bool CShipsAtCoords::isLine(const bool bVertical) const
+bool CShipsAtCoords::isLine(const BattleFieldCoords::EDirections dir) const
 {
     if (size() <= 1)
     {
         return true;
     }
 
-    auto horizontalOrVerticalCoord = [bVertical](const BattleFieldCoords::BattleFieldCoords coords)
+    auto horizontalOrVerticalCoord = [&dir](const BattleFieldCoords::BattleFieldCoords coords)
     {
-        if (bVertical)
+        if (dir == BattleFieldCoords::EDirections::eVertical)
         {
-            return coords.y;
+            return coords.x;
         }
-        return coords.x;
+        return coords.y;
     };
 
-    auto c = horizontalOrVerticalCoord(at(0).coords);
+    auto c = horizontalOrVerticalCoord(at(0).getCoords());
 
     for (auto s : *this)
     {
-        if (horizontalOrVerticalCoord(s.coords) != c)
+        if (horizontalOrVerticalCoord(s.getCoords()) != c)
         {
             return false;
         }

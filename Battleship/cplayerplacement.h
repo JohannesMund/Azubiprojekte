@@ -1,8 +1,11 @@
+#pragma once
+
 #include "cabstractbattlefield.h"
 #include "cgamemanagement.h"
+#include "cshipsatcoords.h"
 
-#pragma once
 class QLabel;
+class CShipAtCoords;
 class CPlayerPlacement : public QObject
 {
     Q_OBJECT
@@ -22,8 +25,8 @@ public:
     void printPlacementText(QLabel* label);
 
 signals:
-    void unsetButtons(const CShipsAtCoords);
-    void setButton(const BattleFieldCoords::ShipAtCoords);
+    void unsetButtons(const CShipsAtCoords& ships);
+    void setButton(const CShipAtCoords& ship);
 
 private:
     int _currentId;

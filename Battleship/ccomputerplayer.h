@@ -1,11 +1,14 @@
 #pragma once
 
-#include "cabstractbattlefield.h"
+#include "battlefieldcoords.h"
+#include "cshipsatcoords.h"
 
 #include <QObject>
 
 #include <optional>
 
+class CAbstractBattleField;
+class CShipAtCoords;
 class CComputerPlayer : public QObject
 {
 public:
@@ -15,17 +18,21 @@ public:
 
 private:
     void doMove();
+    void hit(const CShipAtCoords& s);
+
     BattleFieldCoords::BattleFieldCoords doMoveEasy();
     BattleFieldCoords::BattleFieldCoords doMoveMedium();
     BattleFieldCoords::BattleFieldCoords doMoveHard();
 
     BattleFieldCoords::BattleFieldCoords justSomeRandomMove();
+
+    std::optional<BattleFieldCoords::BattleFieldCoords> strategicMove();
     std::optional<BattleFieldCoords::BattleFieldCoords> findNextHit();
 
-    void hit(const BattleFieldCoords::ShipAtCoords s);
+    bool isValidMove(const CShipAtCoords& s) const;
 
     std::vector<BattleFieldCoords::BattleFieldCoords> getAvailableFields();
-    bool isValidField(const BattleFieldCoords::ShipAtCoords s) const;
+
     CShipsAtCoords::const_iterator getMinOrMax(const bool isMin,
                                                const BattleFieldCoords::EDirections dir,
                                                const CShipsAtCoords& filtered) const;
@@ -34,7 +41,6 @@ private:
                                                                          const CShipsAtCoords& filtered) const;
 
     CAbstractBattleField* _battleField;
-
     std::vector<unsigned int> _sunkShips = {};
     CShipsAtCoords _hits = {};
 };

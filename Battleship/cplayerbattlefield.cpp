@@ -8,7 +8,7 @@ CPlayerBattleField::CPlayerBattleField(QWidget* parent) : CAbstractBattleField(p
     connect(&_placementHelper,
             &CPlayerPlacement::setButton,
             this,
-            [this](const BattleFieldCoords::ShipAtCoords s) { get(s.coords)->setHasShip(s.shipId, true); });
+            [this](const CShipAtCoords s) { get(s.getCoords())->setHasShip(s.getShipId(), true); });
 }
 
 void CPlayerBattleField::placeBattleShips()
@@ -17,12 +17,12 @@ void CPlayerBattleField::placeBattleShips()
     enableAll(true);
 }
 
-void CPlayerBattleField::unsetButtons(const CShipsAtCoords coords)
+void CPlayerBattleField::unsetButtons(const CShipsAtCoords& coords)
 {
     for (auto c : coords)
     {
-        auto button = get({c.coords.x, c.coords.y});
-        button->setHasShip(-1, true);
+        auto button = get(c.getCoords());
+        button->setHasShip(CGameManagement::InvalidShipId, true);
         button->setEnabled(true);
     }
 }
@@ -51,7 +51,7 @@ void CPlayerBattleField::buttonToggled(const bool toggleState, const BattleField
     }
     else
     {
-        button->setHasShip(-1, true);
+        button->setHasShip(CGameManagement::InvalidShipId, true);
     }
 }
 

@@ -25,6 +25,8 @@ public:
         eHard
     };
 
+    static constexpr int InvalidShipId = -1;
+
     using ShipVector = std::vector<EShips>;
 
     void initGame(EDifficulty difficulty);
