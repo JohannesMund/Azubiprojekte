@@ -26,6 +26,13 @@ public:
         eHard
     };
 
+    enum class EPhase
+    {
+        ePlacement,
+        ePlay,
+        eFinish
+    };
+
     static constexpr int InvalidShipId = -1;
 
     using ShipVector = std::vector<EShips>;
@@ -61,4 +68,5 @@ private:
     void updateShoutBox();
 
     EDifficulty _difficulty;
+    EPhase _currentPhase;
 };

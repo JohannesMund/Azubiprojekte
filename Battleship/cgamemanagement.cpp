@@ -39,7 +39,23 @@ void CGameManagement::updateShoutBox()
         break;
     };
 
-    text.append(QStringLiteral("<p><b>playing against:</p><p><font size=\"25\">%1</font></b></p>").arg(opponent));
+    text.append(QStringLiteral("<p>playing against:<p><b><font size=\"25\">%1</font></b></p>").arg(opponent));
+
+    QString phase;
+
+    switch (_currentPhase)
+    {
+    case EPhase::ePlacement:
+        phase = "Place your ships!";
+        break;
+    case EPhase::ePlay:
+        phase = "Shoot!";
+        break;
+    case EPhase::eFinish:
+        phase = "Game Over";
+    }
+
+    text.append(QStringLiteral("<p>%1</p>").arg(phase));
 
     _shoutBox->setText(text);
 }
@@ -47,12 +63,16 @@ void CGameManagement::updateShoutBox()
 void CGameManagement::initGame(EDifficulty difficulty)
 {
     _difficulty = difficulty;
+    _currentPhase = EPhase::ePlacement;
     updateShoutBox();
+
     emit newGame();
 }
 
 void CGameManagement::start()
 {
+    _currentPhase = EPhase::ePlay;
+    updateShoutBox();
     emit startGame();
 }
 

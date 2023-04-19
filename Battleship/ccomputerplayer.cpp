@@ -61,34 +61,57 @@ void CComputerPlayer::hit(const CShipAtCoords& s)
 
 BattleFieldCoords::BattleFieldCoords CComputerPlayer::doMoveEasy()
 {
+    /**
+     * Easy
+     * Reveal a random field
+     * No questions asked. Just shoot
+     */
     return justSomeRandomMove();
 }
 
 BattleFieldCoords::BattleFieldCoords CComputerPlayer::doMoveMedium()
 {
+    /**
+     * Medium
+     * Try to shoot at a field, next to a hit
+     */
     auto coords = findNextHit();
     if (coords.has_value())
     {
         return coords.value();
     }
 
+    /**
+     * If this does not work, just shoot
+     */
     return justSomeRandomMove();
 }
 
 BattleFieldCoords::BattleFieldCoords CComputerPlayer::doMoveHard()
 {
+    /**
+     * Hard
+     * Try to shoot at a field, next to a hit
+     */
     auto coords = findNextHit();
     if (coords.has_value())
     {
         return coords.value();
     }
 
+    /**
+     * Cover the Battlefield strategically
+     */
     coords = strategicMove();
     if (coords.has_value())
     {
         return coords.value();
     }
 
+    /**
+     * If all of the above does not work out
+     * Just shoot
+     */
     return justSomeRandomMove();
 }
 
