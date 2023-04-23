@@ -19,7 +19,7 @@ public:
     bool isVerticalLine() const;
     bool isHorizontalLine() const;
 
-    CShipsAtCoords filter(CShipAtCoords::fnFilter fn);
+    CShipsAtCoords filter(const CShipAtCoords::fnFilter fn) const;
 
 private:
     bool isLine(const BattleFieldCoords::EDirections dir) const;

@@ -1,6 +1,7 @@
 #include "ccomputerbattlefield.h"
 #include "cabstractbattlefieldlabel.h"
 #include "cbattlefieldbutton.h"
+#include "cbattlefieldgrid.h"
 #include "cgamemanagement.h"
 #include "randomizer.h"
 
@@ -29,12 +30,16 @@ void CComputerBattleField::buttonToggled(const bool, const BattleFieldCoords::Ba
     if (!isInRange(coords))
         return;
 
-    auto button = get(coords);
+    auto button = at(coords);
     button->setEnabled(false);
     if (button->hasShip())
     {
         button->reveal(true);
         _label->hit(button->getShipId());
+        if (checkForWin())
+        {
+            CGameManagement::getInstance()->playerWins();
+        }
     }
     else
     {
@@ -60,8 +65,8 @@ void CComputerBattleField::autoPlaceBattleShip(const int size, const int shipId)
     while (true)
     {
         qApp->processEvents();
-        unsigned int x = std::rand() / ((RAND_MAX + 1u) / _grid.at(0).size());
-        unsigned int y = std::rand() / ((RAND_MAX + 1u) / _grid.size());
+        unsigned int x = std::rand() / ((RAND_MAX + 1u) / _grid.size().width);
+        unsigned int y = std::rand() / ((RAND_MAX + 1u) / _grid.size().height);
 
         std::vector<BattleFieldCoords::EDirections> directions = {BattleFieldCoords::EDirections::eHorizontal,
                                                                   BattleFieldCoords::EDirections::eVertical};
@@ -94,7 +99,7 @@ bool CComputerBattleField::autoPlaceBattleShipRecursion(BattleFieldCoords::Battl
 
     if (size == 0)
     {
-        get(coords)->setHasShip(shipId, false);
+        at(coords)->setHasShip(shipId, false);
         return true;
     }
 
@@ -109,7 +114,7 @@ bool CComputerBattleField::autoPlaceBattleShipRecursion(BattleFieldCoords::Battl
 
     if (autoPlaceBattleShipRecursion(coords, size - 1, dir, shipId))
     {
-        get(coords)->setHasShip(shipId, false);
+        at(coords)->setHasShip(shipId, false);
         return true;
     }
     return false;

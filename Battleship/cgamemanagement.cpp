@@ -92,7 +92,7 @@ CGameManagement::ShipVector CGameManagement::getAvailableShips() const
             EShips::eSubMarine};
 }
 
-QSize CGameManagement::getGridSize() const
+TGridSize CGameManagement::getGridSize() const
 {
     return {10, 10};
 }
@@ -136,4 +136,31 @@ void CGameManagement::playerFinished()
 void CGameManagement::computerFinished()
 {
     emit playerTurn();
+}
+
+void CGameManagement::playerWins()
+{
+    setGameOver();
+}
+
+void CGameManagement::computerWins()
+{
+    setGameOver();
+}
+
+void CGameManagement::setGameOver()
+{
+    _currentPhase = EPhase::eFinish;
+    updateShoutBox();
+    emit gameOver();
+}
+
+unsigned int CGameManagement::getHitsForWin() const
+{
+    unsigned int num = 0;
+    for (auto s : getAvailableShips())
+    {
+        num += getSizeOfShip(s);
+    }
+    return num;
 }

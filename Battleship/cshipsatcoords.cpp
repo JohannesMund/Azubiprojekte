@@ -67,7 +67,7 @@ bool CShipsAtCoords::isHorizontalLine() const
     return isLine(BattleFieldCoords::EDirections::eHorizontal);
 }
 
-CShipsAtCoords CShipsAtCoords::filter(CShipAtCoords::fnFilter fn)
+CShipsAtCoords CShipsAtCoords::filter(const CShipAtCoords::fnFilter fn) const
 {
     CShipsAtCoords filtered;
     for (auto s : *this | std::views::filter(fn))

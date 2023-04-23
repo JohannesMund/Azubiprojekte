@@ -9,14 +9,16 @@ class CBattleFieldButton : public QPushButton
     Q_OBJECT
 public:
     CBattleFieldButton();
-    bool hasShip();
-    int getShipId();
+    bool hasShip() const;
+    int getShipId() const;
 
     void setHasShip(const int id, const bool bShow);
 
     void reveal(const bool bMarkHit = false);
 
     bool isRevealed() const;
+
+    bool isRevealedHit() const;
 
 signals:
     void hit();

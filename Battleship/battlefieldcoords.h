@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QSize>
+
 #include <functional>
 
 namespace BattleFieldCoords

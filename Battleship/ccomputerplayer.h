@@ -20,18 +20,18 @@ private:
     void doMove();
     void hit(const CShipAtCoords& s);
 
-    BattleFieldCoords::BattleFieldCoords doMoveEasy();
-    BattleFieldCoords::BattleFieldCoords doMoveMedium();
-    BattleFieldCoords::BattleFieldCoords doMoveHard();
+    BattleFieldCoords::BattleFieldCoords doMoveEasy() const;
+    BattleFieldCoords::BattleFieldCoords doMoveMedium() const;
+    BattleFieldCoords::BattleFieldCoords doMoveHard() const;
 
-    BattleFieldCoords::BattleFieldCoords justSomeRandomMove();
+    BattleFieldCoords::BattleFieldCoords justSomeRandomMove() const;
 
-    std::optional<BattleFieldCoords::BattleFieldCoords> strategicMove();
-    std::optional<BattleFieldCoords::BattleFieldCoords> findNextHit();
+    std::optional<BattleFieldCoords::BattleFieldCoords> strategicMove() const;
+    std::optional<BattleFieldCoords::BattleFieldCoords> findNextHit() const;
 
     bool isValidMove(const CShipAtCoords& s) const;
 
-    std::vector<BattleFieldCoords::BattleFieldCoords> getAvailableFields();
+    std::vector<BattleFieldCoords::BattleFieldCoords> getAvailableFields() const;
 
     CShipsAtCoords::const_iterator getMinOrMax(const bool isMin,
                                                const BattleFieldCoords::EDirections dir,

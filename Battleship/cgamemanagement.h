@@ -1,7 +1,8 @@
 #pragma once
 
+#include "cbattlefieldgrid.h"
+
 #include <QObject>
-#include <QSize>
 
 class QLabel;
 class CGameManagement : public QObject
@@ -43,10 +44,16 @@ public:
     EDifficulty getDifficulty() const;
 
     ShipVector getAvailableShips() const;
-    QSize getGridSize() const;
+    TGridSize getGridSize() const;
 
     void playerFinished();
     void computerFinished();
+
+    void playerWins();
+    void computerWins();
+    void setGameOver();
+
+    unsigned int getHitsForWin() const;
 
     static QString ship2Text(EShips ship);
     static unsigned int getSizeOfShip(EShips ship);
@@ -58,6 +65,7 @@ signals:
 
     void computerTurn();
     void playerTurn();
+    void gameOver();
 
 private:
     explicit CGameManagement(QObject* parent = nullptr);

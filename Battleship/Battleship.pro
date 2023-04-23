@@ -11,6 +11,7 @@ SOURCES += \
     cabstractbattlefield.cpp \
     cabstractbattlefieldlabel.cpp \
     cbattlefieldbutton.cpp \
+    cbattlefieldgrid.cpp \
     ccomputerbattlefield.cpp \
     ccomputerbattlefieldlabel.cpp \
     ccomputerplayer.cpp \
@@ -28,6 +29,8 @@ HEADERS += \
     cabstractbattlefield.h \
     cabstractbattlefieldlabel.h \
     cbattlefieldbutton.h \
+    cbattlefieldgrid.h \
+    cbattlefieldgriditerator.h \
     ccomputerbattlefield.h \
     ccomputerbattlefieldlabel.h \
     ccomputerplayer.h \

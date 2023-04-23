@@ -1,16 +1,27 @@
 #pragma once
 
 #include "battlefieldcoords.h"
-
+#include "cbattlefieldbutton.h"
+#include "cbattlefieldgrid.h"
 #include <QFrame>
 
 class CAbstractBattleFieldLabel;
-class CBattleFieldButton;
+
 class CShipsAtCoords;
 class CAbstractBattleField : public QFrame
 {
 
 public:
+    auto begin()
+    {
+        return _grid.begin();
+    }
+
+    auto end()
+    {
+        return _grid.end();
+    }
+
     CAbstractBattleField(QWidget* parent = nullptr);
     void setLabel(CAbstractBattleFieldLabel* label);
 
@@ -20,10 +31,12 @@ public:
 
     bool isInRange(const BattleFieldCoords::BattleFieldCoords coords) const;
 
-    CBattleFieldButton* get(const BattleFieldCoords::BattleFieldCoords coords) const;
+    bool checkForWin() const;
+
+    CBattleFieldButton* at(const BattleFieldCoords::BattleFieldCoords coords) const;
 
 protected:
-    std::vector<std::vector<CBattleFieldButton*>> _grid;
+    CBattleFieldGrid<CBattleFieldButton*> _grid;
 
     void init();
 
@@ -35,6 +48,7 @@ protected:
     void clearGrid();
 
     void enableAll(const bool bEnable);
+    void revealAll();
 
     CAbstractBattleFieldLabel* _label;
 };

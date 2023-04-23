@@ -15,12 +15,12 @@ CBattleFieldButton::CBattleFieldButton() : QPushButton("")
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 }
 
-bool CBattleFieldButton::hasShip()
+bool CBattleFieldButton::hasShip() const
 {
     return _shipId >= 0;
 }
 
-int CBattleFieldButton::getShipId()
+int CBattleFieldButton::getShipId() const
 {
     return _shipId;
 }
@@ -63,6 +63,11 @@ void CBattleFieldButton::reveal(const bool bMarkHit)
 bool CBattleFieldButton::isRevealed() const
 {
     return _isRevealed;
+}
+
+bool CBattleFieldButton::isRevealedHit() const
+{
+    return (isRevealed() && hasShip());
 }
 
 void CBattleFieldButton::setIcon(const QString& path)
