@@ -37,7 +37,10 @@ void CComputerPlayer::doMove()
     {
         hit(CShipAtCoords(coords, button->getShipId()));
         doMove();
+        return;
     }
+
+    CGameManagement::getInstance()->computerFinished();
 }
 
 void CComputerPlayer::hit(const CShipAtCoords& s)
