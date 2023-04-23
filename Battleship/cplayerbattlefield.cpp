@@ -17,7 +17,7 @@ void CPlayerBattleField::placeBattleShips()
     enableAll(true);
 }
 
-void CPlayerBattleField::unsetButtons(const CShipsAtCoords& ships)
+void CPlayerBattleField::unsetButtons(const CShipVector& ships)
 {
     for (auto ship : ships)
     {
@@ -74,8 +74,6 @@ bool CPlayerBattleField::isValidMove(const BattleFieldCoords::BattleFieldCoords 
     if (!isInRange(coords))
         return false;
 
-    return !hasShipAround(coords,
-                          [this](const BattleFieldCoords::BattleFieldCoords coords) {
-                              return at(coords)->hasShip() && at(coords)->getShipId() != _placementHelper.currentId();
-                          });
+    return !hasShipAround_if(
+        coords, [this](const auto b) { return b->hasShip() && b->getShipId() != _placementHelper.currentId(); });
 }

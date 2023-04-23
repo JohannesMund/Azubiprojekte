@@ -87,6 +87,9 @@ bool CAbstractBattleField::isInRange(const BattleFieldCoords::BattleFieldCoords 
 
 bool CAbstractBattleField::checkForWin() const
 {
+    /**
+     * @remark das geht nur, weil wir eigene Iteratoren benutzen
+     */
     unsigned int cnt =
         std::count_if(_grid.begin(), _grid.end(), [](const CBattleFieldButton* b) { return b->isRevealedHit(); });
     if (cnt >= CGameManagement::getInstance()->getHitsForWin())
@@ -96,8 +99,7 @@ bool CAbstractBattleField::checkForWin() const
     return false;
 }
 
-bool CAbstractBattleField::hasShipAround(const BattleFieldCoords::BattleFieldCoords coords,
-                                         std::function<bool(const BattleFieldCoords::BattleFieldCoords coords)> f) const
+bool CAbstractBattleField::hasShipAround_if(const BattleFieldCoords::BattleFieldCoords coords, fnAround fn) const
 {
     for (int i = coords.x - 1; i <= static_cast<int>(coords.x + 1); i++)
     {
@@ -110,7 +112,8 @@ bool CAbstractBattleField::hasShipAround(const BattleFieldCoords::BattleFieldCoo
                 continue;
             }
 
-            if (f(coords))
+            auto s = at(coords);
+            if (fn(s))
             {
                 return true;
             }
@@ -121,8 +124,7 @@ bool CAbstractBattleField::hasShipAround(const BattleFieldCoords::BattleFieldCoo
 
 bool CAbstractBattleField::hasShipAround(const BattleFieldCoords::BattleFieldCoords coords) const
 {
-    return hasShipAround(
-        coords, [this](const BattleFieldCoords::BattleFieldCoords coords) { return _grid.at(coords)->hasShip(); });
+    return hasShipAround_if(coords, [this](const auto b) { return b->hasShip(); });
 }
 
 CBattleFieldButton* CAbstractBattleField::at(const BattleFieldCoords::BattleFieldCoords coords) const

@@ -1,6 +1,12 @@
 #include "cbattlefieldgrid.h"
 #include "cbattlefieldbutton.h"
 
+template <class TValueType>
+TGridSize CBattleFieldGrid<TValueType>::size() const
+{
+    return {_grid.at(_grid.size() - 1).size(), _grid.size()};
+}
+
 template <typename TContainerType>
 void CBattleFieldGrid<TContainerType>::resize(const TGridSize& sz)
 {
@@ -47,5 +53,4 @@ std::optional<BattleFieldCoords::BattleFieldCoords> CBattleFieldGrid<TContainerT
     return BattleFieldCoords::BattleFieldCoords(
         {(unsigned int)_grid.at(_grid.size() - 1).size() - 1, (unsigned int)_grid.size() - 1});
 }
-
-template class CBattleFieldGrid<CBattleFieldButton*>;
+#include "cbattlefieldgridregister.h"

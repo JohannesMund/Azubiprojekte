@@ -67,57 +67,33 @@ void CComputerPlayer::hit(const CShipAtCoords& s)
 
 BattleFieldCoords::BattleFieldCoords CComputerPlayer::doMoveEasy() const
 {
-    /**
-     * Easy
-     * Reveal a random field
-     * No questions asked. Just shoot
-     */
     return justSomeRandomMove();
 }
 
 BattleFieldCoords::BattleFieldCoords CComputerPlayer::doMoveMedium() const
 {
-    /**
-     * Medium
-     * Try to shoot at a field, next to a hit
-     */
     auto coords = findNextHit();
     if (coords.has_value())
     {
         return coords.value();
     }
-
-    /**
-     * If this does not work, just shoot
-     */
     return justSomeRandomMove();
 }
 
 BattleFieldCoords::BattleFieldCoords CComputerPlayer::doMoveHard() const
 {
-    /**
-     * Hard
-     * Try to shoot at a field, next to a hit
-     */
     auto coords = findNextHit();
     if (coords.has_value())
     {
         return coords.value();
     }
 
-    /**
-     * Cover the Battlefield strategically
-     */
     coords = strategicMove();
     if (coords.has_value())
     {
         return coords.value();
     }
 
-    /**
-     * If all of the above does not work out
-     * Just shoot
-     */
     return justSomeRandomMove();
 }
 
@@ -208,13 +184,10 @@ bool CComputerPlayer::isValidMove(const CShipAtCoords& s) const
         return false;
     }
 
-    auto fnOtherRevealedShipAround = [this, s](const auto coords)
-    {
-        auto b = _battleField->at(coords);
-        return (b->isRevealed() && b->hasShip() && ((unsigned)b->getShipId() != s.getShipId()));
-    };
+    auto fnOtherRevealedShipAround = [this, s](const auto b)
+    { return (b->isRevealed() && b->hasShip() && ((unsigned)b->getShipId() != s.getShipId())); };
 
-    if (_battleField->hasShipAround(s.getCoords(), fnOtherRevealedShipAround))
+    if (_battleField->hasShipAround_if(s.getCoords(), fnOtherRevealedShipAround))
     {
         return false;
     }
@@ -222,9 +195,9 @@ bool CComputerPlayer::isValidMove(const CShipAtCoords& s) const
     return true;
 }
 
-CShipsAtCoords::const_iterator CComputerPlayer::getMinOrMax(const bool isMin,
-                                                            const BattleFieldCoords::EDirections dir,
-                                                            const CShipsAtCoords& filtered) const
+CShipVector::const_iterator CComputerPlayer::getMinOrMax(const bool isMin,
+                                                         const BattleFieldCoords::EDirections dir,
+                                                         const CShipVector& filtered) const
 {
     if (isMin)
     {
@@ -237,7 +210,7 @@ CShipsAtCoords::const_iterator CComputerPlayer::getMinOrMax(const bool isMin,
 }
 
 std::optional<BattleFieldCoords::BattleFieldCoords> CComputerPlayer::appendToMinOrMax(
-    const bool isMin, const BattleFieldCoords::EDirections dir, const CShipsAtCoords& filtered) const
+    const bool isMin, const BattleFieldCoords::EDirections dir, const CShipVector& filtered) const
 {
     const auto it = getMinOrMax(isMin, dir, filtered);
 

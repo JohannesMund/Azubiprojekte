@@ -1,61 +1,59 @@
 #pragma once
 
-#include <QSize>
-
-#include <functional>
-
+/**
+ * @brief BattleFieldCoords
+ * Koordinaten auf dem Battlefield
+ */
 namespace BattleFieldCoords
 {
+/**
+ * @brief The EDirections enum
+ * Straight Forward, horizontal oder vertikal
+ */
 enum class EDirections
 {
     eHorizontal,
     eVertical
 };
 
+/**
+ * @brief The BattleFieldCoords struct
+ * Repräsentiert Koordinaten auf dem Battlefield
+ */
 struct BattleFieldCoords
 {
     unsigned int x;
     unsigned int y;
 
-    bool operator==(const BattleFieldCoords& other) const
-    {
-        return x == other.x && y == other.y;
-    }
+    /**
+     * @brief operator ==
+     * Gleichheitsoperator
+     * @param other
+     */
+    bool operator==(const BattleFieldCoords& other) const;
 
-    void transpose(const EDirections dir, const bool min)
-    {
-        if (min)
-        {
-            dec(dir);
-        }
-        else
-        {
-            inc(dir);
-        }
-    }
+    /**
+     * @brief transpose
+     * verschiebt die Koordinaten um 1 Feld Richrung Minimum oder Maximum auf der horizontalen oder vertikalen Achse
+     * @param dir
+     * @param min
+     */
 
-    void inc(const EDirections dir)
-    {
-        if (dir == EDirections::eHorizontal)
-        {
-            x++;
-        }
-        else
-        {
-            y++;
-        }
-    }
-    void dec(EDirections dir)
-    {
-        if (dir == EDirections::eHorizontal)
-        {
-            x--;
-        }
-        else
-        {
-            y--;
-        }
-    }
+    void transpose(const EDirections dir, const bool min);
+
+    /**
+     * @brief inc
+     * Inkrementiert die Koordinaten um ein Feld in Richtung dir
+     * @param dir
+     */
+    void inc(const EDirections dir);
+
+    /**
+     * @brief dec
+     * Dekrementiert die Koordinaten um ein Feld in Richrung dir
+     * @param dir
+     */
+    void dec(EDirections dir);
 };
 
 } // namespace BattleFieldCoords

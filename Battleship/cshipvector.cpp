@@ -1,24 +1,24 @@
-#include "cshipsatcoords.h"
+#include "cshipvector.h"
 
 #include <algorithm>
 #include <functional>
 
 #include <ranges>
-CShipsAtCoords::CShipsAtCoords()
+CShipVector::CShipVector()
 {
 }
 
-bool CShipsAtCoords::contains(const BattleFieldCoords::BattleFieldCoords coords)
+bool CShipVector::contains(const BattleFieldCoords::BattleFieldCoords coords)
 {
-    return std::count_if(begin(), end(), CShipAtCoords::battleFieldCoordFilter(coords)) != 0;
+    return std::find_if(begin(), end(), CShipAtCoords::battleFieldCoordFilter(coords)) != end();
 }
 
-bool CShipsAtCoords::contains(const unsigned int shipId)
+bool CShipVector::contains(const unsigned int shipId)
 {
-    return std::count_if(begin(), end(), CShipAtCoords::shipIdFilter(shipId)) != 0;
+    return std::find_if(begin(), end(), CShipAtCoords::shipIdFilter(shipId)) != end();
 }
 
-bool CShipsAtCoords::isInLine(const CShipAtCoords s)
+bool CShipVector::isInLine(const CShipAtCoords s)
 {
     if (!contains(s.getShipId()))
     {
@@ -57,19 +57,22 @@ bool CShipsAtCoords::isInLine(const CShipAtCoords s)
     return false;
 }
 
-bool CShipsAtCoords::isVerticalLine() const
+bool CShipVector::isVerticalLine() const
 {
     return isLine(BattleFieldCoords::EDirections::eVertical);
 }
 
-bool CShipsAtCoords::isHorizontalLine() const
+bool CShipVector::isHorizontalLine() const
 {
     return isLine(BattleFieldCoords::EDirections::eHorizontal);
 }
 
-CShipsAtCoords CShipsAtCoords::filter(const CShipAtCoords::fnFilter fn) const
+CShipVector CShipVector::filter(const CShipAtCoords::fnFilter fn) const
 {
-    CShipsAtCoords filtered;
+    CShipVector filtered;
+    /**
+     * Hier benutzen wir std::ranges. Sehr convinient!
+     */
     for (auto s : *this | std::views::filter(fn))
     {
         filtered.push_back(s);
@@ -78,7 +81,7 @@ CShipsAtCoords CShipsAtCoords::filter(const CShipAtCoords::fnFilter fn) const
     return filtered;
 }
 
-bool CShipsAtCoords::isLine(const BattleFieldCoords::EDirections dir) const
+bool CShipVector::isLine(const BattleFieldCoords::EDirections dir) const
 {
     if (size() <= 1)
     {
