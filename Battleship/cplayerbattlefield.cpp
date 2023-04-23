@@ -8,7 +8,7 @@ CPlayerBattleField::CPlayerBattleField(QWidget* parent) : CAbstractBattleField(p
     connect(&_placementHelper,
             &CPlayerPlacement::setButton,
             this,
-            [this](const CShipAtCoords s) { get(s.getCoords())->setHasShip(s.getShipId(), true); });
+            [this](const CShipAtCoords s) { at(s.getCoords())->setHasShip(s.getShipId(), true); });
 }
 
 void CPlayerBattleField::placeBattleShips()
@@ -17,7 +17,7 @@ void CPlayerBattleField::placeBattleShips()
     enableAll(true);
 }
 
-void CPlayerBattleField::unsetButtons(const CShipsAtCoords& ships)
+void CPlayerBattleField::unsetButtons(const CShipVector& ships)
 {
     for (auto ship : ships)
     {
@@ -27,7 +27,7 @@ void CPlayerBattleField::unsetButtons(const CShipsAtCoords& ships)
 
 void CPlayerBattleField::unsetButton(const BattleFieldCoords::BattleFieldCoords coords)
 {
-    auto button = get(coords);
+    auto button = at(coords);
     button->setHasShip(CGameManagement::InvalidShipId, true);
     button->setEnabled(true);
 }
@@ -61,7 +61,7 @@ void CPlayerBattleField::buttonToggled(const bool toggleState, const BattleField
 
 void CPlayerBattleField::shipHit(const BattleFieldCoords::BattleFieldCoords coords)
 {
-    auto button = get(coords);
+    auto button = at(coords);
     if (button->hasShip())
     {
         _label->hit(button->getShipId());
@@ -74,8 +74,6 @@ bool CPlayerBattleField::isValidMove(const BattleFieldCoords::BattleFieldCoords 
     if (!isInRange(coords))
         return false;
 
-    return !hasShipAround(coords,
-                          [this](const BattleFieldCoords::BattleFieldCoords coords) {
-                              return get(coords)->hasShip() && get(coords)->getShipId() != _placementHelper.currentId();
-                          });
+    return !hasShipAround_if(
+        coords, [this](const auto b) { return b->hasShip() && b->getShipId() != _placementHelper.currentId(); });
 }

@@ -2,6 +2,11 @@
 
 #include "cabstractbattlefieldlabel.h"
 
+/**
+ * @brief The CComputerBattleFieldLabel class
+ * Das BattlefieldLabel für den Comuterspieler.
+ */
+
 class CComputerBattleFieldLabel : public CAbstractBattleFieldLabel
 {
 public:

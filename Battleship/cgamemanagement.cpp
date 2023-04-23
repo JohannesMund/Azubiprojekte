@@ -57,6 +57,20 @@ void CGameManagement::updateShoutBox()
 
     text.append(QStringLiteral("<p>%1</p>").arg(phase));
 
+    if (_currentPhase == EPhase::eFinish && _winner != EPlayer::eNone)
+    {
+        QString name;
+        if (_winner == EPlayer::eComputer)
+        {
+            name = opponent;
+        }
+        else
+        {
+            name = "Player";
+        }
+        text.append(QStringLiteral("<p>.oO(%1 wins)Oo.</p>").arg(opponent));
+    }
+
     _shoutBox->setText(text);
 }
 
@@ -64,6 +78,7 @@ void CGameManagement::initGame(EDifficulty difficulty)
 {
     _difficulty = difficulty;
     _currentPhase = EPhase::ePlacement;
+    _winner = EPlayer::eNone;
     updateShoutBox();
 
     emit newGame();
@@ -92,7 +107,7 @@ CGameManagement::ShipVector CGameManagement::getAvailableShips() const
             EShips::eSubMarine};
 }
 
-QSize CGameManagement::getGridSize() const
+TGridSize CGameManagement::getGridSize() const
 {
     return {10, 10};
 }
@@ -136,4 +151,33 @@ void CGameManagement::playerFinished()
 void CGameManagement::computerFinished()
 {
     emit playerTurn();
+}
+
+void CGameManagement::playerWins()
+{
+    _winner = EPlayer::ePlayer;
+    setGameOver();
+}
+
+void CGameManagement::computerWins()
+{
+    _winner = EPlayer::eComputer;
+    setGameOver();
+}
+
+void CGameManagement::setGameOver()
+{
+    _currentPhase = EPhase::eFinish;
+    updateShoutBox();
+    emit gameOver();
+}
+
+unsigned int CGameManagement::getHitsForWin() const
+{
+    unsigned int num = 0;
+    for (auto s : getAvailableShips())
+    {
+        num += getSizeOfShip(s);
+    }
+    return num;
 }

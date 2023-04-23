@@ -11,6 +11,7 @@ CAbstractBattleField::CAbstractBattleField(QWidget* parent) : QFrame(parent)
     setLayout(new QGridLayout(this));
     connect(CGameManagement::getInstance(), &CGameManagement::newGame, this, &CAbstractBattleField::init);
     connect(CGameManagement::getInstance(), &CGameManagement::startGame, this, &CAbstractBattleField::startGame);
+    connect(CGameManagement::getInstance(), &CGameManagement::gameOver, this, &CAbstractBattleField::revealAll);
 }
 
 void CAbstractBattleField::init()
@@ -20,29 +21,29 @@ void CAbstractBattleField::init()
     auto l = new QGridLayout(0);
 
     auto size = CGameManagement::getInstance()->getGridSize();
+    _grid.resize(size);
 
     l->setContentsMargins(0, 0, 0, 0);
 
-    for (int i = 0; i < size.height(); i++)
+    for (size_t i = 0; i < size.numFields(); i++)
     {
-        std::vector<CBattleFieldButton*> line;
+        auto button = new CBattleFieldButton();
+        const auto coords = _grid.push_back(button);
 
-        for (int j = 0; j < size.width(); j++)
+        if (!coords.has_value())
         {
-            auto button = new CBattleFieldButton();
-            const BattleFieldCoords::BattleFieldCoords coords = {(unsigned)i, (unsigned)j};
-
-            connect(button,
-                    &CBattleFieldButton::toggled,
-                    this,
-                    [coords, this](const bool toggleState) { buttonToggled(toggleState, coords); });
-
-            connect(button, &CBattleFieldButton::hit, this, [coords, this]() { shipHit(coords); });
-
-            line.push_back(button);
-            l->addWidget(button, i, j);
+            assert(!"Das sollte nicht passieren");
+            break;
         }
-        _grid.push_back(line);
+
+        connect(button,
+                &CBattleFieldButton::toggled,
+                this,
+                [coords, this](const bool toggleState) { buttonToggled(toggleState, *coords); });
+
+        connect(button, &CBattleFieldButton::hit, this, [coords, this]() { shipHit(*coords); });
+
+        l->addWidget(button, coords->x, coords->y);
     }
 
     setLayout(l);
@@ -51,41 +52,54 @@ void CAbstractBattleField::init()
 
 void CAbstractBattleField::clearGrid()
 {
-    for (auto& l : _grid)
+    for (auto b : _grid)
     {
-        for (auto b : l)
-        {
-            if (b)
-            {
-                delete b;
-            }
-        }
+        delete (b);
     }
     _grid.clear();
 }
 
 void CAbstractBattleField::enableAll(const bool bEnable)
 {
-    for (auto& l : _grid)
+    for (auto b : _grid)
     {
-        for (auto b : l)
-        {
-            b->setEnabled(bEnable);
-        }
+        b->setEnabled(bEnable);
+    }
+}
+
+void CAbstractBattleField::revealAll()
+{
+    for (auto b : _grid)
+    {
+        b->reveal(false);
+        b->setEnabled(false);
     }
 }
 
 bool CAbstractBattleField::isInRange(const BattleFieldCoords::BattleFieldCoords coords) const
 {
-    if (_grid.size() <= 0)
+    if (_grid.size().height <= 0)
     {
         return false;
     }
-    return (coords.x < _grid.at(0).size()) && (coords.y < _grid.size());
+    return (coords.x < _grid.size().width) && (coords.y < _grid.size().height);
 }
 
-bool CAbstractBattleField::hasShipAround(const BattleFieldCoords::BattleFieldCoords coords,
-                                         std::function<bool(const BattleFieldCoords::BattleFieldCoords coords)> f) const
+bool CAbstractBattleField::checkForWin() const
+{
+    /**
+     * @remark das geht nur, weil wir eigene Iteratoren benutzen
+     */
+    unsigned int cnt =
+        std::count_if(_grid.begin(), _grid.end(), [](const CBattleFieldButton* b) { return b->isRevealedHit(); });
+    if (cnt >= CGameManagement::getInstance()->getHitsForWin())
+    {
+        return true;
+    }
+    return false;
+}
+
+bool CAbstractBattleField::hasShipAround_if(const BattleFieldCoords::BattleFieldCoords coords, fnAround fn) const
 {
     for (int i = coords.x - 1; i <= static_cast<int>(coords.x + 1); i++)
     {
@@ -98,7 +112,8 @@ bool CAbstractBattleField::hasShipAround(const BattleFieldCoords::BattleFieldCoo
                 continue;
             }
 
-            if (f(coords))
+            auto s = at(coords);
+            if (fn(s))
             {
                 return true;
             }
@@ -109,16 +124,14 @@ bool CAbstractBattleField::hasShipAround(const BattleFieldCoords::BattleFieldCoo
 
 bool CAbstractBattleField::hasShipAround(const BattleFieldCoords::BattleFieldCoords coords) const
 {
-    return hasShipAround(coords,
-                         [this](const BattleFieldCoords::BattleFieldCoords coords)
-                         { return _grid.at(coords.x).at(coords.y)->hasShip(); });
+    return hasShipAround_if(coords, [this](const auto b) { return b->hasShip(); });
 }
 
-CBattleFieldButton* CAbstractBattleField::get(const BattleFieldCoords::BattleFieldCoords coords) const
+CBattleFieldButton* CAbstractBattleField::at(const BattleFieldCoords::BattleFieldCoords coords) const
 {
     if (isInRange(coords))
     {
-        return _grid.at(coords.x).at(coords.y);
+        return _grid.at(coords);
     }
     return nullptr;
 }

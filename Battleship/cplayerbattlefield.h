@@ -3,7 +3,7 @@
 #include "battlefieldcoords.h"
 #include "cplayerplacement.h"
 
-class CShipsAtCoords;
+class CShipVector;
 class CPlayerBattleField : public CAbstractBattleField
 {
 public:
@@ -12,9 +12,12 @@ public:
 private:
     virtual void placeBattleShips() override;
 
-    void unsetButtons(const CShipsAtCoords& coords);
+    void unsetButtons(const CShipVector& coords);
     void unsetButton(const BattleFieldCoords::BattleFieldCoords coords);
 
+    /**
+     * Implementierung der virtuellen Funktionen
+     */
     virtual void startGame() override;
     virtual void buttonToggled(const bool toggleState, const BattleFieldCoords::BattleFieldCoords coords) override;
     virtual void shipHit(const BattleFieldCoords::BattleFieldCoords coords) override;

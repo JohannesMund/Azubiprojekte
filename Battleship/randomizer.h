@@ -4,6 +4,9 @@
 #include <ctime>
 #include <random>
 
+/**
+ * Hilfskonstrukt für random funktionen
+ */
 namespace Randomizer
 {
 

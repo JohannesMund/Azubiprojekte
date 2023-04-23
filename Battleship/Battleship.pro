@@ -8,9 +8,11 @@ CONFIG += c++2a
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    battlefieldcoords.cpp \
     cabstractbattlefield.cpp \
     cabstractbattlefieldlabel.cpp \
     cbattlefieldbutton.cpp \
+    cbattlefieldgrid.cpp \
     ccomputerbattlefield.cpp \
     ccomputerbattlefieldlabel.cpp \
     ccomputerplayer.cpp \
@@ -19,7 +21,7 @@ SOURCES += \
     cplayerbattlefieldlabel.cpp \
     cplayerplacement.cpp \
     cshipatcoords.cpp \
-    cshipsatcoords.cpp \
+    cshipvector.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -28,6 +30,9 @@ HEADERS += \
     cabstractbattlefield.h \
     cabstractbattlefieldlabel.h \
     cbattlefieldbutton.h \
+    cbattlefieldgrid.h \
+    cbattlefieldgriditerator.h \
+    cbattlefieldgridregister.h \
     ccomputerbattlefield.h \
     ccomputerbattlefieldlabel.h \
     ccomputerplayer.h \
@@ -36,7 +41,7 @@ HEADERS += \
     cplayerbattlefieldlabel.h \
     cplayerplacement.h \
     cshipatcoords.h \
-    cshipsatcoords.h \
+    cshipvector.h \
     mainwindow.h \
     randomizer.h
 
