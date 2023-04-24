@@ -19,7 +19,7 @@ set(MEMORY_SOURCES
 
     mainwindow.ui
 
-    Memory.qrc
+    memory.qrc
 )
 
 qt_add_executable(Memory

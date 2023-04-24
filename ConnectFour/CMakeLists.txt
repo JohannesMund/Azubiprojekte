@@ -14,7 +14,7 @@ set(CONNECTFOUR_SOURCES
     mainwindow.h
     mainwindow.ui
 
-    ConnectFour.qrc
+    connectFour.qrc
 )
 
 qt_add_executable(ConnectFour

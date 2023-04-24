@@ -66,7 +66,7 @@ public:
         return _vectorOfVectors->at(_outerIndex).at(_innerIndex);
     }
 
-    const reference operator*() const
+    reference operator*() const
     {
         return *this;
     }

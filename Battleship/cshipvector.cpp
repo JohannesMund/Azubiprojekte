@@ -73,10 +73,12 @@ CShipVector CShipVector::filter(const CShipAtCoords::fnFilter fn) const
     /**
      * Hier benutzen wir std::ranges. Sehr convinient!
      */
+    /*
     for (auto s : *this | std::views::filter(fn))
     {
         filtered.push_back(s);
     }
+*/
 
     return filtered;
 }

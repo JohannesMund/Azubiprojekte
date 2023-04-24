@@ -4,6 +4,10 @@ PlayFieldCoords::PlayFieldCoords() : QPair<int, int>(-1, -1)
 {
 }
 
+PlayFieldCoords::PlayFieldCoords(const PlayFieldCoords& pc) : QPair<int, int>(pc)
+{
+}
+
 PlayFieldCoords::PlayFieldCoords(const int i1, const int i2) : QPair<int, int>(i1, i2)
 {
 }
