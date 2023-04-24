@@ -124,7 +124,7 @@ bool CAbstractBattleField::hasShipAround_if(const BattleFieldCoords::BattleField
 
 bool CAbstractBattleField::hasShipAround(const BattleFieldCoords::BattleFieldCoords coords) const
 {
-    return hasShipAround_if(coords, [this](const auto b) { return b->hasShip(); });
+    return hasShipAround_if(coords, [](const auto b) { return b->hasShip(); });
 }
 
 CBattleFieldButton* CAbstractBattleField::at(const BattleFieldCoords::BattleFieldCoords coords) const

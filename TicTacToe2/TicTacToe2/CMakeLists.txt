@@ -16,12 +16,12 @@ set(TICTACTOE2_SOURCES
     mainwindow.ui
 )
 
-qt_add_executable(TicTacToe2
-    MANUAL_FINALIZATION
+add_executable(TicTacToe2
     ${TICTACTOE2_SOURCES}
 )
 
 target_link_libraries(TicTacToe2 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_include_directories(TicTacToe2 PRIVATE ${CMAKE_SOURCE_DIR}/TicTacToe2/TicTacToe2)
 
 set_target_properties(TicTacToe2 PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
@@ -34,5 +34,3 @@ set_target_properties(TicTacToe2 PROPERTIES
 install(TARGETS TicTacToe2
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
-    qt_finalize_executable(TicTacToe2)
-

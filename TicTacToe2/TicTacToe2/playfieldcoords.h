@@ -11,8 +11,6 @@ struct PlayFieldCoords : public QPair<int, int>
 public:
     PlayFieldCoords();
 
-    PlayFieldCoords(const PlayFieldCoords&);
-
     PlayFieldCoords(const int i1, const int i2);
 
     bool isValid() const;

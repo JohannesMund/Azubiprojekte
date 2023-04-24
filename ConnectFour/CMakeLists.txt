@@ -17,13 +17,13 @@ set(CONNECTFOUR_SOURCES
     connectFour.qrc
 )
 
-qt_add_executable(ConnectFour
-    MANUAL_FINALIZATION
+add_executable(ConnectFour
     ${CONNECTFOUR_SOURCES}
 )
 
 target_link_libraries(ConnectFour PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-target_include_directories(ConnectFour PUBLIC ConnectFour/)
+target_include_directories(ConnectFour PRIVATE ${CMAKE_SOURCE_DIR}/ConnectFour)
+
 set_target_properties(ConnectFour PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
@@ -35,5 +35,3 @@ set_target_properties(ConnectFour PROPERTIES
 install(TARGETS ConnectFour
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
-    qt_finalize_executable(ConnectFour)
-

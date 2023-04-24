@@ -22,13 +22,13 @@ set(MEMORY_SOURCES
     memory.qrc
 )
 
-qt_add_executable(Memory
-    MANUAL_FINALIZATION
+add_executable(Memory
     ${MEMORY_SOURCES}
 )
 
 target_link_libraries(Memory PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-target_include_directories(Memory PUBLIC Memory/)
+target_include_directories(Memory PRIVATE ${CMAKE_SOURCE_DIR}/Memory)
+
 set_target_properties(Memory PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
@@ -40,5 +40,3 @@ set_target_properties(Memory PROPERTIES
 install(TARGETS Memory
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
-    qt_finalize_executable(Memory)
-

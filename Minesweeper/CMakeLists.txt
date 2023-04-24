@@ -16,13 +16,13 @@ set(MINESWEEPER_SOURCES
     res.qrc
 )
 
-qt_add_executable(Minesweeper
-    MANUAL_FINALIZATION
+add_executable(Minesweeper
     ${MINESWEEPER_SOURCES}
 )
 
 target_link_libraries(Minesweeper PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-target_include_directories(Minesweeper PUBLIC Minesweeper/)
+target_include_directories(Minesweeper PRIVATE ${CMAKE_SOURCE_DIR}/Minesweeper)
+
 set_target_properties(Minesweeper PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
@@ -34,5 +34,3 @@ set_target_properties(Minesweeper PROPERTIES
 install(TARGETS Minesweeper
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
-    qt_finalize_executable(Minesweeper)
-
