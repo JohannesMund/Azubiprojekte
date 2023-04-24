@@ -2,6 +2,7 @@
 #include "playfield.h"
 
 #include <QVector>
+#include <algorithm>
 #include <random>
 
 void ComputerEnemy::setDifficulty(const ComputerEnemy::Difficulty difficulty)
@@ -43,9 +44,13 @@ PlayFieldCoords ComputerEnemy::doMove(const PlayField& snapShot) const
 
 PlayFieldCoords ComputerEnemy::getRandomEmptyField(const PlayField& snapShot)
 {
+    std::random_device rd;
+    std::mt19937 g(rd());
+
     QVector<PlayFieldCoords> emptyFields = snapShot.getEmptyFields();
-    std::random_shuffle(emptyFields.begin(), emptyFields.end());
-    return emptyFields.first();
+
+    std::shuffle(emptyFields.begin(), emptyFields.end(), g);
+    return PlayFieldCoords(emptyFields.first());
 }
 
 PlayFieldCoords ComputerEnemy::getWinningMove(const PlayField& snapShot, const PlayerManagement::Player p)
