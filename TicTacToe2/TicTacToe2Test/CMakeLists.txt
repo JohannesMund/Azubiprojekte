@@ -20,12 +20,12 @@ set(TICTACKTOE2TEST_SOURCES
     testdefines.h
 )
 
-qt_add_executable(TicTacToe2Test
-    MANUAL_FINALIZATION
+add_executable(TicTacToe2Test
     ${TICTACKTOE2TEST_SOURCES}
 )
 
-target_include_directories(TicTacToe2Test PRIVATE ../TicTacToe2/)
+target_include_directories(TicTacToe2Test PRIVATE ${CMAKE_SOURCE_DIR}/TicTacToe2/TicTacToe2)
+target_include_directories(TicTacToe2Test PRIVATE ${CMAKE_SOURCE_DIR}/TicTacToe2/TicTacToe2Test)
 
 target_link_libraries(TicTacToe2Test PRIVATE Qt${QT_VERSION_MAJOR}::Test)
 target_link_libraries(TicTacToe2Test PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
@@ -41,5 +41,3 @@ set_target_properties(TicTacToe2Test PROPERTIES
 install(TARGETS TicTacToe2Test
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
-    qt_finalize_executable(TicTacToe2Test)
-

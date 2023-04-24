@@ -36,6 +36,12 @@ void CComputerPlayer::doMove()
     if (button->hasShip())
     {
         hit(CShipAtCoords(coords, button->getShipId()));
+        if (_battleField->checkForWin())
+        {
+            CGameManagement::getInstance()->computerWins();
+            return;
+        }
+
         doMove();
         return;
     }
@@ -60,11 +66,6 @@ void CComputerPlayer::hit(const CShipAtCoords& s)
     else
     {
         _hits.push_back(s);
-    }
-
-    if (_battleField->checkForWin())
-    {
-        CGameManagement::getInstance()->computerWins();
     }
 }
 
@@ -187,7 +188,7 @@ bool CComputerPlayer::isValidMove(const CShipAtCoords& s) const
         return false;
     }
 
-    auto fnOtherRevealedShipAround = [this, s](const auto b)
+    auto fnOtherRevealedShipAround = [s](const auto b)
     { return (b->isRevealed() && b->hasShip() && ((unsigned)b->getShipId() != s.getShipId())); };
 
     if (_battleField->hasShipAround_if(s.getCoords(), fnOtherRevealedShipAround))

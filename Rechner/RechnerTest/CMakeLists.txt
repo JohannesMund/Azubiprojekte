@@ -10,13 +10,16 @@ set(RECHNERTEST_SOURCES
     result_test.h
 )
 
-qt_add_executable(RechnerTest
-    MANUAL_FINALIZATION
+add_executable(RechnerTest
     ${RECHNERTEST_SOURCES}
 )
-target_include_directories(RechnerTest PRIVATE ../Rechner/)
 
 target_link_libraries(RechnerTest PRIVATE Qt${QT_VERSION_MAJOR}::Test)
+
+target_include_directories(RechnerTest PRIVATE ${CMAKE_SOURCE_DIR}/Rechner/Rechner)
+target_include_directories(RechnerTest PRIVATE ${CMAKE_SOURCE_DIR}/Rechner/RechnerTest)
+
+
 
 set_target_properties(RechnerTest PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
@@ -29,5 +32,3 @@ set_target_properties(RechnerTest PROPERTIES
 install(TARGETS RechnerTest
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
-    qt_finalize_executable(RechnerTest)
-

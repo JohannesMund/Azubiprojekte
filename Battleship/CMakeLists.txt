@@ -40,11 +40,11 @@ set(BATTLESHIP_SOURCES
     res.qrc
 )
 
-qt_add_executable(Battleship
-    MANUAL_FINALIZATION
+add_executable(Battleship
     ${BATTLESHIP_SOURCES}
 )
 
+target_include_directories(Battleship PRIVATE ${CMAKE_SOURCE_DIR}/Battleship)
 target_link_libraries(Battleship PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
 set_target_properties(Battleship PROPERTIES
@@ -58,5 +58,3 @@ set_target_properties(Battleship PROPERTIES
 install(TARGETS Battleship
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
-    qt_finalize_executable(Battleship)
-

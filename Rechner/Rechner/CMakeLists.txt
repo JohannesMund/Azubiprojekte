@@ -12,12 +12,12 @@ set(RECHNER_SOURCES
     mainwindow.ui
 )
 
-qt_add_executable(Rechner
-    MANUAL_FINALIZATION
+add_executable(Rechner
     ${RECHNER_SOURCES}
 )
 
 target_link_libraries(Rechner PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_include_directories(Rechner PRIVATE ${CMAKE_SOURCE_DIR}/Rechner/Rechner)
 
 set_target_properties(Rechner PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
@@ -30,5 +30,3 @@ set_target_properties(Rechner PROPERTIES
 install(TARGETS Rechner
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
-    qt_finalize_executable(Rechner)
-

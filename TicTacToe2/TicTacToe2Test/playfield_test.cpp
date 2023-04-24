@@ -109,7 +109,7 @@ void PlayField_Test::test_getEmptyFields()
     const auto emptyFields = p.getEmptyFields();
     QCOMPARE(emptyFields.size(), (9 - coords.size()));
 
-    for (const auto f : emptyFields)
+    for (const auto& f : emptyFields)
     {
         QVERIFY(p.at(f) == PlayerManagement::Player::none);
     }
