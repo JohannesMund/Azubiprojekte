@@ -1,5 +1,4 @@
 set(MINESWEEPER_SOURCES
-    CMakeLists.txt
     cdisplay.cpp
     cminesweeperbutton.cpp
     cplayfield.cpp
@@ -16,7 +15,7 @@ set(MINESWEEPER_SOURCES
     res.qrc
 )
 
-add_executable(Minesweeper
+qt_add_executable(Minesweeper
     ${MINESWEEPER_SOURCES}
 )
 
@@ -31,6 +30,4 @@ set_target_properties(Minesweeper PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-install(TARGETS Minesweeper
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+qt_finalize_target(Minesweeper)

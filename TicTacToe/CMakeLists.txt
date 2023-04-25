@@ -1,19 +1,17 @@
 set(TICTACTOE_SOURCES
-    CMakeLists.txt
-
     main.cpp
-	mainwindow.cpp
-	playermanagement.cpp
-	playfield.cpp
+    mainwindow.cpp
+    playermanagement.cpp
+    playfield.cpp
 
     mainwindow.h
-	playermanagement.h
-	playfield.h
-    
-	mainwindow.ui
+    playermanagement.h
+    playfield.h
+
+    mainwindow.ui
 )
 
-add_executable(TicTacToe
+qt_add_executable(TicTacToe
     ${TICTACTOE_SOURCES}
 )
 
@@ -29,6 +27,4 @@ set_target_properties(TicTacToe PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-install(TARGETS TicTacToe
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+qt_finalize_target(TicTacToe)

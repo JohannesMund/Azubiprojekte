@@ -10,7 +10,7 @@ set(RECHNERTEST_SOURCES
     result_test.h
 )
 
-add_executable(RechnerTest
+qt_add_executable(RechnerTest
     ${RECHNERTEST_SOURCES}
 )
 
@@ -29,6 +29,4 @@ set_target_properties(RechnerTest PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-install(TARGETS RechnerTest
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+qt_finalize_target(RechnerTest)

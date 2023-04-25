@@ -1,22 +1,20 @@
 set(TICTACTOE2_SOURCES
-	CMakeLists.txt
-
     computerenemy.cpp
-	main.cpp
-	mainwindow.cpp
-	playermanagement.cpp
-	playfield.cpp
-	playfieldcoords.cpp
+    main.cpp
+    mainwindow.cpp
+    playermanagement.cpp
+    playfield.cpp
+    playfieldcoords.cpp
 
     computerenemy.h
-	mainwindow.h
-	playermanagement.h
-	playfield.h
-	playfieldcoords.h
+    mainwindow.h
+    playermanagement.h
+    playfield.h
+    playfieldcoords.h
     mainwindow.ui
 )
 
-add_executable(TicTacToe2
+qt_add_executable(TicTacToe2
     ${TICTACTOE2_SOURCES}
 )
 
@@ -31,6 +29,4 @@ set_target_properties(TicTacToe2 PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-install(TARGETS TicTacToe2
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+qt_finalize_target(TicTacToe2)

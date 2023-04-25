@@ -40,7 +40,7 @@ set(BATTLESHIP_SOURCES
     res.qrc
 )
 
-add_executable(Battleship
+qt_add_executable(Battleship
     ${BATTLESHIP_SOURCES}
 )
 
@@ -54,7 +54,5 @@ set_target_properties(Battleship PROPERTIES
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
+qt_finalize_target(Battleship)
 
-install(TARGETS Battleship
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})

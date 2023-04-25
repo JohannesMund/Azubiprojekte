@@ -64,8 +64,8 @@ void CComputerBattleField::autoPlaceBattleShip(const int size, const int shipId)
     while (true)
     {
         qApp->processEvents();
-        unsigned int x = std::rand() / ((RAND_MAX + 1u) / _grid.size().width);
-        unsigned int y = std::rand() / ((RAND_MAX + 1u) / _grid.size().height);
+        unsigned int x = (unsigned int)(std::rand() / ((RAND_MAX + 1u) / _grid.size().width));
+        unsigned int y = (unsigned int)(std::rand() / ((RAND_MAX + 1u) / _grid.size().height));
 
         std::vector<BattleFieldCoords::EDirections> directions = {BattleFieldCoords::EDirections::eHorizontal,
                                                                   BattleFieldCoords::EDirections::eVertical};
