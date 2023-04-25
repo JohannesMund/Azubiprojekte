@@ -1,5 +1,4 @@
 set(CONNECTFOUR_SOURCES
-    CMakeLists.txt
     cbuttonbox.cpp
     cfield.cpp
     cplayermanagement.cpp
@@ -17,7 +16,7 @@ set(CONNECTFOUR_SOURCES
     connectFour.qrc
 )
 
-add_executable(ConnectFour
+qt_add_executable(ConnectFour
     ${CONNECTFOUR_SOURCES}
 )
 
@@ -32,6 +31,4 @@ set_target_properties(ConnectFour PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-install(TARGETS ConnectFour
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+qt_finalize_target(ConnectFour)

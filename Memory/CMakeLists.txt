@@ -1,5 +1,4 @@
 set(MEMORY_SOURCES
-    CMakeLists.txt
     cdisplaylabel.cpp
     cmemorybutton.cpp
     cplayfield.cpp
@@ -37,6 +36,4 @@ set_target_properties(Memory PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-install(TARGETS Memory
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+qt_finalize_target(Memory)

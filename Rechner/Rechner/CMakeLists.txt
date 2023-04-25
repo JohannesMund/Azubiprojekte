@@ -12,7 +12,7 @@ set(RECHNER_SOURCES
     mainwindow.ui
 )
 
-add_executable(Rechner
+qt_add_executable(Rechner
     ${RECHNER_SOURCES}
 )
 
@@ -27,6 +27,4 @@ set_target_properties(Rechner PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-install(TARGETS Rechner
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+qt_finalize_target(Rechner)

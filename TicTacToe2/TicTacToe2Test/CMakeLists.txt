@@ -8,7 +8,6 @@ set(TICTACKTOE2TEST_SOURCES
     ../TicTacToe2/playfield.h
     ../TicTacToe2/computerenemy.h
 
-
     computerenemy_test.cpp
     main.cpp
     playfieldcoords_test.cpp
@@ -20,7 +19,7 @@ set(TICTACKTOE2TEST_SOURCES
     testdefines.h
 )
 
-add_executable(TicTacToe2Test
+qt_add_executable(TicTacToe2Test
     ${TICTACKTOE2TEST_SOURCES}
 )
 
@@ -38,6 +37,4 @@ set_target_properties(TicTacToe2Test PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-install(TARGETS TicTacToe2Test
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+qt_finalize_target(TicTacToe2Test)
