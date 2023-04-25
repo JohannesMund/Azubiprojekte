@@ -6,11 +6,10 @@
 #include "randomizer.h"
 
 #include <QApplication>
-#include <ctime>
 
 CComputerBattleField::CComputerBattleField(QWidget* parent) : CAbstractBattleField(parent)
 {
-    connect(CGameManagement::getInstance(), &CGameManagement::playerTurn, this, [this]() { enableAll(true); });
+    connect(CGameManagement::getInstance(), &CGameManagement::playerTurn, this, [this]() { setEnabled(true); });
 }
 
 void CComputerBattleField::placeBattleShips()
