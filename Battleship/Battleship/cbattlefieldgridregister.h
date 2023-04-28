@@ -7,3 +7,7 @@
  */
 
 template class CBattleFieldGrid<CBattleFieldButton*>;
+
+#ifdef UNIT_TESTING
+template class CBattleFieldGrid<int>;
+#endif

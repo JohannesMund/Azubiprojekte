@@ -44,7 +44,7 @@ qt_add_executable(Battleship
     ${BATTLESHIP_SOURCES}
 )
 
-target_include_directories(Battleship PRIVATE ${CMAKE_SOURCE_DIR}/Battleship)
+target_include_directories(Battleship PRIVATE ${CMAKE_SOURCE_DIR}/Battleship/Battleship)
 target_link_libraries(Battleship PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
 set_target_properties(Battleship PROPERTIES
