@@ -86,17 +86,29 @@ public:
      * Auch hier wieder einmal implementieren und dann nutzen.
      * Wir greifen auch auf den reference operator zurück
      */
-
     self_type& operator++()
     {
-        if (_innerIndex + 1 < _vectorOfVectors->at(_outerIndex).size())
+        if (numericIndex() >= numericSize())
+        {
+            setToEnd();
+            return *this;
+        }
+
+        if (_innerIndex + 1 < width())
         {
             ++_innerIndex;
         }
         else
         {
-            ++_outerIndex;
-            _innerIndex = 0;
+            if (_outerIndex + 1 < height())
+            {
+                ++_outerIndex;
+                _innerIndex = 0;
+            }
+            else
+            {
+                setToEnd();
+            }
         }
         return *this;
     }
@@ -110,14 +122,22 @@ public:
 
     self_type& operator--()
     {
+
         if (_innerIndex > 0)
         {
             --_innerIndex;
         }
         else
         {
-            --_outerIndex;
-            _innerIndex = _vectorOfVectors->at(_outerIndex).size() - 1;
+            if (_outerIndex > 0)
+            {
+                --_outerIndex;
+                _innerIndex = _vectorOfVectors->at(_outerIndex).size() - 1;
+            }
+            else
+            {
+                setToBegin();
+            }
         }
         return *this;
     }
@@ -146,7 +166,7 @@ public:
         }
         if (numericIndex() + rhs > numericSize())
         {
-            return end();
+            return cend();
         }
 
         int outer(_outerIndex);
@@ -174,7 +194,7 @@ public:
         }
         if (numericIndex() - rhs <= 0)
         {
-            return begin();
+            return cbegin();
         }
 
         int outer = _outerIndex - (std::floor(rhs / width()));
@@ -276,14 +296,26 @@ private:
         return _vectorOfVectors->size();
     }
 
-    self_type end() const
+    self_type cend() const
     {
         return self_type(_vectorOfVectors, _vectorOfVectors->size(), 0);
     }
 
-    self_type begin() const
+    self_type cbegin() const
     {
         return self_type(_vectorOfVectors, 0, 0);
+    }
+
+    void setToEnd()
+    {
+        _innerIndex = 0;
+        _outerIndex = _vectorOfVectors->size();
+    }
+
+    void setToBegin()
+    {
+        _innerIndex = 0;
+        _outerIndex = 0;
     }
 
     TContainerType* _vectorOfVectors;

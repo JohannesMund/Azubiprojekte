@@ -141,4 +141,24 @@ void BattleFieldGrid_Test::test_iterators()
         QVERIFY(last <= current);
         last = current;
     }
+
+    auto it = grid.begin();
+    ++it;
+    QVERIFY(*it == grid.at({1, 0}));
+    --it;
+    QVERIFY(it == grid.begin());
+
+    --it;
+    QVERIFY(it == grid.begin());
+
+    it = it + 1;
+    QVERIFY(*it == grid.at({1, 0}));
+
+    it = grid.end();
+    ++it;
+    auto iitt = grid.end();
+    QVERIFY(it == iitt);
+
+    it = it + 5;
+    QVERIFY(it == grid.end());
 }
