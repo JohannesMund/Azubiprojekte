@@ -141,10 +141,22 @@ void BattleFieldGrid_Test::test_iterators()
         QVERIFY(last <= current);
         last = current;
     }
+}
+
+void BattleFieldGrid_Test::test_iterators_2()
+{
+    CBattleFieldGrid<int> grid;
+
+    grid.resize({9, 9});
+
+    for (int i = 0; i < 81; i++)
+    {
+        grid.push_back(i);
+    }
 
     auto it = grid.begin();
     ++it;
-    QVERIFY(*it == grid.at({1, 0}));
+    QVERIFY(*it == 1);
     --it;
     QVERIFY(it == grid.begin());
 
@@ -152,13 +164,31 @@ void BattleFieldGrid_Test::test_iterators()
     QVERIFY(it == grid.begin());
 
     it = it + 1;
-    QVERIFY(*it == grid.at({1, 0}));
+    QVERIFY(*it == 1);
+
+    it = it + 10;
+    QVERIFY(*it == 11);
+
+    it = it - 1000000;
+    QVERIFY(it == grid.begin());
 
     it = grid.end();
     ++it;
-    auto iitt = grid.end();
-    QVERIFY(it == iitt);
+
+    QVERIFY(it == grid.end());
 
     it = it + 5;
     QVERIFY(it == grid.end());
+
+    it = it - 10;
+    QVERIFY(*it == 71);
+
+    it = it + -5;
+    QVERIFY(*it == 66);
+
+    it = it - -10;
+    QVERIFY(*it == 76);
+
+    QVERIFY(it != grid.begin());
+    QVERIFY(it != grid.end());
 }

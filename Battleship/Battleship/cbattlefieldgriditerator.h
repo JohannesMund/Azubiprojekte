@@ -192,13 +192,15 @@ public:
         {
             return *this + std::abs(rhs);
         }
-        if (numericIndex() - rhs <= 0)
+
+        int idx = (int)numericIndex();
+        if (idx - rhs <= 0)
         {
             return cbegin();
         }
 
-        int outer = _outerIndex - (std::floor(rhs / width()));
-        int inner = _innerIndex - (rhs % width());
+        int outer(_outerIndex);
+        int inner(_innerIndex);
         int ctr(rhs);
 
         while (ctr > 0)
