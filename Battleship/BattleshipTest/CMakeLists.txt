@@ -2,10 +2,17 @@
 
 set(BATTLESHIPTEST_SOURCES
     ../Battleship/cbattlefieldgrid.cpp
+    ../Battleship/cshipvector.cpp
+    ../Battleship/cshipatcoords.cpp
+    ../Battleship/battlefieldcoords.cpp
+
+    battlefieldgrid_test.h
+    shipvector_test.h
 
     main.cpp
     battlefieldgrid_test.cpp
-    battlefieldgrid_test.h 
+    shipvector_test.cpp
+
 )
 
 qt_add_executable(BattleshipTest
