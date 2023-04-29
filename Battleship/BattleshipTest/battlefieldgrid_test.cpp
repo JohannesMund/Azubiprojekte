@@ -1,4 +1,5 @@
 #include "battlefieldgrid_test.h"
+#include "cbattlefieldgriditerator.h"
 
 #include <optional>
 
@@ -8,6 +9,12 @@ void BattleFieldGrid_Test::test_data()
     QTest::addColumn<size_t>("w");
     QTest::addColumn<size_t>("h");
     QTest::addColumn<size_t>("z");
+
+    QTest::addRow("0") << TestGrid({{{91}, {72}, {83}, {14}},
+                                    {{21}, {22}, {53}, {24}},
+                                    {{01}, {12}, {13}, {34}},
+                                    {{11}, {42}, {73}, {64}}})
+                       << 4UL << 4UL << 16UL;
 
     QTest::addRow("1") << TestGrid({{{11}, {12}}, {{21}, {22}}}) << 2UL << 2UL << 4UL;
     QTest::addRow("2") << TestGrid({{{11}, {12}, {13}}, {{21}, {22}, {23}}, {{31}, {32}, {33}}}) << 3UL << 3UL << 9UL;
@@ -45,6 +52,19 @@ TGridSize BattleFieldGrid_Test::getGridSize(const TestGrid& grid)
     return sz;
 }
 
+void BattleFieldGrid_Test::fillTestGrid(CBattleFieldGrid<int>& grid, const TestGrid& testGrid)
+{
+    grid.resize(getGridSize(testGrid));
+
+    for (auto line : testGrid)
+    {
+        for (auto i : line)
+        {
+            grid.push_back(i);
+        }
+    }
+}
+
 void BattleFieldGrid_Test::test_grid_size_data()
 {
     test_data();
@@ -76,15 +96,8 @@ void BattleFieldGrid_Test::test_push_back()
     auto sz = getGridSize(testGrid);
 
     CBattleFieldGrid<int> grid;
-    grid.resize(sz);
 
-    for (auto line : testGrid)
-    {
-        for (auto i : line)
-        {
-            grid.push_back(i);
-        }
-    }
+    fillTestGrid(grid, testGrid);
 
     QCOMPARE(grid.size().width, sz.width);
     QCOMPARE(grid.size().height, sz.height);
@@ -92,10 +105,10 @@ void BattleFieldGrid_Test::test_push_back()
 
     QVERIFY(!grid.push_back(0).has_value());
 
-    for (int i = 0; i < testGrid.size(); i++)
+    for (unsigned int i = 0; i < testGrid.size(); i++)
     {
         const auto line = testGrid.at(i);
-        for (int j = 0; j < line.size(); j++)
+        for (unsigned int j = 0; j < line.size(); j++)
         {
             QCOMPARE(grid.at({j, i}), line.at(j));
         }
@@ -104,8 +117,28 @@ void BattleFieldGrid_Test::test_push_back()
 
 void BattleFieldGrid_Test::test_iterators_data()
 {
+    test_data();
 }
 
 void BattleFieldGrid_Test::test_iterators()
 {
+
+    QFETCH(TestGrid, testGrid);
+    CBattleFieldGrid<int> grid;
+
+    fillTestGrid(grid, testGrid);
+
+    for (auto it = grid.begin(); it != grid.end(); ++it)
+    {
+        auto val = testGrid.at(it.y()).at(it.x());
+        QCOMPARE(val, *it);
+    }
+    std::sort(grid.begin(), grid.end());
+
+    int last = 0;
+    for (auto current : grid)
+    {
+        QVERIFY(last <= current);
+        last = current;
+    }
 }

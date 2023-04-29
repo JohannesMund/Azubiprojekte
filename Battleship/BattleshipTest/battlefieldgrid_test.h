@@ -7,7 +7,6 @@
 
 using TestGrid = std::vector<std::vector<int>>;
 Q_DECLARE_METATYPE(TestGrid)
-
 Q_DECLARE_METATYPE(size_t)
 
 class BattleFieldGrid_Test : public QObject
@@ -17,6 +16,7 @@ class BattleFieldGrid_Test : public QObject
     void test_data();
 
     TGridSize getGridSize(const TestGrid& grid);
+    void fillTestGrid(CBattleFieldGrid<int>& grid, const TestGrid& testGrid);
 
 private slots:
 

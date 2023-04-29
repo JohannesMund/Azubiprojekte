@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cmath>
 #include <iterator>
 #include <vector>
 
@@ -27,7 +28,7 @@ public:
      * Wie bauen einen bidirektionalen Iterator, man kann also in beide Richtungen iterieren.
      */
 
-    using iterator_category = std::bidirectional_iterator_tag;
+    using iterator_category = std::random_access_iterator_tag;
     using difference_type = std::ptrdiff_t;
     using value_type = std::remove_cv_t<TIteratorType>;
     using pointer = TIteratorType*;
@@ -86,7 +87,7 @@ public:
      * Wir greifen auch auf den reference operator zurück
      */
 
-    self_type operator++()
+    self_type& operator++()
     {
         if (_innerIndex + 1 < _vectorOfVectors->at(_outerIndex).size())
         {
@@ -107,7 +108,7 @@ public:
         return retval;
     }
 
-    self_type operator--()
+    self_type& operator--()
     {
         if (_innerIndex > 0)
         {
@@ -129,6 +130,80 @@ public:
     }
 
     /**
+     * Und weil wir es wissen wollten und einen Random Access Iterator gebaut haben (sozusagen die Künigin Mutter der
+     * Iteratoren), müssen wir auch arithmetische Operatoren haben.
+     */
+
+    inline difference_type operator-(const self_type& rhs) const
+    {
+        return (_innerIndex + _outerIndex) - (rhs._innerIndex + rhs._outerIndex);
+    }
+    inline self_type operator+(const difference_type rhs) const
+    {
+        if (rhs < 0)
+        {
+            return *this - std::abs(rhs);
+        }
+        if (numericIndex() + rhs > numericSize())
+        {
+            return end();
+        }
+
+        int outer(_outerIndex);
+        int inner(_innerIndex);
+        int ctr(rhs);
+
+        while (ctr > 0)
+        {
+            inner++;
+            if (inner >= width())
+            {
+                inner = 0;
+                outer++;
+            }
+            ctr--;
+        }
+
+        return self_type(_vectorOfVectors, outer, inner);
+    }
+    inline self_type operator-(const difference_type rhs) const
+    {
+        if (rhs < 0)
+        {
+            return *this + std::abs(rhs);
+        }
+        if (numericIndex() - rhs <= 0)
+        {
+            return begin();
+        }
+
+        int outer = _outerIndex - (std::floor(rhs / width()));
+        int inner = _innerIndex - (rhs % width());
+        int ctr(rhs);
+
+        while (ctr > 0)
+        {
+            inner--;
+            if (inner < 0)
+            {
+                inner = width() - 1;
+                outer--;
+            }
+            ctr--;
+        }
+
+        return self_type(_vectorOfVectors, outer, inner);
+    }
+    friend inline self_type operator+(const difference_type lhs, const self_type& rhs)
+    {
+        return lhs + rhs;
+    }
+    friend inline self_type operator-(const difference_type lhs, const self_type& rhs)
+    {
+        return lhs - rhs;
+    }
+
+    /**
      * Und zu guter Letzt muss der Kram noch vergleichbar sein.
      */
 
@@ -140,6 +215,23 @@ public:
     bool operator!=(const self_type& other) const
     {
         return !(*this == other);
+    }
+
+    inline bool operator>(const self_type& rhs) const
+    {
+        return numericSize() > rhs.numericSize();
+    }
+    inline bool operator<(const self_type& rhs) const
+    {
+        return numericSize() < rhs.numericSize();
+    }
+    inline bool operator>=(const self_type& rhs) const
+    {
+        return numericSize() >= rhs.numericSize();
+    }
+    inline bool operator<=(const self_type& rhs) const
+    {
+        return numericSize() <= rhs.numericSize();
     }
 
     /**
@@ -163,6 +255,37 @@ public:
     }
 
 private:
+    /**
+     * Hilfsfunktionen
+     */
+
+    size_t numericSize() const
+    {
+        return height() * width();
+    }
+    size_t numericIndex() const
+    {
+        return (_outerIndex * width()) + _innerIndex;
+    }
+    size_t width() const
+    {
+        return _vectorOfVectors->size() ? _vectorOfVectors->at(0).size() : 0;
+    }
+    size_t height() const
+    {
+        return _vectorOfVectors->size();
+    }
+
+    self_type end() const
+    {
+        return self_type(_vectorOfVectors, _vectorOfVectors->size(), 0);
+    }
+
+    self_type begin() const
+    {
+        return self_type(_vectorOfVectors, 0, 0);
+    }
+
     TContainerType* _vectorOfVectors;
     std::size_t _outerIndex = 0;
     std::size_t _innerIndex = 0;
