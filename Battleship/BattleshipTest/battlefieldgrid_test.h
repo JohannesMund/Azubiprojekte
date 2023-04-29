@@ -28,4 +28,6 @@ private slots:
 
     void test_iterators_data();
     void test_iterators();
+
+    void test_iterators_2();
 };
