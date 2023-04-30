@@ -116,7 +116,7 @@ public:
 
     self_type operator++(int)
     {
-        auto retval = *this;
+        self_type retval(*this);
         ++(*this);
         return retval;
     }
@@ -145,7 +145,7 @@ public:
 
     self_type operator--(int)
     {
-        TIteratorType retval = *this;
+        self_type retval(*this);
         --(*this);
         return retval;
     }
