@@ -57,18 +57,18 @@ public:
      */
     Iterator begin()
     {
-        return Iterator(&_grid, 0, 0);
+        return Iterator::begin(&_grid);
     }
 
     /**
      * @brief end
      * @return der Ende-Iterator
-     * @remark Achtung! end() zeigt immer HINTER das Ende des Containers, ist als ungültig! Das ist bei Iteratoren
+     * @remark Achtung! end() zeigt immer HINTER das Ende des Containers, ist also ungültig! Das ist bei Iteratoren
      * Konvention. Der Versuch den end() - Iterator zu dereferenzieren endet in einem Crash.
      */
     Iterator end()
     {
-        return Iterator(&_grid, _grid.size(), 0);
+        return Iterator::end(&_grid);
     }
 
     /**
@@ -77,7 +77,7 @@ public:
      */
     ConstIterator begin() const
     {
-        return ConstIterator(&_grid, 0, 0);
+        return ConstIterator::begin(&_grid);
     }
 
     /**
@@ -87,7 +87,7 @@ public:
      */
     ConstIterator end() const
     {
-        return ConstIterator(&_grid, _grid.size(), 0);
+        return ConstIterator::end(&_grid);
     }
 
     /**
