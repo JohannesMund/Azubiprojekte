@@ -189,6 +189,22 @@ void BattleFieldGrid_Test::test_iterators_2()
     it = it - -10;
     QVERIFY(*it == 76);
 
+    auto iit = it--;
+    QVERIFY(*it == 75);
+    QVERIFY(*iit == 76);
+
+    iit = --it;
+    QVERIFY(*it == 74);
+    QVERIFY(*iit == 74);
+
+    iit = it++;
+    QVERIFY(*it == 75);
+    QVERIFY(*iit == 74);
+
+    iit = ++it;
+    QVERIFY(*it == 76);
+    QVERIFY(*iit == 76);
+
     QVERIFY(it != grid.begin());
     QVERIFY(it != grid.end());
 }
