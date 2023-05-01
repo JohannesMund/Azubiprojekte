@@ -13,6 +13,8 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Widgets Test)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Widgets Test)
 qt_standard_project_setup()
 
+add_subdirectory("doc")
+
 add_subdirectory("Battleship")
 target_include_directories(Battleship PUBLIC)
 

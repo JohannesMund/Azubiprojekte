@@ -38,7 +38,7 @@ Ein Tic Tac Toe Spiel für 1 oder 2 Spieler
 ### Features:
  * Computergegner mit 5 Schwierigkeitsstufen:
    * Einfach (setzt Random)
-   * Mittel (wird gezielt einen Siegzug setzen, wenn möglich)
+t   * Mittel (wird gezielt einen Siegzug setzen, wenn möglich)
    * Schwer (wird gezielt Niederlagen verhindern oder einen Siegzug setzen, wenn möglich) 
    * Insane (Wie schwer, macht aber zusätzlich einen ordentlichen Startzug bzw. reagiert angemessen auf den Startzug des Gegners) 
    * MinMax (Ermittelt den nächsten Zug mittels MinMax Analyse)
@@ -67,3 +67,26 @@ Ein Memory Spiel
  * Gewinnerkennung
 ### Was lernen wir?
  * nichts was wir nicht vorher auch gelernt haben
+ 
+ 
+## Minesweeper
+Minesweeper
+### Features
+ * Variables Spielfeld
+ * Variable Bombenzahl
+### Was lernen wir?
+ * nichts was wir nicht vorher auch gelernt haben
+ 
+## Battleship
+[Schiffe versenken](/doc/battleship.md)
+
+### Features
+ * 3 Schwierigkeitsgrade
+### Was lernen wir
+ * std::container
+ * eigene Container
+ * eigene Iteratoren
+ * Ranges
+ * Unittests mit QtTest
+
+ 
