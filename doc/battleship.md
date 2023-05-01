@@ -45,7 +45,7 @@ Unser Code in besser:
 oder noch besser:
 
     std::vector<int> i;
-    for(auto j, i)
+    for(auto j: i)
     {
         summe += j:
     }
