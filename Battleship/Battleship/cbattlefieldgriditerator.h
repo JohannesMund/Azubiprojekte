@@ -19,7 +19,7 @@
  * @sa CBattleFieldGrid
  */
 
-template <typename TIteratorType, typename TContainerType>
+template <typename TIteratorType, class TContainerType>
 struct CBattleFieldGridIterator
 {
 public:
