@@ -1,5 +1,15 @@
 # Battleship
 
+## Templates
+Bislang haben wir Klassentemplates zwar benutzt ( z.B. std::vector<int> ) jetzt wollen wir aber unsere eigene Templateklasse.  
+Warum wollen wir das? Die Klasse `CBattleFieldGrid` repräsentiert das Spielfeld, aber wir wollen nicht im Vorfeld festlegen müssen, welchen Datentyp wir da reinpacken. In unserem Schiffe versenken - Spiel wird es ein Zeiger auf einen Button sein, aber wir wollen flexibel bleiben.
+Also, machen wir eine [Templateklasse](https://de.wikibooks.org/wiki/C%2B%2B-Programmierung/_Templates/_Klassentemplates).
+
+Wichtig ist zu wissen, wie der Compiler damit umgeht. Ein Template ist weder Klasse noch Funktion. Ein Template ist ein Pattern, welches dem Compiler erlaubt eine Gruppe von Funktion/Klassen zu erzeugen. Wenn wir so programmieren, wie wir es gewöhnt sind (wir trennen Deklaration und Definition) wird es mit an Sicherheit grenzender Wahrscheinlichkeit zu Linkerfehlern kommen, weil der Compiler einfach nicht alle Definitionen sehen kann. [siehe auch](https://de.wikibooks.org/wiki/C%2B%2B-Programmierung/_Templates/_Klassentemplates). In diesem Artikel findet sich auch die [Lösung](https://isocpp.org/wiki/faq/templates#separate-template-fn-defn-from-decl) für das Problem:  
+Entweder packen wir alles in den Header (wir machen das so bei [CBattleFieldGridIterator](/../main/Battleship/Battleship/cbattlefieldgriditerator.h)). Das ist hässlich und bläht den generierten Code auf. Oder man führt eine Art "Registrierung" für alle Anwendungen der Templateklasse ein, welche am Ende der Klassendefinition aufgerufen wird. So geschehen bei [CBattleFieldGrid](/../main/Battleship/Battleship/cbattlefieldgrid.h) Die Registrierung wurde in die Headerdatei [cbattlefieldgridregister](/../main/Battleship/Battleship/cbattlefieldgridregister.h) verlegt.
+
+Generell ist die [FAQ von ISOCpp zu Templates](https://isocpp.org/wiki/faq/templates) echt nützlich aber Vorsicht: 
+> This might hurt your head
 
 ## Iteratoren
 Wir nutzen unser Schiffe versenken, um einen tieferen Blick auf Iteratoren zu werfen.
@@ -92,3 +102,15 @@ Mit * Kommen wir an den Wert dran, auf dein ein Pointer zeigt. * Wird auch für 
     
 So auch bei Iteratoren, mit `*it` kommt man an den Wert, auf den der Iterator zeigt. Aus diesem Grunde muss der *-Operator auch für unseren Iterator implementiert werden, und gibt den Wert des Iterators zurück. Wenn wir in vielen Funktionen `*this` zurückgeben, dann passiert was anderes, wir dereferenzieren den this-Zeiger und geben eine Kopie von dem Iterator selbst oder eine Referenz auf den Iterator selbst zurück.  
 Das ist schwiertig zu lesen und führt schnell zu Verständnisproblemen.
+
+Ansonsten straight foreward. Es müssen die *, & und -> Operatoren für den Zugriff const und nicht-const implementiert werden.  
+Wir brauchen den Postfix und Prefix Inkrement und Dekrement, naturgemäß nicht const.
+
+Für den random access iterator müssen auch + und - implementiert werden und auch ein difference Operator (was ein - Operator ist, der 2x TIteratorType als Input bekommt und den Abstand zwischen beiden als difference_type zurückliefert).
+
+Damit die STL-Algorithmen auch suchen und filtern können, brauchen wir ==, <, >, <=, >=
+
+Ab hier verlassen wir den Standard. Unser Iterator muss seinen Container kennen, um im Grid navigieren zu können. Deswegen bekommt er einen Zeiger mit. Wichtig ist, dass es ein Zeiger ist, damit wir änderungen im Container mitbekommen. Und wenn wir den Container kennen, kennen und definieren wir kurzerhand begin() und end() im Iterator.
+
+Wichtig ist hier auch das Mittel der Abstraktion, Wir implementieren alles nur einmal. Iterator-Code ist schwierig. Durch das Rumreferenziere schwer zu lesen und man hat viel Funktionalität in wenig code. UnitTests sind hier auch extrem wichtig!
+
