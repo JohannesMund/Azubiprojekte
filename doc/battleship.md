@@ -80,8 +80,9 @@ value_type gibt an welchen Typ unser Container enthält. Da wir sowohl const- al
     
 Die drei sind für die bessere Lesbarkeit.
 
-Ansonsten ist es wichtig, sich nochmal die Funktionsweise des *-Operators vor Augen zu führen. Wir erinnern uns:
-* dereferenziert. Mit * Kommen wir an den Wert dran, auf dein ein Pointer zeigt. * Wird auch für Container Typen benutzt, um den enthaltenen Wert zu bekommen. Beispielsweise:
+Ansonsten ist es wichtig, sich nochmal die Funktionsweise des *-Operators vor Augen zu führen. 
+Wir erinnern uns: * dereferenziert. 
+Mit * Kommen wir an den Wert dran, auf dein ein Pointer zeigt. * Wird auch für Container Typen benutzt, um den enthaltenen Wert zu bekommen. Beispielsweise:
 
     std::optional<int> i;
     if( i.has_value() )
