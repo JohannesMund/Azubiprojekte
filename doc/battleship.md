@@ -9,7 +9,7 @@ Besser wäre natürlich, wenn `CBattleFieldGrid` entweder von STL Iteratoren abl
 
 Werfen wir also eine Blick in die Klasse [CBattleFieldGridIterator](/../main/Battleship/Battleship/cbattlefieldgriditerator.h)  
 
-Zuallererst fällt auf, dass es sich um eine [Template](/doc/tempates.md) Klasse handelt. auch das wäre in unserem Falle nicht notwendig, aber wenn, dann richtig.  
+Zuallererst fällt auf, dass es sich um eine [Template](/doc/templates.md) Klasse handelt. auch das wäre in unserem Falle nicht notwendig, aber wenn, dann richtig.  
 Unser Iterator funktioniert mit einem `TContainerType<TIteratorType>` Das ganze geht natürlich schief, wenn der TContainerType das Interface nicht erfüllt, das wir benötigen, aber was den TIteratorType angeht, sind wir recht frei. (Wir benutzen das im UnitTest, wo wir da einfach INTs reinpumpen).  
 
 Als nächstes, der using - Block:
