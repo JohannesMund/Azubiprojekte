@@ -34,7 +34,6 @@ Eine Klasse um eine Variable herum gestrickt, deren Typ wir nicht kennen. Wollen
     TClass<int> c(25);
     
 kommt uns bekannt vor oder?
-
 Wichtig ist zu wissen, wie der Compiler damit umgeht. Ein Template ist weder Klasse noch Funktion. Ein Template ist ein Pattern, welches dem Compiler erlaubt eine Gruppe von Funktion/Klassen zu erzeugen. Wenn wir so programmieren, wie wir es gewöhnt sind (wir trennen Deklaration und Definition) wird es mit an Sicherheit grenzender Wahrscheinlichkeit zu Linkerfehlern kommen, weil der Compiler einfach nicht alle Definitionen sehen kann ([siehe auch](https://de.wikibooks.org/wiki/C%2B%2B-Programmierung/_Templates/_Klassentemplates)). In diesem Artikel findet sich auch die [Lösung](https://isocpp.org/wiki/faq/templates#separate-template-fn-defn-from-decl) für das Problem:  
 Entweder packen wir alles in den Header (wir machen das so bei [CBattleFieldGridIterator](/../main/Battleship/Battleship/cbattlefieldgriditerator.h)). Das ist hässlich und bläht den generierten Code auf. Oder man führt eine Art "Registrierung" für alle Anwendungen der Templateklasse ein, welche am Ende der Klassendefinition aufgerufen wird. So geschehen bei [CBattleFieldGrid](/../main/Battleship/Battleship/cbattlefieldgrid.h) Die Registrierung wurde in die Headerdatei [cbattlefieldgridregister](/../main/Battleship/Battleship/cbattlefieldgridregister.h) verlegt.
 
@@ -44,4 +43,3 @@ Generell ist die [FAQ von ISOCpp zu Templates](https://isocpp.org/wiki/faq/templ
 ## Hinweis
 
 Für den Compiler gibt es keinen Unterschied zwischen `template<typename T>` und `template<class T>` man kann jedezeit beides verwenden. Für die Lesbarkeit empfielt es sich jedoch `typename` für Funktionstemplates zu benutzen und `class` für Klassentemplates.
-
