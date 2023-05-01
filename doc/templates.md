@@ -16,7 +16,7 @@ Solange `std::cout` mit der Variable klarkommt, kommt es unser template auch.
 ## Klassentemplates
 
 Bislang haben wir Klassentemplates zwar benutzt ( z.B. std::vector<int> ) jetzt wollen wir aber unsere eigene Templateklasse.  
-Warum wollen wir das? Die Klasse `CBattleFieldGrid` repräsentiert das Spielfeld, aber wir wollen nicht im Vorfeld festlegen müssen, welchen Datentyp wir da reinpacken. [In unserem Schiffe versenken - Spiel](/doc/battleship.md) wird es ein Zeiger auf einen Button sein, aber wir wollen flexibel bleiben.
+Warum wollen wir das? Die Klasse [CBattleFieldGrid](/../main/Battleship/Battleship/cbattlefieldgrid.h) repräsentiert das Spielfeld, aber wir wollen nicht im Vorfeld festlegen müssen, welchen Datentyp wir da reinpacken. [In unserem Schiffe versenken - Spiel](/doc/battleship.md) wird es ein Zeiger auf einen Button sein, aber wir wollen flexibel bleiben.
 Also, machen wir eine [Templateklasse](https://de.wikibooks.org/wiki/C%2B%2B-Programmierung/_Templates/_Klassentemplates).  
 Beispiel:
 
@@ -40,3 +40,8 @@ Entweder packen wir alles in den Header (wir machen das so bei [CBattleFieldGrid
 
 Generell ist die [FAQ von ISOCpp zu Templates](https://isocpp.org/wiki/faq/templates) echt nützlich aber Vorsicht: 
 > This might hurt your head
+
+## Hinweis
+
+Für den Compiler gibt es keinen Unterschied zwischen `template<typename T>` und `template<class T>` man kann jedezeit beides verwenden. Für die Lesbarkeit empfielt es sich jedoch `typename` für Funktionstemplates zu benutzen und `class` für Klassentemplates.
+
