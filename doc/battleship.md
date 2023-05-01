@@ -52,7 +52,12 @@ oder noch besser:
     
 Beide Varianten benutzen Iteratoren und sind robust(er). Besser ist es, die STL - Algorithmen zu benutzen.
 
+Für mehr Informationen zu Iteratoren, siehe [C++-Programmierung/ Die STL/ Iteratoren](https://de.wikibooks.org/wiki/C%2B%2B-Programmierung/_Die_STL/_Iteratoren)
+
 ### Eigene Iteratoren
 
 Wir haben mit `CBattleFieldGrid` einen eigenen Container gebaut. Da dieser Container nicht von STL - Containern ableitet, hat er auch keine Iteratoren.
-Besser wäre natürlich, wenn `CBattleFieldGrid` entweder von STL Iteratoren ableiten würde, und das Grid in einem eindimensionalen Vektor verwaltet (Was ohne weiteres möglich wäre) Aber es ist wie es ist, eigener Container, eigene Iteratoren.
+Besser wäre natürlich, wenn `CBattleFieldGrid` entweder von STL Iteratoren ableiten würde, und das Grid in einem eindimensionalen Vektor verwaltet (Was ohne weiteres möglich wäre) Aber es ist wie es ist, eigener Container, eigene Iteratoren. Wir nutzen die Gelegenheit, uns Iteratoren genau anzuschauen.
+
+Werfen wir also eine Blick in die Klasse [CBattleFieldGridIterator](/../Battleship/Battleship/cbattlefieldgriditerator.h)
+
