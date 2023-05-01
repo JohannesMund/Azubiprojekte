@@ -9,17 +9,18 @@ Wir nutzen unser Schiffe versenken, um einen tieferen Blick auf Iteratoren zu we
 Kurz gesagt, ein Pointer mit Benefits.
 Klassisch kapselt ein Iterator die Pointerarithmetik, die man damals(tm) benutzt hat, um sich durch verkettete Listen zu hangeln.
 Beispiel:
-
-`int i[1000]; //Ein Array mit 1000 integers`
-`int *it = 0; //Ein Zeiger auf das erste Element des Arrays`
+    
+    int i[1000]; //Ein Array mit 1000 integers
+    int *it = 0; //Ein Zeiger auf das erste Element des Arrays
 
 Mit Hilfe des Präfix/Postfix Inkrement/Dekrement kann man nun durch den Array navigieren:
-`int summe = 0;`
-`while( it != &i[1000] )`
-`{`
-`   summe += *it;`
-`   ++it;`
-`}`
+    
+    int summe = 0;
+    while( it != &i[1000] )
+    {
+       summe += *it;
+       ++it;
+    }
 
 Dies nennt man Pointerarithmetik und das ist in modernem C++ absolut verpönt.
 Warum ist das so?
