@@ -16,7 +16,7 @@ Solange `std::cout` mit der Variable klarkommt, kommt es unser template auch.
 ## Klassentemplates
 
 Bislang haben wir Klassentemplates zwar benutzt ( z.B. std::vector<int> ) jetzt wollen wir aber unsere eigene Templateklasse.  
-Warum wollen wir das? Die Klasse [CBattleFieldGrid](/../main/Battleship/Battleship/cbattlefieldgrid.h) repräsentiert das Spielfeld, aber wir wollen nicht im Vorfeld festlegen müssen, welchen Datentyp wir da reinpacken. [In unserem Schiffe versenken - Spiel](/doc/battleship.md) wird es ein Zeiger auf einen Button sein, aber wir wollen flexibel bleiben.
+Warum wollen wir das? Die Klasse [CBattleFieldGrid](/../main/Battleship/Battleship/cbattlefieldgrid.h) repräsentiert das Spielfeld, aber wir wollen nicht im Vorfeld festlegen müssen, welchen Datentyp wir da reinpacken. [In unserem Schiffe versenken - Spiel](/../Battleship/battleship.md) wird es ein Zeiger auf einen Button sein, aber wir wollen flexibel bleiben.
 Also, machen wir eine [Templateklasse](https://de.wikibooks.org/wiki/C%2B%2B-Programmierung/_Templates/_Klassentemplates).  
 Beispiel:
 
