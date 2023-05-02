@@ -78,7 +78,7 @@ Minesweeper
  * nichts was wir nicht vorher auch gelernt haben
  
 ## Battleship
-[Schiffe versenken](/doc/battleship.md)
+[Schiffe versenken](/Battleship/battleship.md)
 
 ### Features
  * 3 Schwierigkeitsgrade
