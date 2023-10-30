@@ -156,6 +156,13 @@ void CMap::printRoom(const SRoomCoords& coords, const int line)
 {
     using namespace std;
 
+    auto room = roomAt(coords);
+    if (room == nullptr || room->seen() == false)
+    {
+        cout << "   ";
+        return;
+    }
+
     bool left = navAvailable(coords, EDirections::eWest);
 
     if (line == 1)

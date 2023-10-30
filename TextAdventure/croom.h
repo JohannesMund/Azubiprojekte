@@ -16,6 +16,9 @@ public:
     bool south() const;
     bool west() const;
 
+    bool seen() const;
+    void setSeen(const bool b);
+
     virtual char mapSymbol();
     virtual void execute();
 
@@ -27,5 +30,6 @@ private:
 
     bool _encounterPossible = true;
 
+    bool _seen = false;
     std::string _description;
 };
