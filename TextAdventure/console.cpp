@@ -64,6 +64,11 @@ char Console::getAcceptableInput(string acceptableChars)
     return input;
 }
 
+void Console::br()
+{
+    cout << endl;
+}
+
 void Console::hr()
 {
     for (int i = 0; i < Ressources::Settings::consoleWidth; i++)
@@ -74,7 +79,7 @@ void Console::hr()
     cout << endl;
 }
 
-void Console::echo(const bool on)
+void Console::setEcho(const bool on)
 {
 
 #ifdef _USE_WINDOWS
@@ -139,20 +144,16 @@ void Console::printLn(std::string text, const EAlignment align, const bool nobr)
     }
 }
 
-void Console::br()
-{
-    cout << endl;
-}
-
 std::optional<int> Console::getNumberInputWithEcho(const int min, const int max)
 {
     cout << std::format("[Enter number between {} and {} (or anything else to cancel)]", min, max);
-    echo(true);
+    setEcho(true);
 
+    cin.clear();
     int input;
     cin >> input;
 
-    echo(false);
+    setEcho(false);
 
     if (input >= min && input <= max)
     {

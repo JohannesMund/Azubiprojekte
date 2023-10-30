@@ -7,7 +7,7 @@ using namespace std;
 
 int main()
 {
-    Console::echo(false);
+    Console::setEcho(false);
     Console::cls();
     Console::printLn("T H E   Q E S T  F O R   T H E   F L O I N K", Console::EAlignment::eCenter);
     Console::br();
@@ -23,5 +23,5 @@ int main()
     }
 
     cout << endl;
-    Console::echo(true);
+    Console::setEcho(true);
 }
