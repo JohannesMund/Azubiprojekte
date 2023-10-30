@@ -74,7 +74,7 @@ void CGameManagement::printMap()
 void CGameManagement::printInventory()
 {
     Console::cls();
-    _inventory.print();
+    _inventory.print(CInventory::Scope::eList);
 }
 
 std::string CGameManagement::printNavigation()

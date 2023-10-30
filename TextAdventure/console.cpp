@@ -83,7 +83,7 @@ void Console::echo(const bool on)
     GetConsoleMode(hStdin, &mode);
     if (on)
     {
-        SetConsoleMode(hStdin, mode & ENABLE_ECHO_INPUT);
+        SetConsoleMode(hStdin, mode | ENABLE_ECHO_INPUT);
     }
     else
     {
@@ -146,7 +146,7 @@ void Console::br()
 
 std::optional<int> Console::getNumberInputWithEcho(const int min, const int max)
 {
-    cout << std::format("[Enter number between {} and {}]", min, max);
+    cout << std::format("[Enter number between {} and {} (or anything else to cancel)]", min, max);
 
     echo(true);
 

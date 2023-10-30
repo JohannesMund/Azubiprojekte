@@ -1,6 +1,7 @@
 #ifndef CITEM_H
 #define CITEM_H
 
+#include <functional>
 #include <string>
 
 class CItem
@@ -21,6 +22,11 @@ public:
     bool hasDurableBattleEffect() const;
 
     bool isConsumable() const;
+
+    static std::function<bool(const CItem*)> nameFilter(const std::string& name)
+    {
+        return [&name](const CItem* item) { return item->name().compare(name) == 0; };
+    }
 
 protected:
     std::string _name;

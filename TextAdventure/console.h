@@ -5,7 +5,6 @@
 
 namespace Console
 {
-
 enum class EAlignment
 {
     eLeft,
@@ -14,14 +13,14 @@ enum class EAlignment
 };
 
 void confirmToContinue();
+
 void hr();
 void br();
 void cls();
+void printLn(std::string text, const EAlignment align = EAlignment::eLeft, const bool nobr = false);
 
 void echo(const bool on);
 
-void printLn(std::string text, const EAlignment align = EAlignment::eLeft, const bool nobr = false);
-
 char getAcceptableInput(std::string accepableChars);
 std::optional<int> getNumberInputWithEcho(const int min = 0, const int max = __INT_MAX__);
-} // namespace ConIO
+} // namespace Console
