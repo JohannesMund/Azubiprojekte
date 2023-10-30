@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "cgamemanagement.h"
-#include "conio.h"
+#include "console.h"
 #include "croom.h"
 #include "ressources.h"
 
@@ -10,11 +10,16 @@ using namespace std;
 CRoom::CRoom()
 {
     _description = Ressources::Rooms::getRandomDescription();
+    _encounterPossible = true;
+}
+
+CRoom::~CRoom()
+{
 }
 
 void CRoom::execute()
 {
-    ConIO::printLn(_description);
+    Console::printLn(_description);
 }
 
 void CRoom::blockPath(const CMap::EDirections dir, const bool block)

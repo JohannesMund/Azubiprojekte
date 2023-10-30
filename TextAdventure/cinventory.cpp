@@ -1,9 +1,8 @@
 #include "cinventory.h"
-#include "conio.h"
+#include "console.h"
 
 #include <algorithm>
 #include <format>
-#include <map>
 #include <string>
 #include <utility>
 
@@ -13,8 +12,7 @@ CInventory::CInventory()
 
 bool CInventory::hasItem(const std::string& name)
 {
-    auto itemFinder = [&name](const CItem* item) { return item->name().compare(name) == 0; };
-    return std::find_if(_inventory.begin(), _inventory.end(), itemFinder) != _inventory.end();
+    return std::find_if(_inventory.begin(), _inventory.end(), CItem::nameFilter(name)) != _inventory.end();
 }
 
 void CInventory::addItem(CItem* item)
@@ -24,8 +22,7 @@ void CInventory::addItem(CItem* item)
 
 void CInventory::removeItem(CItem* item)
 {
-    auto itemFinder = [item](const CItem* it) { return it->name().compare(item->name()) == 0; };
-    auto found = std::find_if(_inventory.begin(), _inventory.end(), itemFinder);
+    auto found = std::find_if(_inventory.begin(), _inventory.end(), CItem::nameFilter(item->name()));
     if (found != _inventory.end())
     {
         _inventory.erase(found);
@@ -34,14 +31,14 @@ void CInventory::removeItem(CItem* item)
 
 void CInventory::print(const Scope& scope)
 {
-    ConIO::printLn("You look through your backpack and find the following:");
+    Console::printLn("You look through your backpack and find the following:");
     printInventory(scope);
 
     char input = ' ';
     while (input != 'x')
     {
         auto acceptableInputs = printInventoryNav();
-        input = ConIO::getAcceptableInput(acceptableInputs);
+        input = Console::getAcceptableInput(acceptableInputs);
         if (input == 'u')
         {
             printUsableItems(Scope::eInventory);
@@ -55,11 +52,57 @@ void CInventory::print(const Scope& scope)
 
 void CInventory::printInventory(const Scope& scope)
 {
-    std::multimap<unsigned int, CItem*> itemMap;
+    auto itemMap = getInventoryCompressedForScope(scope);
 
+    std::vector<CItem*> usableItems;
+
+    for (auto item : itemMap)
+    {
+        std::string s;
+        if ((!usableInScope(item.second, scope)))
+        {
+            s = std::format("      {} (x{})", item.second->name(), item.first);
+        }
+        else
+        {
+            usableItems.push_back(item.second);
+            s = std::format("[{:3}] {} (x{})", usableItems.size(), item.second->name(), item.first);
+        }
+        Console::printLn(s);
+    }
+
+    if (usableItems.size())
+    {
+        auto item = Console::getNumberInputWithEcho(1, usableItems.size());
+        if (item.has_value())
+        {
+            if (scope == Scope::eView)
+            {
+                viewItem(usableItems.at(0));
+            }
+            else
+            {
+                useItem(usableItems.at(0));
+            }
+        }
+    }
+}
+
+std::string CInventory::printInventoryNav() const
+{
+    Console::hr();
+    Console::printLn("Inventory");
+    Console::printLn("[U]se Item [V]iew Item E[x]it", Console::EAlignment::eRight);
+    return "uvx";
+}
+
+CInventory::CompressedItemMap CInventory::getInventoryCompressedForScope(const Scope& scope)
+{
+
+    CompressedItemMap itemMap;
     for (auto item : _inventory)
     {
-        if (!usableInScope(item, scope))
+        if (!usableInScope(item, scope) && scope != Scope::eList)
         {
             continue;
         }
@@ -78,46 +121,7 @@ void CInventory::printInventory(const Scope& scope)
             itemMap.insert(std::make_pair(count, item));
         }
     }
-
-    std::vector<CItem*> usableItems;
-
-    for (auto item : itemMap)
-    {
-        std::string s;
-
-        if ((!usableInScope(item.second, scope) && scope != Scope::eView) || scope == Scope::eNone)
-        {
-            s = std::format("      {} (x{})", item.second->name(), item.first);
-        }
-        else
-        {
-            usableItems.push_back(item.second);
-            s = std::format("[{:3}] {} (x{})", usableItems.size(), item.second->name(), item.first);
-        }
-        ConIO::printLn(s);
-    }
-
-    if (usableItems.size())
-    {
-        auto item = ConIO::getNumberInputWithEcho(1, usableItems.size());
-        if (item.has_value())
-        {
-            if (scope == Scope::eView)
-            {
-                viewItem(usableItems.at(0));
-            }
-            else
-            {
-                useItem(usableItems.at(0));
-            }
-        }
-    }
-}
-
-std::string CInventory::printInventoryNav() const
-{
-    ConIO::printLn("[U]se Item [V]iew Item E[x]it", ConIO::EAlignment::eRight);
-    return "uvx";
+    return itemMap;
 }
 
 bool CInventory::usableInScope(const CItem* item, const Scope& scope)
@@ -126,6 +130,7 @@ bool CInventory::usableInScope(const CItem* item, const Scope& scope)
     {
     case Scope::eNone:
     default:
+    case Scope::eList:
         return false;
     case Scope::eView:
         return true;
@@ -140,15 +145,15 @@ bool CInventory::usableInScope(const CItem* item, const Scope& scope)
 
 void CInventory::printUsableItems(const Scope& scope)
 {
-    ConIO::printLn("Select item to use");
-    ConIO::hr();
+    Console::printLn("Select item to use");
+    Console::hr();
     printInventory(scope);
 }
 
 void CInventory::printViewableItems()
 {
-    ConIO::printLn("Select item to view");
-    ConIO::hr();
+    Console::printLn("Select item to view");
+    Console::hr();
     printInventory(Scope::eView);
 }
 
@@ -159,8 +164,8 @@ void CInventory::useItem(CItem* item)
         return;
     }
 
-    ConIO::hr();
-    ConIO::printLn(std::format("You decide to use: {}", item->name()));
+    Console::hr();
+    Console::printLn(std::format("You decide to use: {}", item->name()));
     item->use();
     if (item->isConsumable())
     {
@@ -174,9 +179,9 @@ void CInventory::viewItem(CItem* item)
     {
         return;
     }
-    ConIO::hr();
-    ConIO::printLn(std::format("You decide to take a look at: {}", item->name()));
-    ConIO::printLn(item->description());
+    Console::hr();
+    Console::printLn(std::format("You decide to take a look at: {}", item->name()));
+    Console::printLn(item->description());
 }
 
 CItem* CInventory::getItem(const unsigned int index)
