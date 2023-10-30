@@ -3,7 +3,7 @@
 #include <optional>
 #include <string>
 
-namespace ConIO
+namespace Console
 {
 
 enum class EAlignment

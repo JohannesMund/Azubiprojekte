@@ -1,5 +1,5 @@
 #include "cgamemanagement.h"
-#include "conio.h"
+#include "console.h"
 #include "croom.h"
 #include "items/itemfactory.h"
 #include "randomizer.h"
@@ -61,26 +61,26 @@ CInventory* CGameManagement::getInventory()
 
 void CGameManagement::printHUD()
 {
-    ConIO::hr();
+    Console::hr();
     _player.print();
 }
 
 void CGameManagement::printMap()
 {
-    ConIO::cls();
+    Console::cls();
     _map.printMap();
 }
 
 void CGameManagement::printInventory()
 {
-    ConIO::cls();
+    Console::cls();
     _inventory.print();
 }
 
 std::string CGameManagement::printNavigation()
 {
-    ConIO::hr();
-    ConIO::printLn("Go Ahead");
+    Console::hr();
+    Console::printLn("Go Ahead");
 
     string acceptableInputs;
     string navigationDisplay;
@@ -105,8 +105,8 @@ std::string CGameManagement::printNavigation()
         acceptableInputs += CMap::direction2Char(CMap::EDirections::eWest);
     }
 
-    ConIO::printLn(navigationDisplay);
-    ConIO::printLn("[M]ap [I]nventory E[x]it", ConIO::EAlignment::eRight);
+    Console::printLn(navigationDisplay);
+    Console::printLn("[M]ap [I]nventory E[x]it", Console::EAlignment::eRight);
     acceptableInputs += "mix";
 
     return acceptableInputs;
@@ -117,7 +117,7 @@ void CGameManagement::navigation()
     while (true)
     {
         auto acceptableInputs = printNavigation();
-        auto input = ConIO::getAcceptableInput(acceptableInputs);
+        auto input = Console::getAcceptableInput(acceptableInputs);
 
         if (input == 'x')
         {
@@ -168,7 +168,7 @@ void CGameManagement::gameLoop()
 {
     while (!_isGameOver)
     {
-        ConIO::cls();
+        Console::cls();
         printHUD();
 
         _map.currentRoom()->execute();

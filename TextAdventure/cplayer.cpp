@@ -1,5 +1,5 @@
 #include "cplayer.h"
-#include "conio.h"
+#include "console.h"
 #include "ressources.h"
 
 #include <format>
@@ -15,21 +15,21 @@ CPlayer::CPlayer()
 void CPlayer::print() const
 {
     auto player = std::format("HP: {}/{} Gold: {}", _hp, _maxHp, _gold);
-    ConIO::printLn(player);
-    ConIO::hr();
+    Console::printLn(player);
+    Console::hr();
 }
 
 void CPlayer::addGold(const int i)
 {
     std::string lostOrGained = i < 0 ? "lost" : "gained";
-    ConIO::printLn(std::format("you {} {} gold.", lostOrGained, i));
+    Console::printLn(std::format("you {} {} gold.", lostOrGained, i));
     _gold += i;
 }
 
 void CPlayer::addHp(const int i)
 {
     std::string lostOrGained = i < 0 ? "lost" : "gained";
-    ConIO::printLn(std::format("you {} {} Hitpoints.", lostOrGained, i));
+    Console::printLn(std::format("you {} {} Hitpoints.", lostOrGained, i));
 
     _hp += i;
     if (_hp <= 0)

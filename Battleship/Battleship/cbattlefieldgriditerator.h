@@ -70,7 +70,7 @@ public:
 
     reference operator*() const
     {
-        return *this;
+        return _vectorOfVectors->at(_outerIndex).at(_innerIndex);
     }
 
     pointer operator->()
