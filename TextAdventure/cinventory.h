@@ -2,18 +2,24 @@
 
 #include "citem.h"
 
+#include <map>
 #include <string>
 #include <vector>
 
 class CInventory
 {
 public:
+    using CompressedItem = std::pair<unsigned int, CItem*>;
+    using CompressedItemMap = std::multimap<unsigned int, CItem*>;
+    using ItemList = std::vector<CItem*>;
+
     CInventory();
 
     enum class Scope
     {
         eNone,
         eView,
+        eList,
         eInventory,
         eBattle,
         eDeath
@@ -29,6 +35,8 @@ private:
     void printInventory(const Scope& scope);
     std::string printInventoryNav() const;
 
+    CompressedItemMap getInventoryCompressedForScope(const Scope& scope);
+
     static bool usableInScope(const CItem* item, const Scope& scope);
 
     void printUsableItems(const Scope& scope);
@@ -39,5 +47,5 @@ private:
 
     CItem* getItem(const unsigned int index);
 
-    std::vector<CItem*> _inventory;
+    ItemList _inventory;
 };
