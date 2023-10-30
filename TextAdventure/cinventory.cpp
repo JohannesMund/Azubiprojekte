@@ -60,7 +60,7 @@ void CInventory::printInventory(const Scope& scope)
     {
         std::string s;
 
-        if ((!usableInScope(item.second, scope)) || scope == Scope::eList)
+        if ((!usableInScope(item.second, scope)))
         {
             s = std::format("      {} (x{})", item.second->name(), item.first);
         }
@@ -91,6 +91,8 @@ void CInventory::printInventory(const Scope& scope)
 
 std::string CInventory::printInventoryNav() const
 {
+    Console::hr();
+    Console::printLn("Inventory");
     Console::printLn("[U]se Item [V]iew Item E[x]it", Console::EAlignment::eRight);
     return "uvx";
 }
