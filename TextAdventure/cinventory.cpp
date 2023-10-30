@@ -91,8 +91,8 @@ void CInventory::printInventory(const Scope& scope)
 std::string CInventory::printInventoryNav() const
 {
     Console::hr();
-    Console::printLn("Inventory");
-    Console::printLn("[U]se Item [V]iew Item E[x]it", Console::EAlignment::eRight);
+    Console::printLn("[U]se Item [V]iew Item", Console::EAlignment::eRight);
+    Console::printLn("E[x]it Inventory", Console::EAlignment::eRight);
     return "uvx";
 }
 
