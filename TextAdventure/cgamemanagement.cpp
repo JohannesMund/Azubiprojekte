@@ -79,9 +79,6 @@ void CGameManagement::printInventory()
 
 std::string CGameManagement::printNavigation()
 {
-    Console::hr();
-    Console::printLn("Go Ahead");
-
     string acceptableInputs;
     string navigationDisplay;
     if (_map.navAvailable(CMap::EDirections::eNorth))
@@ -105,9 +102,11 @@ std::string CGameManagement::printNavigation()
         acceptableInputs += CMap::direction2Char(CMap::EDirections::eWest);
     }
 
+    Console::hr();
+    Console::printLn("Go Ahead");
     Console::printLn(navigationDisplay);
-    Console::printLn("[M]ap [I]nventory E[x]it", Console::EAlignment::eRight);
-    acceptableInputs += "mix";
+    Console::printLn("[M]ap [I]nventory [Q]uit", Console::EAlignment::eRight);
+    acceptableInputs += "miq";
 
     return acceptableInputs;
 }
@@ -119,7 +118,7 @@ void CGameManagement::navigation()
         auto acceptableInputs = printNavigation();
         auto input = Console::getAcceptableInput(acceptableInputs);
 
-        if (input == 'x')
+        if (input == 'q')
         {
             _isGameOver = true;
             return;
