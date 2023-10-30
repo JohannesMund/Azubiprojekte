@@ -188,9 +188,17 @@ void CMap::printMap()
     }
 
     std::cout << " ";
-    for (unsigned int x = 0; x < _map.at(0).size() * 3 - 1; x++)
+    for (unsigned int x = 0; x < _map.at(0).size(); x++)
     {
-        std::cout << "_";
+        auto room = roomAt({x, 0});
+        if (room != nullptr && room->seen())
+        {
+            std::cout << "___";
+        }
+        else
+        {
+            std::cout << "   ";
+        }
     }
     std::cout << std::endl;
 
@@ -204,7 +212,16 @@ void CMap::printMap()
             {
                 printRoom({x, y}, i);
             }
-            std::cout << "|" << std::endl;
+
+            auto room = roomAt({(unsigned)line.size() - 1, y});
+            if (room != nullptr && room->seen())
+            {
+                std::cout << "|" << std::endl;
+            }
+            else
+            {
+                std::cout << " " << std::endl;
+            }
         }
     }
 }
