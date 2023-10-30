@@ -98,8 +98,8 @@ std::string CInventory::printInventoryNav() const
 
 CInventory::CompressedItemMap CInventory::getInventoryCompressedForScope(const Scope& scope)
 {
-    CompressedItemMap itemMap;
 
+    CompressedItemMap itemMap;
     for (auto item : _inventory)
     {
         if (!usableInScope(item, scope) && scope != Scope::eList)

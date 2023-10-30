@@ -38,6 +38,7 @@ CHealingPotion::CHealingPotion(const PotionSize& size) : CItem()
 }
 
 void CHealingPotion::use()
+
 {
     Console::printLn("You open the bottle, and swallow it in one draw. Healing potions are disgusting!");
     unsigned int hp;
@@ -49,7 +50,6 @@ void CHealingPotion::use()
         break;
     case PotionSize::M:
     default:
-        Console::printLn("What can you do? Down the neck! You feel very refreshed!");
         hp = Randomizer::getRandom(2) + 1;
         break;
     case PotionSize::L:

@@ -24,5 +24,4 @@ int main()
 
     cout << endl;
     Console::echo(true);
-    return 0;
 }

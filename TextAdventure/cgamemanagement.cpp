@@ -1,4 +1,5 @@
 #include "cgamemanagement.h"
+
 #include "console.h"
 #include "croom.h"
 #include "items/itemfactory.h"
@@ -61,6 +62,7 @@ CInventory* CGameManagement::getInventory()
 
 void CGameManagement::printHUD()
 {
+
     Console::hr();
     _player.print();
 }

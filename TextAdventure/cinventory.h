@@ -46,6 +46,5 @@ private:
     void viewItem(CItem* item);
 
     CItem* getItem(const unsigned int index);
-
     ItemList _inventory;
 };
