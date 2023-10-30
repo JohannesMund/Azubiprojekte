@@ -1,6 +1,6 @@
 #include "chealingpotion.h"
 #include "cgamemanagement.h"
-#include "conio.h"
+#include "console.h"
 #include "cplayer.h"
 #include "randomizer.h"
 #include "ressources.h"
@@ -39,25 +39,25 @@ CHealingPotion::CHealingPotion(const PotionSize& size) : CItem()
 
 void CHealingPotion::use()
 {
-    ConIO::printLn("You open the bottle, and swallow it in one draw. Healing potions are disgusting!");
+    Console::printLn("You open the bottle, and swallow it in one draw. Healing potions are disgusting!");
     unsigned int hp;
     switch (_size)
     {
     case PotionSize::S:
-        ConIO::printLn("Fortunately, it is not much, You feel a little refreshed!");
+        Console::printLn("Fortunately, it is not much, You feel a little refreshed!");
         hp = 1;
         break;
     case PotionSize::M:
     default:
-        ConIO::printLn("What can you do? Down the neck! You feel very refreshed!");
+        Console::printLn("What can you do? Down the neck! You feel very refreshed!");
         hp = Randomizer::getRandom(2) + 1;
         break;
     case PotionSize::L:
-        ConIO::printLn("Sooo much potion! But it was worth it, you feel really very refreshed!");
+        Console::printLn("Sooo much potion! But it was worth it, you feel really very refreshed!");
         hp = Randomizer::getRandom(9) + 1;
         break;
     case PotionSize::XL:
-        ConIO::printLn("You are flooded by a burst of life! you feel like a new born!");
+        Console::printLn("You are flooded by a burst of life! you feel like a new born!");
         hp = 99999;
         break;
     }

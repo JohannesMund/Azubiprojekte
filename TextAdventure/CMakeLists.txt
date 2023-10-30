@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(TEXTADVENTURE_SOURCES
     main.cpp
 
-    conio.h conio.cpp
+    console.h console.cpp
     ressources.h ressources.cpp
 
     cgamemanagement.h cgamemanagement.cpp

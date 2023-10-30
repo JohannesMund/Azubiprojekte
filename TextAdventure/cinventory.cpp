@@ -1,5 +1,5 @@
 #include "cinventory.h"
-#include "conio.h"
+#include "console.h"
 
 #include <algorithm>
 #include <format>
@@ -34,14 +34,14 @@ void CInventory::removeItem(CItem* item)
 
 void CInventory::print(const Scope& scope)
 {
-    ConIO::printLn("You look through your backpack and find the following:");
+    Console::printLn("You look through your backpack and find the following:");
     printInventory(scope);
 
     char input = ' ';
     while (input != 'x')
     {
         auto acceptableInputs = printInventoryNav();
-        input = ConIO::getAcceptableInput(acceptableInputs);
+        input = Console::getAcceptableInput(acceptableInputs);
         if (input == 'u')
         {
             printUsableItems(Scope::eInventory);
@@ -94,12 +94,12 @@ void CInventory::printInventory(const Scope& scope)
             usableItems.push_back(item.second);
             s = std::format("[{:3}] {} (x{})", usableItems.size(), item.second->name(), item.first);
         }
-        ConIO::printLn(s);
+        Console::printLn(s);
     }
 
     if (usableItems.size())
     {
-        auto item = ConIO::getNumberInputWithEcho(1, usableItems.size());
+        auto item = Console::getNumberInputWithEcho(1, usableItems.size());
         if (item.has_value())
         {
             if (scope == Scope::eView)
@@ -116,7 +116,7 @@ void CInventory::printInventory(const Scope& scope)
 
 std::string CInventory::printInventoryNav() const
 {
-    ConIO::printLn("[U]se Item [V]iew Item E[x]it", ConIO::EAlignment::eRight);
+    Console::printLn("[U]se Item [V]iew Item E[x]it", Console::EAlignment::eRight);
     return "uvx";
 }
 
@@ -140,15 +140,15 @@ bool CInventory::usableInScope(const CItem* item, const Scope& scope)
 
 void CInventory::printUsableItems(const Scope& scope)
 {
-    ConIO::printLn("Select item to use");
-    ConIO::hr();
+    Console::printLn("Select item to use");
+    Console::hr();
     printInventory(scope);
 }
 
 void CInventory::printViewableItems()
 {
-    ConIO::printLn("Select item to view");
-    ConIO::hr();
+    Console::printLn("Select item to view");
+    Console::hr();
     printInventory(Scope::eView);
 }
 
@@ -159,8 +159,8 @@ void CInventory::useItem(CItem* item)
         return;
     }
 
-    ConIO::hr();
-    ConIO::printLn(std::format("You decide to use: {}", item->name()));
+    Console::hr();
+    Console::printLn(std::format("You decide to use: {}", item->name()));
     item->use();
     if (item->isConsumable())
     {
@@ -174,9 +174,9 @@ void CInventory::viewItem(CItem* item)
     {
         return;
     }
-    ConIO::hr();
-    ConIO::printLn(std::format("You decide to take a look at: {}", item->name()));
-    ConIO::printLn(item->description());
+    Console::hr();
+    Console::printLn(std::format("You decide to take a look at: {}", item->name()));
+    Console::printLn(item->description());
 }
 
 CItem* CInventory::getItem(const unsigned int index)

@@ -1,28 +1,54 @@
-#include "conio.h"
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#define _USE_WINDOWS
+#else
+#define _USE_UNIX
+#endif
+
+#include "console.h"
 #include "ressources.h"
 
 #include <format>
 #include <iostream>
 #include <string>
+
+#ifdef _USE_WINDOWS
+#include <conio.h>
+#include <windows.h>
+#else
 #include <termios.h>
+#endif
 
 using namespace std;
-void ConIO::confirmToContinue()
+void Console::confirmToContinue()
 {
     cout << "[Press <ENTER> to Continue]";
     cin.ignore();
     cout << endl;
 }
 
-void ConIO::cls()
+void Console::cls()
 {
+#ifdef _USE_WINDOWS
+    system("cls");
+#else
     system("clear");
+#endif
 }
 
-char ConIO::getAcceptableInput(string acceptableChars)
+char Console::getAcceptableInput(string acceptableChars)
 {
     bool found = false;
     char input;
+#ifdef _USE_WINDOWS
+    while (!found)
+    {
+        input = _getch();
+        if (acceptableChars.find(input) != string::npos)
+        {
+            found = true;
+        }
+    }
+#else
     system("stty raw");
     while (!found)
     {
@@ -34,10 +60,11 @@ char ConIO::getAcceptableInput(string acceptableChars)
         }
     }
     system("stty cooked");
+#endif
     return input;
 }
 
-void ConIO::hr()
+void Console::hr()
 {
     for (int i = 0; i < Ressources::Settings::consoleWidth; i++)
     {
@@ -47,8 +74,22 @@ void ConIO::hr()
     cout << endl;
 }
 
-void ConIO::echo(const bool on)
+void Console::echo(const bool on)
 {
+
+#ifdef _USE_WINDOWS
+    HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
+    DWORD mode = 0;
+    GetConsoleMode(hStdin, &mode);
+    if (on)
+    {
+        SetConsoleMode(hStdin, mode & ENABLE_ECHO_INPUT);
+    }
+    else
+    {
+        SetConsoleMode(hStdin, mode & (~ENABLE_ECHO_INPUT));
+    }
+#else
     struct termios term;
     tcgetattr(fileno(stdin), &term);
 
@@ -62,9 +103,10 @@ void ConIO::echo(const bool on)
     }
 
     tcsetattr(fileno(stdin), 0, &term);
+#endif
 }
 
-void ConIO::printLn(std::string text, const EAlignment align, const bool nobr)
+void Console::printLn(std::string text, const EAlignment align, const bool nobr)
 {
     if (text.size() > Ressources::Settings::consoleWidth && !nobr)
     {
@@ -97,12 +139,12 @@ void ConIO::printLn(std::string text, const EAlignment align, const bool nobr)
     }
 }
 
-void ConIO::br()
+void Console::br()
 {
     cout << endl;
 }
 
-std::optional<int> ConIO::getNumberInputWithEcho(const int min, const int max)
+std::optional<int> Console::getNumberInputWithEcho(const int min, const int max)
 {
     cout << std::format("[Enter number between {} and {}]", min, max);
 

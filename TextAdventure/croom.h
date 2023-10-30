@@ -7,7 +7,7 @@ class CRoom
 {
 public:
     CRoom();
-    virtual void execute();
+    virtual ~CRoom();
 
     void blockPath(const CMap::EDirections dir, const bool block);
 
@@ -17,6 +17,7 @@ public:
     bool west() const;
 
     virtual char mapSymbol();
+    virtual void execute();
 
 private:
     bool _pathNorth = true;
