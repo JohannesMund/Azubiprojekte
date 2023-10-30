@@ -105,9 +105,9 @@ std::string CGameManagement::printNavigation()
     }
 
     Console::hr();
-    Console::printLn("Go Ahead");
     Console::printLn(navigationDisplay);
-    Console::printLn("[M]ap [I]nventory [Q]uit", Console::EAlignment::eRight);
+    Console::printLn("[M]ap [I]nventory", Console::EAlignment::eRight);
+    Console::printLn("[Q]uit Game", Console::EAlignment::eRight);
     acceptableInputs += "miq";
 
     return acceptableInputs;
