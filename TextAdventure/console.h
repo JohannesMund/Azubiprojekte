@@ -14,6 +14,7 @@ enum class EAlignment
 
 void confirmToContinue();
 
+
 void hr();
 void br();
 void cls();

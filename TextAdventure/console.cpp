@@ -147,7 +147,6 @@ void Console::br()
 std::optional<int> Console::getNumberInputWithEcho(const int min, const int max)
 {
     cout << std::format("[Enter number between {} and {} (or anything else to cancel)]", min, max);
-
     echo(true);
 
     int input;
