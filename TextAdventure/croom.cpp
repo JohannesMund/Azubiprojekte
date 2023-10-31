@@ -19,6 +19,7 @@ CRoom::~CRoom()
 
 void CRoom::execute()
 {
+    _seen = true;
     Console::printLn(_description);
 }
 
@@ -61,6 +62,16 @@ bool CRoom::south() const
 bool CRoom::west() const
 {
     return _pathWest;
+}
+
+bool CRoom::seen() const
+{
+    return _seen;
+}
+
+void CRoom::setSeen(const bool b)
+{
+    _seen = b;
 }
 
 char CRoom::mapSymbol()

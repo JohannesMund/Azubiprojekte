@@ -7,21 +7,22 @@ using namespace std;
 
 int main()
 {
-    Console::echo(false);
+    Console::setEcho(false);
     Console::cls();
     Console::printLn("T H E   Q E S T  F O R   T H E   F L O I N K", Console::EAlignment::eCenter);
     Console::br();
     Console::printLn("the epic Quest for the legendary Floink", Console::EAlignment::eCenter);
     Console::hr();
 
-    Console::printLn("You can [S]tart a new game oder e[X]it");
+    Console::printLn("[S]tart a new game", Console::EAlignment::eCenter);
+    Console::printLn("[Q]uit game", Console::EAlignment::eCenter);
 
-    char in = Console::getAcceptableInput("sx");
+    char in = Console::getAcceptableInput("sq");
     if (in == 's')
     {
         CGameManagement::getInstance()->start();
     }
 
     cout << endl;
-    Console::echo(true);
+    Console::setEcho(true);
 }
