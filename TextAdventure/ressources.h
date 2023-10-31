@@ -15,6 +15,8 @@ namespace Config
 {
 static const unsigned int fieldWidth = 10;
 static const unsigned int fieldHeight = 10;
+
+static const std::vector<int> xpForLevel = {0, 300, 700, 1300, 2000, 4000, 8000, 14000, 20000};
 static const unsigned int encounterChance = 5;
 static const unsigned int fightRate = 75;
 

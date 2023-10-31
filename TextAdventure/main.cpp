@@ -14,9 +14,10 @@ int main()
     Console::printLn("the epic Quest for the legendary Floink", Console::EAlignment::eCenter);
     Console::hr();
 
-    Console::printLn("You can [S]tart a new game oder e[X]it");
+    Console::printLn("[S]tart a new game", Console::EAlignment::eCenter);
+    Console::printLn("[Q]uit game", Console::EAlignment::eCenter);
 
-    char in = Console::getAcceptableInput("sx");
+    char in = Console::getAcceptableInput("sq");
     if (in == 's')
     {
         CGameManagement::getInstance()->start();

@@ -13,8 +13,9 @@ CPlayer::CPlayer()
 
 void CPlayer::print() const
 {
-    auto player = std::format("HP: {}/{} Gold: {}", _hp, _maxHp, _gold);
-    Console::printLn(player);
+
+    Console::printLn(std::format("HP: {}/{} Gold: {}", _hp, _maxHp, _gold));
+    Console::printLn(std::format("Level: {} Experience: {}/{}", _level, _xp, xpForNextLevel()));
     Console::hr();
 }
 
@@ -63,9 +64,30 @@ int CPlayer::level() const
     return _level;
 }
 
+void CPlayer::addXp(const int i)
+{
+    Console::printLn(std::format("You {} {} Experience.", lostOrGained(i), i));
+    _xp += i;
+
+    if (_xp > xpForNextLevel())
+    {
+        levelUp();
+    }
+}
+
 void CPlayer::levelUp()
 {
+    Console::printLn("You gained one level");
     _level++;
+}
+
+int CPlayer::xpForNextLevel() const
+{
+    if (Ressources::Config::xpForLevel.size() <= _level)
+    {
+        return -1;
+    }
+    return Ressources::Config::xpForLevel.at(_level);
 }
 
 std::string CPlayer::increasedOrDecreased(const int i)
