@@ -19,6 +19,7 @@ static const unsigned int encounterChance = 5;
 static const unsigned int fightRate = 75;
 
 static const unsigned int maxHp = 10;
+static const unsigned int maxHpMin = 3;
 static const unsigned int gold = 10;
 
 } // namespace Config
