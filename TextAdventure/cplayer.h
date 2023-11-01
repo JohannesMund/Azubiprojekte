@@ -32,8 +32,8 @@ public:
     unsigned int initiative() const;
 
 private:
-    unsigned int _hp = 10;
-    unsigned int _maxHp = 10;
+    int _hp = 10;
+    int _maxHp = 10;
     int _gold = 0;
 
     unsigned int _level = 1;

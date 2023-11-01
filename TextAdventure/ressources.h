@@ -8,7 +8,7 @@ namespace Ressources
 
 namespace Settings
 {
-static const unsigned int consoleWidth = 80;
+static const unsigned int consoleWidth = 60;
 }
 
 namespace Config
@@ -18,7 +18,6 @@ unsigned int getXpForLevel(const unsigned int level);
 
 static const unsigned int fieldWidth = 10;
 static const unsigned int fieldHeight = 10;
-
 static const unsigned int encounterChance = 5;
 static const unsigned int fightRate = 75;
 

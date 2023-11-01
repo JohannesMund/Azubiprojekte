@@ -5,6 +5,7 @@
 #include "ressources.h"
 
 #include <format>
+#include <string>
 
 CPlayer::CPlayer()
 {
@@ -15,6 +16,7 @@ CPlayer::CPlayer()
 
 void CPlayer::print() const
 {
+
     Console::printLn(std::format("HP: {}/{} Gold: {}", _hp, _maxHp, _gold));
     Console::printLn(std::format("Level: {} Experience: {}/{}", _level, _xp, xpForNextLevel()));
     Console::hr();
@@ -22,17 +24,13 @@ void CPlayer::print() const
 
 void CPlayer::addGold(const int i)
 {
-    Console::printLn(std::format("You {} {} gold.", lostOrGained(i), std::abs(i)));
+    Console::printLn(std::format("You {} {} gold.", lostOrGained(i), i));
     _gold += i;
-    if (_gold < 0)
-    {
-        _gold = 0;
-    }
 }
 
 void CPlayer::addHp(const int i)
 {
-    Console::printLn(std::format("You {} {} Hitpoints.", lostOrGained(i), std::abs(i)));
+    Console::printLn(std::format("You {} {} Hitpoints.", lostOrGained(i), i));
     _hp += i;
     if (_hp <= 0)
     {
