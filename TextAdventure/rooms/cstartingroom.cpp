@@ -39,7 +39,7 @@ void CStartingRoom::execute()
             Console::printLn(
                 "Than you start thinking. You are still defenseless. Maybe you should re-think your decision.");
         }
-    } while (input == 't');
+    } while (input != 't');
 
     Console::printLn("Having the sword, you look further. You still does not feel like a big, sturdy warrior. "
                      "Something is missing.");
@@ -61,7 +61,7 @@ void CStartingRoom::execute()
             Console::printLn("Ok, by now, you should have realized, that you will not leave without the shield. Let's "
                              "shorten this, ok?");
         }
-    } while (input == 't');
+    } while (input != 't');
     _encounterPossible = true;
 }
 

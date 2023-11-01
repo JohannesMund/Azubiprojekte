@@ -146,6 +146,9 @@ void CGameManagement::init()
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eRubbishItem));
 
     Randomizer::init();
+
+    _map.setStartingPosition({3, 5});
+    _map.init();
 }
 
 void CGameManagement::gameLoop()
@@ -161,8 +164,11 @@ void CGameManagement::gameLoop()
         {
             navigation();
         }
-        playerDeath();
-        _isGameOver = true;
+        else
+        {
+            playerDeath();
+            _isGameOver = true;
+        }
     }
 }
 

@@ -41,6 +41,7 @@ add_executable(TextAdventure ${TEXTADVENTURE_SOURCES}
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR})
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/items)
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/enemies)
+target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/rooms)
 
 include(GNUInstallDirs)
 install(TARGETS TextAdventure

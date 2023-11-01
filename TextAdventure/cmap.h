@@ -57,7 +57,9 @@ public:
     CMap();
     ~CMap();
 
-    void setPlayerPosition(const SRoomCoords& coords);
+    void init();
+
+    void setStartingPosition(const SRoomCoords& coords);
     void movePlayer(const EDirections dir);
     SRoomCoords getPlayerPosition() const;
     bool coordsValid(const SRoomCoords& coords) const;

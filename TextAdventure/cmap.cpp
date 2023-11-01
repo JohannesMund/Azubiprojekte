@@ -1,6 +1,8 @@
 #include "cmap.h"
 #include "console.h"
 #include "croom.h"
+#include "cstartingroom.h"
+#include "randomizer.h"
 #include "ressources.h"
 #include "roomfactory.h"
 
@@ -20,12 +22,11 @@ CMap::CMap()
 
         for (int y = 0; y < Ressources::Config::fieldWidth; y++)
         {
-            row.push_back(RoomFactory::makeRoom());
+            row.push_back(nullptr);
         }
 
         _map.push_back(row);
     }
-    setPlayerPosition({0, 0});
 }
 
 CMap::~CMap()
@@ -39,6 +40,35 @@ CMap::~CMap()
                 delete room;
             }
         }
+    }
+}
+
+void CMap::init()
+{
+    std::vector<CRoom*> rooms;
+
+    while (rooms.size() < (Ressources::Config::fieldWidth * Ressources::Config::fieldHeight) - 1)
+    {
+        rooms.push_back(RoomFactory::makeRoom());
+    }
+
+    Randomizer::shuffle(rooms);
+
+    for (int iRow = 0; iRow < _map.size(); iRow++)
+    {
+        auto row = _map.at(iRow);
+        for (int iCol = 0; iCol < row.size(); iCol++)
+        {
+            if (iRow == _playerPosition.y && iCol == _playerPosition.x)
+            {
+                row.at(iCol) = new CStartingRoom();
+                continue;
+            }
+
+            row.at(iCol) = rooms.at(rooms.size() - 1);
+            rooms.pop_back();
+        }
+        _map.at(iRow) = row;
     }
 }
 
@@ -59,7 +89,7 @@ char CMap::direction2Char(const EDirections dir)
     return _dirMap.at(dir);
 }
 
-void CMap::setPlayerPosition(const SRoomCoords& coords)
+void CMap::setStartingPosition(const SRoomCoords& coords)
 {
     if (coordsValid(coords))
     {
