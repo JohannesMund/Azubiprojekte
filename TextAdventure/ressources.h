@@ -40,6 +40,7 @@ std::pair<std::string, std::string> getRandomRubbishItems();
 namespace Enemies
 {
 std::string getRandomEnemyName();
-}
+std::string getRandomEnemyWeapon();
+} // namespace Enemies
 
 } // namespace Ressources

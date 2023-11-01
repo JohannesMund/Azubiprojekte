@@ -38,6 +38,9 @@ public:
     ItemList getItemsWithDurableBattleEffect();
     void useDurableBattleEffect(CItem* item, CEnemy* enemy);
 
+    ItemList getItemsWithShieldingAction();
+    unsigned int useShieldingAction(CItem* item, const int damage);
+
 private:
     void printInventory(const Scope& scope);
     std::string printInventoryNav() const;

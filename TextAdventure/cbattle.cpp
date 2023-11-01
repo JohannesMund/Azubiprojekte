@@ -27,8 +27,39 @@ CBattle::~CBattle()
 void CBattle::fight()
 {
     Console::cls();
-    Console::printLn(std::format("You encounter the enemy {}. get Ready for Battle!", _enemy->name()));
-    Console::confirmToContinue();
+    Console::printLn(std::format(
+        "You encounter the enemy {}, who attacks you with his weapon {}!", _enemy->name(), _enemy->weapon()));
+    Console::hr();
+
+    Console::printLn("[F]ight [R]un");
+
+    auto input = Console::getAcceptableInput("fr");
+    if (input == 'r')
+    {
+        Console::printLn(std::format("You are too scared of {}, so you decide to run away.", _enemy->name()));
+
+        auto result = Randomizer::getRandom(10);
+
+        if (result < 5)
+        {
+            Console::printLn(
+                std::format("You are much faster than {}, so it was easy and you escape.", _enemy->name()));
+            return;
+        }
+        else if (result < 9)
+        {
+            Console::printLn(
+                std::format("This {} is pretty fast, you manage to escape, but you got hit.", _enemy->name()));
+            CGameManagement::getPlayerInstance()->addHp(-1);
+            return;
+        }
+        else
+        {
+            Console::printLn(std::format(
+                "This is bad! {} is really fast, and gets you, there is no way to avoid this fight.", _enemy->name()));
+        }
+    }
+
     preBattle();
     battleLoop();
     postBattle();
@@ -96,9 +127,22 @@ void CBattle::battleLoop()
                 _enemy->addHp(-1);
                 break;
             case CBattle::EBattleResult::eLost:
+            {
                 Console::printLn("You got hit.");
-                CGameManagement::getPlayerInstance()->addHp(-1);
+
+                int damage = 1;
+                auto items = CGameManagement::getInventoryInstance()->getItemsWithShieldingAction();
+                for (auto item : items)
+                {
+                    damage = CGameManagement::getInventoryInstance()->useShieldingAction(item, damage);
+                }
+                if (damage > 0)
+                {
+                    CGameManagement::getPlayerInstance()->addHp(-1);
+                }
+
                 break;
+            }
             case CBattle::EBattleResult::eTie:
                 break;
             }

@@ -15,9 +15,11 @@ set(TEXTADVENTURE_SOURCES
     randomizer.h randomizer.cpp
 
     cmap.h cmap.cpp
+    cbattle.h cbattle.cpp
+
     roomfactory.h roomfactory.cpp
     croom.h  croom.cpp
-    cbattle.h cbattle.cpp
+    rooms/cstartingroom.h rooms/cstartingroom.cpp
 
     cenemy.h cenemy.cpp
     enemies/cmobenemy.h enemies/cmobenemy.cpp
@@ -27,9 +29,14 @@ set(TEXTADVENTURE_SOURCES
     items/itemfactory.h items/itemfactory.cpp
     items/chealingpotion.h items/chealingpotion.cpp
     items/crubbishitem.h items/crubbishitem.cpp
+    items/cenhancableitem.h items/cenhancableitem.cpp
+    items/csword.h items/csword.cpp
+    items/cshield.h items/cshield.cpp
 )
 
-add_executable(TextAdventure ${TEXTADVENTURE_SOURCES})
+add_executable(TextAdventure ${TEXTADVENTURE_SOURCES}
+
+    )
 
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR})
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/items)

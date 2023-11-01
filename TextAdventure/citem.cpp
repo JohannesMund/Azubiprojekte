@@ -41,6 +41,11 @@ bool CItem::hasDurableBattleEffect() const
     return _hasDurableBattleEffect;
 }
 
+bool CItem::hasShieldingAction() const
+{
+    return _hasShieldingAction;
+}
+
 bool CItem::isConsumable() const
 {
     return _isConsumable;

@@ -50,6 +50,11 @@ std::string CEnemy::name() const
     return _name;
 }
 
+std::string CEnemy::weapon() const
+{
+    return _weapon;
+}
+
 unsigned int CEnemy::initiative() const
 {
     return _initiative;

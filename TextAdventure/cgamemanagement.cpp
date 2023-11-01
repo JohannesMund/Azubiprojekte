@@ -144,8 +144,6 @@ void CGameManagement::init()
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eRubbishItem));
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eRubbishItem));
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eRubbishItem));
-    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eRubbishItem));
-    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eRubbishItem));
 
     Randomizer::init();
 }

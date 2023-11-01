@@ -2,6 +2,8 @@
 
 #include "chealingpotion.h"
 #include "crubbishitem.h"
+#include "cshield.h"
+#include "csword.h"
 
 CItem* ItemFactory::makeItem(const EItemType tp)
 {
@@ -15,6 +17,10 @@ CItem* ItemFactory::makeItem(const EItemType tp)
         return new CHealingPotion(CHealingPotion::PotionSize::L);
     case EItemType::eHealingPotionXL:
         return new CHealingPotion(CHealingPotion::PotionSize::XL);
+    case EItemType::eSword:
+        return new CSword();
+    case EItemType::eShield:
+        return new CShield();
     case EItemType::eRubbishItem:
         return new CRubbishItem();
     default:

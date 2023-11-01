@@ -21,6 +21,7 @@ public:
     virtual void spoilsOfWar();
 
     std::string name() const;
+    std::string weapon() const;
 
     unsigned int initiative() const;
 
@@ -40,6 +41,7 @@ protected:
     bool _extendedWeaponChoice = false;
 
     std::string _name;
+    std::string _weapon;
 
 private:
     std::optional<CBattle::EWeapons> _battleDecision;

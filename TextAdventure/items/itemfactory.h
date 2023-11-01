@@ -13,6 +13,9 @@ enum class EItemType
 
     ePhoenixFeather,
 
+    eSword,
+    eShield,
+
     eRubbishItem
 };
 

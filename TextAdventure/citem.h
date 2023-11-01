@@ -35,6 +35,11 @@ public:
     {
     }
 
+    virtual int shield(const unsigned int i)
+    {
+        return i;
+    }
+
     virtual void view();
 
     /**
@@ -78,6 +83,12 @@ public:
     bool hasDurableBattleEffect() const;
 
     /**
+     * @brief hasShieldingAction
+     * @return can the item shield damage
+     */
+    bool hasShieldingAction() const;
+
+    /**
      * @brief isConsumable
      * @return is the item consumable
      * @remark this is checked everytime the item is used. so when the item has charges or so, set consumable to true,
@@ -106,6 +117,11 @@ public:
         return [](const CItem* item) { return item->hasDurableBattleEffect(); };
     }
 
+    static std::function<bool(const CItem*)> shieldingActionFilter()
+    {
+        return [](const CItem* item) { return item->hasShieldingAction(); };
+    }
+
 protected:
     std::string _name;
     std::string _description;
@@ -116,6 +132,7 @@ protected:
 
     bool _hasBattleEffect = false;
     bool _hasDurableBattleEffect = false;
+    bool _hasShieldingAction = false;
 
     bool _isConsumable = false;
 };

@@ -24,13 +24,13 @@ void CPlayer::print() const
 
 void CPlayer::addGold(const int i)
 {
-    Console::printLn(std::format("You {} {} gold.", lostOrGained(i), i));
+    Console::printLn(std::format("You {} {} gold.", lostOrGained(i), std::abs(i)));
     _gold += i;
 }
 
 void CPlayer::addHp(const int i)
 {
-    Console::printLn(std::format("You {} {} Hitpoints.", lostOrGained(i), i));
+    Console::printLn(std::format("You {} {} Hitpoints.", lostOrGained(i), std::abs(i)));
     _hp += i;
     if (_hp <= 0)
     {
@@ -69,7 +69,7 @@ unsigned int CPlayer::level() const
 
 void CPlayer::addXp(const int i)
 {
-    Console::printLn(std::format("You {} {} Experience.", lostOrGained(i), i));
+    Console::printLn(std::format("You {} {} Experience.", lostOrGained(i), std::abs(i)));
     _xp += i;
 
     if (_xp > xpForNextLevel())

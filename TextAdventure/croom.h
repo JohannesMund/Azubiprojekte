@@ -22,7 +22,7 @@ public:
     virtual char mapSymbol();
     virtual void execute();
 
-private:
+protected:
     bool _pathNorth = true;
     bool _pathEast = true;
     bool _pathSouth = true;

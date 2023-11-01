@@ -9,6 +9,7 @@
 CMobEnemy::CMobEnemy() : CEnemy()
 {
     _name = Ressources::Enemies::getRandomEnemyName();
+    _weapon = Ressources::Enemies::getRandomEnemyWeapon();
 
     auto minLevel = std::max((int)(CGameManagement::getPlayerInstance()->level()) - 2, 1);
     auto maxLevel = CGameManagement::getPlayerInstance()->level() + 2;

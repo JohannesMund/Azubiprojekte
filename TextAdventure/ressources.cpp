@@ -52,8 +52,16 @@ unsigned int Ressources::Config::getXpForLevel(const unsigned int level)
 
 std::string Ressources::Enemies::getRandomEnemyName()
 {
-    std::vector<std::string> names = {
-        "Bob, the Cowboy", "angry Rat", "stinky Bat", "greedy Vulture", "Barbarian with a Club"};
-
+    std::vector<std::string> names = {"Bob, the Cowboy", "angry Rat", "stinky Bat", "greedy Vulture", "huge Barbarian"};
     return names.at(Randomizer::getRandom(names.size()));
+}
+
+std::string Ressources::Enemies::getRandomEnemyWeapon()
+{
+    std::vector<std::string> weapons = {"shabby board with a rusty nail hammered through",
+                                        "sharp teeth",
+                                        "sheer muscle power",
+                                        "a club with spikes",
+                                        "a Nokia 3210"};
+    return weapons.at(Randomizer::getRandom(weapons.size()));
 }

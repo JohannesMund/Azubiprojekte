@@ -94,6 +94,25 @@ void CInventory::useDurableBattleEffect(CItem* item, CEnemy* enemy)
     }
 }
 
+CInventory::ItemList CInventory::getItemsWithShieldingAction()
+{
+    ItemList itemsWithShieldingAction;
+    std::copy_if(_inventory.begin(),
+                 _inventory.end(),
+                 std::back_inserter(itemsWithShieldingAction),
+                 CItem::shieldingActionFilter());
+    return itemsWithShieldingAction;
+}
+
+unsigned int CInventory::useShieldingAction(CItem* item, const int damage)
+{
+    if (item == nullptr)
+    {
+        return damage;
+    }
+    return item->shield(damage);
+}
+
 void CInventory::printInventory(const Scope& scope)
 {
     auto itemMap = getInventoryCompressedForScope(scope);
