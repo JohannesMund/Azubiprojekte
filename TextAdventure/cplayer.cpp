@@ -1,4 +1,6 @@
 #include "cplayer.h"
+#include "cenemy.h"
+#include "cgamemanagement.h"
 #include "console.h"
 #include "ressources.h"
 
@@ -13,7 +15,6 @@ CPlayer::CPlayer()
 
 void CPlayer::print() const
 {
-
     Console::printLn(std::format("HP: {}/{} Gold: {}", _hp, _maxHp, _gold));
     Console::printLn(std::format("Level: {} Experience: {}/{}", _level, _xp, xpForNextLevel()));
     Console::hr();
@@ -21,13 +22,17 @@ void CPlayer::print() const
 
 void CPlayer::addGold(const int i)
 {
-    Console::printLn(std::format("You {} {} gold.", lostOrGained(i), i));
+    Console::printLn(std::format("You {} {} gold.", lostOrGained(i), std::abs(i)));
     _gold += i;
+    if (_gold < 0)
+    {
+        _gold = 0;
+    }
 }
 
 void CPlayer::addHp(const int i)
 {
-    Console::printLn(std::format("You {} {} Hitpoints.", lostOrGained(i), i));
+    Console::printLn(std::format("You {} {} Hitpoints.", lostOrGained(i), std::abs(i)));
     _hp += i;
     if (_hp <= 0)
     {
@@ -59,7 +64,7 @@ bool CPlayer::isDead() const
     return _hp <= 0;
 }
 
-int CPlayer::level() const
+unsigned int CPlayer::level() const
 {
     return _level;
 }
@@ -81,13 +86,99 @@ void CPlayer::levelUp()
     _level++;
 }
 
-int CPlayer::xpForNextLevel() const
+std::string CPlayer::printBattleNav(const bool extended)
 {
-    if (Ressources::Config::xpForLevel.size() <= _level)
+    std::string battleNav = "[R]ock [P]aper [S]cissors";
+    std::string acceptableInputs = "rps";
+
+    if (extended)
     {
-        return -1;
+        battleNav.append(" [L]izard Sp[o]ck");
+        acceptableInputs.append("lo");
     }
-    return Ressources::Config::xpForLevel.at(_level);
+
+    Console::printLn(battleNav);
+
+    Console::printLn("[I]nventory", Console::EAlignment::eRight);
+    acceptableInputs.append("i");
+
+    return acceptableInputs;
+}
+
+void CPlayer::preBattle(CEnemy* enemy)
+{
+    auto items = CGameManagement::getInventoryInstance()->getItemsWithBattleEffect();
+    for (auto item : items)
+    {
+        CGameManagement::getInventoryInstance()->useBattleEffect(item, enemy);
+    }
+}
+
+std::optional<CBattle::EWeapons> CPlayer::battleAction(CEnemy* enemy, bool& endRound)
+{
+    if (endRound)
+    {
+        return {};
+    }
+
+    auto items = CGameManagement::getInventoryInstance()->getItemsWithDurableBattleEffect();
+    for (auto item : items)
+    {
+        CGameManagement::getInventoryInstance()->useDurableBattleEffect(item, enemy);
+    }
+
+    if (endRound || enemy->isDead())
+    {
+        return {};
+    }
+
+    std::string acceptableInputs = printBattleNav(enemy->hasExtendedWeaponChoice());
+
+    while (true)
+    {
+        auto input = Console::getAcceptableInput(acceptableInputs);
+        if (input == 'r')
+        {
+            return CBattle::EWeapons::eRock;
+        }
+        if (input == 'p')
+        {
+            return CBattle::EWeapons::ePaper;
+        }
+        if (input == 's')
+        {
+            return CBattle::EWeapons::eScissors;
+        }
+        if (input == 'l')
+        {
+            return CBattle::EWeapons::eLizard;
+        }
+        if (input == 'o')
+        {
+            return CBattle::EWeapons::eSpock;
+        }
+    }
+    endRound = false;
+    return {};
+}
+
+void CPlayer::postBattle(CEnemy* enemy)
+{
+}
+
+std::string CPlayer::hpAsString() const
+{
+    return std::format("{}/{}", _hp, _maxHp);
+}
+
+unsigned int CPlayer::initiative() const
+{
+    return _initiative;
+}
+
+unsigned int CPlayer::xpForNextLevel() const
+{
+    return Ressources::Config::getXpForLevel(_level);
 }
 
 std::string CPlayer::increasedOrDecreased(const int i)

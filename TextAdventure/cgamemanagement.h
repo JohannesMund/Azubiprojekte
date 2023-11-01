@@ -37,6 +37,7 @@ private:
 
     void init();
     void gameLoop();
+    void lookForTrouble();
 
     CGameManagement();
 };

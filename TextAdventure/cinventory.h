@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+class CEnemy;
 class CInventory
 {
 public:
@@ -30,6 +31,12 @@ public:
     void removeItem(CItem* item);
 
     void print(const Scope& scope = Scope::eNone);
+
+    ItemList getItemsWithBattleEffect();
+    void useBattleEffect(CItem* item, CEnemy* enemy);
+
+    ItemList getItemsWithDurableBattleEffect();
+    void useDurableBattleEffect(CItem* item, CEnemy* enemy);
 
 private:
     void printInventory(const Scope& scope);

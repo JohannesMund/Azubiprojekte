@@ -8,15 +8,17 @@ namespace Ressources
 
 namespace Settings
 {
-static const unsigned int consoleWidth = 60;
+static const unsigned int consoleWidth = 80;
 }
 
 namespace Config
 {
+
+unsigned int getXpForLevel(const unsigned int level);
+
 static const unsigned int fieldWidth = 10;
 static const unsigned int fieldHeight = 10;
 
-static const std::vector<int> xpForLevel = {0, 300, 700, 1300, 2000, 4000, 8000, 14000, 20000};
 static const unsigned int encounterChance = 5;
 static const unsigned int fightRate = 75;
 
@@ -34,6 +36,11 @@ std::string getRandomDescription();
 namespace Items
 {
 std::pair<std::string, std::string> getRandomRubbishItems();
+}
+
+namespace Enemies
+{
+std::string getRandomEnemyName();
 }
 
 } // namespace Ressources

@@ -62,7 +62,6 @@ CInventory* CGameManagement::getInventory()
 
 void CGameManagement::printHUD()
 {
-
     Console::hr();
     _player.print();
 }
@@ -81,34 +80,11 @@ void CGameManagement::printInventory()
 
 std::string CGameManagement::printNavigation()
 {
-    string acceptableInputs;
-    string navigationDisplay;
-    if (_map.navAvailable(CMap::EDirections::eNorth))
-    {
-        navigationDisplay += "[N]orth ";
-        acceptableInputs += CMap::direction2Char(CMap::EDirections::eNorth);
-    }
-    if (_map.navAvailable(CMap::EDirections::eEast))
-    {
-        navigationDisplay += "[E]ast ";
-        acceptableInputs += CMap::direction2Char(CMap::EDirections::eEast);
-    }
-    if (_map.navAvailable(CMap::EDirections::eSouth))
-    {
-        navigationDisplay += "[S]outh ";
-        acceptableInputs += CMap::direction2Char(CMap::EDirections::eSouth);
-    }
-    if (_map.navAvailable(CMap::EDirections::eWest))
-    {
-        navigationDisplay += "[W]est ";
-        acceptableInputs += CMap::direction2Char(CMap::EDirections::eWest);
-    }
-
     Console::hr();
-    Console::printLn(navigationDisplay);
-    Console::printLn("[M]ap [I]nventory", Console::EAlignment::eRight);
+    string acceptableInputs = _map.printNav();
+    Console::printWithSpacer("[L]ook for trouble", "[M]ap [I]nventory");
     Console::printLn("[Q]uit Game", Console::EAlignment::eRight);
-    acceptableInputs += "miq";
+    acceptableInputs += "lmiq";
 
     return acceptableInputs;
 }
@@ -132,6 +108,14 @@ void CGameManagement::navigation()
             return;
         }
 
+        if (input == 'l')
+        {
+            lookForTrouble();
+            if (_player.isDead())
+            {
+                return;
+            }
+        }
         if (input == 'm')
         {
             printMap();
@@ -145,6 +129,7 @@ void CGameManagement::navigation()
 
 void CGameManagement::playerDeath()
 {
+    Console::printLn("You are dead");
 }
 
 void CGameManagement::init()
@@ -174,20 +159,19 @@ void CGameManagement::gameLoop()
 
         _map.currentRoom()->execute();
 
-        if (_player.isDead())
-        {
-            playerDeath();
-        }
-
-        if (_player.isDead())
-        {
-            _isGameOver = true;
-        }
-        else
+        if (!_player.isDead())
         {
             navigation();
         }
+        playerDeath();
+        _isGameOver = true;
     }
+}
+
+void CGameManagement::lookForTrouble()
+{
+    CBattle battle;
+    battle.fight();
 }
 
 CGameManagement::CGameManagement()

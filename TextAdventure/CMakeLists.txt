@@ -17,10 +17,13 @@ set(TEXTADVENTURE_SOURCES
     cmap.h cmap.cpp
     roomfactory.h roomfactory.cpp
     croom.h  croom.cpp
+    cbattle.h cbattle.cpp
+
+    cenemy.h cenemy.cpp
+    enemies/cmobenemy.h enemies/cmobenemy.cpp
 
     cinventory.h cinventory.cpp
     citem.h citem.cpp
-
     items/itemfactory.h items/itemfactory.cpp
     items/chealingpotion.h items/chealingpotion.cpp
     items/crubbishitem.h items/crubbishitem.cpp
@@ -29,7 +32,8 @@ set(TEXTADVENTURE_SOURCES
 add_executable(TextAdventure ${TEXTADVENTURE_SOURCES})
 
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR})
-target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/Items)
+target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/items)
+target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/enemies)
 
 include(GNUInstallDirs)
 install(TARGETS TextAdventure

@@ -4,6 +4,8 @@
 #include <functional>
 #include <string>
 
+class CEnemy;
+
 /**
  * @brief The CItem class
  * Represents one Item. Virtual, Must be derived for full power
@@ -21,9 +23,19 @@ public:
      * @brief use
      * Default items have no power. Needs to be overwritten to un-junk the item
      */
-    virtual void use()
+    virtual void useFromInventory()
     {
     }
+
+    virtual void battleEffect(CEnemy*)
+    {
+    }
+
+    virtual void durableBattleEffect(CEnemy*)
+    {
+    }
+
+    virtual void view();
 
     /**
      * @brief name
@@ -82,6 +94,16 @@ public:
     static std::function<bool(const CItem*)> nameFilter(const std::string& name)
     {
         return [&name](const CItem* item) { return item->name().compare(name) == 0; };
+    }
+
+    static std::function<bool(const CItem*)> battleEffectFilter()
+    {
+        return [](const CItem* item) { return item->hasBattleEffect(); };
+    }
+
+    static std::function<bool(const CItem*)> durableBattleEffectFilter()
+    {
+        return [](const CItem* item) { return item->hasDurableBattleEffect(); };
     }
 
 protected:

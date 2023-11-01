@@ -1,4 +1,5 @@
 #include "cmap.h"
+#include "console.h"
 #include "croom.h"
 #include "ressources.h"
 #include "roomfactory.h"
@@ -224,6 +225,35 @@ void CMap::printMap()
             }
         }
     }
+}
+
+std::string CMap::printNav()
+{
+    std::string acceptableInputs;
+    std::string navigationDisplay;
+    if (navAvailable(CMap::EDirections::eNorth))
+    {
+        navigationDisplay += "[N]orth ";
+        acceptableInputs += CMap::direction2Char(CMap::EDirections::eNorth);
+    }
+    if (navAvailable(CMap::EDirections::eEast))
+    {
+        navigationDisplay += "[E]ast ";
+        acceptableInputs += CMap::direction2Char(CMap::EDirections::eEast);
+    }
+    if (navAvailable(CMap::EDirections::eSouth))
+    {
+        navigationDisplay += "[S]outh ";
+        acceptableInputs += CMap::direction2Char(CMap::EDirections::eSouth);
+    }
+    if (navAvailable(CMap::EDirections::eWest))
+    {
+        navigationDisplay += "[W]est ";
+        acceptableInputs += CMap::direction2Char(CMap::EDirections::eWest);
+    }
+
+    Console::printLn(navigationDisplay);
+    return acceptableInputs;
 }
 
 char CMap::mapSymbol(const SRoomCoords& coords)

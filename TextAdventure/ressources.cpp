@@ -19,7 +19,7 @@ std::string Ressources::Rooms::getRandomDescription()
 
 std::pair<std::string, std::string> Ressources::Items::getRandomRubbishItems()
 {
-    std::vector<std::pair<std::string, std::string>> _items = {
+    std::vector<std::pair<std::string, std::string>> items = {
         {{"A Stick"},
          {"A stick, just a stick. Maybe magical? There is no label stating \"Godly Magic Stick of the "
           "Whale\". On the "
@@ -37,5 +37,23 @@ std::pair<std::string, std::string> Ressources::Items::getRandomRubbishItems()
 
     };
 
-    return _items.at(Randomizer::getRandom(_items.size()));
+    return items.at(Randomizer::getRandom(items.size()));
+}
+
+unsigned int Ressources::Config::getXpForLevel(const unsigned int level)
+{
+    static const std::vector<int> xpForLevel = {0, 300, 700, 1300, 2000, 4000, 8000, 14000, 20000};
+    if (level < xpForLevel.size())
+    {
+        return xpForLevel.at(level);
+    }
+    return xpForLevel.at(xpForLevel.size() - 1);
+}
+
+std::string Ressources::Enemies::getRandomEnemyName()
+{
+    std::vector<std::string> names = {
+        "Bob, the Cowboy", "angry Rat", "stinky Bat", "greedy Vulture", "Barbarian with a Club"};
+
+    return names.at(Randomizer::getRandom(names.size()));
 }

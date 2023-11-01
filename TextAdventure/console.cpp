@@ -161,3 +161,22 @@ std::optional<int> Console::getNumberInputWithEcho(const int min, const int max)
     }
     return {};
 }
+
+void Console::printWithSpacer(const std::string& text1, const std::string& text2)
+{
+
+    if (text1.size() + text2.size() > Ressources::Settings::consoleWidth)
+    {
+        printLn(text1);
+        printLn(text2, EAlignment::eRight);
+        return;
+    }
+
+    std::string out(text1);
+    while (out.size() + text2.size() < Ressources::Settings::consoleWidth)
+    {
+        out.append(" ");
+    }
+    out.append(text2);
+    printLn(out);
+}

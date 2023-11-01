@@ -50,6 +50,50 @@ void CInventory::print(const Scope& scope)
     }
 }
 
+CInventory::ItemList CInventory::getItemsWithBattleEffect()
+{
+    ItemList itemsWithBattleEffect;
+    std::copy_if(
+        _inventory.begin(), _inventory.end(), std::back_inserter(itemsWithBattleEffect), CItem::battleEffectFilter());
+    return itemsWithBattleEffect;
+}
+
+void CInventory::useBattleEffect(CItem* item, CEnemy* enemy)
+{
+    if (item == nullptr)
+    {
+        return;
+    }
+    item->battleEffect(enemy);
+    if (item->isConsumable())
+    {
+        removeItem(item);
+    }
+}
+
+CInventory::ItemList CInventory::getItemsWithDurableBattleEffect()
+{
+    ItemList itemsWithBattleEffect;
+    std::copy_if(_inventory.begin(),
+                 _inventory.end(),
+                 std::back_inserter(itemsWithBattleEffect),
+                 CItem::durableBattleEffectFilter());
+    return itemsWithBattleEffect;
+}
+
+void CInventory::useDurableBattleEffect(CItem* item, CEnemy* enemy)
+{
+    if (item == nullptr)
+    {
+        return;
+    }
+    item->durableBattleEffect(enemy);
+    if (item->isConsumable())
+    {
+        removeItem(item);
+    }
+}
+
 void CInventory::printInventory(const Scope& scope)
 {
     auto itemMap = getInventoryCompressedForScope(scope);
@@ -166,7 +210,7 @@ void CInventory::useItem(CItem* item)
 
     Console::hr();
     Console::printLn(std::format("You decide to use: {}", item->name()));
-    item->use();
+    item->useFromInventory();
     if (item->isConsumable())
     {
         removeItem(item);
@@ -179,9 +223,7 @@ void CInventory::viewItem(CItem* item)
     {
         return;
     }
-    Console::hr();
-    Console::printLn(std::format("You decide to take a look at: {}", item->name()));
-    Console::printLn(item->description());
+    item->view();
 }
 
 CItem* CInventory::getItem(const unsigned int index)

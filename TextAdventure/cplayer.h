@@ -1,7 +1,11 @@
 #pragma once
 
+#include "cbattle.h"
+
+#include <optional>
 #include <string>
 
+class CEnemy;
 class CPlayer
 {
 public:
@@ -14,19 +18,30 @@ public:
 
     bool isDead() const;
 
-    int level() const;
+    unsigned int level() const;
     void addXp(const int i);
     void levelUp();
 
+    std::string printBattleNav(const bool extended);
+    void preBattle(CEnemy* enemy);
+    std::optional<CBattle::EWeapons> battleAction(CEnemy* enemy, bool& endRound);
+    void postBattle(CEnemy* enemy);
+
+    std::string hpAsString() const;
+
+    unsigned int initiative() const;
+
 private:
-    int _hp = 10;
-    int _maxHp = 10;
+    unsigned int _hp = 10;
+    unsigned int _maxHp = 10;
     int _gold = 0;
 
-    int _level = 1;
-    int _xp = 0;
+    unsigned int _level = 1;
+    unsigned int _xp = 0;
 
-    int xpForNextLevel() const;
+    unsigned int _initiative = 1;
+
+    unsigned int xpForNextLevel() const;
 
     static std::string increasedOrDecreased(const int i);
     static std::string lostOrGained(const int i);

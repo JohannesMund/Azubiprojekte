@@ -56,6 +56,8 @@ void cls();
  */
 void printLn(std::string text, const EAlignment align = EAlignment::eLeft, const bool nobr = false);
 
+void printWithSpacer(const std::string& text1, const std::string& text2);
+
 /**
  * @brief setEcho Swtiches console echo on or of
  * @param on on or off

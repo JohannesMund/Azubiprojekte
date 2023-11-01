@@ -37,7 +37,7 @@ CHealingPotion::CHealingPotion(const PotionSize& size) : CItem()
     _isUsableFromBattle = true;
 }
 
-void CHealingPotion::use()
+void CHealingPotion::useFromInventory()
 
 {
     Console::printLn("You open the bottle, and swallow it in one draw. Healing potions are disgusting!");
