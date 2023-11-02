@@ -62,7 +62,6 @@ CInventory* CGameManagement::getInventory()
 
 void CGameManagement::printHUD()
 {
-
     Console::hr();
     _player.print();
 }
@@ -81,42 +80,30 @@ void CGameManagement::printInventory()
 
 std::string CGameManagement::printNavigation()
 {
-    string acceptableInputs;
-    string navigationDisplay;
-    if (_map.navAvailable(CMap::EDirections::eNorth))
-    {
-        navigationDisplay += "[N]orth ";
-        acceptableInputs += CMap::direction2Char(CMap::EDirections::eNorth);
-    }
-    if (_map.navAvailable(CMap::EDirections::eEast))
-    {
-        navigationDisplay += "[E]ast ";
-        acceptableInputs += CMap::direction2Char(CMap::EDirections::eEast);
-    }
-    if (_map.navAvailable(CMap::EDirections::eSouth))
-    {
-        navigationDisplay += "[S]outh ";
-        acceptableInputs += CMap::direction2Char(CMap::EDirections::eSouth);
-    }
-    if (_map.navAvailable(CMap::EDirections::eWest))
-    {
-        navigationDisplay += "[W]est ";
-        acceptableInputs += CMap::direction2Char(CMap::EDirections::eWest);
-    }
-
     Console::hr();
-    Console::printLn(navigationDisplay);
-    Console::printLn("[M]ap [I]nventory", Console::EAlignment::eRight);
+    string acceptableInputs = _map.printNav();
+    Console::printLnWithSpacer("[L]ook for trouble", "[M]ap [I]nventory");
     Console::printLn("[Q]uit Game", Console::EAlignment::eRight);
-    acceptableInputs += "miq";
+    acceptableInputs += "lmiq";
 
     return acceptableInputs;
 }
 
-void CGameManagement::navigation()
+void CGameManagement::executeTurn()
 {
     while (true)
     {
+        Console::cls();
+        printHUD();
+
+        _map.currentRoom()->execute();
+        handlePlayerDeath();
+        if (_player.isDead())
+        {
+            _isGameOver = true;
+            return;
+        }
+
         auto acceptableInputs = printNavigation();
         auto input = Console::getAcceptableInput(acceptableInputs);
 
@@ -132,9 +119,19 @@ void CGameManagement::navigation()
             return;
         }
 
+        if (input == 'l')
+        {
+            lookForTrouble();
+            if (_player.isDead())
+            {
+                return;
+            }
+            Console::confirmToContinue();
+        }
         if (input == 'm')
         {
             printMap();
+            Console::confirmToContinue();
         }
         if (input == 'i')
         {
@@ -143,8 +140,35 @@ void CGameManagement::navigation()
     }
 }
 
-void CGameManagement::playerDeath()
+void CGameManagement::handlePlayerDeath()
 {
+    if (!_player.isDead())
+    {
+        return;
+    }
+
+    auto items = CGameManagement::getInventoryInstance()->getItemsWithDeathEffect();
+    for (auto item : items)
+    {
+        CGameManagement::getInventoryInstance()->useDeathAction(item);
+        if (!_player.isDead())
+        {
+            Console::confirmToContinue();
+            return;
+        }
+    }
+
+    Console::printLn("      _____      ", Console::EAlignment::eCenter);
+    Console::printLn(" ____|R.I.P|____ ", Console::EAlignment::eCenter);
+    Console::printLn("|   Here lies   |", Console::EAlignment::eCenter);
+    Console::printLn("|____ Player____|", Console::EAlignment::eCenter);
+    Console::printLn("     |     |     ", Console::EAlignment::eCenter);
+    Console::printLn("     |     |     ", Console::EAlignment::eCenter);
+    Console::printLn("     |     |     ", Console::EAlignment::eCenter);
+    Console::printLn("     |_____|     ", Console::EAlignment::eCenter);
+
+    Console::printLn("- He died the way he lived -", Console::EAlignment::eCenter);
+    Console::printLn(" - naked and alone -", Console::EAlignment::eCenter);
 }
 
 void CGameManagement::init()
@@ -156,13 +180,16 @@ void CGameManagement::init()
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eHealingPotionM));
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eHealingPotionM));
 
-    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eRubbishItem));
-    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eRubbishItem));
+    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::ePhoenixFeather));
+
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eRubbishItem));
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eRubbishItem));
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eRubbishItem));
 
     Randomizer::init();
+
+    _map.setStartingPosition({3, 5});
+    _map.init();
 }
 
 void CGameManagement::gameLoop()
@@ -170,24 +197,21 @@ void CGameManagement::gameLoop()
     while (!_isGameOver)
     {
         Console::cls();
-        printHUD();
 
-        _map.currentRoom()->execute();
-
-        if (_player.isDead())
-        {
-            playerDeath();
-        }
-
+        executeTurn();
+        handlePlayerDeath();
         if (_player.isDead())
         {
             _isGameOver = true;
-        }
-        else
-        {
-            navigation();
+            return;
         }
     }
+}
+
+void CGameManagement::lookForTrouble()
+{
+    CBattle battle;
+    battle.fight();
 }
 
 CGameManagement::CGameManagement()

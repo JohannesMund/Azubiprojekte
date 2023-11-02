@@ -1,8 +1,10 @@
 #include "cinventory.h"
+#include "cenhancableitem.h"
 #include "console.h"
 
 #include <algorithm>
 #include <format>
+#include <ranges>
 #include <string>
 #include <utility>
 
@@ -50,6 +52,101 @@ void CInventory::print(const Scope& scope)
     }
 }
 
+CInventory::ItemList CInventory::getItemsWithBattleEffect()
+{
+    ItemList itemsWithBattleEffect;
+    std::copy_if(
+        _inventory.begin(), _inventory.end(), std::back_inserter(itemsWithBattleEffect), CItem::battleEffectFilter());
+    return itemsWithBattleEffect;
+}
+
+void CInventory::useBattleEffect(CItem* item, CEnemy* enemy)
+{
+    if (item == nullptr)
+    {
+        return;
+    }
+    item->battleEffect(enemy);
+    if (item->isConsumable())
+    {
+        removeItem(item);
+    }
+}
+
+CInventory::ItemList CInventory::getItemsWithDurableBattleEffect()
+{
+    ItemList itemsWithBattleEffect;
+    std::copy_if(_inventory.begin(),
+                 _inventory.end(),
+                 std::back_inserter(itemsWithBattleEffect),
+                 CItem::durableBattleEffectFilter());
+    return itemsWithBattleEffect;
+}
+
+void CInventory::useDurableBattleEffect(CItem* item, CEnemy* enemy, bool& endRound)
+{
+    if (item == nullptr)
+    {
+        return;
+    }
+
+    item->durableBattleEffect(enemy, endRound);
+    if (item->isConsumable())
+    {
+        removeItem(item);
+    }
+}
+
+CInventory::ItemList CInventory::getItemsWithShieldingAction()
+{
+    ItemList itemsWithShieldingAction;
+    std::copy_if(_inventory.begin(),
+                 _inventory.end(),
+                 std::back_inserter(itemsWithShieldingAction),
+                 CItem::shieldingActionFilter());
+    return itemsWithShieldingAction;
+}
+
+unsigned int CInventory::useShieldingAction(CItem* item, const int damage)
+{
+    if (item == nullptr)
+    {
+        return damage;
+    }
+    return item->shield(damage);
+}
+
+CInventory::ItemList CInventory::getItemsWithDeathEffect()
+{
+    ItemList itemsWithDeathEffect;
+    std::copy_if(
+        _inventory.begin(), _inventory.end(), std::back_inserter(itemsWithDeathEffect), CItem::deathEffectFilter());
+    return itemsWithDeathEffect;
+}
+
+void CInventory::useDeathAction(CItem* item)
+{
+    if (item == nullptr)
+    {
+        return;
+    }
+    item->deathEffect();
+    if (item->isConsumable())
+    {
+        removeItem(item);
+    }
+}
+
+CInventory::EnhancableItemList CInventory::getEnhancableItems()
+{
+    EnhancableItemList enhancableItems;
+    for (auto item : _inventory | std::views::filter(CItem::enhancableItemFilter()))
+    {
+        enhancableItems.push_back(static_cast<CEnhancableItem*>(item));
+    }
+    return enhancableItems;
+}
+
 void CInventory::printInventory(const Scope& scope)
 {
     auto itemMap = getInventoryCompressedForScope(scope);
@@ -78,11 +175,11 @@ void CInventory::printInventory(const Scope& scope)
         {
             if (scope == Scope::eView)
             {
-                viewItem(usableItems.at(0));
+                viewItem(usableItems.at(*item - 1));
             }
             else
             {
-                useItem(usableItems.at(0));
+                useItem(usableItems.at(*item - 1), scope);
             }
         }
     }
@@ -139,7 +236,7 @@ bool CInventory::usableInScope(const CItem* item, const Scope& scope)
     case Scope::eBattle:
         return item->isUsableFromBattle();
     case Scope::eDeath:
-        return item->isUsableUponDeath();
+        return item->hasDeathEffect();
     }
 }
 
@@ -157,16 +254,30 @@ void CInventory::printViewableItems()
     printInventory(Scope::eView);
 }
 
-void CInventory::useItem(CItem* item)
+void CInventory::useItem(CItem* item, const Scope& scope)
 {
     if (item == nullptr)
     {
         return;
     }
 
+    if (scope != Scope::eInventory && scope != Scope::eBattle)
+    {
+        return;
+    }
+
     Console::hr();
     Console::printLn(std::format("You decide to use: {}", item->name()));
-    item->use();
+
+    if (scope == Scope::eInventory)
+    {
+        item->useFromInventory();
+    }
+    if (scope == Scope::eBattle)
+    {
+        item->useFromBattle();
+    }
+
     if (item->isConsumable())
     {
         removeItem(item);
@@ -179,9 +290,7 @@ void CInventory::viewItem(CItem* item)
     {
         return;
     }
-    Console::hr();
-    Console::printLn(std::format("You decide to take a look at: {}", item->name()));
-    Console::printLn(item->description());
+    item->view();
 }
 
 CItem* CInventory::getItem(const unsigned int index)

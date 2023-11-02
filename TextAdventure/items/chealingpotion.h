@@ -13,8 +13,11 @@ public:
     };
 
     CHealingPotion(const PotionSize& size = PotionSize::M);
-    virtual void use() override;
+    virtual void useFromInventory() override;
+    virtual void useFromBattle() override;
 
 private:
+    void use();
+
     PotionSize _size;
 };

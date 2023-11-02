@@ -32,11 +32,12 @@ private:
     void printInventory();
     std::string printNavigation();
 
-    void navigation();
-    void playerDeath();
+    void executeTurn();
+    void handlePlayerDeath();
 
     void init();
     void gameLoop();
+    void lookForTrouble();
 
     CGameManagement();
 };

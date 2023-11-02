@@ -21,8 +21,12 @@
 using namespace std;
 void Console::confirmToContinue()
 {
-    cout << "[Press <ENTER> to Continue]";
-    cin.ignore();
+    cout << "[Press any key to Continue]";
+#ifdef _USE_WINDOWS
+    _getch();
+#else
+    getchar();
+#endif
     cout << endl;
 }
 
@@ -147,12 +151,10 @@ void Console::printLn(std::string text, const EAlignment align, const bool nobr)
 std::optional<int> Console::getNumberInputWithEcho(const int min, const int max)
 {
     cout << std::format("[Enter number between {} and {} (or anything else to cancel)]", min, max);
-    setEcho(true);
 
-    cin.clear();
+    setEcho(true);
     int input;
     cin >> input;
-
     setEcho(false);
 
     if (input >= min && input <= max)
@@ -160,4 +162,22 @@ std::optional<int> Console::getNumberInputWithEcho(const int min, const int max)
         return input;
     }
     return {};
+}
+
+void Console::printLnWithSpacer(const std::string& text1, const std::string& text2)
+{
+    if (text1.size() + text2.size() > Ressources::Settings::consoleWidth)
+    {
+        printLn(text1);
+        printLn(text2, EAlignment::eRight);
+        return;
+    }
+
+    std::string out(text1);
+    while (out.size() + text2.size() < Ressources::Settings::consoleWidth)
+    {
+        out.append(" ");
+    }
+    out.append(text2);
+    printLn(out);
 }

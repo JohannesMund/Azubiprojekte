@@ -1,5 +1,9 @@
 #include "cmap.h"
+#include "console.h"
 #include "croom.h"
+#include "cstartingroom.h"
+#include "ctown.h"
+#include "randomizer.h"
 #include "ressources.h"
 #include "roomfactory.h"
 
@@ -19,12 +23,11 @@ CMap::CMap()
 
         for (int y = 0; y < Ressources::Config::fieldWidth; y++)
         {
-            row.push_back(RoomFactory::makeRoom());
+            row.push_back(nullptr);
         }
 
         _map.push_back(row);
     }
-    setPlayerPosition({0, 0});
 }
 
 CMap::~CMap()
@@ -38,6 +41,40 @@ CMap::~CMap()
                 delete room;
             }
         }
+    }
+}
+
+void CMap::init()
+{
+    std::vector<CRoom*> rooms;
+
+    for (int i = 0; i < Ressources::Config::numberOfTowns; i++)
+    {
+        rooms.push_back(RoomFactory::makeTown());
+    }
+
+    while (rooms.size() < (Ressources::Config::fieldWidth * Ressources::Config::fieldHeight) - 1)
+    {
+        rooms.push_back(RoomFactory::makeRoom());
+    }
+
+    Randomizer::shuffle(rooms);
+
+    for (int iRow = 0; iRow < _map.size(); iRow++)
+    {
+        auto row = _map.at(iRow);
+        for (int iCol = 0; iCol < row.size(); iCol++)
+        {
+            if (iRow == _playerPosition.y && iCol == _playerPosition.x)
+            {
+                row.at(iCol) = new CStartingRoom();
+                continue;
+            }
+
+            row.at(iCol) = rooms.at(rooms.size() - 1);
+            rooms.pop_back();
+        }
+        _map.at(iRow) = row;
     }
 }
 
@@ -58,7 +95,7 @@ char CMap::direction2Char(const EDirections dir)
     return _dirMap.at(dir);
 }
 
-void CMap::setPlayerPosition(const SRoomCoords& coords)
+void CMap::setStartingPosition(const SRoomCoords& coords)
 {
     if (coordsValid(coords))
     {
@@ -224,6 +261,35 @@ void CMap::printMap()
             }
         }
     }
+}
+
+std::string CMap::printNav()
+{
+    std::string acceptableInputs;
+    std::string navigationDisplay;
+    if (navAvailable(CMap::EDirections::eNorth))
+    {
+        navigationDisplay += "[N]orth ";
+        acceptableInputs += CMap::direction2Char(CMap::EDirections::eNorth);
+    }
+    if (navAvailable(CMap::EDirections::eEast))
+    {
+        navigationDisplay += "[E]ast ";
+        acceptableInputs += CMap::direction2Char(CMap::EDirections::eEast);
+    }
+    if (navAvailable(CMap::EDirections::eSouth))
+    {
+        navigationDisplay += "[S]outh ";
+        acceptableInputs += CMap::direction2Char(CMap::EDirections::eSouth);
+    }
+    if (navAvailable(CMap::EDirections::eWest))
+    {
+        navigationDisplay += "[W]est ";
+        acceptableInputs += CMap::direction2Char(CMap::EDirections::eWest);
+    }
+
+    Console::printLn(navigationDisplay);
+    return acceptableInputs;
 }
 
 char CMap::mapSymbol(const SRoomCoords& coords)

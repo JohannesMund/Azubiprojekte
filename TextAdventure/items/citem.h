@@ -1,8 +1,9 @@
-#ifndef CITEM_H
-#define CITEM_H
+#pragma once
 
 #include <functional>
 #include <string>
+
+class CEnemy;
 
 /**
  * @brief The CItem class
@@ -18,12 +19,39 @@ public:
     CItem();
 
     /**
-     * @brief use
      * Default items have no power. Needs to be overwritten to un-junk the item
      */
-    virtual void use()
+
+    /**
+     * @brief useFromInventory
+     * Called, when a n item is used from the enventory
+     */
+    virtual void useFromInventory()
     {
     }
+
+    virtual void useFromBattle()
+    {
+    }
+
+    virtual void battleEffect(CEnemy*)
+    {
+    }
+
+    virtual void durableBattleEffect(CEnemy*, bool& endRound)
+    {
+    }
+
+    virtual int shield(const unsigned int i)
+    {
+        return i;
+    }
+
+    virtual void deathEffect()
+    {
+    }
+
+    virtual void view();
 
     /**
      * @brief name
@@ -48,10 +76,10 @@ public:
     bool isUsableFromBattle() const;
 
     /**
-     * @brief isUsableUponDeath
+     * @brief hasDeathEffect
      * @return has the item an effect when the player dies?
      */
-    bool isUsableUponDeath() const;
+    bool hasDeathEffect() const;
 
     /**
      * @brief hasBattleEffect
@@ -64,6 +92,12 @@ public:
      * @return has the item a passive effect during each battle round
      */
     bool hasDurableBattleEffect() const;
+
+    /**
+     * @brief hasShieldingAction
+     * @return can the item shield damage
+     */
+    bool hasShieldingAction() const;
 
     /**
      * @brief isConsumable
@@ -79,10 +113,37 @@ public:
      * @param name
      * @return a name filter function to be used in std containers
      */
-    static std::function<bool(const CItem*)> nameFilter(const std::string& name)
-    {
-        return [&name](const CItem* item) { return item->name().compare(name) == 0; };
-    }
+    static std::function<bool(const CItem*)> nameFilter(const std::string& name);
+
+    /**
+     * @brief battleEffectFilter
+     * @return a filter function to filter items with battle effect from std containers
+     */
+    static std::function<bool(const CItem*)> battleEffectFilter();
+
+    /**
+     * @brief durableBattleEffectFilter
+     * @return a filter function to filter items with durable battle effect from std containers
+     */
+    static std::function<bool(const CItem*)> durableBattleEffectFilter();
+
+    /**
+     * @brief shieldingActionFilter
+     * @return a filter function to filter items with shield action from std containers
+     */
+    static std::function<bool(const CItem*)> shieldingActionFilter();
+
+    /**
+     * @brief deathEffectFilter
+     @return a filter function to filter items with death effect from std containers
+     */
+    static std::function<bool(const CItem*)> deathEffectFilter();
+
+    /**
+     * @brief enhancableItemFilter
+     * @return a filter function to filter enhancable items from std containers
+     */
+    static std::function<bool(const CItem*)> enhancableItemFilter();
 
 protected:
     std::string _name;
@@ -90,12 +151,11 @@ protected:
 
     bool _isUsableFromInventory = false;
     bool _isUsableFromBattle = false;
-    bool _isUsableUponDeath = false;
 
+    bool _hasDeathEffect = false;
     bool _hasBattleEffect = false;
     bool _hasDurableBattleEffect = false;
+    bool _hasShieldingAction = false;
 
     bool _isConsumable = false;
 };
-
-#endif // CITEM_H

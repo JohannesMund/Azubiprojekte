@@ -6,12 +6,15 @@
 #include <string>
 #include <vector>
 
+class CEnemy;
+class CEnhancableItem;
 class CInventory
 {
 public:
     using CompressedItem = std::pair<unsigned int, CItem*>;
     using CompressedItemMap = std::multimap<unsigned int, CItem*>;
     using ItemList = std::vector<CItem*>;
+    using EnhancableItemList = std::vector<CEnhancableItem*>;
 
     CInventory();
 
@@ -31,8 +34,23 @@ public:
 
     void print(const Scope& scope = Scope::eNone);
 
-private:
+    ItemList getItemsWithBattleEffect();
+    void useBattleEffect(CItem* item, CEnemy* enemy);
+
+    ItemList getItemsWithDurableBattleEffect();
+    void useDurableBattleEffect(CItem* item, CEnemy* enemy, bool& endRound);
+
+    ItemList getItemsWithShieldingAction();
+    unsigned int useShieldingAction(CItem* item, const int damage);
+
+    ItemList getItemsWithDeathEffect();
+    void useDeathAction(CItem* item);
+
+    EnhancableItemList getEnhancableItems();
+
     void printInventory(const Scope& scope);
+
+private:
     std::string printInventoryNav() const;
 
     CompressedItemMap getInventoryCompressedForScope(const Scope& scope);
@@ -42,7 +60,7 @@ private:
     void printUsableItems(const Scope& scope);
     void printViewableItems();
 
-    void useItem(CItem* item);
+    void useItem(CItem* item, const Scope& scope);
     void viewItem(CItem* item);
 
     CItem* getItem(const unsigned int index);

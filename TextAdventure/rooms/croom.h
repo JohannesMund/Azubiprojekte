@@ -22,13 +22,13 @@ public:
     virtual char mapSymbol();
     virtual void execute();
 
-private:
+protected:
     bool _pathNorth = true;
     bool _pathEast = true;
     bool _pathSouth = true;
     bool _pathWest = true;
 
-    bool _encounterPossible = true;
+    bool _encounterPossible = false;
 
     bool _seen = false;
     std::string _description;

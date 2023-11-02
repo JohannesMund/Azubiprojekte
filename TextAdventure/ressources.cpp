@@ -19,7 +19,7 @@ std::string Ressources::Rooms::getRandomDescription()
 
 std::pair<std::string, std::string> Ressources::Items::getRandomRubbishItems()
 {
-    std::vector<std::pair<std::string, std::string>> _items = {
+    std::vector<std::pair<std::string, std::string>> items = {
         {{"A Stick"},
          {"A stick, just a stick. Maybe magical? There is no label stating \"Godly Magic Stick of the "
           "Whale\". On the "
@@ -37,5 +37,42 @@ std::pair<std::string, std::string> Ressources::Items::getRandomRubbishItems()
 
     };
 
-    return _items.at(Randomizer::getRandom(_items.size()));
+    return items.at(Randomizer::getRandom(items.size()));
+}
+
+unsigned int Ressources::Config::getXpForLevel(const unsigned int level)
+{
+    static const std::vector<int> xpForLevel = {0, 300, 700, 1300, 2000, 4000, 8000, 14000, 20000};
+    if (level < xpForLevel.size())
+    {
+        return xpForLevel.at(level);
+    }
+    return xpForLevel.at(xpForLevel.size() - 1);
+}
+
+std::string Ressources::Enemies::getRandomEnemyName()
+{
+    std::vector<std::string> names = {"Bob, the Cowboy", "angry Rat", "stinky Bat", "greedy Vulture", "huge Barbarian"};
+    return names.at(Randomizer::getRandom(names.size()));
+}
+
+std::string Ressources::Enemies::getRandomEnemyWeapon()
+{
+    std::vector<std::string> weapons = {"shabby board with a rusty nail hammered through",
+                                        "sharp teeth",
+                                        "sheer muscle power",
+                                        "a club with spikes",
+                                        "a Nokia 3210"};
+    return weapons.at(Randomizer::getRandom(weapons.size()));
+}
+
+std::pair<std::string, std::string> Ressources::Rooms::getRandomTown()
+{
+    std::vector<std::pair<std::string, std::string>> towns = {
+        {"Hafnarfjodur", "The City of Elves. Built high in the treetops of ancient Trees"},
+        {"Peridotspring", "Deep Caves, carved in huge mountains built this citiy of the dwarfs"},
+        {"Wallachei", "An Oasis surrounded by a huge desert."},
+        {"Bruchtal", "City of man, capital of the land."},
+        {"Mudpool", "The Home of the trolls. Everything is dirty and stinky here."}};
+    return towns.at(Randomizer::getRandom(towns.size()));
 }

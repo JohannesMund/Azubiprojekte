@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <string>
 #include <vector>
 
 class CRoom;
@@ -56,7 +57,9 @@ public:
     CMap();
     ~CMap();
 
-    void setPlayerPosition(const SRoomCoords& coords);
+    void init();
+
+    void setStartingPosition(const SRoomCoords& coords);
     void movePlayer(const EDirections dir);
     SRoomCoords getPlayerPosition() const;
     bool coordsValid(const SRoomCoords& coords) const;
@@ -65,6 +68,7 @@ public:
 
     void printRoom(const SRoomCoords& coords, const int line);
     void printMap();
+    std::string printNav();
     char mapSymbol(const SRoomCoords& coords);
 
     CRoom* currentRoom() const;
