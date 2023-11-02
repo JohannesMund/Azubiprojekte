@@ -52,7 +52,6 @@ char CTown::mapSymbol()
 
 void CTown::blacksmith()
 {
-
     char input;
     do
     {
@@ -121,6 +120,28 @@ void CTown::enhanceItem()
 
 void CTown::church()
 {
+    char input;
+    do
+    {
+        Console::cls();
+        Console::printLn(std::format(
+            "The church of {}. An old church, but nice and clean. The priest is an old, friedly man.", _name));
+        Console::hr();
+        Console::printLnWithSpacer("Get [B]lessing", "E[x]it");
+
+        input = Console::getAcceptableInput("bx");
+
+        if (input == 'b')
+        {
+            Console::printLn(
+                "The priest chants his prayers and a godly light surrounds you. Your wounds close, your pain "
+                "vanishes.");
+            Console::printLn("You are fully healed.");
+            CGameManagement::getPlayerInstance()->addHp(9999);
+            Console::confirmToContinue();
+        }
+
+    } while (input != 'x');
 }
 
 void CTown::shop()

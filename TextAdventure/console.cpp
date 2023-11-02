@@ -21,8 +21,12 @@
 using namespace std;
 void Console::confirmToContinue()
 {
-    cout << "[Press <ENTER> to Continue]";
-    cin.ignore();
+    cout << "[Press any key to Continue]";
+#ifdef _USE_WINDOWS
+    _getch();
+#else
+    getchar();
+#endif
     cout << endl;
 }
 
@@ -162,7 +166,6 @@ std::optional<int> Console::getNumberInputWithEcho(const int min, const int max)
 
 void Console::printLnWithSpacer(const std::string& text1, const std::string& text2)
 {
-
     if (text1.size() + text2.size() > Ressources::Settings::consoleWidth)
     {
         printLn(text1);
