@@ -65,6 +65,18 @@ public:
     std::string description() const;
 
     /**
+     * @brief isSellable
+     * @return is the item sellable
+     */
+    bool isSellable() const;
+
+    /**
+     * @brief value
+     * @return the value of the item
+     */
+    unsigned int value() const;
+
+    /**
      * @brief isUsableFromInventory
      * @return can the item be used from the inventory?
      */
@@ -139,12 +151,6 @@ public:
      */
     static std::function<bool(const CItem*)> deathEffectFilter();
 
-    /**
-     * @brief enhancableItemFilter
-     * @return a filter function to filter enhancable items from std containers
-     */
-    static std::function<bool(const CItem*)> enhancableItemFilter();
-
 protected:
     std::string _name;
     std::string _description;
@@ -156,6 +162,10 @@ protected:
     bool _hasBattleEffect = false;
     bool _hasDurableBattleEffect = false;
     bool _hasShieldingAction = false;
+
+    bool _isSellable = false;
+    bool _isBuyable = false;
+    unsigned int _value = 0;
 
     bool _isConsumable = false;
 };

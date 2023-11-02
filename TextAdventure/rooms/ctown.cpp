@@ -1,6 +1,7 @@
 #include "ctown.h"
 #include "cenhancableitem.h"
 #include "cgamemanagement.h"
+#include "cjunkitem.h"
 #include "console.h"
 #include "ressources.h"
 
@@ -103,7 +104,7 @@ void CTown::enhanceItem()
         }
     }
 
-    if (enhancableItems.size())
+    if (enhancableItems.size() > 0)
     {
         auto idx = Console::getNumberInputWithEcho(1, number);
 
@@ -146,6 +147,53 @@ void CTown::church()
 
 void CTown::shop()
 {
+    char input;
+    do
+    {
+        Console::cls();
+        Console::printLn(
+            std::format("The shop of {} looks like any shop in any generic D&D game. Even the cleric looks "
+                        "stereotypical. The shop is filled with junk,but who knows, maybe you will find something cool "
+                        "here? Or make some food money selling your precious valuables?",
+                        _name));
+        Console::hr();
+
+        std::string nav;
+        std::string acceptableInputs;
+
+        auto junkItems = CGameManagement::getInventoryInstance()->getJunkItems();
+        if (junkItems.size())
+        {
+            int value = 0;
+            for (auto j : junkItems)
+            {
+                if (j->isSellable())
+                {
+                    value += j->value();
+                }
+            }
+            nav.append(std::format("[S]ell your junk ({} Gold)", value));
+            acceptableInputs.append("s");
+        }
+
+        Console::printLnWithSpacer(nav, "E[x]it");
+        acceptableInputs.append("x");
+        input = Console::getAcceptableInput(acceptableInputs);
+
+        if (input == 's')
+        {
+            for (auto j : junkItems)
+            {
+                if (j->isSellable())
+                {
+                    CGameManagement::getPlayerInstance()->addGold(j->value());
+                    CGameManagement::getInventoryInstance()->removeItem(j);
+                }
+            }
+            Console::confirmToContinue();
+        }
+
+    } while (input != 'x');
 }
 
 void CTown::tavern()

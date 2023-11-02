@@ -28,7 +28,7 @@ set(TEXTADVENTURE_SOURCES
     items/citem.h items/citem.cpp
     items/itemfactory.h items/itemfactory.cpp
     items/chealingpotion.h items/chealingpotion.cpp
-    items/crubbishitem.h items/crubbishitem.cpp
+    items/cjunkitem.h items/cjunkitem.cpp
     items/cenhancableitem.h items/cenhancableitem.cpp
     items/csword.h items/csword.cpp
     items/cshield.h items/cshield.cpp

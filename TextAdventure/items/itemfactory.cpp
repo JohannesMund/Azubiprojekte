@@ -2,7 +2,7 @@
 
 #include "chealingpotion.h"
 #include "cphoenixfeather.h"
-#include "crubbishitem.h"
+#include "cjunkitem.h"
 #include "cshield.h"
 #include "csword.h"
 
@@ -24,8 +24,8 @@ CItem* ItemFactory::makeItem(const EItemType tp)
         return new CSword();
     case EItemType::eShield:
         return new CShield();
-    case EItemType::eRubbishItem:
-        return new CRubbishItem();
+    case EItemType::eJunkItem:
+        return new CJunkItem();
     default:
         break;
     }

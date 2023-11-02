@@ -182,9 +182,9 @@ void CGameManagement::init()
 
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::ePhoenixFeather));
 
-    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eRubbishItem));
-    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eRubbishItem));
-    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eRubbishItem));
+    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eJunkItem));
+    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eJunkItem));
+    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eJunkItem));
 
     Randomizer::init();
 

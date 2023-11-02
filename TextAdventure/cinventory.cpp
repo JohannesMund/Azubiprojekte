@@ -1,5 +1,6 @@
 #include "cinventory.h"
 #include "cenhancableitem.h"
+#include "cjunkitem.h"
 #include "console.h"
 
 #include <algorithm>
@@ -19,6 +20,7 @@ bool CInventory::hasItem(const std::string& name)
 
 void CInventory::addItem(CItem* item)
 {
+    Console::printLn(std::format("You optained {}", item->name()));
     _inventory.push_back(item);
 }
 
@@ -52,7 +54,7 @@ void CInventory::print(const Scope& scope)
     }
 }
 
-CInventory::ItemList CInventory::getItemsWithBattleEffect()
+CInventory::ItemList CInventory::getItemsWithBattleEffect() const
 {
     ItemList itemsWithBattleEffect;
     std::copy_if(
@@ -73,7 +75,7 @@ void CInventory::useBattleEffect(CItem* item, CEnemy* enemy)
     }
 }
 
-CInventory::ItemList CInventory::getItemsWithDurableBattleEffect()
+CInventory::ItemList CInventory::getItemsWithDurableBattleEffect() const
 {
     ItemList itemsWithBattleEffect;
     std::copy_if(_inventory.begin(),
@@ -97,7 +99,7 @@ void CInventory::useDurableBattleEffect(CItem* item, CEnemy* enemy, bool& endRou
     }
 }
 
-CInventory::ItemList CInventory::getItemsWithShieldingAction()
+CInventory::ItemList CInventory::getItemsWithShieldingAction() const
 {
     ItemList itemsWithShieldingAction;
     std::copy_if(_inventory.begin(),
@@ -116,7 +118,7 @@ unsigned int CInventory::useShieldingAction(CItem* item, const int damage)
     return item->shield(damage);
 }
 
-CInventory::ItemList CInventory::getItemsWithDeathEffect()
+CInventory::ItemList CInventory::getItemsWithDeathEffect() const
 {
     ItemList itemsWithDeathEffect;
     std::copy_if(
@@ -137,12 +139,31 @@ void CInventory::useDeathAction(CItem* item)
     }
 }
 
-CInventory::EnhancableItemList CInventory::getEnhancableItems()
+CInventory::JunkItemList CInventory::getJunkItems() const
+{
+    JunkItemList junkItems;
+    for (const auto item : _inventory | std::views::filter(CJunkItem::junkItemFilter()))
+    {
+        auto junkItem = dynamic_cast<CJunkItem*>(item);
+        if (junkItem != nullptr)
+        {
+            junkItems.push_back(junkItem);
+        }
+    }
+
+    return junkItems;
+}
+
+CInventory::EnhancableItemList CInventory::getEnhancableItems() const
 {
     EnhancableItemList enhancableItems;
-    for (auto item : _inventory | std::views::filter(CItem::enhancableItemFilter()))
+    for (const auto item : _inventory | std::views::filter(CEnhancableItem::enhancableItemFilter()))
     {
-        enhancableItems.push_back(static_cast<CEnhancableItem*>(item));
+        auto enhancableItem = dynamic_cast<CEnhancableItem*>(item);
+        if (enhancableItem != nullptr)
+        {
+            enhancableItems.push_back(enhancableItem);
+        }
     }
     return enhancableItems;
 }

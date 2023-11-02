@@ -1,5 +1,6 @@
 #include "cenemy.h"
 #include "cgamemanagement.h"
+#include "itemfactory.h"
 #include "randomizer.h"
 
 CEnemy::CEnemy()
@@ -42,6 +43,14 @@ void CEnemy::spoilsOfWar()
     if (Randomizer::getRandom(2) == 0)
     {
         CGameManagement::getPlayerInstance()->addGold(Randomizer::getRandom(_level * 33) + _level * 25);
+    }
+
+    if (Randomizer::getRandom(2) == 0)
+    {
+        do
+        {
+            CGameManagement::getInventoryInstance()->addItem(ItemFactory::makeItem(ItemFactory::EItemType::eJunkItem));
+        } while (Randomizer::getRandom(2) == 0);
     }
 }
 

@@ -16,7 +16,7 @@ enum class EItemType
     eSword,
     eShield,
 
-    eRubbishItem
+    eJunkItem
 };
 
 CItem* makeItem(const EItemType tp);
