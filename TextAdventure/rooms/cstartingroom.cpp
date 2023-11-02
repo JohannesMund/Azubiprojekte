@@ -13,7 +13,7 @@ void CStartingRoom::execute()
     if (seen())
     {
         CRoom::execute();
-        Console::printLn("You can still see, where you woke up, when yoz started your adventure,");
+        Console::printLn("You can still see, where you woke up, when you started your adventure,");
         return;
     }
     CRoom::execute();

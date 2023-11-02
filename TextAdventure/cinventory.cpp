@@ -113,6 +113,27 @@ unsigned int CInventory::useShieldingAction(CItem* item, const int damage)
     return item->shield(damage);
 }
 
+CInventory::ItemList CInventory::getItemsWithDeathEffect()
+{
+    ItemList itemsWithDeathEffect;
+    std::copy_if(
+        _inventory.begin(), _inventory.end(), std::back_inserter(itemsWithDeathEffect), CItem::deathEffectFilter());
+    return itemsWithDeathEffect;
+}
+
+void CInventory::useDeathAction(CItem* item)
+{
+    if (item == nullptr)
+    {
+        return;
+    }
+    item->deathEffect();
+    if (item->isConsumable())
+    {
+        removeItem(item);
+    }
+}
+
 void CInventory::printInventory(const Scope& scope)
 {
     auto itemMap = getInventoryCompressedForScope(scope);
@@ -202,7 +223,7 @@ bool CInventory::usableInScope(const CItem* item, const Scope& scope)
     case Scope::eBattle:
         return item->isUsableFromBattle();
     case Scope::eDeath:
-        return item->isUsableUponDeath();
+        return item->hasDeathEffect();
     }
 }
 

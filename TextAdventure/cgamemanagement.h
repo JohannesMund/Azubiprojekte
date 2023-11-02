@@ -33,7 +33,7 @@ private:
     std::string printNavigation();
 
     void navigation();
-    void playerDeath();
+    void handlePlayerDeath();
 
     void init();
     void gameLoop();

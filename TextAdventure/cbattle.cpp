@@ -95,10 +95,9 @@ void CBattle::battleLoop()
 {
     while (!isBattleOver())
     {
-        Console::cls;
         Console::hr();
-        Console::printWithSpacer(std::format("Your Hp: {}", CGameManagement::getPlayerInstance()->hpAsString()),
-                                 std::format("Enemy Hp: {}", _enemy->hp()));
+        Console::printLnWithSpacer(std::format("Your Hp: {}", CGameManagement::getPlayerInstance()->hpAsString()),
+                                   std::format("Enemy Hp: {}", _enemy->hp()));
         Console::hr();
         Console::printLn("New turn");
 
@@ -144,6 +143,7 @@ void CBattle::battleLoop()
                 break;
             }
             case CBattle::EBattleResult::eTie:
+                Console::printLn("It's a tie");
                 break;
             }
         }
@@ -170,16 +170,22 @@ CBattle::EBattleResult CBattle::hasWonAgainst(const std::optional<CBattle::EWeap
 
     if (!choice.has_value() && !other.has_value())
     {
+        Console::printLn("Nobody wants to play.");
         return CBattle::EBattleResult::eTie;
     }
     if (!choice.has_value() && other.has_value())
     {
+        Console::printLn("Player refuses to play.");
         return CBattle::EBattleResult::eLost;
     }
     if (choice.has_value() && !other.has_value())
     {
+        Console::printLn("The enemy refuses to play.");
         return CBattle::EBattleResult::eWon;
     }
+
+    Console::printLnWithSpacer(std::format("Player: {}", weapon2String(*choice)),
+                               std::format("Enemy: {}", weapon2String(*other)));
 
     if (*choice == *other)
     {
@@ -218,4 +224,22 @@ CBattle::EBattleResult CBattle::hasWonAgainst(const std::optional<CBattle::EWeap
         return CBattle::EBattleResult::eLost;
     }
     return CBattle::EBattleResult::eTie;
+}
+
+std::string CBattle::weapon2String(const EWeapons weapon)
+{
+    switch (weapon)
+    {
+    case EWeapons::eRock:
+        return "Rock";
+    case EWeapons::ePaper:
+        return "Paper";
+    case EWeapons::eScissors:
+        return "Scissors";
+    case EWeapons::eLizard:
+        return "Lizard";
+    case EWeapons::eSpock:
+        return "Spock";
+    }
+    return std::string();
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <optional>
+#include <string>
 
 class CEnemy;
 class CBattle
@@ -37,6 +38,7 @@ private:
     bool doesPlayerGoFirst();
 
     static EBattleResult hasWonAgainst(const std::optional<EWeapons> choice, const std::optional<EWeapons> other);
+    static std::string weapon2String(const EWeapons weapon);
 
     CEnemy* _enemy = nullptr;
 };

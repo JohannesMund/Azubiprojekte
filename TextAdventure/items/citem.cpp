@@ -26,9 +26,9 @@ bool CItem::isUsableFromBattle() const
     return _isUsableFromBattle;
 }
 
-bool CItem::isUsableUponDeath() const
+bool CItem::hasDeathEffect() const
 {
-    return _isUsableUponDeath;
+    return _hasDeathEffect;
 }
 
 bool CItem::hasBattleEffect() const

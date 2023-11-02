@@ -82,7 +82,7 @@ std::string CGameManagement::printNavigation()
 {
     Console::hr();
     string acceptableInputs = _map.printNav();
-    Console::printWithSpacer("[L]ook for trouble", "[M]ap [I]nventory");
+    Console::printLnWithSpacer("[L]ook for trouble", "[M]ap [I]nventory");
     Console::printLn("[Q]uit Game", Console::EAlignment::eRight);
     acceptableInputs += "lmiq";
 
@@ -127,9 +127,35 @@ void CGameManagement::navigation()
     }
 }
 
-void CGameManagement::playerDeath()
+void CGameManagement::handlePlayerDeath()
 {
-    Console::printLn("You are dead");
+    if (!_player.isDead())
+    {
+        return;
+    }
+
+    auto items = CGameManagement::getInventoryInstance()->getItemsWithDeathEffect();
+    for (auto item : items)
+    {
+        CGameManagement::getInventoryInstance()->useDeathAction(item);
+        if (!_player.isDead())
+        {
+            Console::confirmToContinue();
+            return;
+        }
+    }
+
+    Console::printLn("      _____      ", Console::EAlignment::eCenter);
+    Console::printLn(" ____|R.I.P|____ ", Console::EAlignment::eCenter);
+    Console::printLn("|   Here lies   |", Console::EAlignment::eCenter);
+    Console::printLn("|____ Player____|", Console::EAlignment::eCenter);
+    Console::printLn("     |     |     ", Console::EAlignment::eCenter);
+    Console::printLn("     |     |     ", Console::EAlignment::eCenter);
+    Console::printLn("     |     |     ", Console::EAlignment::eCenter);
+    Console::printLn("     |_____|     ", Console::EAlignment::eCenter);
+
+    Console::printLn("- He died the way he lived -", Console::EAlignment::eCenter);
+    Console::printLn(" - naked and alone -", Console::EAlignment::eCenter);
 }
 
 void CGameManagement::init()
@@ -140,6 +166,8 @@ void CGameManagement::init()
 
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eHealingPotionM));
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eHealingPotionM));
+
+    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::ePhoenixFeather));
 
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eRubbishItem));
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eRubbishItem));
@@ -159,15 +187,19 @@ void CGameManagement::gameLoop()
         printHUD();
 
         _map.currentRoom()->execute();
-
-        if (!_player.isDead())
+        handlePlayerDeath();
+        if (_player.isDead())
         {
-            navigation();
-        }
-        else
-        {
-            playerDeath();
             _isGameOver = true;
+            return;
+        }
+
+        navigation();
+        handlePlayerDeath();
+        if (_player.isDead())
+        {
+            _isGameOver = true;
+            return;
         }
     }
 }

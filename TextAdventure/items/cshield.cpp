@@ -11,7 +11,7 @@ CShield::CShield()
     _isConsumable = false;
     _isUsableFromBattle = false;
     _isUsableFromInventory = false;
-    _isUsableUponDeath = false;
+    _hasDeathEffect = false;
 
     _hasBattleEffect = true;
     _hasDurableBattleEffect = false;

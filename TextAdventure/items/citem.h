@@ -40,6 +40,10 @@ public:
         return i;
     }
 
+    virtual void deathEffect()
+    {
+    }
+
     virtual void view();
 
     /**
@@ -65,10 +69,10 @@ public:
     bool isUsableFromBattle() const;
 
     /**
-     * @brief isUsableUponDeath
+     * @brief hasDeathEffect
      * @return has the item an effect when the player dies?
      */
-    bool isUsableUponDeath() const;
+    bool hasDeathEffect() const;
 
     /**
      * @brief hasBattleEffect
@@ -107,19 +111,40 @@ public:
         return [&name](const CItem* item) { return item->name().compare(name) == 0; };
     }
 
+    /**
+     * @brief battleEffectFilter
+     * @return a filter function to filter items with battle effect from std containers
+     */
     static std::function<bool(const CItem*)> battleEffectFilter()
     {
         return [](const CItem* item) { return item->hasBattleEffect(); };
     }
 
+    /**
+     * @brief durableBattleEffectFilter
+     * @return a filter function to filter items with durable battle effect from std containers
+     */
     static std::function<bool(const CItem*)> durableBattleEffectFilter()
     {
         return [](const CItem* item) { return item->hasDurableBattleEffect(); };
     }
 
+    /**
+     * @brief shieldingActionFilter
+     * @return a filter function to filter items with shield action from std containers
+     */
     static std::function<bool(const CItem*)> shieldingActionFilter()
     {
         return [](const CItem* item) { return item->hasShieldingAction(); };
+    }
+
+    /**
+     * @brief deathEffectFilter
+     @return a filter function to filter items with death effect from std containers
+     */
+    static std::function<bool(const CItem*)> deathEffectFilter()
+    {
+        return [](const CItem* item) { return item->hasDeathEffect(); };
     }
 
 protected:
@@ -128,8 +153,8 @@ protected:
 
     bool _isUsableFromInventory = false;
     bool _isUsableFromBattle = false;
-    bool _isUsableUponDeath = false;
 
+    bool _hasDeathEffect = false;
     bool _hasBattleEffect = false;
     bool _hasDurableBattleEffect = false;
     bool _hasShieldingAction = false;

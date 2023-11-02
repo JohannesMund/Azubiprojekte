@@ -41,6 +41,9 @@ public:
     ItemList getItemsWithShieldingAction();
     unsigned int useShieldingAction(CItem* item, const int damage);
 
+    ItemList getItemsWithDeathEffect();
+    void useDeathAction(CItem* item);
+
 private:
     void printInventory(const Scope& scope);
     std::string printInventoryNav() const;
