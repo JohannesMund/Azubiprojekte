@@ -12,11 +12,11 @@ CPlayer::CPlayer()
     _maxHp = Ressources::Config::maxHp;
     _hp = Ressources::Config::maxHp;
     _gold = Ressources::Config::gold;
+    _initiative = Ressources::Config::initiative;
 }
 
 void CPlayer::print() const
 {
-
     Console::printLn(std::format("HP: {}/{} Gold: {}", _hp, _maxHp, _gold));
     Console::printLn(std::format("Level: {} Experience: {}/{}", _level, _xp, xpForNextLevel()));
     Console::hr();
@@ -65,6 +65,11 @@ bool CPlayer::isDead() const
 unsigned int CPlayer::level() const
 {
     return _level;
+}
+
+unsigned int CPlayer::gold() const
+{
+    return _gold;
 }
 
 void CPlayer::addXp(const int i)
@@ -122,18 +127,16 @@ std::optional<CBattle::EWeapons> CPlayer::battleAction(CEnemy* enemy, bool& endR
     auto items = CGameManagement::getInventoryInstance()->getItemsWithDurableBattleEffect();
     for (auto item : items)
     {
-        CGameManagement::getInventoryInstance()->useDurableBattleEffect(item, enemy);
+        CGameManagement::getInventoryInstance()->useDurableBattleEffect(item, enemy, endRound);
+        if (endRound || enemy->isDead())
+        {
+            return {};
+        }
     }
-
-    if (endRound || enemy->isDead())
-    {
-        return {};
-    }
-
-    std::string acceptableInputs = printBattleNav(enemy->hasExtendedWeaponChoice());
 
     while (true)
     {
+        std::string acceptableInputs = printBattleNav(enemy->hasExtendedWeaponChoice());
         auto input = Console::getAcceptableInput(acceptableInputs);
         if (input == 'r')
         {
@@ -154,6 +157,10 @@ std::optional<CBattle::EWeapons> CPlayer::battleAction(CEnemy* enemy, bool& endR
         if (input == 'o')
         {
             return CBattle::EWeapons::eSpock;
+        }
+        if (input == 'i')
+        {
+            CGameManagement::getInventoryInstance()->printInventory(CInventory::Scope::eBattle);
         }
     }
     endRound = false;

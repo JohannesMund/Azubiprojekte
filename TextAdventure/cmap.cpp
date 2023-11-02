@@ -2,6 +2,7 @@
 #include "console.h"
 #include "croom.h"
 #include "cstartingroom.h"
+#include "ctown.h"
 #include "randomizer.h"
 #include "ressources.h"
 #include "roomfactory.h"
@@ -46,6 +47,11 @@ CMap::~CMap()
 void CMap::init()
 {
     std::vector<CRoom*> rooms;
+
+    for (int i = 0; i < Ressources::Config::numberOfTowns; i++)
+    {
+        rooms.push_back(RoomFactory::makeTown());
+    }
 
     while (rooms.size() < (Ressources::Config::fieldWidth * Ressources::Config::fieldHeight) - 1)
     {

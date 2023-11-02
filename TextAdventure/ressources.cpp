@@ -65,3 +65,14 @@ std::string Ressources::Enemies::getRandomEnemyWeapon()
                                         "a Nokia 3210"};
     return weapons.at(Randomizer::getRandom(weapons.size()));
 }
+
+std::pair<std::string, std::string> Ressources::Rooms::getRandomTown()
+{
+    std::vector<std::pair<std::string, std::string>> towns = {
+        {"Hafnarfjodur", "The City of Elves. Built high in the treetops of ancient Trees"},
+        {"Peridotspring", "Deep Caves, carved in huge mountains built this citiy of the dwarfs"},
+        {"Wallachei", "An Oasis surrounded by a huge desert."},
+        {"Bruchtal", "City of man, capital of the land."},
+        {"Mudpool", "The Home of the trolls. Everything is dirty and stinky here."}};
+    return towns.at(Randomizer::getRandom(towns.size()));
+}

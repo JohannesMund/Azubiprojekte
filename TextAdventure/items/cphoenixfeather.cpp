@@ -1,6 +1,7 @@
 #include "cphoenixfeather.h"
 #include "cgamemanagement.h"
 #include "console.h"
+#include "randomizer.h"
 
 #include <format>
 
@@ -11,6 +12,7 @@ CPhoenixFeather::CPhoenixFeather()
         "A huge feather glowing magically in red, orange and yellow. It looks a little bit as if it is burning.";
 
     _hasDeathEffect = true;
+    _isConsumable = true;
 }
 
 void CPhoenixFeather::deathEffect()
@@ -21,6 +23,6 @@ void CPhoenixFeather::deathEffect()
     Console::printLn("Looks as if you ar lucky and survived this time.");
     while (CGameManagement::getPlayerInstance()->isDead())
     {
-        CGameManagement::getPlayerInstance()->addHp(1);
+        CGameManagement::getPlayerInstance()->addHp(Randomizer::getRandom(4) + 2);
     }
 }

@@ -6,17 +6,23 @@
 #include <string>
 CSword::CSword()
 {
-    _isConsumable = false;
-    _isUsableFromBattle = false;
-    _isUsableFromInventory = false;
-    _hasDeathEffect = false;
-
     _hasBattleEffect = true;
     _hasDurableBattleEffect = true;
-    _hasShieldingAction = false;
 
-    _name = "Sword";
-    _description = "Am old worn-out, wooden sword. Used for training... Used for training often...";
+    _name = "Stick, shaped like a sword";
+    _description = "A stick, shaped like a sword. Or a sword, shaped like a stick? It is a sword-stick";
+}
+
+void CSword::enhance()
+{
+    auto oldName = _name;
+    CEnhancableItem::enhance();
+    if (_level == 1)
+    {
+        _name = "wooden Sword";
+        _description = "Am old worn-out, wooden sword. Used for training... Used for training often...";
+    }
+    Console::printLn(std::format("Your {} is now a {}", oldName, _name));
 }
 void CSword::battleEffect(CEnemy* enemy)
 {
@@ -27,6 +33,6 @@ void CSword::battleEffect(CEnemy* enemy)
     }
 }
 
-void CSword::durableBattleEffect(CEnemy* enemy)
+void CSword::durableBattleEffect(CEnemy* enemy, bool& endRound)
 {
 }

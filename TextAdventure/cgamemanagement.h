@@ -32,7 +32,7 @@ private:
     void printInventory();
     std::string printNavigation();
 
-    void navigation();
+    void executeTurn();
     void handlePlayerDeath();
 
     void init();

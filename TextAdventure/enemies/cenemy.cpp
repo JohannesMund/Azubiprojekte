@@ -41,7 +41,7 @@ void CEnemy::spoilsOfWar()
     CGameManagement::getPlayerInstance()->addXp(Randomizer::getRandom(_level * 75) + _level * 75);
     if (Randomizer::getRandom(2) == 0)
     {
-        CGameManagement::getPlayerInstance()->addXp(Randomizer::getRandom(_level * 3) + _level * 3);
+        CGameManagement::getPlayerInstance()->addGold(Randomizer::getRandom(_level * 33) + _level * 25);
     }
 }
 

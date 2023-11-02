@@ -8,7 +8,7 @@ namespace Ressources
 
 namespace Settings
 {
-static const unsigned int consoleWidth = 60;
+static const unsigned int consoleWidth = 80;
 }
 
 namespace Config
@@ -21,15 +21,19 @@ static const unsigned int fieldHeight = 10;
 static const unsigned int encounterChance = 5;
 static const unsigned int fightRate = 75;
 
+static const unsigned int numberOfTowns = 3;
+
 static const unsigned int maxHp = 10;
 static const unsigned int maxHpMin = 3;
-static const unsigned int gold = 10;
+static const unsigned int gold = 100;
+static const unsigned int initiative = 5;
 
 } // namespace Config
 
 namespace Rooms
 {
 std::string getRandomDescription();
+std::pair<std::string, std::string> getRandomTown();
 } // namespace Rooms
 
 namespace Items

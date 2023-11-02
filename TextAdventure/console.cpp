@@ -147,12 +147,10 @@ void Console::printLn(std::string text, const EAlignment align, const bool nobr)
 std::optional<int> Console::getNumberInputWithEcho(const int min, const int max)
 {
     cout << std::format("[Enter number between {} and {} (or anything else to cancel)]", min, max);
-    setEcho(true);
 
-    cin.clear();
+    setEcho(true);
     int input;
     cin >> input;
-
     setEcho(false);
 
     if (input >= min && input <= max)

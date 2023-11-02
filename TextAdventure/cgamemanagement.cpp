@@ -89,10 +89,21 @@ std::string CGameManagement::printNavigation()
     return acceptableInputs;
 }
 
-void CGameManagement::navigation()
+void CGameManagement::executeTurn()
 {
     while (true)
     {
+        Console::cls();
+        printHUD();
+
+        _map.currentRoom()->execute();
+        handlePlayerDeath();
+        if (_player.isDead())
+        {
+            _isGameOver = true;
+            return;
+        }
+
         auto acceptableInputs = printNavigation();
         auto input = Console::getAcceptableInput(acceptableInputs);
 
@@ -115,10 +126,12 @@ void CGameManagement::navigation()
             {
                 return;
             }
+            Console::confirmToContinue();
         }
         if (input == 'm')
         {
             printMap();
+            Console::confirmToContinue();
         }
         if (input == 'i')
         {
@@ -184,17 +197,8 @@ void CGameManagement::gameLoop()
     while (!_isGameOver)
     {
         Console::cls();
-        printHUD();
 
-        _map.currentRoom()->execute();
-        handlePlayerDeath();
-        if (_player.isDead())
-        {
-            _isGameOver = true;
-            return;
-        }
-
-        navigation();
+        executeTurn();
         handlePlayerDeath();
         if (_player.isDead())
         {

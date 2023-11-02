@@ -14,8 +14,9 @@ CMobEnemy::CMobEnemy() : CEnemy()
     auto minLevel = std::max((int)(CGameManagement::getPlayerInstance()->level()) - 2, 1);
     auto maxLevel = CGameManagement::getPlayerInstance()->level() + 2;
     _level = Randomizer::getRandom(maxLevel - minLevel) + minLevel;
+    _initiative = Randomizer::getRandom(3) + 1;
 
-    _hp = Randomizer::getRandom(3) + 1;
+    _hp = Randomizer::getRandom(2) + 1;
 
     if (_level >= 2)
     {
@@ -33,7 +34,7 @@ CMobEnemy::CMobEnemy() : CEnemy()
     if (_level >= 5)
     {
         _extendedWeaponChoice = Randomizer::getRandom(2) == 0;
-        _hp += Randomizer::getRandom(5) + 1;
+        _hp += Randomizer::getRandom(3) + 1;
         _initiative += Randomizer::getRandom(5) + 1;
     }
     if (_level >= 6)

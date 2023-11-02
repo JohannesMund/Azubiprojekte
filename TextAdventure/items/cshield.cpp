@@ -8,22 +8,35 @@
 
 CShield::CShield()
 {
-    _isConsumable = false;
-    _isUsableFromBattle = false;
-    _isUsableFromInventory = false;
-    _hasDeathEffect = false;
-
     _hasBattleEffect = true;
-    _hasDurableBattleEffect = false;
     _hasShieldingAction = true;
 
-    _name = "Shield";
+    _name = "Old buckler";
     _description = "Am old worn-out, wooden shield, not very usefull, but better than nothing.";
+}
+
+void CShield::enhance()
+{
+    auto oldName = _name;
+    CEnhancableItem::enhance();
+    if (_level == 1)
+    {
+        _name = "Repaired buckler";
+        _description = "Still an old, worn-out wooden shield, but now repaired and a little more usefull";
+    }
+    Console::printLn(std::format("Your {} is now a {}", oldName, _name));
 }
 
 void CShield::battleEffect(CEnemy*)
 {
-    Console::printLn("You raise your shield to protect you, but it does not loog trustworthy at all");
+    if (_level < 1)
+    {
+        Console::printLn("You raise your shield to protect you, but it does not look trustworthy at all");
+    }
+    else
+    {
+        Console::printLn("You raise your shield to protect you.");
+    }
 }
 
 int CShield::shield(const unsigned int i)

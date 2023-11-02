@@ -35,7 +35,8 @@ set(TEXTADVENTURE_SOURCES
     items/cphoenixfeather.h items/cphoenixfeather.cpp
 )
 
-add_executable(TextAdventure ${TEXTADVENTURE_SOURCES})
+add_executable(TextAdventure ${TEXTADVENTURE_SOURCES}
+    rooms/ctown.h rooms/ctown.cpp)
 
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR})
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/items)

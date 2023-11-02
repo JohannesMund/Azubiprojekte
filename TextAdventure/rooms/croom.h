@@ -28,7 +28,7 @@ protected:
     bool _pathSouth = true;
     bool _pathWest = true;
 
-    bool _encounterPossible = true;
+    bool _encounterPossible = false;
 
     bool _seen = false;
     std::string _description;

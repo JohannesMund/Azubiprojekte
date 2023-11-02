@@ -1,8 +1,10 @@
 #include "cinventory.h"
+#include "cenhancableitem.h"
 #include "console.h"
 
 #include <algorithm>
 #include <format>
+#include <ranges>
 #include <string>
 #include <utility>
 
@@ -81,13 +83,14 @@ CInventory::ItemList CInventory::getItemsWithDurableBattleEffect()
     return itemsWithBattleEffect;
 }
 
-void CInventory::useDurableBattleEffect(CItem* item, CEnemy* enemy)
+void CInventory::useDurableBattleEffect(CItem* item, CEnemy* enemy, bool& endRound)
 {
     if (item == nullptr)
     {
         return;
     }
-    item->durableBattleEffect(enemy);
+
+    item->durableBattleEffect(enemy, endRound);
     if (item->isConsumable())
     {
         removeItem(item);
@@ -134,6 +137,16 @@ void CInventory::useDeathAction(CItem* item)
     }
 }
 
+CInventory::EnhancableItemList CInventory::getEnhancableItems()
+{
+    EnhancableItemList enhancableItems;
+    for (auto item : _inventory | std::views::filter(CItem::enhancableItemFilter()))
+    {
+        enhancableItems.push_back(static_cast<CEnhancableItem*>(item));
+    }
+    return enhancableItems;
+}
+
 void CInventory::printInventory(const Scope& scope)
 {
     auto itemMap = getInventoryCompressedForScope(scope);
@@ -162,11 +175,11 @@ void CInventory::printInventory(const Scope& scope)
         {
             if (scope == Scope::eView)
             {
-                viewItem(usableItems.at(0));
+                viewItem(usableItems.at(*item - 1));
             }
             else
             {
-                useItem(usableItems.at(0));
+                useItem(usableItems.at(*item - 1), scope);
             }
         }
     }
@@ -241,16 +254,30 @@ void CInventory::printViewableItems()
     printInventory(Scope::eView);
 }
 
-void CInventory::useItem(CItem* item)
+void CInventory::useItem(CItem* item, const Scope& scope)
 {
     if (item == nullptr)
     {
         return;
     }
 
+    if (scope != Scope::eInventory && scope != Scope::eBattle)
+    {
+        return;
+    }
+
     Console::hr();
     Console::printLn(std::format("You decide to use: {}", item->name()));
-    item->useFromInventory();
+
+    if (scope == Scope::eInventory)
+    {
+        item->useFromInventory();
+    }
+    if (scope == Scope::eBattle)
+    {
+        item->useFromBattle();
+    }
+
     if (item->isConsumable())
     {
         removeItem(item);

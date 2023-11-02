@@ -19,6 +19,8 @@ public:
     bool isDead() const;
 
     unsigned int level() const;
+    unsigned int gold() const;
+
     void addXp(const int i);
     void levelUp();
 
