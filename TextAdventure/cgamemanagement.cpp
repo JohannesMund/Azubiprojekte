@@ -73,6 +73,7 @@ CCompanion* CGameManagement::getCompanion()
 
 void CGameManagement::printHUD()
 {
+
     Console::hr();
     _player.print();
 }

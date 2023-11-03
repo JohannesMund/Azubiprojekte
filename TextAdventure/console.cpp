@@ -54,6 +54,7 @@ char Console::getAcceptableInput(string acceptableChars)
     while (!found)
     {
         input = getchar();
+
         if (acceptableChars.find(input) != string::npos)
         {
             found = true;
