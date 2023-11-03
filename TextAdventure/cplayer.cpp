@@ -78,6 +78,8 @@ void CPlayer::dealDamage(const int i, const bool bNoShield)
 void CPlayer::addMaxHp(const int i)
 {
     _maxHp += i;
+    _hp += i;
+
     if (_maxHp < Ressources::Config::maxHpMin)
     {
         _maxHp = Ressources::Config::maxHpMin;

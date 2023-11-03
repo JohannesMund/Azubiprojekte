@@ -48,6 +48,7 @@ set(TEXTADVENTURE_SOURCES
     items/csword.h items/csword.cpp
     items/cshield.h items/cshield.cpp
     items/cphoenixfeather.h items/cphoenixfeather.cpp
+    items/cheartcontainer.h items/cheartcontainer.cpp
 )
 
 add_executable(TextAdventure ${TEXTADVENTURE_SOURCES})

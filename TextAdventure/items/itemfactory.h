@@ -12,6 +12,7 @@ enum class EItemType
     eHealingPotionXL,
 
     ePhoenixFeather,
+    eHeartContainer,
 
     eSword,
     eShield,

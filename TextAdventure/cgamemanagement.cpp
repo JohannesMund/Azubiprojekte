@@ -193,6 +193,7 @@ void CGameManagement::init()
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eHealingPotionM));
 
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::ePhoenixFeather));
+    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eHeartContainer));
 
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eJunkItem));
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eJunkItem));
@@ -228,7 +229,7 @@ void CGameManagement::lookForTrouble()
 
 CGameManagement::CGameManagement()
 {
-    _companion = CompanionFactory::getRandomCompanion();
+    _companion = CompanionFactory::makeRandomCompanion();
 }
 
 CGameManagement::~CGameManagement()

@@ -4,5 +4,5 @@ class CCompanion;
 
 namespace CompanionFactory
 {
-CCompanion* getRandomCompanion();
+CCompanion* makeRandomCompanion();
 }
