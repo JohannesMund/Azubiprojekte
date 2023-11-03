@@ -1,19 +1,13 @@
 #pragma once
 
+#include "ressources.h"
+
 #include <string>
 
 class CEnemy;
 class CCompanion
 {
 public:
-    enum class ECompanionType
-    {
-        eCat,
-        eDog,
-        eBird,
-        eDragon
-    };
-
     CCompanion();
 
     std::string name() const;
@@ -25,13 +19,11 @@ public:
     void battleAction(CEnemy* enemy, bool& endRound);
     void postBattle(CEnemy* enemy);
 
-    void setCompanionType(const ECompanionType tp);
-
     void evolve();
 
 private:
     std::string _description;
     unsigned int _level = 0;
 
-    ECompanionType _companionType;
+    Ressources::Companion::ECompanionType _companionType;
 };

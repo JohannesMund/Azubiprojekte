@@ -39,6 +39,11 @@ CMap* CGameManagement::getMapInstance()
     return getInstance()->getMap();
 }
 
+CCompanion* CGameManagement::getCompanionInstance()
+{
+    return getInstance()->getCompanion();
+}
+
 void CGameManagement::start()
 {
     init();
@@ -58,6 +63,11 @@ CPlayer* CGameManagement::getPlayer()
 CInventory* CGameManagement::getInventory()
 {
     return &_inventory;
+}
+
+CCompanion* CGameManagement::getCompanion()
+{
+    return &_companion;
 }
 
 void CGameManagement::printHUD()

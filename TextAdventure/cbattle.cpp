@@ -156,6 +156,15 @@ void CBattle::battleLoop()
 
 void CBattle::postBattle()
 {
+    if (!_enemy->isDead())
+    {
+        _enemy->postBattle();
+    }
+
+    if (!CGameManagement::getPlayerInstance()->isDead())
+    {
+        CGameManagement::getPlayerInstance()->postBattle(_enemy);
+    }
 }
 
 bool CBattle::doesPlayerGoFirst()

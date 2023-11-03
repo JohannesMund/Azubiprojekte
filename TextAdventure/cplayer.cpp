@@ -130,6 +130,7 @@ void CPlayer::preBattle(CEnemy* enemy)
     {
         CGameManagement::getInventoryInstance()->useBattleEffect(item, enemy);
     }
+    CGameManagement::getCompanionInstance()->preBattle(enemy);
 }
 
 std::optional<CBattle::EWeapons> CPlayer::battleAction(CEnemy* enemy, bool& endRound)
@@ -147,6 +148,11 @@ std::optional<CBattle::EWeapons> CPlayer::battleAction(CEnemy* enemy, bool& endR
         {
             return {};
         }
+    }
+    CGameManagement::getCompanionInstance()->battleAction(enemy, endRound);
+    if (endRound || enemy->isDead())
+    {
+        return {};
     }
 
     while (true)
@@ -184,6 +190,7 @@ std::optional<CBattle::EWeapons> CPlayer::battleAction(CEnemy* enemy, bool& endR
 
 void CPlayer::postBattle(CEnemy* enemy)
 {
+    CGameManagement::getCompanionInstance()->postBattle(enemy);
 }
 
 std::string CPlayer::hpAsString() const

@@ -80,14 +80,39 @@ std::pair<std::string, std::string> Ressources::Rooms::getRandomTown()
     return towns.at(Randomizer::getRandom(towns.size()));
 }
 
-std::string Ressources::Companion::nameForCompanionType(const CCompanion::ECompanionType& tp, const unsigned int level)
+std::string Ressources::Companion::nameForCompanionType(const ECompanionType& tp, const unsigned int level)
 {
-    std::map<CCompanion::ECompanionType, std::vector<std::string>> companions = {
-        {CCompanion::ECompanionType::eBird, {"Chick", "Sparrow", "Parrot", "Griffon", "Phoenix"}},
-        {CCompanion::ECompanionType::eDog, {"Whelp", "Dog", "Wolf", "Ice wolf", "Cerberus"}},
-        {CCompanion::ECompanionType::eCat, {"Kitten", "Cat", "Lynx", "Tiger", "Sphinx"}},
-        {CCompanion::ECompanionType::eDragon,
+    std::map<ECompanionType, std::vector<std::string>> companions = {
+        {ECompanionType::eBird, {"Chick", "Sparrow", "Parrot", "Griffon", "Phoenix"}},
+        {ECompanionType::eDog, {"Whelp", "Dog", "Wolf", "Ice wolf", "Cerberus"}},
+        {ECompanionType::eCat, {"Kitten", "Cat", "Lynx", "Tiger", "Sphinx"}},
+        {ECompanionType::eDragon,
          {"Baby Dragon", "Young Dragon", "Adult Dragon", "Old Dragon", "Ancient Hellfire Dragon"}}};
 
-    return companions.at(tp).at(std::min(Ressources::Companion::companionLevelCap, std::max(level, 1U)) - 1);
+    return companions.at(tp).at(std::min(companionLevelCap, std::max(level, 1U)) - 1);
+}
+
+Ressources::Companion::ECompanionType Ressources::Companion::getRandomCompanionType()
+{
+    std::vector<ECompanionType> v;
+    v.push_back(ECompanionType::eCat);
+    v.push_back(ECompanionType::eCat);
+    v.push_back(ECompanionType::eCat);
+    v.push_back(ECompanionType::eCat);
+    v.push_back(ECompanionType::eCat);
+
+    v.push_back(ECompanionType::eDog);
+    v.push_back(ECompanionType::eDog);
+    v.push_back(ECompanionType::eDog);
+    v.push_back(ECompanionType::eDog);
+    v.push_back(ECompanionType::eDog);
+
+    v.push_back(ECompanionType::eBird);
+    v.push_back(ECompanionType::eBird);
+    v.push_back(ECompanionType::eBird);
+
+    v.push_back(ECompanionType::eDragon);
+
+    std::shuffle(v.begin(), v.end(), Randomizer::getRandomEngine());
+    return v.at(0);
 }

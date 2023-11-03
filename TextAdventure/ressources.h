@@ -3,15 +3,13 @@
 #include <string>
 #include <vector>
 
-#include <ccompanion.h>
-
 namespace Ressources
 {
 
 namespace Settings
 {
 static const unsigned int consoleWidth = 80;
-}
+} // namespace Settings
 
 namespace Config
 {
@@ -41,7 +39,7 @@ std::pair<std::string, std::string> getRandomTown();
 namespace Items
 {
 std::pair<std::string, std::string> getRandomRubbishItems();
-}
+} // namespace Items
 
 namespace Enemies
 {
@@ -51,10 +49,18 @@ std::string getRandomEnemyWeapon();
 
 namespace Companion
 {
+enum class ECompanionType
+{
+    eCat,
+    eDog,
+    eBird,
+    eDragon
+};
+
+ECompanionType getRandomCompanionType();
 
 static const unsigned int companionLevelCap = 5;
-
-std::string nameForCompanionType(const CCompanion::ECompanionType& tp, const unsigned int level);
+std::string nameForCompanionType(const ECompanionType& tp, const unsigned int level);
 } // namespace Companion
 
 } // namespace Ressources

@@ -2,34 +2,12 @@
 #include "cenemy.h"
 #include "console.h"
 #include "randomizer.h"
-#include "ressources.h"
 
 #include <format>
 
 CCompanion::CCompanion()
 {
-    std::vector<ECompanionType> v;
-    v.push_back(ECompanionType::eCat);
-    v.push_back(ECompanionType::eCat);
-    v.push_back(ECompanionType::eCat);
-    v.push_back(ECompanionType::eCat);
-    v.push_back(ECompanionType::eCat);
-
-    v.push_back(ECompanionType::eDog);
-    v.push_back(ECompanionType::eDog);
-    v.push_back(ECompanionType::eDog);
-    v.push_back(ECompanionType::eDog);
-    v.push_back(ECompanionType::eDog);
-
-    v.push_back(ECompanionType::eBird);
-    v.push_back(ECompanionType::eBird);
-    v.push_back(ECompanionType::eBird);
-
-    v.push_back(ECompanionType::eDragon);
-
-    std::shuffle(v.begin(), v.end(), Randomizer::getRandomEngine());
-
-    _companionType = v.at(0);
+    _companionType = Ressources::Companion::getRandomCompanionType();
 }
 
 std::string CCompanion::name() const
@@ -54,19 +32,25 @@ bool CCompanion::hasCompanion() const
 
 void CCompanion::preBattle(CEnemy* enemy)
 {
+    Console::printLn(std::format("{} tries to look dangerous but it does not work. At least it is cure", name()));
 }
 
 void CCompanion::battleAction(CEnemy* enemy, bool& endRound)
 {
+    if (Randomizer::getRandom(2 + (Ressources::Companion::companionLevelCap - _level)) == 0)
+    {
+        Console::printLn(std::format("Your {} attacks the enemy and deals 1 damage.", name()));
+        enemy->addHp(-1);
+    }
+    else
+    {
+        Console::printLn(std::format("Your {} jumps around the enemy and plans it's next attack.", name()));
+    }
 }
 
 void CCompanion::postBattle(CEnemy* enemy)
 {
-}
-
-void CCompanion::setCompanionType(const ECompanionType tp)
-{
-    _companionType;
+    Console::printLn(std::format("{} looks victorious.", name()));
 }
 
 void CCompanion::evolve()
