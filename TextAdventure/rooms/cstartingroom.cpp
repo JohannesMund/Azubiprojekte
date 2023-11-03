@@ -32,7 +32,7 @@ void CStartingRoom::execute()
         if (input == 't')
         {
             Console::br();
-            Console::printLn("You take the sword and equip ist. It looks good on you.");
+            Console::printLn("You take the sword and equip it. It looks good on you.");
             CGameManagement::getInventoryInstance()->addItem(ItemFactory::makeItem(ItemFactory::EItemType::eSword));
         }
         else
@@ -46,7 +46,7 @@ void CStartingRoom::execute()
     } while (input != 't');
 
     Console::br();
-    Console::printLn("Having the sword, you look further. You still does not feel like a big, sturdy warrior. "
+    Console::printLn("Having the sword, you look further. You still do not feel like a big, sturdy warrior. "
                      "Something is missing.");
     Console::printLn("Wait, is that...?");
     Console::printLn("You see an old, damaged buckler. It is dirty, it is worn out and it has seen a lot of fights, "
@@ -60,7 +60,7 @@ void CStartingRoom::execute()
         if (input == 't')
         {
             Console::br();
-            Console::printLn("You take the shield and equip ist. Now it feels complete.");
+            Console::printLn("You take the shield and equip it. Now you feel complete.");
             CGameManagement::getInventoryInstance()->addItem(ItemFactory::makeItem(ItemFactory::EItemType::eShield));
         }
         else

@@ -32,8 +32,8 @@ void CInjuredPet::execute()
     }
 
     Console::br();
-    Console::printLn("A suspicious noise is comimng out of one of the bushes, maybe you should have a look. Or maybe "
-                     "you better be carfule and ignore it.");
+    Console::printLn("A suspicious noise is coming out of one of the bushes, you should have a look. Or maybe, "
+                     "you better be carful and ignore it.");
     Console::hr();
     Console::printLn("[L]ook [G]o away");
     auto input = Console::getAcceptableInput("lg");
@@ -47,7 +47,7 @@ void CInjuredPet::execute()
 
     Console::br();
     Console::printLn(
-        std::format("You follow the sounds, and find a tiny {} Lying beneath a bush, desperately looking for help",
+        std::format("You follow the sounds, and find a tiny {} lying beneath a bush, desperately looking for help",
                     CGameManagement::getCompanionInstance()->name()));
 
     Console::hr();
@@ -56,7 +56,7 @@ void CInjuredPet::execute()
     input = Console::getAcceptableInput("hg");
     if (input == 'g')
     {
-        Console::printLn("Better safe than sorry! You decide to ignore the pittyful little anymal and leave.");
+        Console::printLn("Better safe than sorry! You decide to ignore the pittyful little animal and leave.");
         Console::printLn("The screams vanish shortly after.");
         _petIsDead = true;
         return;

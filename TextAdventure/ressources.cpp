@@ -36,9 +36,7 @@ std::pair<std::string, std::string> Ressources::Items::getRandomRubbishItems()
           "a single boot."}},
         {{"A Vase"},
          {"This is one beautiful vase. It will look nice on your table. or on a sideboard. you could fill it with "
-          "flowers. Or you just throw it away, for somone else to find ist."}}
-
-    };
+          "flowers. Or you just throw it away, for somone else to find ist."}}};
 
     return items.at(Randomizer::getRandom(items.size()));
 }
@@ -55,7 +53,17 @@ unsigned int Ressources::Config::getXpForLevel(const unsigned int level)
 
 std::string Ressources::Enemies::getRandomEnemyName()
 {
-    std::vector<std::string> names = {"Bob, the Cowboy", "angry Rat", "stinky Bat", "greedy Vulture", "huge Barbarian"};
+    std::vector<std::string> names = {"Bob, the Cowboy",
+                                      "Eddie, the Cowboy",
+                                      "Angry Rat",
+                                      "Stinky Bat",
+                                      "Greedy Vulture",
+                                      "Huge Barbarian",
+                                      "Pussy, the Octopus",
+                                      "Tentacool",
+                                      "Tentacruel",
+                                      "Kang",
+                                      "Kodos"};
     return names.at(Randomizer::getRandom(names.size()));
 }
 
@@ -65,7 +73,9 @@ std::string Ressources::Enemies::getRandomEnemyWeapon()
                                         "sharp teeth",
                                         "sheer muscle power",
                                         "a club with spikes",
-                                        "a Nokia 3210"};
+                                        "a Nokia 3210",
+                                        "tantacles",
+                                        "laser gun"};
     return weapons.at(Randomizer::getRandom(weapons.size()));
 }
 
@@ -74,9 +84,12 @@ std::pair<std::string, std::string> Ressources::Rooms::getRandomTown()
     std::vector<std::pair<std::string, std::string>> towns = {
         {"Hafnarfjodur", "The City of Elves. Built high in the treetops of ancient Trees"},
         {"Peridotspring", "Deep Caves, carved in huge mountains built this citiy of the dwarfs"},
-        {"Wallachei", "An Oasis surrounded by a huge desert."},
+        {"Wallachia", "An Oasis surrounded by a huge desert."},
         {"Bruchtal", "City of man, capital of the land."},
-        {"Mudpool", "The Home of the trolls. Everything is dirty and stinky here."}};
+        {"Mudpool", "The Home of the trolls. Everything is dirty and stinky here."},
+        {"Timbuktu",
+         "The mysterous city, where the pepper grows. Many legendary heroes have been sent here. But on second sight, "
+         "it is just a city."}};
     return towns.at(Randomizer::getRandom(towns.size()));
 }
 

@@ -32,7 +32,7 @@ bool CCompanion::hasCompanion() const
 
 void CCompanion::preBattle(CEnemy* enemy)
 {
-    Console::printLn(std::format("{} tries to look dangerous but it does not work. At least it is cure", name()));
+    Console::printLn(std::format("{} tries to look dangerous but it does not work. At least it is cute", name()));
 }
 
 void CCompanion::battleAction(CEnemy* enemy, bool& endRound)
