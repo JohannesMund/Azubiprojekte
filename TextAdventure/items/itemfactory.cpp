@@ -1,6 +1,7 @@
 #include "itemfactory.h"
 
 #include "chealingpotion.h"
+
 #include "cheartcontainer.h"
 #include "cjunkitem.h"
 #include "cphoenixfeather.h"
@@ -52,7 +53,7 @@ CItem* ItemFactory::makeShopItem()
 
         EItemType::eHealingPotionXL, EItemType::eHeartContainer, EItemType::ePhoenixFeather};
 
-    std::shuffle(items.begin(), items.end(), std::default_random_engine(Randomizer::getRandomEngineSeed()));
+  std::shuffle(items.begin(), items.end(), std::default_random_engine(Randomizer::getRandomEngineSeed()));
 
     return makeItem(items.at(0));
 }
