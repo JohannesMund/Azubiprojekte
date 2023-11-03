@@ -18,6 +18,10 @@ public:
      */
     CItem();
 
+    virtual ~CItem()
+    {
+    }
+
     /**
      * Default items have no power. Needs to be overwritten to un-junk the item
      */
@@ -30,27 +34,56 @@ public:
     {
     }
 
+    /**
+     * @brief useFromBattle
+     * Called, when an item is actively used from the inventory
+     */
     virtual void useFromBattle()
     {
     }
 
-    virtual void battleEffect(CEnemy*)
+    /**
+     * @brief battleEffect
+     * @param enemy the current opponent
+     * Called at the start of a battle
+     */
+    virtual void battleEffect(CEnemy* enemy)
     {
     }
 
-    virtual void durableBattleEffect(CEnemy*, bool& endRound)
+    /**
+     * @brief battleBuff
+     * called every turn of the battle before the combattants select their action
+     * @param enemy the current opponent
+     * @param endRound ends the turn before the combattants can select an action
+     */
+    virtual void battleBuff(CEnemy* enemy, bool& endTurn)
     {
     }
 
+    /**
+     * @brief shield
+     * Called, then the player recieved damage
+     * @param i the damage that the player is about to take
+     * @return the damage that is left after the shielding action
+     */
     virtual int shield(const unsigned int i)
     {
         return i;
     }
 
+    /**
+     * @brief deathEffect
+     * called whenever the player dies
+     */
     virtual void deathEffect()
     {
     }
 
+    /**
+     * @brief view
+     * Displays information abour the item
+     */
     virtual void view();
 
     /**
@@ -75,6 +108,12 @@ public:
      * @return the value of the item
      */
     unsigned int value() const;
+
+    /**
+     * @brief value
+     * @return the value, when a player wants to buy the item
+     */
+    virtual unsigned int buyValue() const;
 
     /**
      * @brief isUsableFromInventory

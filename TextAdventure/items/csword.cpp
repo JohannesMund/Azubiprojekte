@@ -33,6 +33,6 @@ void CSword::battleEffect(CEnemy* enemy)
     }
 }
 
-void CSword::durableBattleEffect(CEnemy* enemy, bool& endRound)
+void CSword::battleBuff(CEnemy* enemy, bool& endRound)
 {
 }

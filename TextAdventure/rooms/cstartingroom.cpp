@@ -16,12 +16,14 @@ void CStartingRoom::execute()
         Console::printLn("You can still see, where you woke up, when you started your adventure,");
         return;
     }
-    CRoom::execute();
 
+    Console::br();
+    Console::printLn("You whake up, somewhere.");
+    Console::printLn("You have not the slightest idea, where you are.");
     Console::printLn("You look around, and realize, that you are utterly defenseless. You need something to defend "
                      "yourself. Hidden beneath one of the bushes, you see a stick shaped like a sword. Or a sword "
                      "shaped like a stick. This should do.");
-
+    Console::br();
     char input;
     do
     {
@@ -29,11 +31,13 @@ void CStartingRoom::execute()
         input = Console::getAcceptableInput("tl");
         if (input == 't')
         {
+            Console::br();
             Console::printLn("You take the sword and equip ist. It looks good on you.");
             CGameManagement::getInventoryInstance()->addItem(ItemFactory::makeItem(ItemFactory::EItemType::eSword));
         }
         else
         {
+            Console::br();
             Console::printLn("Your parents always taught you, not to pick up stuff from the ground. Who knows wo owns "
                              "this sword. You leave the Sword where it is and turn around.");
             Console::printLn(
@@ -41,6 +45,7 @@ void CStartingRoom::execute()
         }
     } while (input != 't');
 
+    Console::br();
     Console::printLn("Having the sword, you look further. You still does not feel like a big, sturdy warrior. "
                      "Something is missing.");
     Console::printLn("Wait, is that...?");
@@ -49,20 +54,31 @@ void CStartingRoom::execute()
 
     do
     {
+        Console::br();
         Console::printLn("[T]ake it [L]eave it");
         input = Console::getAcceptableInput("tl");
         if (input == 't')
         {
+            Console::br();
             Console::printLn("You take the shield and equip ist. Now it feels complete.");
             CGameManagement::getInventoryInstance()->addItem(ItemFactory::makeItem(ItemFactory::EItemType::eShield));
         }
         else
         {
+            Console::br();
             Console::printLn("Ok, by now, you should have realized, that you will not leave without the shield. Let's "
                              "shorten this, ok?");
         }
     } while (input != 't');
+
     _encounterPossible = true;
+
+    Console::br();
+    Console::printLn(
+        "Now, that you are equipped, it is time to start your adventure. You look around where you are and find:");
+    Console::br();
+
+    CRoom::execute();
 }
 
 char CStartingRoom::mapSymbol()

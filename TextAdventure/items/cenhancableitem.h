@@ -1,5 +1,4 @@
-#ifndef CENHANCABLEITEM_H
-#define CENHANCABLEITEM_H
+#pragma once
 
 #include <citem.h>
 
@@ -20,5 +19,3 @@ public:
 protected:
     int _level = 0;
 };
-
-#endif // CENHANCABLEITEM_H

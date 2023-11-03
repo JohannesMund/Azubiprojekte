@@ -1,10 +1,14 @@
 #include "itemfactory.h"
 
 #include "chealingpotion.h"
-#include "cphoenixfeather.h"
 #include "cjunkitem.h"
+#include "cphoenixfeather.h"
 #include "cshield.h"
 #include "csword.h"
+#include "randomizer.h"
+
+#include <algorithm>
+#include <vector>
 
 CItem* ItemFactory::makeItem(const EItemType tp)
 {
@@ -30,4 +34,25 @@ CItem* ItemFactory::makeItem(const EItemType tp)
         break;
     }
     return nullptr;
+}
+
+CItem* ItemFactory::makeShopItem()
+{
+    std::vector<EItemType> items = {EItemType::eHealingPotionS,  EItemType::eHealingPotionS, EItemType::eHealingPotionS,
+                                    EItemType::eHealingPotionS,  EItemType::eHealingPotionS, EItemType::eHealingPotionS,
+                                    EItemType::eHealingPotionS,  EItemType::eHealingPotionS, EItemType::eHealingPotionS,
+                                    EItemType::eHealingPotionS,
+
+                                    EItemType::eHealingPotionM,  EItemType::eHealingPotionM, EItemType::eHealingPotionM,
+                                    EItemType::eHealingPotionM,  EItemType::eHealingPotionM,
+
+                                    EItemType::eHealingPotionL,  EItemType::eHealingPotionL, EItemType::eHealingPotionL,
+
+                                    EItemType::eHealingPotionXL,
+
+                                    EItemType::ePhoenixFeather};
+
+    std::shuffle(items.begin(), items.end(), Randomizer::getRandomEngine());
+
+    return makeItem(items.at(0));
 }

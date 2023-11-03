@@ -10,6 +10,10 @@ class CEnemy
 public:
     CEnemy();
 
+    virtual ~CEnemy()
+    {
+    }
+
     virtual void preBattle();
 
     virtual void preBattleAction();

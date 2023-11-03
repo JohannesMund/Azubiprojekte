@@ -9,10 +9,10 @@ set(TEXTADVENTURE_SOURCES
 
     console.h console.cpp
     ressources.h ressources.cpp
+    randomizer.h randomizer.cpp
 
     cgamemanagement.h cgamemanagement.cpp
     cplayer.h cplayer.cpp
-    randomizer.h randomizer.cpp
 
     cmap.h cmap.cpp
     cbattle.h cbattle.cpp
@@ -20,6 +20,10 @@ set(TEXTADVENTURE_SOURCES
     rooms/roomfactory.h rooms/roomfactory.cpp
     rooms/croom.h  rooms/croom.cpp
     rooms/cstartingroom.h rooms/cstartingroom.cpp
+    rooms/town/ctown.h rooms/town/ctown.cpp
+    rooms/town/cshop.h rooms/town/cshop.cpp
+    rooms/town/cchurch.h rooms/town/cchurch.cpp
+    rooms/town/cblacksmith.h rooms/town/cblacksmith.cpp
 
     enemies/cenemy.h enemies/cenemy.cpp
     enemies/cmobenemy.h enemies/cmobenemy.cpp
@@ -35,13 +39,13 @@ set(TEXTADVENTURE_SOURCES
     items/cphoenixfeather.h items/cphoenixfeather.cpp
 )
 
-add_executable(TextAdventure ${TEXTADVENTURE_SOURCES}
-    rooms/ctown.h rooms/ctown.cpp)
+add_executable(TextAdventure ${TEXTADVENTURE_SOURCES})
 
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR})
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/items)
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/enemies)
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/rooms)
+target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/rooms/town)
 
 include(GNUInstallDirs)
 install(TARGETS TextAdventure

@@ -26,9 +26,14 @@ void CInventory::addItem(CItem* item)
 
 void CInventory::removeItem(CItem* item)
 {
-    auto found = std::find_if(_inventory.begin(), _inventory.end(), CItem::nameFilter(item->name()));
+    removeItem(item->name());
+}
+void CInventory::removeItem(const std::string& name)
+{
+    auto found = std::find_if(_inventory.begin(), _inventory.end(), CItem::nameFilter(name));
     if (found != _inventory.end())
     {
+        delete *found;
         _inventory.erase(found);
     }
 }
@@ -38,8 +43,8 @@ void CInventory::print(const Scope& scope)
     Console::printLn("You look through your backpack and find the following:");
     printInventory(scope);
 
-    char input = ' ';
-    while (input != 'x')
+    char input;
+    do
     {
         auto acceptableInputs = printInventoryNav();
         input = Console::getAcceptableInput(acceptableInputs);
@@ -51,7 +56,7 @@ void CInventory::print(const Scope& scope)
         {
             printViewableItems();
         }
-    }
+    } while (input != 'x');
 }
 
 CInventory::ItemList CInventory::getItemsWithBattleEffect() const
@@ -92,7 +97,7 @@ void CInventory::useDurableBattleEffect(CItem* item, CEnemy* enemy, bool& endRou
         return;
     }
 
-    item->durableBattleEffect(enemy, endRound);
+    item->battleBuff(enemy, endRound);
     if (item->isConsumable())
     {
         removeItem(item);
@@ -168,6 +173,44 @@ CInventory::EnhancableItemList CInventory::getEnhancableItems() const
     return enhancableItems;
 }
 
+CInventory::CompressedItemMap CInventory::getSellableItems() const
+{
+    return getCompressedItemMap([](const CItem* item) { return item->isSellable(); });
+}
+
+CInventory::CompressedItemMap CInventory::getInventoryCompressedForScope(const Scope& scope) const
+{
+    return getCompressedItemMap([&scope](const CItem* item)
+                                { return usableInScope(item, scope) || scope == Scope::eList; });
+}
+
+CInventory::CompressedItemMap CInventory::getCompressedItemMap(std::function<bool(const CItem*)> filter) const
+{
+    CompressedItemMap itemMap;
+    for (auto item : _inventory)
+    {
+        if (!filter(item))
+        {
+            continue;
+        }
+
+        auto foundItem = std::find_if(itemMap.begin(),
+                                      itemMap.end(),
+                                      [&item](const std::pair<unsigned int, CItem*>& p) -> bool
+                                      { return p.second->name().compare(item->name()) == 0; });
+        if (foundItem == itemMap.end())
+        {
+            auto count =
+                std::count_if(_inventory.begin(),
+                              _inventory.end(),
+                              [&item](const CItem* it) -> bool { return it->name().compare(item->name()) == 0; });
+
+            itemMap.push_back(std::make_pair(count, item));
+        }
+    }
+    return itemMap;
+}
+
 void CInventory::printInventory(const Scope& scope)
 {
     auto itemMap = getInventoryCompressedForScope(scope);
@@ -212,34 +255,6 @@ std::string CInventory::printInventoryNav() const
     Console::printLn("[U]se Item [V]iew Item", Console::EAlignment::eRight);
     Console::printLn("E[x]it Inventory", Console::EAlignment::eRight);
     return "uvx";
-}
-
-CInventory::CompressedItemMap CInventory::getInventoryCompressedForScope(const Scope& scope)
-{
-
-    CompressedItemMap itemMap;
-    for (auto item : _inventory)
-    {
-        if (!usableInScope(item, scope) && scope != Scope::eList)
-        {
-            continue;
-        }
-
-        auto foundItem = std::find_if(itemMap.begin(),
-                                      itemMap.end(),
-                                      [&item](const std::pair<unsigned int, CItem*>& p) -> bool
-                                      { return p.second->name().compare(item->name()) == 0; });
-        if (foundItem == itemMap.end())
-        {
-            auto count =
-                std::count_if(_inventory.begin(),
-                              _inventory.end(),
-                              [&item](const CItem* it) -> bool { return it->name().compare(item->name()) == 0; });
-
-            itemMap.insert(std::make_pair(count, item));
-        }
-    }
-    return itemMap;
 }
 
 bool CInventory::usableInScope(const CItem* item, const Scope& scope)

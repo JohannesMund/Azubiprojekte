@@ -20,5 +20,6 @@ enum class EItemType
 };
 
 CItem* makeItem(const EItemType tp);
+CItem* makeShopItem();
 
 } // namespace ItemFactory

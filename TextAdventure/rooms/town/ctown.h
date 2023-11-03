@@ -1,9 +1,14 @@
 #pragma once
 
+#include "cblacksmith.h"
+#include "cchurch.h"
+#include "cinventory.h"
 #include "croom.h"
+#include "cshop.h"
 
 #include <string>
 
+class CItem;
 class CTown : public CRoom
 {
 public:
@@ -15,10 +20,9 @@ public:
 private:
     std::string _name;
 
-    void blacksmith();
-    void enhanceItem();
-
-    void church();
-    void shop();
     void tavern();
+
+    CShop _shop;
+    CChurch _church;
+    CBlackSmith _blackSmith;
 };

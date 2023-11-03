@@ -13,7 +13,7 @@ class CInventory
 {
 public:
     using CompressedItem = std::pair<unsigned int, CItem*>;
-    using CompressedItemMap = std::multimap<unsigned int, CItem*>;
+    using CompressedItemMap = std::vector<CompressedItem>;
     using ItemList = std::vector<CItem*>;
     using EnhancableItemList = std::vector<CEnhancableItem*>;
     using JunkItemList = std::vector<CJunkItem*>;
@@ -32,7 +32,9 @@ public:
 
     bool hasItem(const std::string& name);
     void addItem(CItem* item);
+
     void removeItem(CItem* item);
+    void removeItem(const std::string& name);
 
     void print(const Scope& scope = Scope::eNone);
 
@@ -51,12 +53,15 @@ public:
     JunkItemList getJunkItems() const;
     EnhancableItemList getEnhancableItems() const;
 
+    CompressedItemMap getSellableItems() const;
+
     void printInventory(const Scope& scope);
 
 private:
     std::string printInventoryNav() const;
 
-    CompressedItemMap getInventoryCompressedForScope(const Scope& scope);
+    CompressedItemMap getCompressedItemMap(std::function<bool(const CItem*)> filter) const;
+    CompressedItemMap getInventoryCompressedForScope(const Scope& scope) const;
 
     static bool usableInScope(const CItem* item, const Scope& scope);
 

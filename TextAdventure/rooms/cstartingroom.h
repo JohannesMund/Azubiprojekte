@@ -1,5 +1,4 @@
-#ifndef CSTARTINGROOM_H
-#define CSTARTINGROOM_H
+#pragma once
 
 #include <croom.h>
 
@@ -11,5 +10,3 @@ public:
     virtual void execute() override;
     virtual char mapSymbol() override;
 };
-
-#endif // CSTARTINGROOM_H

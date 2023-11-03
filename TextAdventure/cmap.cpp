@@ -7,6 +7,7 @@
 #include "ressources.h"
 #include "roomfactory.h"
 
+#include <algorithm>
 #include <iostream>
 
 const std::map<CMap::EDirections, char> CMap::_dirMap = {{EDirections::eNorth, 'n'},
@@ -58,7 +59,7 @@ void CMap::init()
         rooms.push_back(RoomFactory::makeRoom());
     }
 
-    Randomizer::shuffle(rooms);
+    std::shuffle(rooms.begin(), rooms.end(), Randomizer::getRandomEngine());
 
     for (int iRow = 0; iRow < _map.size(); iRow++)
     {
