@@ -1,10 +1,14 @@
 #include "itemfactory.h"
 
 #include "chealingpotion.h"
+#include "cjunkitem.h"
 #include "cphoenixfeather.h"
-#include "crubbishitem.h"
 #include "cshield.h"
 #include "csword.h"
+#include "randomizer.h"
+
+#include <algorithm>
+#include <vector>
 
 CItem* ItemFactory::makeItem(const EItemType tp)
 {
@@ -24,10 +28,31 @@ CItem* ItemFactory::makeItem(const EItemType tp)
         return new CSword();
     case EItemType::eShield:
         return new CShield();
-    case EItemType::eRubbishItem:
-        return new CRubbishItem();
+    case EItemType::eJunkItem:
+        return new CJunkItem();
     default:
         break;
     }
     return nullptr;
+}
+
+CItem* ItemFactory::makeShopItem()
+{
+    std::vector<EItemType> items = {EItemType::eHealingPotionS,  EItemType::eHealingPotionS, EItemType::eHealingPotionS,
+                                    EItemType::eHealingPotionS,  EItemType::eHealingPotionS, EItemType::eHealingPotionS,
+                                    EItemType::eHealingPotionS,  EItemType::eHealingPotionS, EItemType::eHealingPotionS,
+                                    EItemType::eHealingPotionS,
+
+                                    EItemType::eHealingPotionM,  EItemType::eHealingPotionM, EItemType::eHealingPotionM,
+                                    EItemType::eHealingPotionM,  EItemType::eHealingPotionM,
+
+                                    EItemType::eHealingPotionL,  EItemType::eHealingPotionL, EItemType::eHealingPotionL,
+
+                                    EItemType::eHealingPotionXL,
+
+                                    EItemType::ePhoenixFeather};
+
+    std::shuffle(items.begin(), items.end(), std::default_random_engine(Randomizer::getRandomEngineSeed()));
+
+    return makeItem(items.at(0));
 }

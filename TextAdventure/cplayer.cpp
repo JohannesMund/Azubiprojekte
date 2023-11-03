@@ -17,8 +17,23 @@ CPlayer::CPlayer()
 
 void CPlayer::print() const
 {
-    Console::printLn(std::format("HP: {}/{} Gold: {}", _hp, _maxHp, _gold));
-    Console::printLn(std::format("Level: {} Experience: {}/{}", _level, _xp, xpForNextLevel()));
+
+    auto playerString = std::format("HP: {}/{} Gold: {}", _hp, _maxHp, _gold);
+    auto playerExperience = std::format("Level: {} Experience: {}/{}", _level, _xp, xpForNextLevel());
+
+    if (CGameManagement::getCompanionInstance()->hasCompanion())
+    {
+        auto companionString = CGameManagement::getCompanionInstance()->name();
+        auto companionExperience = std::format("Level: {}", CGameManagement::getCompanionInstance()->level());
+        Console::printLnWithSpacer(playerString, companionString);
+        Console::printLnWithSpacer(playerExperience, companionExperience);
+    }
+    else
+    {
+        Console::printLn(playerString);
+        Console::printLn(playerExperience);
+    }
+
     Console::hr();
 }
 
@@ -40,6 +55,24 @@ void CPlayer::addHp(const int i)
     {
         _hp = _maxHp;
     }
+}
+
+void CPlayer::dealDamage(const int i, const bool bNoShield)
+{
+    int damage = i;
+    if (bNoShield == false)
+    {
+        auto items = CGameManagement::getInventoryInstance()->getItemsWithShieldingAction();
+        for (auto item : items)
+        {
+            damage = CGameManagement::getInventoryInstance()->useShieldingAction(item, damage);
+        }
+    }
+    else
+    {
+        Console::printLn("Your shield cannot help you this time.");
+    }
+    addHp(damage * -1);
 }
 
 void CPlayer::addMaxHp(const int i)
@@ -67,7 +100,7 @@ unsigned int CPlayer::level() const
     return _level;
 }
 
-unsigned int CPlayer::gold() const
+int CPlayer::gold() const
 {
     return _gold;
 }
@@ -115,6 +148,7 @@ void CPlayer::preBattle(CEnemy* enemy)
     {
         CGameManagement::getInventoryInstance()->useBattleEffect(item, enemy);
     }
+    CGameManagement::getCompanionInstance()->preBattle(enemy);
 }
 
 std::optional<CBattle::EWeapons> CPlayer::battleAction(CEnemy* enemy, bool& endRound)
@@ -132,6 +166,11 @@ std::optional<CBattle::EWeapons> CPlayer::battleAction(CEnemy* enemy, bool& endR
         {
             return {};
         }
+    }
+    CGameManagement::getCompanionInstance()->battleAction(enemy, endRound);
+    if (endRound || enemy->isDead())
+    {
+        return {};
     }
 
     while (true)
@@ -169,6 +208,7 @@ std::optional<CBattle::EWeapons> CPlayer::battleAction(CEnemy* enemy, bool& endR
 
 void CPlayer::postBattle(CEnemy* enemy)
 {
+    CGameManagement::getCompanionInstance()->postBattle(enemy);
 }
 
 std::string CPlayer::hpAsString() const

@@ -7,6 +7,7 @@
 #include "console.h"
 #include "ressources.h"
 
+#include <algorithm>
 #include <format>
 #include <iostream>
 #include <string>
@@ -21,12 +22,8 @@
 using namespace std;
 void Console::confirmToContinue()
 {
-    cout << "[Press any key to Continue]";
-#ifdef _USE_WINDOWS
-    _getch();
-#else
-    getchar();
-#endif
+    cout << "[Press [c] to Continue]";
+    getAcceptableInput("c");
     cout << endl;
 }
 
@@ -150,18 +147,31 @@ void Console::printLn(std::string text, const EAlignment align, const bool nobr)
 
 std::optional<int> Console::getNumberInputWithEcho(const int min, const int max)
 {
-    cout << std::format("[Enter number between {} and {} (or anything else to cancel)]", min, max);
 
-    setEcho(true);
-    int input;
-    cin >> input;
-    setEcho(false);
+    cout << std::format("[Enter number between {} and {} (or 'x' to cancel)]", min, max);
 
-    if (input >= min && input <= max)
+    while (true)
     {
-        return input;
+        setEcho(true);
+        std::string input;
+        cin >> input;
+        setEcho(false);
+
+        if (!input.empty() && std::all_of(input.begin(), input.end(), ::isdigit))
+        {
+            int dIn = std::stoi(input);
+
+            if (dIn >= min && dIn <= max)
+            {
+                return dIn;
+            }
+        }
+
+        if (input.find('x') != std::string::npos)
+        {
+            return {};
+        }
     }
-    return {};
 }
 
 void Console::printLnWithSpacer(const std::string& text1, const std::string& text2)

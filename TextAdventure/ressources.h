@@ -9,7 +9,7 @@ namespace Ressources
 namespace Settings
 {
 static const unsigned int consoleWidth = 80;
-}
+} // namespace Settings
 
 namespace Config
 {
@@ -39,12 +39,29 @@ std::pair<std::string, std::string> getRandomTown();
 namespace Items
 {
 std::pair<std::string, std::string> getRandomRubbishItems();
-}
+} // namespace Items
 
 namespace Enemies
 {
 std::string getRandomEnemyName();
 std::string getRandomEnemyWeapon();
 } // namespace Enemies
+
+namespace Companion
+{
+enum class ECompanionType
+{
+    eAttacker,
+    eDefender,
+    eHealer,
+    eScaryMonster
+};
+
+ECompanionType getRandomCompanionType();
+
+static const unsigned int companionLevelCap = 5;
+std::string nameForCompanionType(const ECompanionType& tp, const unsigned int level);
+std::string typeAsString(const ECompanionType& tp);
+} // namespace Companion
 
 } // namespace Ressources

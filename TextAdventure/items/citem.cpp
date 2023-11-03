@@ -2,6 +2,7 @@
 #include "cenhancableitem.h"
 #include "console.h"
 
+#include <cmath>
 #include <format>
 
 using namespace std;
@@ -77,11 +78,6 @@ std::function<bool(const CItem*)> CItem::deathEffectFilter()
     return [](const CItem* item) { return item->hasDeathEffect(); };
 }
 
-std::function<bool(const CItem*)> CItem::enhancableItemFilter()
-{
-    return [](const CItem* item) -> bool { return dynamic_cast<const CEnhancableItem*>(item) != nullptr; };
-}
-
 string CItem::name() const
 {
     return _name;
@@ -90,4 +86,19 @@ string CItem::name() const
 string CItem::description() const
 {
     return _description;
+}
+
+bool CItem::isSellable() const
+{
+    return _isSellable;
+}
+
+unsigned int CItem::value() const
+{
+    return _value;
+}
+
+unsigned int CItem::buyValue() const
+{
+    return std::floor(_value * 1.5);
 }

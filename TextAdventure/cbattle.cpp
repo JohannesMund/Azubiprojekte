@@ -40,17 +40,17 @@ void CBattle::fight()
 
         auto result = Randomizer::getRandom(10);
 
-        if (result < 5)
+        if (result < 3)
         {
             Console::printLn(
                 std::format("You are much faster than {}, so it was easy and you escape.", _enemy->name()));
             return;
         }
-        else if (result < 9)
+        else if (result < 6)
         {
             Console::printLn(
                 std::format("This {} is pretty fast, you manage to escape, but you got hit.", _enemy->name()));
-            CGameManagement::getPlayerInstance()->addHp(-1);
+            CGameManagement::getPlayerInstance()->dealDamage(1, true);
             return;
         }
         else
@@ -123,23 +123,12 @@ void CBattle::battleLoop()
             {
             case CBattle::EBattleResult::eWon:
                 Console::printLn("You hit the enemy.");
-                _enemy->addHp(-1);
+                _enemy->dealDamage(1);
                 break;
             case CBattle::EBattleResult::eLost:
             {
                 Console::printLn("You got hit.");
-
-                int damage = 1;
-                auto items = CGameManagement::getInventoryInstance()->getItemsWithShieldingAction();
-                for (auto item : items)
-                {
-                    damage = CGameManagement::getInventoryInstance()->useShieldingAction(item, damage);
-                }
-                if (damage > 0)
-                {
-                    CGameManagement::getPlayerInstance()->addHp(-1);
-                }
-
+                CGameManagement::getPlayerInstance()->dealDamage(1);
                 break;
             }
             case CBattle::EBattleResult::eTie:
@@ -156,6 +145,15 @@ void CBattle::battleLoop()
 
 void CBattle::postBattle()
 {
+    if (!_enemy->isDead())
+    {
+        _enemy->postBattle();
+    }
+
+    if (!CGameManagement::getPlayerInstance()->isDead())
+    {
+        CGameManagement::getPlayerInstance()->postBattle(_enemy);
+    }
 }
 
 bool CBattle::doesPlayerGoFirst()

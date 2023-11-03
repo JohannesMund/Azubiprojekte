@@ -58,7 +58,7 @@ void CMobEnemy::battleAction(bool& endRound)
     if (_specialAttackChance > 0 && Randomizer::getRandom(_specialAttackChance) == 0)
     {
         Console::printLn("Special Attack!");
-        CGameManagement::getPlayerInstance()->addHp(-1);
+        CGameManagement::getPlayerInstance()->dealDamage(1);
         endRound = true;
     }
     CEnemy::battleAction(endRound);

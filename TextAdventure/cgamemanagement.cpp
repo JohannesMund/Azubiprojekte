@@ -1,5 +1,6 @@
 #include "cgamemanagement.h"
 
+#include "companionfactory.h"
 #include "console.h"
 #include "croom.h"
 #include "items/itemfactory.h"
@@ -39,6 +40,11 @@ CMap* CGameManagement::getMapInstance()
     return getInstance()->getMap();
 }
 
+CCompanion* CGameManagement::getCompanionInstance()
+{
+    return getInstance()->getCompanion();
+}
+
 void CGameManagement::start()
 {
     init();
@@ -60,8 +66,14 @@ CInventory* CGameManagement::getInventory()
     return &_inventory;
 }
 
+CCompanion* CGameManagement::getCompanion()
+{
+    return _companion;
+}
+
 void CGameManagement::printHUD()
 {
+
     Console::hr();
     _player.print();
 }
@@ -182,9 +194,9 @@ void CGameManagement::init()
 
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::ePhoenixFeather));
 
-    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eRubbishItem));
-    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eRubbishItem));
-    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eRubbishItem));
+    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eJunkItem));
+    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eJunkItem));
+    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eJunkItem));
 
     Randomizer::init();
 
@@ -216,4 +228,10 @@ void CGameManagement::lookForTrouble()
 
 CGameManagement::CGameManagement()
 {
+    _companion = CompanionFactory::getRandomCompanion();
+}
+
+CGameManagement::~CGameManagement()
+{
+    delete _companion;
 }

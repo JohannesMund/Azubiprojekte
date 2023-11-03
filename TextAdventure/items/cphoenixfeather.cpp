@@ -11,8 +11,10 @@ CPhoenixFeather::CPhoenixFeather()
     _description =
         "A huge feather glowing magically in red, orange and yellow. It looks a little bit as if it is burning.";
 
+    _value = 5000;
     _hasDeathEffect = true;
     _isConsumable = true;
+    _isSellable = true;
 }
 
 void CPhoenixFeather::deathEffect()

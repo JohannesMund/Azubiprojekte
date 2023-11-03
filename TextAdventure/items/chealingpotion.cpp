@@ -17,28 +17,31 @@ CHealingPotion::CHealingPotion(const PotionSize& size) : CItem()
     case PotionSize::S:
         _name = "Small " + _name;
         _description.append("\nThe bottle is tiny and not completely full.");
+        _value = 50;
         break;
     case PotionSize::M:
     default:
+        _value = 75;
         break;
     case PotionSize::L:
         _name = "Large " + _name;
         _description.append("\nThe bottle is pretty big.");
+        _value = 150;
         break;
     case PotionSize::XL:
         _name = "Huge " + _name;
         _description.append("\nTHe bottle is huge, and filled to the brim.");
-
+        _value = 500;
         break;
     }
     _size = size;
     _isConsumable = true;
     _isUsableFromInventory = true;
     _isUsableFromBattle = true;
+    _isSellable = true;
 }
 
 void CHealingPotion::useFromInventory()
-
 {
     Console::printLn("You open the bottle, and swallow it in one draw. Healing potions are disgusting!");
     use();

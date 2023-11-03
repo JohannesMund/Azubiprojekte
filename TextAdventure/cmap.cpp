@@ -1,4 +1,5 @@
 #include "cmap.h"
+#include "cinjuredpet.h"
 #include "console.h"
 #include "croom.h"
 #include "cstartingroom.h"
@@ -7,6 +8,7 @@
 #include "ressources.h"
 #include "roomfactory.h"
 
+#include <algorithm>
 #include <iostream>
 
 const std::map<CMap::EDirections, char> CMap::_dirMap = {{EDirections::eNorth, 'n'},
@@ -48,6 +50,8 @@ void CMap::init()
 {
     std::vector<CRoom*> rooms;
 
+    rooms.push_back(RoomFactory::makeInjuredPet());
+
     for (int i = 0; i < Ressources::Config::numberOfTowns; i++)
     {
         rooms.push_back(RoomFactory::makeTown());
@@ -58,7 +62,7 @@ void CMap::init()
         rooms.push_back(RoomFactory::makeRoom());
     }
 
-    Randomizer::shuffle(rooms);
+    std::shuffle(rooms.begin(), rooms.end(), std::default_random_engine(Randomizer::getRandomEngineSeed()));
 
     for (int iRow = 0; iRow < _map.size(); iRow++)
     {
@@ -194,10 +198,24 @@ void CMap::printRoom(const SRoomCoords& coords, const int line)
     using namespace std;
 
     auto room = roomAt(coords);
-    if (room == nullptr || room->seen() == false)
+    if (room == nullptr)
     {
         cout << "   ";
         return;
+    }
+
+    if (room->seen() == false)
+    {
+        if (room->showInFogOfWar() && line == 2)
+        {
+            cout << " " << mapSymbol(coords) << " ";
+            return;
+        }
+        else
+        {
+            cout << "   ";
+            return;
+        }
     }
 
     bool left = navAvailable(coords, EDirections::eWest);
