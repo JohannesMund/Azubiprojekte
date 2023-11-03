@@ -11,6 +11,6 @@ void init();
 
 unsigned int getRandom(const unsigned int max);
 
-std::mt19937 getRandomEngine();
+unsigned int getRandomEngineSeed();
 
 } // namespace Randomizer

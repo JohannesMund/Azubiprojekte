@@ -13,7 +13,13 @@ set(TEXTADVENTURE_SOURCES
 
     cgamemanagement.h cgamemanagement.cpp
     cplayer.h cplayer.cpp
-    ccompanion.h ccompanion.cpp
+
+    companion/companionfactory.h companion/companionfactory.cpp
+    companion/ccompanion.h companion/ccompanion.cpp
+    companion/cattackercompanion.h companion/cattackercompanion.cpp
+    companion/cdefendercompanion.h companion/cdefendercompanion.cpp
+    companion/chealercompanion.h companion/chealercompanion.cpp
+    companion/cscarymonstercompanion.h companion/cscarymonstercompanion.cpp
 
     cmap.h cmap.cpp
     cbattle.h cbattle.cpp
@@ -27,6 +33,8 @@ set(TEXTADVENTURE_SOURCES
     rooms/town/cshop.h rooms/town/cshop.cpp
     rooms/town/cchurch.h rooms/town/cchurch.cpp
     rooms/town/cblacksmith.h rooms/town/cblacksmith.cpp
+    rooms/town/cfarm.h rooms/town/cfarm.cpp
+    rooms/town/ctownmodule.h rooms/town/ctownmodule.cpp
 
     enemies/cenemy.h enemies/cenemy.cpp
     enemies/cmobenemy.h enemies/cmobenemy.cpp
@@ -44,7 +52,9 @@ set(TEXTADVENTURE_SOURCES
 
 add_executable(TextAdventure ${TEXTADVENTURE_SOURCES})
 
+
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR})
+target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/companion)
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/items)
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/enemies)
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/rooms)

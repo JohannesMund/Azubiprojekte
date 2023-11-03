@@ -62,7 +62,7 @@ void CMap::init()
         rooms.push_back(RoomFactory::makeRoom());
     }
 
-    std::shuffle(rooms.begin(), rooms.end(), Randomizer::getRandomEngine());
+    std::shuffle(rooms.begin(), rooms.end(), std::default_random_engine(Randomizer::getRandomEngineSeed()));
 
     for (int iRow = 0; iRow < _map.size(); iRow++)
     {

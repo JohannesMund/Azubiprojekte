@@ -22,12 +22,8 @@
 using namespace std;
 void Console::confirmToContinue()
 {
-    cout << "[Press any key to Continue]";
-#ifdef _USE_WINDOWS
-    _getch();
-#else
-    getchar();
-#endif
+    cout << "[Press [c] to Continue]";
+    getAcceptableInput("c");
     cout << endl;
 }
 
@@ -58,7 +54,6 @@ char Console::getAcceptableInput(string acceptableChars)
     while (!found)
     {
         input = getchar();
-
         if (acceptableChars.find(input) != string::npos)
         {
             found = true;

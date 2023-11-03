@@ -2,6 +2,7 @@
 #include "cenhancableitem.h"
 #include "console.h"
 
+#include <cmath>
 #include <format>
 
 using namespace std;

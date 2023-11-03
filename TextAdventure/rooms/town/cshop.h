@@ -1,17 +1,17 @@
 #pragma once
 
 #include "cinventory.h"
+#include "ctownmodule.h"
 
 #include <vector>
 
 class CItem;
-class CShop
+class CShop : public CTownModule
 {
 public:
     CShop();
 
     void execute();
-    void setCityName(const std::string& s);
 
 private:
     void sellJunk(CInventory::JunkItemList& junkItems);
@@ -22,7 +22,6 @@ private:
 
     void replaceShopItems();
     std::vector<CItem*> _shopItems;
-    std::string _cityName;
 
     unsigned int _playerLevel;
 };

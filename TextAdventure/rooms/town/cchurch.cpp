@@ -32,8 +32,3 @@ void CChurch::execute()
 
     } while (input != 'x');
 }
-
-void CChurch::setCityName(const std::string& s)
-{
-    _cityName = s;
-}

@@ -72,11 +72,6 @@ void CShop::execute()
     } while (input != 'x');
 }
 
-void CShop::setCityName(const std::string& s)
-{
-    _cityName = s;
-}
-
 void CShop::sellJunk(CInventory::JunkItemList& junkItems)
 {
     for (auto j : junkItems)
@@ -116,8 +111,6 @@ void CShop::buyItems()
             buyItem(buyableItems.at(*input - 1));
         }
     }
-
-    Console::confirmToContinue();
 }
 
 void CShop::sellItems()
@@ -160,8 +153,6 @@ void CShop::sellItems()
     {
         sellItem(item.second);
     }
-
-    Console::confirmToContinue();
 }
 
 void CShop::buyItem(CItem* item)
@@ -175,12 +166,13 @@ void CShop::buyItem(CItem* item)
         _shopItems.erase(it);
         _shopItems.push_back(ItemFactory::makeShopItem());
     }
+    Console::confirmToContinue();
 }
 
 void CShop::sellItem(CItem* item)
 {
     CGameManagement::getPlayerInstance()->addGold(item->value());
-    CGameManagement::getInventoryInstance()->removeItem(item);
+    CGameManagement::getInventoryInstance()->removeItem(item->name());
 }
 
 void CShop::replaceShopItems()

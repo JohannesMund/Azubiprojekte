@@ -1,5 +1,6 @@
 #include "cgamemanagement.h"
 
+#include "companionfactory.h"
 #include "console.h"
 #include "croom.h"
 #include "items/itemfactory.h"
@@ -67,7 +68,7 @@ CInventory* CGameManagement::getInventory()
 
 CCompanion* CGameManagement::getCompanion()
 {
-    return &_companion;
+    return _companion;
 }
 
 void CGameManagement::printHUD()
@@ -226,4 +227,10 @@ void CGameManagement::lookForTrouble()
 
 CGameManagement::CGameManagement()
 {
+    _companion = CompanionFactory::getRandomCompanion();
+}
+
+CGameManagement::~CGameManagement()
+{
+    delete _companion;
 }

@@ -22,7 +22,7 @@ private:
     CMap _map;
     CPlayer _player;
     CInventory _inventory;
-    CCompanion _companion;
+    CCompanion* _companion;
 
     bool _isGameOver = false;
 
@@ -44,4 +44,5 @@ private:
     CCompanion* getCompanion();
 
     CGameManagement();
+    ~CGameManagement();
 };

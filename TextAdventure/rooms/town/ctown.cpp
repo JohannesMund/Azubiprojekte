@@ -13,6 +13,8 @@ CTown::CTown()
 
     _shop.setCityName(_name);
     _church.setCityName(_name);
+    _farm.setCityName(_name);
+    _blackSmith.setCityName(_name);
 }
 
 void CTown::execute()
@@ -72,5 +74,5 @@ void CTown::tavern()
 
 void CTown::farm()
 {
-    Console::printLn("To be opened soon");
+    _farm.execute();
 }

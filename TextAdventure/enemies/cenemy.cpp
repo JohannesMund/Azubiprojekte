@@ -91,6 +91,11 @@ void CEnemy::addHp(const int i)
     }
 }
 
+void CEnemy::dealDamage(const int i)
+{
+    addHp(i * -1);
+}
+
 unsigned int CEnemy::hp() const
 {
     return _hp;

@@ -2,6 +2,7 @@
 
 #include "cblacksmith.h"
 #include "cchurch.h"
+#include "cfarm.h"
 #include "cinventory.h"
 #include "croom.h"
 #include "cshop.h"
@@ -26,4 +27,5 @@ private:
     CShop _shop;
     CChurch _church;
     CBlackSmith _blackSmith;
+    CFarm _farm;
 };

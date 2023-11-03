@@ -96,10 +96,10 @@ std::pair<std::string, std::string> Ressources::Rooms::getRandomTown()
 std::string Ressources::Companion::nameForCompanionType(const ECompanionType& tp, const unsigned int level)
 {
     std::map<ECompanionType, std::vector<std::string>> companions = {
-        {ECompanionType::eBird, {"Chick", "Sparrow", "Parrot", "Griffon", "Phoenix"}},
-        {ECompanionType::eDog, {"Whelp", "Dog", "Wolf", "Ice wolf", "Cerberus"}},
-        {ECompanionType::eCat, {"Kitten", "Cat", "Lynx", "Tiger", "Sphinx"}},
-        {ECompanionType::eDragon,
+        {ECompanionType::eHealer, {"Chick", "Sparrow", "Parrot", "Griffon", "Phoenix"}},
+        {ECompanionType::eDefender, {"Whelp", "Dog", "Wolf", "Ice wolf", "Cerberus"}},
+        {ECompanionType::eAttacker, {"Kitten", "Cat", "Lynx", "Tiger", "Sphinx"}},
+        {ECompanionType::eScaryMonster,
          {"Baby Dragon", "Young Dragon", "Adult Dragon", "Old Dragon", "Ancient Hellfire Dragon"}}};
 
     return companions.at(tp).at(std::min(companionLevelCap, std::max(level, 1U)) - 1);
@@ -108,24 +108,44 @@ std::string Ressources::Companion::nameForCompanionType(const ECompanionType& tp
 Ressources::Companion::ECompanionType Ressources::Companion::getRandomCompanionType()
 {
     std::vector<ECompanionType> v;
-    v.push_back(ECompanionType::eCat);
-    v.push_back(ECompanionType::eCat);
-    v.push_back(ECompanionType::eCat);
-    v.push_back(ECompanionType::eCat);
-    v.push_back(ECompanionType::eCat);
+    v.push_back(ECompanionType::eAttacker);
+    v.push_back(ECompanionType::eAttacker);
+    v.push_back(ECompanionType::eAttacker);
+    v.push_back(ECompanionType::eAttacker);
+    v.push_back(ECompanionType::eAttacker);
 
-    v.push_back(ECompanionType::eDog);
-    v.push_back(ECompanionType::eDog);
-    v.push_back(ECompanionType::eDog);
-    v.push_back(ECompanionType::eDog);
-    v.push_back(ECompanionType::eDog);
+    v.push_back(ECompanionType::eDefender);
+    v.push_back(ECompanionType::eDefender);
+    v.push_back(ECompanionType::eDefender);
+    v.push_back(ECompanionType::eDefender);
+    v.push_back(ECompanionType::eDefender);
 
-    v.push_back(ECompanionType::eBird);
-    v.push_back(ECompanionType::eBird);
-    v.push_back(ECompanionType::eBird);
+    v.push_back(ECompanionType::eHealer);
+    v.push_back(ECompanionType::eHealer);
+    v.push_back(ECompanionType::eHealer);
 
-    v.push_back(ECompanionType::eDragon);
+    v.push_back(ECompanionType::eScaryMonster);
 
-    std::shuffle(v.begin(), v.end(), Randomizer::getRandomEngine());
+    std::shuffle(v.begin(), v.end(), std::default_random_engine(Randomizer::getRandomEngineSeed()));
     return v.at(0);
+}
+
+std::string Ressources::Companion::typeAsString(const ECompanionType& tp)
+{
+    switch (tp)
+    {
+    case ECompanionType::eAttacker:
+        return "fighter";
+        break;
+    case ECompanionType::eDefender:
+        return "protector";
+        break;
+    case ECompanionType::eHealer:
+        return "healer";
+        break;
+    case ECompanionType::eScaryMonster:
+        return "scary monster";
+        break;
+    }
+    return "";
 }

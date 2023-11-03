@@ -33,6 +33,7 @@ public:
     bool hasExtendedWeaponChoice() const;
 
     void addHp(const int i);
+    void dealDamage(const int i);
     unsigned int hp() const;
 
     std::optional<CBattle::EWeapons> peek();

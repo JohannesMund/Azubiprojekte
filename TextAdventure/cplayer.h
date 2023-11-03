@@ -14,12 +14,13 @@ public:
 
     void addGold(const int i);
     void addHp(const int i);
+    void dealDamage(const int i, const bool bNoShield = false);
     void addMaxHp(const int i);
 
     bool isDead() const;
 
     unsigned int level() const;
-    unsigned int gold() const;
+    int gold() const;
 
     void addXp(const int i);
     void levelUp();

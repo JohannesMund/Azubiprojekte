@@ -1,14 +1,11 @@
 #pragma once
+#include "ctownmodule.h"
 
 #include <string>
 
-class CChurch
+class CChurch : public CTownModule
 {
 public:
     CChurch();
-    void execute();
-    void setCityName(const std::string& s);
-
-private:
-    std::string _cityName;
+    virtual void execute() override;
 };

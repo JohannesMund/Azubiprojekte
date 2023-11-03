@@ -57,6 +57,24 @@ void CPlayer::addHp(const int i)
     }
 }
 
+void CPlayer::dealDamage(const int i, const bool bNoShield)
+{
+    int damage = i;
+    if (bNoShield == false)
+    {
+        auto items = CGameManagement::getInventoryInstance()->getItemsWithShieldingAction();
+        for (auto item : items)
+        {
+            damage = CGameManagement::getInventoryInstance()->useShieldingAction(item, damage);
+        }
+    }
+    else
+    {
+        Console::printLn("Your shield cannot help you this time.");
+    }
+    addHp(damage * -1);
+}
+
 void CPlayer::addMaxHp(const int i)
 {
     _maxHp += i;
@@ -82,7 +100,7 @@ unsigned int CPlayer::level() const
     return _level;
 }
 
-unsigned int CPlayer::gold() const
+int CPlayer::gold() const
 {
     return _gold;
 }

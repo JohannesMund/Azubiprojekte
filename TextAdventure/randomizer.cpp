@@ -15,8 +15,7 @@ void Randomizer::init()
     std::srand(std::time(nullptr));
 }
 
-std::mt19937 Randomizer::getRandomEngine()
+unsigned int Randomizer::getRandomEngineSeed()
 {
-    unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
-    return std::default_random_engine{seed};
+    return std::chrono::system_clock::now().time_since_epoch().count();
 }

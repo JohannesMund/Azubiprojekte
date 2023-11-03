@@ -1,14 +1,13 @@
-#ifndef CBLACKSMITH_H
-#define CBLACKSMITH_H
+#pragma once
 
-class CBlackSmith
+#include "ctownmodule.h"
+
+class CBlackSmith : public CTownModule
 {
 public:
     CBlackSmith();
-    void execute();
+    virtual void execute() override;
 
 private:
     void enhanceItem();
 };
-
-#endif // CBLACKSMITH_H
