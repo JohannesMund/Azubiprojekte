@@ -21,6 +21,7 @@ private:
     std::string _name;
 
     void tavern();
+    void farm();
 
     CShop _shop;
     CChurch _church;

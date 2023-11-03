@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include <ccompanion.h>
+
 namespace Ressources
 {
 
@@ -46,5 +48,13 @@ namespace Enemies
 std::string getRandomEnemyName();
 std::string getRandomEnemyWeapon();
 } // namespace Enemies
+
+namespace Companion
+{
+
+static const unsigned int companionLevelCap = 5;
+
+std::string nameForCompanionType(const CCompanion::ECompanionType& tp, const unsigned int level);
+} // namespace Companion
 
 } // namespace Ressources

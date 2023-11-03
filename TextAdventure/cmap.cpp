@@ -1,4 +1,5 @@
 #include "cmap.h"
+#include "cinjuredpet.h"
 #include "console.h"
 #include "croom.h"
 #include "cstartingroom.h"
@@ -48,6 +49,8 @@ CMap::~CMap()
 void CMap::init()
 {
     std::vector<CRoom*> rooms;
+
+    rooms.push_back(RoomFactory::makeInjuredPet());
 
     for (int i = 0; i < Ressources::Config::numberOfTowns; i++)
     {
@@ -195,10 +198,24 @@ void CMap::printRoom(const SRoomCoords& coords, const int line)
     using namespace std;
 
     auto room = roomAt(coords);
-    if (room == nullptr || room->seen() == false)
+    if (room == nullptr)
     {
         cout << "   ";
         return;
+    }
+
+    if (room->seen() == false)
+    {
+        if (room->showInFogOfWar() && line == 2)
+        {
+            cout << " " << mapSymbol(coords) << " ";
+            return;
+        }
+        else
+        {
+            cout << "   ";
+            return;
+        }
     }
 
     bool left = navAvailable(coords, EDirections::eWest);

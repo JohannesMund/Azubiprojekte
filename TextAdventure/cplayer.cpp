@@ -17,8 +17,23 @@ CPlayer::CPlayer()
 
 void CPlayer::print() const
 {
-    Console::printLn(std::format("HP: {}/{} Gold: {}", _hp, _maxHp, _gold));
-    Console::printLn(std::format("Level: {} Experience: {}/{}", _level, _xp, xpForNextLevel()));
+
+    auto playerString = std::format("HP: {}/{} Gold: {}", _hp, _maxHp, _gold);
+    auto playerExperience = std::format("Level: {} Experience: {}/{}", _level, _xp, xpForNextLevel());
+
+    if (CGameManagement::getCompanionInstance()->hasCompanion())
+    {
+        auto companionString = CGameManagement::getCompanionInstance()->name();
+        auto companionExperience = std::format("Level: {}", CGameManagement::getCompanionInstance()->level());
+        Console::printLnWithSpacer(playerString, companionString);
+        Console::printLnWithSpacer(playerExperience, companionExperience);
+    }
+    else
+    {
+        Console::printLn(playerString);
+        Console::printLn(playerExperience);
+    }
+
     Console::hr();
 }
 

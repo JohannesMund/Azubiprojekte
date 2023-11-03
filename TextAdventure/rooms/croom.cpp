@@ -74,6 +74,11 @@ void CRoom::setSeen(const bool b)
     _seen = b;
 }
 
+bool CRoom::showInFogOfWar() const
+{
+    return _showInFogOfWar;
+}
+
 char CRoom::mapSymbol()
 {
     return '+';

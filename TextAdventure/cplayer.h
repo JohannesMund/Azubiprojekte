@@ -25,6 +25,7 @@ public:
     void levelUp();
 
     std::string printBattleNav(const bool extended);
+
     void preBattle(CEnemy* enemy);
     std::optional<CBattle::EWeapons> battleAction(CEnemy* enemy, bool& endRound);
     void postBattle(CEnemy* enemy);

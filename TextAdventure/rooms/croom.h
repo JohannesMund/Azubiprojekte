@@ -19,6 +19,8 @@ public:
     bool seen() const;
     void setSeen(const bool b);
 
+    bool showInFogOfWar() const;
+
     virtual char mapSymbol();
     virtual void execute();
 
@@ -28,8 +30,8 @@ protected:
     bool _pathSouth = true;
     bool _pathWest = true;
 
-    bool _encounterPossible = false;
-
+    bool _encounterPossible = true;
+    bool _showInFogOfWar = false;
     bool _seen = false;
     std::string _description;
 };

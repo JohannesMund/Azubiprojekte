@@ -156,7 +156,6 @@ public:
      * @remark this is checked everytime the item is used. so when the item has charges or so, set consumable to true,
      * when the charges are used up.
      */
-
     bool isConsumable() const;
 
     /**

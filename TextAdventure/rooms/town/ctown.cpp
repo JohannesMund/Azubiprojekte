@@ -1,4 +1,5 @@
 #include "ctown.h"
+#include "cgamemanagement.h"
 #include "console.h"
 #include "ressources.h"
 
@@ -23,9 +24,19 @@ void CTown::execute()
         Console::br();
         CRoom::execute();
         Console::hr();
-        Console::printLn("[B]lacksmith [C]hurch [T]avern [S]hop E[x]it");
 
-        input = Console::getAcceptableInput("bctsx");
+        std::string navs = "[B]lacksmith [C]hurch [T]avern [S]hop";
+        std::string acceptableInputs = "bcts";
+        if (CGameManagement::getCompanionInstance()->hasCompanion())
+        {
+            navs.append(" [F]arm");
+            acceptableInputs.append("f");
+        }
+
+        Console::printLnWithSpacer(navs, "E[x]it");
+        acceptableInputs.append("x");
+
+        input = Console::getAcceptableInput(acceptableInputs);
         if (input == 'b')
         {
             _blackSmith.execute();
@@ -34,13 +45,17 @@ void CTown::execute()
         {
             _church.execute();
         }
+        if (input == 's')
+        {
+            _shop.execute();
+        }
         if (input == 't')
         {
             tavern();
         }
-        if (input == 's')
+        if (input == 'f')
         {
-            _shop.execute();
+            farm();
         }
     } while (input != 'x');
 }
@@ -52,4 +67,10 @@ char CTown::mapSymbol()
 
 void CTown::tavern()
 {
+    Console::printLn("To be opened soon");
+}
+
+void CTown::farm()
+{
+    Console::printLn("To be opened soon");
 }

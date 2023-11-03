@@ -13,6 +13,7 @@ set(TEXTADVENTURE_SOURCES
 
     cgamemanagement.h cgamemanagement.cpp
     cplayer.h cplayer.cpp
+    ccompanion.h ccompanion.cpp
 
     cmap.h cmap.cpp
     cbattle.h cbattle.cpp
@@ -20,6 +21,8 @@ set(TEXTADVENTURE_SOURCES
     rooms/roomfactory.h rooms/roomfactory.cpp
     rooms/croom.h  rooms/croom.cpp
     rooms/cstartingroom.h rooms/cstartingroom.cpp
+    rooms/cinjuredpet.h rooms/cinjuredpet.cpp
+
     rooms/town/ctown.h rooms/town/ctown.cpp
     rooms/town/cshop.h rooms/town/cshop.cpp
     rooms/town/cchurch.h rooms/town/cchurch.cpp

@@ -1,6 +1,9 @@
 #include "ressources.h"
 #include "randomizer.h"
 
+#include <algorithm>
+#include <map>
+
 std::string Ressources::Rooms::getRandomDescription()
 {
     std::vector<std::string> _roomDescriptions = {
@@ -75,4 +78,16 @@ std::pair<std::string, std::string> Ressources::Rooms::getRandomTown()
         {"Bruchtal", "City of man, capital of the land."},
         {"Mudpool", "The Home of the trolls. Everything is dirty and stinky here."}};
     return towns.at(Randomizer::getRandom(towns.size()));
+}
+
+std::string Ressources::Companion::nameForCompanionType(const CCompanion::ECompanionType& tp, const unsigned int level)
+{
+    std::map<CCompanion::ECompanionType, std::vector<std::string>> companions = {
+        {CCompanion::ECompanionType::eBird, {"Chick", "Sparrow", "Parrot", "Griffon", "Phoenix"}},
+        {CCompanion::ECompanionType::eDog, {"Whelp", "Dog", "Wolf", "Ice wolf", "Cerberus"}},
+        {CCompanion::ECompanionType::eCat, {"Kitten", "Cat", "Lynx", "Tiger", "Sphinx"}},
+        {CCompanion::ECompanionType::eDragon,
+         {"Baby Dragon", "Young Dragon", "Adult Dragon", "Old Dragon", "Ancient Hellfire Dragon"}}};
+
+    return companions.at(tp).at(std::min(Ressources::Companion::companionLevelCap, std::max(level, 1U)) - 1);
 }
