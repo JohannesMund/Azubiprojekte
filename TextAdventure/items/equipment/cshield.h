@@ -1,8 +1,8 @@
 #pragma once
-#include "cenhancableitem.h"
+#include "cequipment.h"
 
 class CEnemy;
-class CShield : public CEnhancableItem
+class CShield : public CEquipment
 {
 public:
     CShield();

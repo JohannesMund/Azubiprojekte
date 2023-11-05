@@ -1,9 +1,9 @@
 #pragma once
 
-#include "cenhancableitem.h"
+#include "cequipment.h"
 
 class CEnemy;
-class CSword : public CEnhancableItem
+class CSword : public CEquipment
 {
 public:
     CSword();

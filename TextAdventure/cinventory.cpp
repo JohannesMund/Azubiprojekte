@@ -1,5 +1,5 @@
 #include "cinventory.h"
-#include "cenhancableitem.h"
+#include "cequipment.h"
 #include "cjunkitem.h"
 #include "console.h"
 
@@ -171,9 +171,9 @@ CInventory::JunkItemList CInventory::getJunkItems() const
 CInventory::EnhancableItemList CInventory::getEnhancableItems() const
 {
     EnhancableItemList enhancableItems;
-    for (const auto item : _inventory | std::views::filter(CEnhancableItem::enhancableItemFilter()))
+    for (const auto item : _inventory | std::views::filter(CEquipment::enhancableItemFilter()))
     {
-        auto enhancableItem = dynamic_cast<CEnhancableItem*>(item);
+        auto enhancableItem = dynamic_cast<CEquipment*>(item);
         if (enhancableItem != nullptr)
         {
             enhancableItems.push_back(enhancableItem);

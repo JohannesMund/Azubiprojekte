@@ -1,5 +1,5 @@
 #include "cblacksmith.h"
-#include "cenhancableitem.h"
+#include "cequipment.h"
 #include "cgamemanagement.h"
 #include "console.h"
 
@@ -41,10 +41,10 @@ void CBlackSmith::enhanceItem()
         return;
     }
 
-    auto enhancementCostForItem = [](const CEnhancableItem* i) { return 150 + (i->level() * 150 * i->level() * 2); };
+    auto enhancementCostForItem = [](const CEquipment* i) { return 150 + (i->level() * 150 * i->level() * 2); };
 
     int number = 0;
-    std::vector<CEnhancableItem*> enhancableItems;
+    std::vector<CEquipment*> enhancableItems;
     Console::printLn("You look through your pockets and find the following items, that can be enhanced:");
     for (auto i : items)
     {

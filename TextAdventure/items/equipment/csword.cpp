@@ -16,7 +16,7 @@ CSword::CSword()
 void CSword::enhance()
 {
     auto oldName = _name;
-    CEnhancableItem::enhance();
+    CEquipment::enhance();
     if (_level == 1)
     {
         _name = "wooden Sword";

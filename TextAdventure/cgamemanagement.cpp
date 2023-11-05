@@ -1,9 +1,11 @@
 #include "cgamemanagement.h"
 
+#include "cbattleencounter.h"
+#include "cencounter.h"
 #include "companionfactory.h"
 #include "console.h"
 #include "croom.h"
-#include "items/itemfactory.h"
+#include "itemfactory.h"
 #include "randomizer.h"
 
 #include <format>
@@ -49,6 +51,54 @@ void CGameManagement::start()
 {
     init();
     gameLoop();
+}
+
+void CGameManagement::executeRandomEncounter() const
+{
+    if (_encounters.size() == 0)
+    {
+        return;
+    }
+
+    if (Randomizer::getRandom(100) > Ressources::Config::encounterChance)
+    {
+
+        return;
+    }
+
+    std::vector<unsigned int> indices;
+
+    for (int index = 0; index < _encounters.size(); index++)
+    {
+        auto chance = _encounters.at(index)->encounterChance();
+        if (chance == 0)
+        {
+            continue;
+        }
+        for (int i = 0; i < chance; i++)
+        {
+            indices.push_back(index);
+        }
+    }
+
+    if (indices.size() == 0)
+    {
+        return;
+    }
+
+    std::shuffle(indices.begin(), indices.end(), std::default_random_engine(Randomizer::getRandomEngineSeed()));
+    _encounters.at(indices.at(0))->execute();
+    Console::confirmToContinue();
+}
+
+void CGameManagement::registerEncounter(CEncounter* encounter)
+{
+    _encounters.push_back(encounter);
+}
+
+void CGameManagement::unregisterEncounterByName(const std::string& name)
+{
+    std::remove_if(_encounters.begin(), _encounters.end(), CEncounter::nameFilter(name));
 }
 
 CMap* CGameManagement::getMap()
@@ -201,6 +251,8 @@ void CGameManagement::init()
 
     Randomizer::init();
 
+    registerEncounter(new CBattleEncounter());
+
     _map.setStartingPosition({3, 5});
     _map.init();
 }
@@ -235,4 +287,8 @@ CGameManagement::CGameManagement()
 CGameManagement::~CGameManagement()
 {
     delete _companion;
+    for (auto e : _encounters)
+    {
+        delete e;
+    }
 }

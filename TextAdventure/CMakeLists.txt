@@ -45,15 +45,18 @@ set(TEXTADVENTURE_SOURCES
     tasks/cbountyhunt.h tasks/cbountyhunt.cpp
 
     cinventory.h cinventory.cpp
+    items/equipment/cequipment.h items/equipment/cequipment.cpp
+    items/equipment/csword.h items/equipment/csword.cpp
+    items/equipment/cshield.h items/equipment/cshield.cpp
     items/citem.h items/citem.cpp
     items/itemfactory.h items/itemfactory.cpp
     items/chealingpotion.h items/chealingpotion.cpp
     items/cjunkitem.h items/cjunkitem.cpp
-    items/cenhancableitem.h items/cenhancableitem.cpp
-    items/csword.h items/csword.cpp
-    items/cshield.h items/cshield.cpp
     items/cphoenixfeather.h items/cphoenixfeather.cpp
     items/cheartcontainer.h items/cheartcontainer.cpp
+
+    encounters/cencounter.h encounters/cencounter.cpp
+    encounters/cbattleencounter.h encounters/cbattleencounter.cpp
 )
 
 add_executable(TextAdventure ${TEXTADVENTURE_SOURCES})
@@ -62,10 +65,13 @@ add_executable(TextAdventure ${TEXTADVENTURE_SOURCES})
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR})
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/companion)
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/items)
+target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/items/equipment)
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/enemies)
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/rooms)
-target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/tasks)
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/rooms/town)
+target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/tasks)
+target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/encounters)
+
 
 include(GNUInstallDirs)
 install(TARGETS TextAdventure

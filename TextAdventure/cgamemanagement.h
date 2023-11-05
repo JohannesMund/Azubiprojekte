@@ -7,6 +7,7 @@
 
 #include <string>
 
+class CEncounter;
 class CGameManagement
 {
 public:
@@ -16,6 +17,10 @@ public:
     static CMap* getMapInstance();
     static CCompanion* getCompanionInstance();
 
+    void executeRandomEncounter() const;
+    void registerEncounter(CEncounter* encounter);
+    void unregisterEncounterByName(const std::string& name);
+
     void start();
 
 private:
@@ -23,6 +28,8 @@ private:
     CPlayer _player;
     CInventory _inventory;
     CCompanion* _companion;
+
+    std::vector<CEncounter*> _encounters;
 
     bool _isGameOver = false;
 

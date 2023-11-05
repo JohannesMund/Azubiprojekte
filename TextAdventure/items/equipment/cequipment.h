@@ -2,10 +2,10 @@
 
 #include <citem.h>
 
-class CEnhancableItem : public CItem
+class CEquipment : public CItem
 {
 public:
-    CEnhancableItem();
+    CEquipment();
 
     virtual unsigned int level() const;
     virtual void enhance();

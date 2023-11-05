@@ -1,5 +1,5 @@
 #include "citem.h"
-#include "cenhancableitem.h"
+#include "cequipment.h"
 #include "console.h"
 
 #include <cmath>

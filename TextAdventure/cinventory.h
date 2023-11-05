@@ -7,7 +7,7 @@
 #include <vector>
 
 class CEnemy;
-class CEnhancableItem;
+class CEquipment;
 class CJunkItem;
 class CInventory
 {
@@ -15,7 +15,7 @@ public:
     using CompressedItem = std::pair<unsigned int, CItem*>;
     using CompressedItemMap = std::vector<CompressedItem>;
     using ItemList = std::vector<CItem*>;
-    using EnhancableItemList = std::vector<CEnhancableItem*>;
+    using EnhancableItemList = std::vector<CEquipment*>;
     using JunkItemList = std::vector<CJunkItem*>;
 
     CInventory();
