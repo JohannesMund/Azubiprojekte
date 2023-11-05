@@ -3,7 +3,7 @@
 #include "randomizer.h"
 
 #include <format>
-CEquipment::CEquipment()
+CEquipment::CEquipment() : CItem()
 {
     _name = "";
 }

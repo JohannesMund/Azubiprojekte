@@ -4,7 +4,7 @@
 #include "randomizer.h"
 
 #include <format>
-CJunkArmor::CJunkArmor()
+CJunkArmor::CJunkArmor() : CArmor()
 {
     _levelCap = 5;
     _namesByLevel = {"Ripped T-Shirt", "White T-Shirt", "Fashionable T-Shirt", "Sweater", "Hoodie"};

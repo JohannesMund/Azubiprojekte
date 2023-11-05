@@ -40,7 +40,7 @@ void CEnemy::postBattle()
 
 void CEnemy::spoilsOfWar()
 {
-    CGameManagement::getPlayerInstance()->addXp(Randomizer::getRandom(_level * 75) + _level * 75);
+    CGameManagement::getPlayerInstance()->addXp(basicXP(_level));
 
     if (Randomizer::getRandom(2) == 0)
     {
@@ -110,4 +110,9 @@ unsigned int CEnemy::hp() const
 std::optional<CBattle::EWeapons> CEnemy::peek()
 {
     return _battleDecision;
+}
+
+unsigned int CEnemy::basicXP(const unsigned int level)
+{
+    return Randomizer::getRandom(level * 75) + level * 75;
 }

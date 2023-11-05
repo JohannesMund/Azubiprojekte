@@ -29,7 +29,7 @@ void CDeadHero::execute()
                      "treasure gone (if he even had som treasure at all). All of his treasure?");
     Console::printLn("Maybe, just maybe you should have a look.");
     Console::br();
-    Console::printLn("[S]earch the body [G]o away");
+    Console::printLnWithSpacer("[S]earch the body", "[G]o away");
     char input = Console::getAcceptableInput("sg");
 
     Console::br();
@@ -47,7 +47,7 @@ void CDeadHero::execute()
     Console::printLn("You wonder, if you should take it.");
 
     Console::br();
-    Console::printLn("[T]ake T-shirt [G]o away");
+    Console::printLnWithSpacer("[T]ake T-shirt", "[G]o away");
     input = Console::getAcceptableInput("tg");
 
     Console::br();

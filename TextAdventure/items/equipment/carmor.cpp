@@ -1,6 +1,6 @@
 #include "carmor.h"
 
-CArmor::CArmor()
+CArmor::CArmor() : CEquipment()
 {
     _hasBattleEffect = true;
     _hasShieldingAction = true;

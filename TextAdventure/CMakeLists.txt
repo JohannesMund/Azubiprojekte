@@ -40,6 +40,7 @@ set(TEXTADVENTURE_SOURCES
     enemies/cenemy.h enemies/cenemy.cpp
     enemies/cmobenemy.h enemies/cmobenemy.cpp
     enemies/cbountyenemy.h enemies/cbountyenemy.cpp
+    enemies/clivingchest.h enemies/clivingchest.cpp
 
     tasks/ctask.h tasks/ctask.cpp
     tasks/cbountyhunt.h tasks/cbountyhunt.cpp
@@ -60,9 +61,11 @@ set(TEXTADVENTURE_SOURCES
     items/cphoenixfeather.h items/cphoenixfeather.cpp
     items/cheartcontainer.h items/cheartcontainer.cpp
 
+    encounters/encounterregister.h
     encounters/cencounter.h encounters/cencounter.cpp
     encounters/cbattleencounter.h encounters/cbattleencounter.cpp
     encounters/cdeadhero.h encounters/cdeadhero.cpp
+    encounters/cmysteriouschest.h encounters/cmysteriouschest.cpp
 )
 
 add_executable(TextAdventure ${TEXTADVENTURE_SOURCES})

@@ -1,11 +1,12 @@
 #include "cgamemanagement.h"
-
 #include "cbattleencounter.h"
 #include "cdeadhero.h"
 #include "cencounter.h"
+#include "cmysteriouschest.h"
 #include "companionfactory.h"
 #include "console.h"
 #include "croom.h"
+#include "encounterregister.h"
 #include "itemfactory.h"
 #include "randomizer.h"
 
@@ -252,9 +253,7 @@ void CGameManagement::init()
 
     Randomizer::init();
 
-    registerEncounter(new CDeadHero());
-    registerEncounter(new CBattleEncounter());
-
+    EncounterRegister::encounterRegister();
     _map.setStartingPosition({3, 5});
     _map.init();
 }

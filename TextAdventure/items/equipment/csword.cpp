@@ -1,6 +1,6 @@
 #include "csword.h"
 
-CSword::CSword()
+CSword::CSword() : CEquipment()
 {
     _hasBattleEffect = true;
     _hasBattleBuff = true;

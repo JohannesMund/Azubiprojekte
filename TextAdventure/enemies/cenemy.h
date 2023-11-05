@@ -49,6 +49,8 @@ protected:
     std::string _name;
     std::string _weapon;
 
+    static unsigned int basicXP(const unsigned int level);
+
 private:
     std::optional<CBattle::EWeapons> _battleDecision;
 };
