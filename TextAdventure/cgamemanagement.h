@@ -23,6 +23,8 @@ public:
 
     void start();
 
+    void printHUD();
+
 private:
     CMap _map;
     CPlayer _player;
@@ -32,8 +34,6 @@ private:
     std::vector<CEncounter*> _encounters;
 
     bool _isGameOver = false;
-
-    void printHUD();
     void printMap();
     void printInventory();
     std::string printNavigation();

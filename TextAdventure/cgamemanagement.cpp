@@ -158,12 +158,11 @@ void CGameManagement::executeTurn()
     while (true)
     {
         Console::cls();
-        printHUD();
 
         _map.currentRoom()->execute();
+        handlePlayerDeath();
         if (_player.isDead())
         {
-            _isGameOver = true;
             return;
         }
 
@@ -264,7 +263,6 @@ void CGameManagement::gameLoop()
         Console::cls();
 
         executeTurn();
-        handlePlayerDeath();
         if (_player.isDead())
         {
             _isGameOver = true;

@@ -32,7 +32,7 @@ void CMysteriousChest::execute()
         return;
     }
 
-    Console::printLn("This is too temping. You go over to the chest and open it.");
+    Console::printLn("This is too tempting. You go over to the chest and open it.");
 
     int goodStuffBonus = 0;
     if (Randomizer::getRandom(3) == 0)

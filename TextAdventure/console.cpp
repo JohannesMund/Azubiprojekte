@@ -5,6 +5,7 @@
 #endif
 
 #include "console.h"
+#include "cgamemanagement.h"
 #include "ressources.h"
 
 #include <algorithm>
@@ -34,6 +35,7 @@ void Console::cls()
 #else
     system("clear");
 #endif
+    CGameManagement::getInstance()->printHUD();
 }
 
 char Console::getAcceptableInput(string acceptableChars)
