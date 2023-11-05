@@ -20,6 +20,9 @@ CRoom::~CRoom()
 
 void CRoom::execute()
 {
+    Console::printLn(_description);
+    Console::br();
+
     if (hasTask())
     {
         _task->execute();
@@ -36,7 +39,6 @@ void CRoom::execute()
     }
 
     _seen = true;
-    Console::printLn(_description);
 }
 
 void CRoom::setTask(CTask* task)
