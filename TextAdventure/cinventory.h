@@ -15,7 +15,9 @@ public:
     using CompressedItem = std::pair<unsigned int, CItem*>;
     using CompressedItemMap = std::vector<CompressedItem>;
     using ItemList = std::vector<CItem*>;
-    using EnhancableItemList = std::vector<CEquipment*>;
+    using EquipmentList = std::vector<CEquipment*>;
+    using EnhancableEquipmentList = std::vector<CEquipment*>;
+
     using JunkItemList = std::vector<CJunkItem*>;
 
     CInventory();
@@ -52,7 +54,8 @@ public:
     void useDeathAction(CItem* item);
 
     JunkItemList getJunkItems() const;
-    EnhancableItemList getEnhancableItems() const;
+    EquipmentList getEquipment() const;
+    EquipmentList getEnhancableEquipment() const;
 
     CompressedItemMap getSellableItems() const;
 

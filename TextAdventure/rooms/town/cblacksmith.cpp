@@ -34,7 +34,7 @@ void CBlackSmith::execute()
 
 void CBlackSmith::enhanceItem()
 {
-    auto items = CGameManagement::getInventoryInstance()->getEnhancableItems();
+    auto items = CGameManagement::getInventoryInstance()->getEnhancableEquipment();
     if (items.size() == 0)
     {
         Console::printLn("You look through your pockets and find no enhancable items.");

@@ -1,7 +1,8 @@
 #include "cstartingroom.h"
 #include "cgamemanagement.h"
+#include "cjunkshield.h"
+#include "cjunksword.h"
 #include "console.h"
-#include "itemfactory.h"
 
 CStartingRoom::CStartingRoom()
 {
@@ -34,7 +35,7 @@ void CStartingRoom::execute()
         {
             Console::br();
             Console::printLn("You take the sword and equip it. It looks good on you.");
-            CGameManagement::getInventoryInstance()->addItem(ItemFactory::makeItem(ItemFactory::EItemType::eSword));
+            CGameManagement::getInventoryInstance()->addItem(new CJunkSword());
         }
         else
         {
@@ -62,7 +63,7 @@ void CStartingRoom::execute()
         {
             Console::br();
             Console::printLn("You take the shield and equip it. Now you feel complete.");
-            CGameManagement::getInventoryInstance()->addItem(ItemFactory::makeItem(ItemFactory::EItemType::eShield));
+            CGameManagement::getInventoryInstance()->addItem(new CJunkShield());
         }
         else
         {

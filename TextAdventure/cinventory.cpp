@@ -168,18 +168,32 @@ CInventory::JunkItemList CInventory::getJunkItems() const
     return junkItems;
 }
 
-CInventory::EnhancableItemList CInventory::getEnhancableItems() const
+CInventory::EquipmentList CInventory::getEquipment() const
 {
-    EnhancableItemList enhancableItems;
-    for (const auto item : _inventory | std::views::filter(CEquipment::enhancableItemFilter()))
+    EquipmentList equipmentItems;
+    for (const auto item : _inventory | std::views::filter(CEquipment::equipmentFilter()))
     {
-        auto enhancableItem = dynamic_cast<CEquipment*>(item);
-        if (enhancableItem != nullptr)
+        auto equipment = dynamic_cast<CEquipment*>(item);
+        if (equipment != nullptr)
         {
-            enhancableItems.push_back(enhancableItem);
+            equipmentItems.push_back(equipment);
         }
     }
-    return enhancableItems;
+    return equipmentItems;
+}
+
+CInventory::EquipmentList CInventory::getEnhancableEquipment() const
+{
+    EquipmentList equipmentItems;
+    for (const auto item : _inventory | std::views::filter(CEquipment::enhancableEquipmentFilter()))
+    {
+        auto equipment = dynamic_cast<CEquipment*>(item);
+        if (equipment != nullptr && equipment->isEnhancable())
+        {
+            equipmentItems.push_back(equipment);
+        }
+    }
+    return equipmentItems;
 }
 
 CInventory::CompressedItemMap CInventory::getSellableItems() const

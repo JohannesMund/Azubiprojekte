@@ -7,8 +7,12 @@ class CShield : public CEquipment
 public:
     CShield();
 
-    virtual void enhance() override;
+    virtual void battleEffect(CEnemy* enemy) override = 0;
+    virtual int shield(const unsigned int i) override = 0;
 
-    virtual void battleEffect(CEnemy* enemy) override;
-    virtual int shield(const unsigned int i) override;
+    /**
+     * @brief shieldFilter
+     * @return a filter function to filter shield items from std containers
+     */
+    static std::function<bool(const CItem*)> shieldFilter();
 };

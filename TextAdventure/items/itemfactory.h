@@ -14,9 +14,6 @@ enum class EItemType
     ePhoenixFeather,
     eHeartContainer,
 
-    eSword,
-    eShield,
-
     eJunkItem
 };
 

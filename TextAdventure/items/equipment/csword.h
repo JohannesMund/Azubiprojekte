@@ -7,9 +7,16 @@ class CSword : public CEquipment
 {
 public:
     CSword();
+    virtual ~CSword()
+    {
+    }
 
-    virtual void enhance() override;
+    virtual void battleEffect(CEnemy* enemy) override = 0;
+    virtual void battleBuff(CEnemy* enemy, bool& endRound) override = 0;
 
-    virtual void battleEffect(CEnemy* enemy) override;
-    virtual void battleBuff(CEnemy* enemy, bool& endRound) override;
+    /**
+     * @brief swordFilter
+     * @return a filter function to filter sword items from std containers
+     */
+    static std::function<bool(const CItem*)> swordFilter();
 };

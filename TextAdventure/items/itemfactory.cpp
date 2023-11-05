@@ -27,10 +27,6 @@ CItem* ItemFactory::makeItem(const EItemType tp)
         return new CPhoenixFeather();
     case EItemType::eHeartContainer:
         return new CHeartContainer;
-    case EItemType::eSword:
-        return new CSword();
-    case EItemType::eShield:
-        return new CShield();
     case EItemType::eJunkItem:
         return new CJunkItem();
     default:
@@ -53,7 +49,7 @@ CItem* ItemFactory::makeShopItem()
 
         EItemType::eHealingPotionXL, EItemType::eHeartContainer, EItemType::ePhoenixFeather};
 
-  std::shuffle(items.begin(), items.end(), std::default_random_engine(Randomizer::getRandomEngineSeed()));
+    std::shuffle(items.begin(), items.end(), std::default_random_engine(Randomizer::getRandomEngineSeed()));
 
     return makeItem(items.at(0));
 }

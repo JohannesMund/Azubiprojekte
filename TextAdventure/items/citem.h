@@ -90,7 +90,7 @@ public:
      * @brief name
      * @return name of the item
      */
-    std::string name() const;
+    virtual std::string name() const;
     /**
      * @brief description
      * @return desctiption of the item
