@@ -155,17 +155,16 @@ std::string CGameManagement::printNavigation()
 
 void CGameManagement::executeTurn()
 {
+    Console::cls();
+
+    _map.currentRoom()->execute();
+    if (_player.isDead())
+    {
+        return;
+    }
+
     while (true)
     {
-        Console::cls();
-
-        _map.currentRoom()->execute();
-        handlePlayerDeath();
-        if (_player.isDead())
-        {
-            return;
-        }
-
         auto acceptableInputs = printNavigation();
         auto input = Console::getAcceptableInput(acceptableInputs);
 
@@ -261,8 +260,8 @@ void CGameManagement::gameLoop()
     while (!_isGameOver)
     {
         Console::cls();
-
         executeTurn();
+        handlePlayerDeath();
         if (_player.isDead())
         {
             _isGameOver = true;
