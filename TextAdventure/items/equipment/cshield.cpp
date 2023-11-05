@@ -1,6 +1,6 @@
 #include "cshield.h"
 
-CShield::CShield()
+CShield::CShield() : CEquipment()
 {
     _hasBattleEffect = true;
     _hasShieldingAction = true;

@@ -6,10 +6,12 @@
 #include <algorithm>
 #include <format>
 
-CJunkShield::CJunkShield()
+CJunkShield::CJunkShield() : CShield()
 {
-    _name = "Old buckler";
-    _description = "Am old worn-out, wooden shield, not very usefull, but better than nothing.";
+
+    _levelCap = 5;
+    _namesByLevel = {"Old Buckler", "Repaired Buckler", "Wooden Buckler", "Robust Buckler", "Great Buckler"};
+    _description = "A round, savage shield.";
 }
 
 void CJunkShield::battleEffect(CEnemy* enemy)

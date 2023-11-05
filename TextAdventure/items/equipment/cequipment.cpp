@@ -4,6 +4,7 @@
 #include <format>
 CEquipment::CEquipment()
 {
+    _name = "";
 }
 
 bool CEquipment::isEnhancable() const
