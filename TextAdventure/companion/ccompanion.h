@@ -8,6 +8,10 @@ class CEnemy;
 class CCompanion
 {
 public:
+    virtual ~CCompanion()
+    {
+    }
+
     virtual std::string name() const = 0;
     virtual std::string type() const = 0;
     std::string description() const;

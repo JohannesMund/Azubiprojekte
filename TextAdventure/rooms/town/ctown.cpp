@@ -15,6 +15,10 @@ CTown::CTown()
     _church.setCityName(_name);
     _farm.setCityName(_name);
     _blackSmith.setCityName(_name);
+    _tavern.setCityName(_name);
+
+    _encounterPossible = false;
+    _taskPossible = true;
 }
 
 void CTown::execute()
@@ -53,11 +57,11 @@ void CTown::execute()
         }
         if (input == 't')
         {
-            tavern();
+            _tavern.execute();
         }
         if (input == 'f')
         {
-            farm();
+            _farm.execute();
         }
     } while (input != 'x');
 }
@@ -65,14 +69,4 @@ void CTown::execute()
 char CTown::mapSymbol()
 {
     return 'T';
-}
-
-void CTown::tavern()
-{
-    Console::printLn("To be opened soon");
-}
-
-void CTown::farm()
-{
-    _farm.execute();
 }

@@ -34,17 +34,22 @@ namespace Rooms
 {
 std::string getRandomDescription();
 std::pair<std::string, std::string> getRandomTown();
+std::string getRandomRumor();
 } // namespace Rooms
 
 namespace Items
 {
 std::pair<std::string, std::string> getRandomRubbishItems();
+
 } // namespace Items
 
 namespace Enemies
 {
 std::string getRandomEnemyName();
 std::string getRandomEnemyWeapon();
+
+std::pair<std::string, std::string> getRandomBountyName();
+
 } // namespace Enemies
 
 namespace Companion

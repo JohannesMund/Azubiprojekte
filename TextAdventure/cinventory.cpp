@@ -13,6 +13,15 @@ CInventory::CInventory()
 {
 }
 
+CInventory::~CInventory()
+{
+    for (auto i : _inventory)
+    {
+        delete i;
+    }
+    _inventory.clear();
+}
+
 bool CInventory::hasItem(const std::string& name)
 {
     return std::find_if(_inventory.begin(), _inventory.end(), CItem::nameFilter(name)) != _inventory.end();

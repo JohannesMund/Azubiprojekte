@@ -13,6 +13,18 @@ CShop::CShop()
     replaceShopItems();
 }
 
+CShop::~CShop()
+{
+    for (auto i : _shopItems)
+    {
+        if (i != nullptr)
+        {
+            delete i;
+        }
+    }
+    _shopItems.clear();
+}
+
 void CShop::execute()
 {
     if (CGameManagement::getPlayerInstance()->level() != _playerLevel)

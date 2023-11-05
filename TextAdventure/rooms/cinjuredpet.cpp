@@ -8,6 +8,9 @@
 CInjuredPet::CInjuredPet()
 {
     _showInFogOfWar = true;
+
+    _encounterPossible = false;
+    _taskPossible = false;
 }
 
 void CInjuredPet::execute()
@@ -72,6 +75,9 @@ void CInjuredPet::execute()
     CGameManagement::getCompanionInstance()->evolve();
 
     _showInFogOfWar = false;
+
+    _encounterPossible = true;
+    _taskPossible = true;
 }
 
 char CInjuredPet::mapSymbol()
@@ -81,5 +87,5 @@ char CInjuredPet::mapSymbol()
         return CRoom::mapSymbol();
     }
 
-    return '!';
+    return '?';
 }

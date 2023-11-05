@@ -41,6 +41,7 @@ void CEnemy::postBattle()
 void CEnemy::spoilsOfWar()
 {
     CGameManagement::getPlayerInstance()->addXp(Randomizer::getRandom(_level * 75) + _level * 75);
+
     if (Randomizer::getRandom(2) == 0)
     {
         Console::printLn("Your enemy seems to be rich. At least he has a bag of gold.");
@@ -65,6 +66,11 @@ std::string CEnemy::name() const
 std::string CEnemy::weapon() const
 {
     return _weapon;
+}
+
+unsigned int CEnemy::level() const
+{
+    return _level;
 }
 
 unsigned int CEnemy::initiative() const

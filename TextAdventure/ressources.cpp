@@ -149,3 +149,22 @@ std::string Ressources::Companion::typeAsString(const ECompanionType& tp)
     }
     return "";
 }
+
+std::pair<std::string, std::string> Ressources::Enemies::getRandomBountyName()
+{
+    std::vector<std::pair<std::string, std::string>> names = {
+        {"Fat Eddie", "Blackmailing the Mayor"},
+        {"Robo Devil", "Stealing people's hands"},
+        {"Evil Wizard", "Doing evil wizard things"},
+        {"Robin Would", "Stealing from the rich"},
+        {"Taffy, the Pirate", "Crimes against the world government"}};
+    return names.at(Randomizer::getRandom(names.size()));
+}
+
+std::string Ressources::Rooms::getRandomRumor()
+{
+    std::vector<std::string> rumors = {"The king has stupid ears.",
+                                       "There is a huge treasure hidden beneath the mountain.",
+                                       "The mayor of this town has an affair with a donkey."};
+    return rumors.at(Randomizer::getRandom(rumors.size()));
+}

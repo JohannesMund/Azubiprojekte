@@ -3,6 +3,7 @@
 #include "console.h"
 #include "croom.h"
 #include "cstartingroom.h"
+#include "ctask.h"
 #include "ctown.h"
 #include "randomizer.h"
 #include "ressources.h"
@@ -10,6 +11,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <random>
 
 const std::map<CMap::EDirections, char> CMap::_dirMap = {{EDirections::eNorth, 'n'},
                                                          {EDirections::eSouth, 's'},
@@ -206,7 +208,7 @@ void CMap::printRoom(const SRoomCoords& coords, const int line)
 
     if (room->seen() == false)
     {
-        if (room->showInFogOfWar() && line == 2)
+        if (room->showInFogOfWar() && line == 1)
         {
             cout << " " << mapSymbol(coords) << " ";
             return;
@@ -329,6 +331,30 @@ char CMap::mapSymbol(const SRoomCoords& coords)
 CRoom* CMap::currentRoom() const
 {
     return roomAt(_playerPosition);
+}
+
+void CMap::setTaskToRandomRoom(CTask* task)
+{
+    std::vector<CRoom*> possibleRooms;
+    for (const auto& row : _map)
+    {
+        for (auto& room : row)
+        {
+            if (room->isTaskPossible() && room != currentRoom())
+            {
+                possibleRooms.push_back(room);
+            }
+        }
+    }
+
+    if (possibleRooms.size() == 0)
+    {
+        return;
+    }
+
+    std::shuffle(
+        possibleRooms.begin(), possibleRooms.end(), std::default_random_engine(Randomizer::getRandomEngineSeed()));
+    possibleRooms.at(0)->setTask(task);
 }
 
 CRoom* CMap::roomAt(const EDirections dir) const

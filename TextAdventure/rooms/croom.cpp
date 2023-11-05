@@ -3,6 +3,7 @@
 #include "cgamemanagement.h"
 #include "console.h"
 #include "croom.h"
+#include "ctask.h"
 #include "ressources.h"
 
 using namespace std;
@@ -19,8 +20,35 @@ CRoom::~CRoom()
 
 void CRoom::execute()
 {
+    if (hasTask())
+    {
+        _task->execute();
+        if (_task->isFinished())
+        {
+            delete _task;
+            _task = nullptr;
+            _showInFogOfWar = false;
+        }
+    }
+
     _seen = true;
     Console::printLn(_description);
+}
+
+void CRoom::setTask(CTask* task)
+{
+    _task = task;
+    _showInFogOfWar = true;
+}
+
+bool CRoom::isTaskPossible() const
+{
+    return _taskPossible && !hasTask();
+}
+
+bool CRoom::hasTask() const
+{
+    return _task != nullptr;
 }
 
 void CRoom::blockPath(const CMap::EDirections dir, const bool block)
@@ -81,5 +109,9 @@ bool CRoom::showInFogOfWar() const
 
 char CRoom::mapSymbol()
 {
+    if (hasTask())
+    {
+        return '!';
+    }
     return '+';
 }

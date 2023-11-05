@@ -30,14 +30,19 @@ set(TEXTADVENTURE_SOURCES
     rooms/cinjuredpet.h rooms/cinjuredpet.cpp
 
     rooms/town/ctown.h rooms/town/ctown.cpp
+    rooms/town/ctownmodule.h rooms/town/ctownmodule.cpp
     rooms/town/cshop.h rooms/town/cshop.cpp
     rooms/town/cchurch.h rooms/town/cchurch.cpp
     rooms/town/cblacksmith.h rooms/town/cblacksmith.cpp
     rooms/town/cfarm.h rooms/town/cfarm.cpp
-    rooms/town/ctownmodule.h rooms/town/ctownmodule.cpp
+    rooms/town/ctavern.h rooms/town/ctavern.cpp
 
     enemies/cenemy.h enemies/cenemy.cpp
     enemies/cmobenemy.h enemies/cmobenemy.cpp
+    enemies/cbountyenemy.h enemies/cbountyenemy.cpp
+
+    tasks/ctask.h tasks/ctask.cpp
+    tasks/cbountyhunt.h tasks/cbountyhunt.cpp
 
     cinventory.h cinventory.cpp
     items/citem.h items/citem.cpp
@@ -59,6 +64,7 @@ target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/companion)
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/items)
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/enemies)
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/rooms)
+target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/tasks)
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/rooms/town)
 
 include(GNUInstallDirs)

@@ -6,6 +6,7 @@
 CStartingRoom::CStartingRoom()
 {
     _encounterPossible = false;
+    _taskPossible = false;
 }
 
 void CStartingRoom::execute()
@@ -71,14 +72,15 @@ void CStartingRoom::execute()
         }
     } while (input != 't');
 
-    _encounterPossible = true;
-
     Console::br();
     Console::printLn(
         "Now, that you are equipped, it is time to start your adventure. You look around where you are and find:");
     Console::br();
 
     CRoom::execute();
+
+    _encounterPossible = true;
+    _taskPossible = true;
 }
 
 char CStartingRoom::mapSymbol()

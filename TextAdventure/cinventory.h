@@ -19,6 +19,7 @@ public:
     using JunkItemList = std::vector<CJunkItem*>;
 
     CInventory();
+    ~CInventory();
 
     enum class Scope
     {

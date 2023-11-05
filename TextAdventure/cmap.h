@@ -5,6 +5,8 @@
 #include <vector>
 
 class CRoom;
+class CTask;
+
 class CMap
 {
 public:
@@ -72,6 +74,8 @@ public:
     char mapSymbol(const SRoomCoords& coords);
 
     CRoom* currentRoom() const;
+
+    void setTaskToRandomRoom(CTask* task);
 
 private:
     SRoomCoords _playerPosition;

@@ -6,6 +6,7 @@
 #include "cinventory.h"
 #include "croom.h"
 #include "cshop.h"
+#include "ctavern.h"
 
 #include <string>
 
@@ -21,11 +22,9 @@ public:
 private:
     std::string _name;
 
-    void tavern();
-    void farm();
-
     CShop _shop;
     CChurch _church;
     CBlackSmith _blackSmith;
     CFarm _farm;
+    CTavern _tavern;
 };
