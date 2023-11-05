@@ -161,7 +161,6 @@ void CGameManagement::executeTurn()
         printHUD();
 
         _map.currentRoom()->execute();
-        handlePlayerDeath();
         if (_player.isDead())
         {
             _isGameOver = true;
