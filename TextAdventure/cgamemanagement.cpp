@@ -1,6 +1,7 @@
 #include "cgamemanagement.h"
 
 #include "cbattleencounter.h"
+#include "cdeadhero.h"
 #include "cencounter.h"
 #include "companionfactory.h"
 #include "console.h"
@@ -251,6 +252,7 @@ void CGameManagement::init()
 
     Randomizer::init();
 
+    registerEncounter(new CDeadHero());
     registerEncounter(new CBattleEncounter());
 
     _map.setStartingPosition({3, 5});

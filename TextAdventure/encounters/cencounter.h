@@ -11,11 +11,16 @@ public:
     {
     }
 
-    virtual void execute() = 0;
+    virtual void execute();
     virtual unsigned int encounterChance() const = 0;
     virtual std::string name() const = 0;
 
     static std::function<bool(const CEncounter*)> nameFilter(const std::string& name);
+
+protected:
+    bool canBeExecuted() const;
+    bool _isSingleExecution = false;
+    bool _hasBeenExecuted = false;
 };
 
 #

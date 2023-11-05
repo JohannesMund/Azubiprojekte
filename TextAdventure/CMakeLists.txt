@@ -48,8 +48,11 @@ set(TEXTADVENTURE_SOURCES
     items/equipment/cequipment.h items/equipment/cequipment.cpp
     items/equipment/csword.h items/equipment/csword.cpp
     items/equipment/cshield.h items/equipment/cshield.cpp
+    items/equipment/carmor.h items/equipment/carmor.cpp
     items/equipment/cjunkshield.h items/equipment/cjunkshield.cpp
     items/equipment/cjunksword.h items/equipment/cjunksword.cpp
+    items/equipment/cjunkarmor.h items/equipment/cjunkarmor.cpp
+
     items/citem.h items/citem.cpp
     items/itemfactory.h items/itemfactory.cpp
     items/chealingpotion.h items/chealingpotion.cpp
@@ -59,6 +62,7 @@ set(TEXTADVENTURE_SOURCES
 
     encounters/cencounter.h encounters/cencounter.cpp
     encounters/cbattleencounter.h encounters/cbattleencounter.cpp
+    encounters/cdeadhero.h encounters/cdeadhero.cpp
 )
 
 add_executable(TextAdventure ${TEXTADVENTURE_SOURCES})

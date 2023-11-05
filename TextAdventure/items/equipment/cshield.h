@@ -8,7 +8,7 @@ public:
     CShield();
 
     virtual void battleEffect(CEnemy* enemy) override = 0;
-    virtual int shield(const unsigned int i) override = 0;
+    virtual void battleBuff(CEnemy* enemy, bool& endRound) override = 0;
 
     /**
      * @brief shieldFilter

@@ -198,7 +198,7 @@ protected:
 
     bool _hasDeathEffect = false;
     bool _hasBattleEffect = false;
-    bool _hasDurableBattleEffect = false;
+    bool _hasBattleBuff = false;
     bool _hasShieldingAction = false;
 
     bool _isSellable = false;

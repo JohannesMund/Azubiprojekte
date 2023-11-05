@@ -29,6 +29,8 @@ public:
     static std::function<bool(const CItem*)> enhancableEquipmentFilter();
 
 protected:
+    bool doesEquipmentEffectFire() const;
+
     int _level = 0;
     std::vector<std::string> _namesByLevel;
     int _levelCap = 0;

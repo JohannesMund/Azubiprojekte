@@ -40,7 +40,7 @@ bool CItem::hasBattleEffect() const
 
 bool CItem::hasDurableBattleEffect() const
 {
-    return _hasDurableBattleEffect;
+    return _hasBattleBuff;
 }
 
 bool CItem::hasShieldingAction() const

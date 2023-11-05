@@ -15,13 +15,19 @@ CJunkSword::CJunkSword() : CSword()
 
 void CJunkSword::battleEffect(CEnemy* enemy)
 {
-}
-
-void CJunkSword::battleBuff(CEnemy* enemy, bool& endRound)
-{
     if (_level < 1)
     {
         Console::printLn(std::format(
             "You draw your sword at {} and try to look dangerous. The sword is not helpful at all.", enemy->name()));
+    }
+}
+
+void CJunkSword::battleBuff(CEnemy* enemy, bool& endRound)
+{
+    if (doesEquipmentEffectFire())
+    {
+        Console::printLn("Your shield protects you from the enemy attack");
+        enemy->dealDamage(1);
+        endRound = true;
     }
 }

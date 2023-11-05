@@ -1,5 +1,6 @@
 #include "cequipment.h"
 #include "console.h"
+#include "randomizer.h"
 
 #include <format>
 CEquipment::CEquipment()
@@ -59,4 +60,9 @@ std::function<bool(const CItem*)> CEquipment::enhancableEquipmentFilter()
         }
         return equipment->isEnhancable();
     };
+}
+
+bool CEquipment::doesEquipmentEffectFire() const
+{
+    return Randomizer::getRandom(100) <= _level * 10;
 }

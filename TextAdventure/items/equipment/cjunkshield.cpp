@@ -26,19 +26,12 @@ void CJunkShield::battleEffect(CEnemy* enemy)
     }
 }
 
-int CJunkShield::shield(const unsigned int i)
+void CJunkShield::battleBuff(CEnemy* enemy, bool& endRound)
 {
-    int shieldAmount = Randomizer::getRandom(_level + 1);
-    if (shieldAmount == 0)
+    if (doesEquipmentEffectFire())
     {
-        return i;
+        Console::printLn("Your shield protects you from the enemy attack");
+        enemy->dealDamage(1);
+        endRound = true;
     }
-
-    if (Randomizer::getRandom(100) <= _level * 10)
-    {
-        Console::printLn(std::format("Your shield absorbs {} damage", shieldAmount));
-        return std::max(i - shieldAmount, 0U);
-    }
-
-    return i;
 }

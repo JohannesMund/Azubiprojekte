@@ -3,7 +3,7 @@
 CShield::CShield() : CEquipment()
 {
     _hasBattleEffect = true;
-    _hasShieldingAction = true;
+    _hasBattleBuff = true;
 }
 
 std::function<bool(const CItem*)> CShield::shieldFilter()

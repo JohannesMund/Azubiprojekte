@@ -3,7 +3,7 @@
 CSword::CSword()
 {
     _hasBattleEffect = true;
-    _hasDurableBattleEffect = true;
+    _hasBattleBuff = true;
 }
 
 std::function<bool(const CItem*)> CSword::swordFilter()
