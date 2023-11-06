@@ -9,10 +9,10 @@
 CJunkShield::CJunkShield() : CShield()
 {
 
-    _levelCap = 5;
+    _levelCap = 4;
     _namesByLevel = {
         "wheathered wooden board", "wooden board", "robust wooden board", "strong", "looks like an actual shield"};
-    _description = "a wooden board";
+    _description = "A wooden board. It can protect you from... well, not much but it offers a little protection.";
 }
 
 void CJunkShield::battleEffect(CEnemy* enemy)

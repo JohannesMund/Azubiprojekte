@@ -32,4 +32,5 @@ void CBountyEnemy::spoilsOfWar()
 
 void CBountyEnemy::battleAction(bool& endRound)
 {
+    CEnemy::battleAction(endRound);
 }

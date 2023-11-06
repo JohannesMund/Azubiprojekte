@@ -61,6 +61,7 @@ set(TEXTADVENTURE_SOURCES
     items/cphoenixfeather.h items/cphoenixfeather.cpp
     items/cheartcontainer.h items/cheartcontainer.cpp
     items/curzasglasses.h items/curzasglasses.cpp
+    items/cbomb.h items/cbomb.cpp
 
     encounters/encounterregister.h
     encounters/cencounter.h encounters/cencounter.cpp
@@ -70,6 +71,7 @@ set(TEXTADVENTURE_SOURCES
 )
 
 add_executable(TextAdventure ${TEXTADVENTURE_SOURCES}
+
     )
 
 

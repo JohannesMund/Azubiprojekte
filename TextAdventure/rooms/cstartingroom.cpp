@@ -4,6 +4,8 @@
 #include "cjunksword.h"
 #include "console.h"
 
+#include <format>
+
 CStartingRoom::CStartingRoom()
 {
     _encounterPossible = false;
@@ -19,12 +21,15 @@ void CStartingRoom::execute()
         return;
     }
 
+    auto sword = new CJunkSword();
+
     Console::br();
     Console::printLn("You whake up, somewhere.");
     Console::printLn("You have not the slightest idea, where you are.");
     Console::printLn("You look around, and realize, that you are utterly defenseless. You need something to defend "
-                     "yourself. Hidden beneath one of the bushes, you see a stick shaped like a sword. Or a sword "
-                     "shaped like a stick. This should do.");
+                     "yourself. Hidden beneath one of the bushes, you see someting:");
+    Console::printLn(sword->description());
+    Console::printLn("This seems to be a decent weapom, at least for now.");
     Console::br();
     char input;
     do
@@ -34,8 +39,8 @@ void CStartingRoom::execute()
         if (input == 't')
         {
             Console::br();
-            Console::printLn("You take the sword and equip it. It looks good on you.");
-            CGameManagement::getInventoryInstance()->addItem(new CJunkSword());
+            Console::printLn(std::format("You take the {} and equip it. It looks good on you.", sword->name()));
+            CGameManagement::getInventoryInstance()->addItem(sword);
         }
         else
         {
@@ -47,12 +52,13 @@ void CStartingRoom::execute()
         }
     } while (input != 't');
 
+    auto shield = new CJunkShield();
+
     Console::br();
     Console::printLn("Having the sword, you look further. You still do not feel like a big, sturdy warrior. "
                      "Something is missing.");
     Console::printLn("Wait, is that...?");
-    Console::printLn("You see an old, damaged buckler. It is dirty, it is worn out and it has seen a lot of fights, "
-                     "but is should still work.");
+    Console::printLn(shield->description());
 
     do
     {
@@ -62,8 +68,8 @@ void CStartingRoom::execute()
         if (input == 't')
         {
             Console::br();
-            Console::printLn("You take the shield and equip it. Now you feel complete.");
-            CGameManagement::getInventoryInstance()->addItem(new CJunkShield());
+            Console::printLn(std::format("You take the {} and equip it. Now you feel complete.", shield->name()));
+            CGameManagement::getInventoryInstance()->addItem(shield);
         }
         else
         {

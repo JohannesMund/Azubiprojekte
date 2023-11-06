@@ -3,6 +3,7 @@
 #include "citem.h"
 
 #include <map>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -59,7 +60,7 @@ public:
 
     CompressedItemMap getSellableItems() const;
 
-    void printInventory(const Scope& scope);
+    std::optional<CItem*> selectItemFromInventory(const Scope& scope);
 
 private:
     std::string printInventoryNav() const;
@@ -72,7 +73,6 @@ private:
     void printUsableItems(const Scope& scope);
     void printViewableItems();
 
-    void useItem(CItem* item, const Scope& scope);
     void viewItem(CItem* item);
 
     CItem* getItem(const unsigned int index);

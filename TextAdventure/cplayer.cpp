@@ -1,6 +1,7 @@
 #include "cplayer.h"
 #include "cenemy.h"
 #include "cgamemanagement.h"
+#include "citem.h"
 #include "console.h"
 #include "ressources.h"
 
@@ -201,7 +202,11 @@ std::optional<CBattle::EWeapons> CPlayer::battleAction(CEnemy* enemy, bool& endR
         }
         if (input == 'i')
         {
-            CGameManagement::getInventoryInstance()->printInventory(CInventory::Scope::eBattle);
+            auto item = CGameManagement::getInventoryInstance()->selectItemFromInventory(CInventory::Scope::eBattle);
+            if (item.has_value())
+            {
+                (*item)->useFromBattle(enemy);
+            }
         }
     }
     endRound = false;

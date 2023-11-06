@@ -38,7 +38,7 @@ public:
      * @brief useFromBattle
      * Called, when an item is actively used from the inventory
      */
-    virtual void useFromBattle()
+    virtual void useFromBattle(CEnemy*)
     {
     }
 

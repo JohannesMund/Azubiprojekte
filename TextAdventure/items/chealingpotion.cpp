@@ -47,7 +47,7 @@ void CHealingPotion::useFromInventory()
     use();
 }
 
-void CHealingPotion::useFromBattle()
+void CHealingPotion::useFromBattle(CEnemy*)
 {
     Console::printLn("It is in the middle of a hot fight, but you need healing.");
     use();

@@ -50,7 +50,7 @@ void CInventory::removeItem(const std::string& name)
 void CInventory::print(const Scope& scope)
 {
     Console::printLn("You look through your backpack and find the following:");
-    printInventory(scope);
+    selectItemFromInventory(scope);
 
     char input;
     do
@@ -234,25 +234,13 @@ CInventory::CompressedItemMap CInventory::getCompressedItemMap(std::function<boo
     return itemMap;
 }
 
-void CInventory::printInventory(const Scope& scope)
+std::optional<CItem*> CInventory::selectItemFromInventory(const Scope& scope)
 {
     auto itemMap = getInventoryCompressedForScope(scope);
-
     std::vector<CItem*> usableItems;
-
     for (auto item : itemMap)
     {
-        std::string s;
-        if ((!usableInScope(item.second, scope)))
-        {
-            s = std::format("      {} (x{})", item.second->name(), item.first);
-        }
-        else
-        {
-            usableItems.push_back(item.second);
-            s = std::format("[{:3}] {} (x{})", usableItems.size(), item.second->name(), item.first);
-        }
-        Console::printLn(s);
+        Console::printLn(std::format("[{:3}] {} (x{})", usableItems.size(), item.second->name(), item.first));
     }
 
     if (usableItems.size())
@@ -260,16 +248,10 @@ void CInventory::printInventory(const Scope& scope)
         auto item = Console::getNumberInputWithEcho(1, usableItems.size());
         if (item.has_value())
         {
-            if (scope == Scope::eView)
-            {
-                viewItem(usableItems.at(*item - 1));
-            }
-            else
-            {
-                useItem(usableItems.at(*item - 1), scope);
-            }
+            return usableItems.at(*item - 1);
         }
     }
+    return {};
 }
 
 std::string CInventory::printInventoryNav() const
@@ -303,43 +285,23 @@ void CInventory::printUsableItems(const Scope& scope)
 {
     Console::printLn("Select item to use");
     Console::hr();
-    printInventory(scope);
+    auto item = selectItemFromInventory(scope);
+    if (item.has_value())
+    {
+        Console::hr();
+        Console::printLn(std::format("You decide to use: {}", (*item)->name()));
+        (*item)->useFromInventory();
+    }
 }
 
 void CInventory::printViewableItems()
 {
     Console::printLn("Select item to view");
     Console::hr();
-    printInventory(Scope::eView);
-}
-
-void CInventory::useItem(CItem* item, const Scope& scope)
-{
-    if (item == nullptr)
+    auto item = selectItemFromInventory(Scope::eView);
+    if (item.has_value())
     {
-        return;
-    }
-
-    if (scope != Scope::eInventory && scope != Scope::eBattle)
-    {
-        return;
-    }
-
-    Console::hr();
-    Console::printLn(std::format("You decide to use: {}", item->name()));
-
-    if (scope == Scope::eInventory)
-    {
-        item->useFromInventory();
-    }
-    if (scope == Scope::eBattle)
-    {
-        item->useFromBattle();
-    }
-
-    if (item->isConsumable())
-    {
-        removeItem(item);
+        viewItem(*item);
     }
 }
 

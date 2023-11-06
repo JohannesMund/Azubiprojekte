@@ -54,11 +54,11 @@ void CBlackSmith::enhanceItem()
         {
             number++;
             enhancableItems.push_back(i);
-            Console::printLn(std::format("[{:3}] {} ({}Gold)", number, i->name(), cost));
+            Console::printLn(std::format("[{:3}] {} ({} Gold)", number, i->name(), cost));
         }
         else
         {
-            Console::printLn(std::format("[   ] {} ({}Gold)", i->name(), cost));
+            Console::printLn(std::format("[   ] {} ({} Gold)", i->name(), cost));
         }
     }
 

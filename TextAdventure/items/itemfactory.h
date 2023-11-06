@@ -11,6 +11,11 @@ enum class EItemType
     eHealingPotionL,
     eHealingPotionXL,
 
+    eBombS,
+    eBombM,
+    eBombL,
+    eBombXL,
+
     ePhoenixFeather,
     eHeartContainer,
 

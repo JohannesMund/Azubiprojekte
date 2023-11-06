@@ -7,7 +7,7 @@
 
 CJunkSword::CJunkSword() : CSword()
 {
-    _levelCap = 5;
+    _levelCap = 4;
     _namesByLevel = {
         "Stick, shaped like a sword", "Sword, shaped like a stick", "Wooden Sword", "Training Sword", "Sword"};
     _description = "A stick, shaped like a sword. Or a sword, shaped like a stick? It is a sword-stick";

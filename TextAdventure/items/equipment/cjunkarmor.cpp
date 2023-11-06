@@ -6,7 +6,7 @@
 #include <format>
 CJunkArmor::CJunkArmor() : CArmor()
 {
-    _levelCap = 5;
+    _levelCap = 4;
     _namesByLevel = {"Ripped T-Shirt", "White T-Shirt", "Fashionable T-Shirt", "Sweater", "Hoodie"};
     _description = "Looks like mere clothing, but should offer a little protection.";
 }

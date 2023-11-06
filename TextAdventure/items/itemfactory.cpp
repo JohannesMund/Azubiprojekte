@@ -1,4 +1,5 @@
 #include "itemfactory.h"
+#include "cbomb.h"
 #include "chealingpotion.h"
 #include "cheartcontainer.h"
 #include "cjunkitem.h"
@@ -28,6 +29,16 @@ CItem* ItemFactory::makeItem(const EItemType tp)
         return new CHealingPotion(CHealingPotion::PotionSize::L);
     case EItemType::eHealingPotionXL:
         return new CHealingPotion(CHealingPotion::PotionSize::XL);
+
+    case EItemType::eBombS:
+        return new CBomb(CBomb::BombSize::S);
+    case EItemType::eBombM:
+        return new CBomb(CBomb::BombSize::M);
+    case EItemType::eBombL:
+        return new CBomb(CBomb::BombSize::L);
+    case EItemType::eBombXL:
+        return new CBomb(CBomb::BombSize::XL);
+
     case EItemType::ePhoenixFeather:
         return new CPhoenixFeather();
     case EItemType::eHeartContainer:
@@ -44,17 +55,25 @@ CItem* ItemFactory::makeItem(const EItemType tp)
 
 CItem* ItemFactory::makeShopItem()
 {
-    std::vector<EItemType> items = {
-        EItemType::eHealingPotionS,  EItemType::eHealingPotionS, EItemType::eHealingPotionS, EItemType::eHealingPotionS,
-        EItemType::eHealingPotionS,  EItemType::eHealingPotionS, EItemType::eHealingPotionS, EItemType::eHealingPotionS,
-        EItemType::eHealingPotionS,  EItemType::eHealingPotionS,
+    std::vector<EItemType> items = {EItemType::eHealingPotionS,  EItemType::eHealingPotionS, EItemType::eHealingPotionS,
+                                    EItemType::eHealingPotionS,  EItemType::eHealingPotionS, EItemType::eHealingPotionS,
+                                    EItemType::eHealingPotionS,  EItemType::eHealingPotionS,
 
-        EItemType::eHealingPotionM,  EItemType::eHealingPotionM, EItemType::eHealingPotionM, EItemType::eHealingPotionM,
-        EItemType::eHealingPotionM,
+                                    EItemType::eBombS,           EItemType::eBombS,          EItemType::eBombS,
+                                    EItemType::eBombS,           EItemType::eBombS,          EItemType::eBombS,
+                                    EItemType::eBombS,           EItemType::eBombS,
 
-        EItemType::eHealingPotionL,  EItemType::eHealingPotionL, EItemType::eHealingPotionL,
+                                    EItemType::eHealingPotionM,  EItemType::eHealingPotionM, EItemType::eHealingPotionM,
+                                    EItemType::eHealingPotionM,
 
-        EItemType::eHealingPotionXL, EItemType::eHeartContainer, EItemType::ePhoenixFeather};
+                                    EItemType::eBombM,           EItemType::eBombM,          EItemType::eBombM,
+                                    EItemType::eBombM,
+
+                                    EItemType::eHealingPotionL,  EItemType::eHealingPotionL, EItemType::eBombL,
+                                    EItemType::eBombL,
+
+                                    EItemType::eHealingPotionXL, EItemType::eBombXL,         EItemType::eHeartContainer,
+                                    EItemType::ePhoenixFeather};
 
     std::shuffle(items.begin(), items.end(), std::default_random_engine(Randomizer::getRandomEngineSeed()));
 
