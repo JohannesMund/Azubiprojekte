@@ -1,5 +1,6 @@
 #include "cmap.h"
 #include "cinjuredpet.h"
+#include "colorconsole.h"
 #include "console.h"
 #include "croom.h"
 #include "cstartingroom.h"
@@ -221,7 +222,7 @@ void CMap::printRoom(const SRoomCoords& coords, const int line)
     }
 
     bool left = navAvailable(coords, EDirections::eWest);
-
+    cout << ColorConsole::backgroundColor(ColorConsole::EColor::green);
     if (line == 1)
     {
         cout << string{left ? " " : "|"};
@@ -235,6 +236,7 @@ void CMap::printRoom(const SRoomCoords& coords, const int line)
         cout << string{left ? bottom ? " " : "_" : "|"};
         cout << string{bottom ? "  " : "__"};
     }
+    cout << ColorConsole::reset();
 }
 
 void CMap::printMap()

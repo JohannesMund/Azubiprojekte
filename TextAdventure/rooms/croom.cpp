@@ -119,5 +119,5 @@ std::string CRoom::mapSymbol()
     {
         return "!";
     }
-    return "+";
+    return " ";
 }

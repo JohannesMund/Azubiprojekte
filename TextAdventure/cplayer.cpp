@@ -2,6 +2,7 @@
 #include "cenemy.h"
 #include "cgamemanagement.h"
 #include "citem.h"
+#include "colorconsole.h"
 #include "console.h"
 #include "ressources.h"
 
@@ -19,14 +20,20 @@ CPlayer::CPlayer()
 void CPlayer::print() const
 {
 
-    auto playerString = std::format("HP: {}/{} Gold: {}", _hp, _maxHp, _gold);
+    auto playerString = std::format("{}HP: {}/{} {}Gold: {}",
+                                    ColorConsole::foregroundColor(ColorConsole::EColor::green),
+                                    _hp,
+                                    _maxHp,
+                                    ColorConsole::foregroundColor(ColorConsole::EColor::lightYellow),
+                                    _gold);
     auto playerExperience = std::format("Level: {} Experience: {}/{}", _level, _xp, xpForNextLevel());
 
     if (CGameManagement::getCompanionInstance()->hasCompanion())
     {
         auto companionString = CGameManagement::getCompanionInstance()->name();
         auto companionExperience = std::format("Level: {}", CGameManagement::getCompanionInstance()->level());
-        Console::printLnWithSpacer(playerString, companionString);
+        Console::printLnWithSpacer(playerString,
+                                   ColorConsole::colorize(companionString, ColorConsole::EColor::lightRed));
         Console::printLnWithSpacer(playerExperience, companionExperience);
     }
     else

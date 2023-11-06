@@ -1,5 +1,6 @@
 #include "ctown.h"
 #include "cgamemanagement.h"
+#include "colorconsole.h"
 #include "console.h"
 #include "ressources.h"
 

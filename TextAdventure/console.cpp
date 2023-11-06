@@ -6,6 +6,7 @@
 
 #include "console.h"
 #include "cgamemanagement.h"
+#include "colorconsole.h"
 #include "ressources.h"
 
 #include <algorithm>
@@ -119,10 +120,10 @@ void Console::setEcho(const bool on)
 
 void Console::printLn(std::string text, const EAlignment align)
 {
-    if (text.size() > Ressources::Settings::consoleWidth)
+    if (ColorConsole::colorizedSize(text) > Ressources::Settings::consoleWidth)
     {
         unsigned int written = 0;
-        while (written < text.size())
+        while (written < ColorConsole::colorizedSize(text))
         {
             printLn(text.substr(written, Ressources::Settings::consoleWidth), align);
             written += Ressources::Settings::consoleWidth;
@@ -133,20 +134,20 @@ void Console::printLn(std::string text, const EAlignment align)
         if (align == EAlignment::eCenter)
         {
             bool toggle = false;
-            while (text.size() < Ressources::Settings::consoleWidth)
+            while (ColorConsole::colorizedSize(text) < Ressources::Settings::consoleWidth)
             {
-                text.insert(toggle ? 0 : text.size(), 1, ' ');
+                text.insert(toggle ? 0 : ColorConsole::colorizedSize(text), 1, ' ');
                 toggle = !toggle;
             }
         }
         else if (align == EAlignment::eRight)
         {
-            while (text.size() < Ressources::Settings::consoleWidth)
+            while (ColorConsole::colorizedSize(text) < Ressources::Settings::consoleWidth)
             {
                 text.insert(0, 1, ' ');
             }
         }
-        cout << text << endl;
+        cout << text << ColorConsole::reset() << endl;
     }
 }
 
@@ -181,7 +182,7 @@ std::optional<int> Console::getNumberInputWithEcho(const int min, const int max)
 
 void Console::printLnWithSpacer(const std::string& text1, const std::string& text2)
 {
-    if (text1.size() + text2.size() > Ressources::Settings::consoleWidth)
+    if (ColorConsole::colorizedSize(text1) + ColorConsole::colorizedSize(text2) > Ressources::Settings::consoleWidth)
     {
         printLn(text1);
         printLn(text2, EAlignment::eRight);
@@ -189,7 +190,7 @@ void Console::printLnWithSpacer(const std::string& text1, const std::string& tex
     }
 
     std::string out(text1);
-    while (out.size() + text2.size() < Ressources::Settings::consoleWidth)
+    while (ColorConsole::colorizedSize(out) + ColorConsole::colorizedSize(text2) < Ressources::Settings::consoleWidth)
     {
         out.append(" ");
     }

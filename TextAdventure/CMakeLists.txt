@@ -8,11 +8,15 @@ set(TEXTADVENTURE_SOURCES
     main.cpp
 
     console.h console.cpp
+    colorconsole.h colorconsole.cpp
+
     ressources.h ressources.cpp
     randomizer.h randomizer.cpp
 
     cgamemanagement.h cgamemanagement.cpp
     cplayer.h cplayer.cpp
+    cmap.h cmap.cpp
+    cbattle.h cbattle.cpp
 
     companion/companionfactory.h companion/companionfactory.cpp
     companion/ccompanion.h companion/ccompanion.cpp
@@ -21,8 +25,6 @@ set(TEXTADVENTURE_SOURCES
     companion/chealercompanion.h companion/chealercompanion.cpp
     companion/cscarymonstercompanion.h companion/cscarymonstercompanion.cpp
 
-    cmap.h cmap.cpp
-    cbattle.h cbattle.cpp
 
     rooms/roomfactory.h rooms/roomfactory.cpp
     rooms/croom.h  rooms/croom.cpp
@@ -71,6 +73,7 @@ set(TEXTADVENTURE_SOURCES
 )
 
 add_executable(TextAdventure ${TEXTADVENTURE_SOURCES}
+
 
     )
 

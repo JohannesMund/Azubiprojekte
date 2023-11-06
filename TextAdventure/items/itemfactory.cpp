@@ -76,7 +76,6 @@ CItem* ItemFactory::makeShopItem()
                                     EItemType::ePhoenixFeather};
 
     std::shuffle(items.begin(), items.end(), std::default_random_engine(Randomizer::getRandomEngineSeed()));
-
     return makeItem(items.at(0));
 }
 
@@ -93,6 +92,5 @@ CItem* ItemFactory::makeAwesomneItem()
                                     EItemType::eHeartContainer};
 
     std::shuffle(items.begin(), items.end(), std::default_random_engine(Randomizer::getRandomEngineSeed()));
-
     return makeItem(items.at(0));
 }
