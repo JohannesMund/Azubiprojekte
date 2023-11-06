@@ -312,11 +312,11 @@ std::string CMap::printNav()
     return acceptableInputs;
 }
 
-char CMap::mapSymbol(const SRoomCoords& coords)
+std::string CMap::mapSymbol(const SRoomCoords& coords)
 {
     if (coords == _playerPosition)
     {
-        return 'X';
+        return "X";
     }
 
     auto room = roomAt(coords);
@@ -325,7 +325,7 @@ char CMap::mapSymbol(const SRoomCoords& coords)
         return room->mapSymbol();
     }
 
-    return ' ';
+    return " ";
 }
 
 CRoom* CMap::currentRoom() const

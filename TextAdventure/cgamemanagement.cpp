@@ -10,9 +10,9 @@
 #include "itemfactory.h"
 #include "randomizer.h"
 
-#include <format>
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -100,7 +100,9 @@ void CGameManagement::registerEncounter(CEncounter* encounter)
 
 void CGameManagement::unregisterEncounterByName(const std::string& name)
 {
-    std::remove_if(_encounters.begin(), _encounters.end(), CEncounter::nameFilter(name));
+    auto it = std::remove_if(_encounters.begin(), _encounters.end(), CEncounter::nameFilter(name));
+    _encounters.erase(it);
+    delete *it;
 }
 
 CMap* CGameManagement::getMap()
@@ -167,7 +169,6 @@ void CGameManagement::executeTurn()
     {
         auto acceptableInputs = printNavigation();
         auto input = Console::getAcceptableInput(acceptableInputs);
-
         if (input == 'q')
         {
             _isGameOver = true;

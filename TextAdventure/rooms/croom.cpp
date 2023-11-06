@@ -113,11 +113,11 @@ bool CRoom::showInFogOfWar() const
     return _showInFogOfWar;
 }
 
-char CRoom::mapSymbol()
+std::string CRoom::mapSymbol()
 {
     if (hasTask())
     {
-        return '!';
+        return "!";
     }
-    return '+';
+    return "+";
 }

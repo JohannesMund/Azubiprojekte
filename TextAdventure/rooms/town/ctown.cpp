@@ -66,7 +66,7 @@ void CTown::execute()
     } while (input != 'x');
 }
 
-char CTown::mapSymbol()
+std::string CTown::mapSymbol()
 {
-    return 'T';
+    return "T";
 }

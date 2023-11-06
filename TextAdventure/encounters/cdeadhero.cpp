@@ -72,7 +72,7 @@ unsigned int CDeadHero::encounterChance() const
     {
         return 0;
     }
-    return 1;
+    return 5;
 }
 
 std::string CDeadHero::name() const

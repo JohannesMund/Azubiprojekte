@@ -80,12 +80,12 @@ void CInjuredPet::execute()
     _taskPossible = true;
 }
 
-char CInjuredPet::mapSymbol()
+std::string CInjuredPet::mapSymbol()
 {
     if (CGameManagement::getCompanionInstance()->hasCompanion() || _petIsDead)
     {
         return CRoom::mapSymbol();
     }
 
-    return '?';
+    return "?";
 }

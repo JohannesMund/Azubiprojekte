@@ -71,7 +71,7 @@ public:
     void printRoom(const SRoomCoords& coords, const int line);
     void printMap();
     std::string printNav();
-    char mapSymbol(const SRoomCoords& coords);
+    std::string mapSymbol(const SRoomCoords& coords);
 
     CRoom* currentRoom() const;
 

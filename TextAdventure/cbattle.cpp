@@ -102,8 +102,8 @@ void CBattle::battleLoop()
         Console::printLn("New turn");
 
         _enemy->preBattleAction();
-        bool endRound = false;
 
+        bool endRound = false;
         std::optional<EWeapons> playersChoice;
         if (doesPlayerGoFirst())
         {
@@ -168,17 +168,14 @@ CBattle::EBattleResult CBattle::hasWonAgainst(const std::optional<CBattle::EWeap
 
     if (!choice.has_value() && !other.has_value())
     {
-        Console::printLn("Nobody wants to play.");
         return CBattle::EBattleResult::eTie;
     }
     if (!choice.has_value() && other.has_value())
     {
-        Console::printLn("Player refuses to play.");
         return CBattle::EBattleResult::eLost;
     }
     if (choice.has_value() && !other.has_value())
     {
-        Console::printLn("The enemy refuses to play.");
         return CBattle::EBattleResult::eWon;
     }
 

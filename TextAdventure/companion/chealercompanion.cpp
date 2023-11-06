@@ -21,7 +21,10 @@ std::string CHealerCompanion::type() const
 
 void CHealerCompanion::preBattle(CEnemy* enemy)
 {
-    Console::printLn(std::format("{} tries to look dangerous but it does not work. At least it is cute", name()));
+    if (_level > 0)
+    {
+        Console::printLn(std::format("{} tries to look dangerous but it does not work. At least it is cute", name()));
+    }
 }
 
 void CHealerCompanion::battleAction(CEnemy* enemy, bool& endRound)

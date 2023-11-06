@@ -45,5 +45,9 @@ void CCompanion::evolve()
 
 bool CCompanion::fireDefaultAction() const
 {
+    if (_level == 0)
+    {
+        return false;
+    }
     return Randomizer::getRandom(Ressources::Companion::companionLevelCap + 2 - _level) == 0;
 }

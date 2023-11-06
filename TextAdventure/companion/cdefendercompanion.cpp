@@ -20,7 +20,10 @@ std::string CDefenderCompanion::type() const
 
 void CDefenderCompanion::preBattle(CEnemy* enemy)
 {
-    Console::printLn(std::format("{} tries to look dangerous but it does not work. At least it is cute", name()));
+    if (_level > 0)
+    {
+        Console::printLn(std::format("{} tries to look dangerous but it does not work. At least it is cute", name()));
+    }
 }
 
 void CDefenderCompanion::battleAction(CEnemy* enemy, bool& endRound)
@@ -29,7 +32,10 @@ void CDefenderCompanion::battleAction(CEnemy* enemy, bool& endRound)
 
 void CDefenderCompanion::postBattle(CEnemy* enemy)
 {
-    Console::printLn(std::format("{} looks victorious.", name()));
+    if (_level > 0)
+    {
+        Console::printLn(std::format("{} looks victorious.", name()));
+    }
 }
 
 int CDefenderCompanion::shield(const int i)

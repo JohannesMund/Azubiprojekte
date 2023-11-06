@@ -19,7 +19,7 @@ unsigned int getXpForLevel(const unsigned int level);
 static const unsigned int fieldWidth = 10;
 static const unsigned int fieldHeight = 10;
 static const unsigned int encounterChance = 15;
-static const unsigned int fightChance = 7;
+static const unsigned int fightChance = 15;
 
 static const unsigned int numberOfTowns = 3;
 

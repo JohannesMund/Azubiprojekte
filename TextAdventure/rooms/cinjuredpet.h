@@ -8,7 +8,7 @@ public:
     CInjuredPet();
 
     virtual void execute() override;
-    virtual char mapSymbol() override;
+    virtual std::string mapSymbol() override;
 
 private:
     bool _petIsDead = false;

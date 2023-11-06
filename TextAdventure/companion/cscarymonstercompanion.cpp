@@ -46,7 +46,10 @@ void CScaryMonsterCompanion::battleAction(CEnemy* enemy, bool& endRound)
 
 void CScaryMonsterCompanion::postBattle(CEnemy* enemy)
 {
-    Console::printLn(std::format("{} looks victorious.", name()));
+    if (_level > 0)
+    {
+        Console::printLn(std::format("{} looks victorious.", name()));
+    }
 }
 
 int CScaryMonsterCompanion::shield(const int i)

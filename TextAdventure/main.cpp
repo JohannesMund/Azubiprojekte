@@ -8,7 +8,7 @@ using namespace std;
 int main()
 {
     Console::setEcho(false);
-    Console::cls();
+    Console::cls(false);
 
     Console::hr();
     Console::printLn("T H E   Q E S T  F O R   T H E   F L O I N K", Console::EAlignment::eCenter);

@@ -55,10 +55,10 @@ void CMysteriousChest::execute()
         goodStuffBonus += 2;
     }
 
-    auto reward = Randomizer::getRandom(10) + goodStuffBonus;
+    auto reward = Randomizer::getRandom(15) + goodStuffBonus;
     unsigned int gold = CGameManagement::getPlayerInstance()->level() * 750;
 
-    if (reward >= 10)
+    if (reward >= 15)
     {
         Console::printLn("Jackpot ---TBD---");
     }
@@ -80,7 +80,7 @@ void CMysteriousChest::execute()
 
 unsigned int CMysteriousChest::encounterChance() const
 {
-    return 1;
+    return 3;
 }
 
 std::string CMysteriousChest::name() const

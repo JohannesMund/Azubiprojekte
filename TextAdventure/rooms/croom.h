@@ -22,7 +22,7 @@ public:
 
     bool showInFogOfWar() const;
 
-    virtual char mapSymbol();
+    virtual std::string mapSymbol();
     virtual void execute();
 
     void setTask(CTask* task);

@@ -28,17 +28,20 @@ void Console::confirmToContinue()
     cout << endl;
 }
 
-void Console::cls()
+void Console::cls(const bool bHud)
 {
 #ifdef _USE_WINDOWS
     system("cls");
 #else
     system("clear");
 #endif
-    CGameManagement::getInstance()->printHUD();
+    if (bHud)
+    {
+        CGameManagement::getInstance()->printHUD();
+    }
 }
 
-char Console::getAcceptableInput(string acceptableChars)
+char Console::getAcceptableInput(string_view acceptableChars)
 {
     bool found = false;
     char input;
@@ -114,14 +117,14 @@ void Console::setEcho(const bool on)
 #endif
 }
 
-void Console::printLn(std::string text, const EAlignment align, const bool nobr)
+void Console::printLn(std::string text, const EAlignment align)
 {
-    if (text.size() > Ressources::Settings::consoleWidth && !nobr)
+    if (text.size() > Ressources::Settings::consoleWidth)
     {
         unsigned int written = 0;
         while (written < text.size())
         {
-            printLn(text.substr(written, Ressources::Settings::consoleWidth), align, nobr);
+            printLn(text.substr(written, Ressources::Settings::consoleWidth), align);
             written += Ressources::Settings::consoleWidth;
         }
     }
