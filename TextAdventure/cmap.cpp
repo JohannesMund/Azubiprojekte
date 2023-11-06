@@ -222,7 +222,7 @@ void CMap::printRoom(const SRoomCoords& coords, const int line)
     }
 
     bool left = navAvailable(coords, EDirections::eWest);
-    cout << ColorConsole::backgroundColor(ColorConsole::EColor::green);
+    cout << ColorConsole::backgroundColor(ColorConsole::EColor::darkGray);
     if (line == 1)
     {
         cout << string{left ? " " : "|"};

@@ -8,35 +8,35 @@ std::string ColorConsole::foregroundColor(const EColor c)
     switch (c)
     {
     case EColor::black:
-        return "\033[30m";
+        return "\e[030m";
     case EColor::red:
-        return "\033[31m";
+        return "\e[031m";
     case EColor::green:
-        return "\033[32m";
+        return "\e[032m";
     case EColor::yellow:
-        return "\033[33m";
+        return "\e[033m";
     case EColor::blue:
-        return "\033[34m";
+        return "\e[034m";
     case EColor::magenta:
-        return "\033[35m";
+        return "\e[035m";
     case EColor::cyan:
-        return "\033[36m";
+        return "\e[036m";
     case EColor::lightGray:
-        return "\033[37m";
+        return "\e[037m";
     case EColor::darkGray:
-        return "\033[90m";
+        return "\e[090m";
     case EColor::lightRed:
-        return "\033[91m";
+        return "\e[091m";
     case EColor::lightGreen:
-        return "\033[92m";
+        return "\e[092m";
     case EColor::lightYellow:
-        return "\033[93m";
+        return "\e[093m";
     case EColor::lightBlue:
-        return "\033[94m";
+        return "\e[094m";
     case EColor::lightMagenta:
-        return "\033[95m";
+        return "\e[095m";
     case EColor::lightCyan:
-        return "\033[96m";
+        return "\e[096m";
     }
 }
 
@@ -46,27 +46,41 @@ std::string ColorConsole::backgroundColor(const EColor c)
     {
     case EColor::black:
     default:
-        return "\033[40m";
+        return "\e[040m";
     case EColor::red:
-        return "\033[41m";
+        return "\e[041m";
     case EColor::green:
-        return "\033[42m";
+        return "\e[042m";
     case EColor::yellow:
-        return "\033[43m";
+        return "\e[043m";
     case EColor::blue:
-        return "\033[44m";
+        return "\e[044m";
     case EColor::magenta:
-        return "\033[45m";
+        return "\e[045m";
     case EColor::cyan:
-        return "\033[46m";
+        return "\e[046m";
     case EColor::lightGray:
-        return "\033[47m";
+        return "\e[047m";
+    case EColor::darkGray:
+        return "\e[100m";
+    case EColor::lightRed:
+        return "\e[101m";
+    case EColor::lightGreen:
+        return "\e[102m";
+    case EColor::lightYellow:
+        return "\e[103m";
+    case EColor::lightBlue:
+        return "\e[104m";
+    case EColor::lightMagenta:
+        return "\e[105m";
+    case EColor::lightCyan:
+        return "\e[106m";
     }
 }
 
 std::string ColorConsole::reset()
 {
-    return "\033[00m";
+    return "\e[000m";
 }
 
 std::string ColorConsole::colorize(const std::string_view s, const EColor c)
@@ -76,7 +90,7 @@ std::string ColorConsole::colorize(const std::string_view s, const EColor c)
 
 size_t ColorConsole::colorizedSize(const std::string& s)
 {
-    const std::regex expression("\\\033\\[(\\d*)m");
+    const std::regex expression("\\\e\\[(\\d*)m");
 
     auto beginIt = std::sregex_iterator(s.begin(), s.end(), expression);
     auto endIt = std::sregex_iterator();
@@ -87,5 +101,5 @@ size_t ColorConsole::colorizedSize(const std::string& s)
 
 size_t ColorConsole::colorCodeSize()
 {
-    return std::string("\033[00m").size();
+    return std::string("\e[000m").size();
 }
