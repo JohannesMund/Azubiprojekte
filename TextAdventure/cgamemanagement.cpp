@@ -249,6 +249,8 @@ void CGameManagement::init()
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eJunkItem));
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eJunkItem));
 
+    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eUrzasGlasses));
+
     Randomizer::init();
 
     EncounterRegister::encounterRegister();

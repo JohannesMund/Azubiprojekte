@@ -60,6 +60,7 @@ set(TEXTADVENTURE_SOURCES
     items/cjunkitem.h items/cjunkitem.cpp
     items/cphoenixfeather.h items/cphoenixfeather.cpp
     items/cheartcontainer.h items/cheartcontainer.cpp
+    items/curzasglasses.h items/curzasglasses.cpp
 
     encounters/encounterregister.h
     encounters/cencounter.h encounters/cencounter.cpp
@@ -68,7 +69,8 @@ set(TEXTADVENTURE_SOURCES
     encounters/cmysteriouschest.h encounters/cmysteriouschest.cpp
 )
 
-add_executable(TextAdventure ${TEXTADVENTURE_SOURCES})
+add_executable(TextAdventure ${TEXTADVENTURE_SOURCES}
+    )
 
 
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR})

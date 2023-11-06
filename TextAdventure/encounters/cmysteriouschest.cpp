@@ -60,7 +60,7 @@ void CMysteriousChest::execute()
 
     if (reward >= 15)
     {
-        Console::printLn("Jackpot ---TBD---");
+        CGameManagement::getInventoryInstance()->addItem(ItemFactory::makeAwesomneItem());
     }
     if (reward >= 7)
     {

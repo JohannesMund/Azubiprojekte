@@ -15,6 +15,9 @@ public:
         eLizard,
         eSpock
     };
+
+    static std::string weapon2String(const EWeapons weapon);
+
     enum class EBattleResult
     {
         eWon,
@@ -38,7 +41,6 @@ private:
     bool doesPlayerGoFirst();
 
     static EBattleResult hasWonAgainst(const std::optional<EWeapons> choice, const std::optional<EWeapons> other);
-    static std::string weapon2String(const EWeapons weapon);
 
     CEnemy* _enemy = nullptr;
 };

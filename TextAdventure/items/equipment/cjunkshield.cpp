@@ -10,8 +10,9 @@ CJunkShield::CJunkShield() : CShield()
 {
 
     _levelCap = 5;
-    _namesByLevel = {"Old Buckler", "Repaired Buckler", "Wooden Buckler", "Robust Buckler", "Great Buckler"};
-    _description = "A round, savage shield.";
+    _namesByLevel = {
+        "wheathered wooden board", "wooden board", "robust wooden board", "strong", "looks like an actual shield"};
+    _description = "a wooden board";
 }
 
 void CJunkShield::battleEffect(CEnemy* enemy)

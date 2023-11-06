@@ -1,15 +1,20 @@
 #include "itemfactory.h"
-
 #include "chealingpotion.h"
-
 #include "cheartcontainer.h"
 #include "cjunkitem.h"
 #include "cphoenixfeather.h"
 #include "cshield.h"
 #include "csword.h"
+#include "curzasglasses.h"
 #include "randomizer.h"
+
 #include <algorithm>
 #include <vector>
+
+namespace
+{
+
+}
 
 CItem* ItemFactory::makeItem(const EItemType tp)
 {
@@ -29,8 +34,10 @@ CItem* ItemFactory::makeItem(const EItemType tp)
         return new CHeartContainer;
     case EItemType::eJunkItem:
         return new CJunkItem();
+    case EItemType::eUrzasGlasses:
+        return new CUrzasGlasses();
     default:
-        break;
+        return nullptr;
     }
     return nullptr;
 }
@@ -48,6 +55,23 @@ CItem* ItemFactory::makeShopItem()
         EItemType::eHealingPotionL,  EItemType::eHealingPotionL, EItemType::eHealingPotionL,
 
         EItemType::eHealingPotionXL, EItemType::eHeartContainer, EItemType::ePhoenixFeather};
+
+    std::shuffle(items.begin(), items.end(), std::default_random_engine(Randomizer::getRandomEngineSeed()));
+
+    return makeItem(items.at(0));
+}
+
+CItem* ItemFactory::makeAwesomneItem()
+{
+    std::vector<EItemType> items = {EItemType::eUrzasGlasses,
+
+                                    EItemType::ePhoenixFeather,
+                                    EItemType::ePhoenixFeather,
+                                    EItemType::ePhoenixFeather,
+
+                                    EItemType::eHeartContainer,
+                                    EItemType::eHeartContainer,
+                                    EItemType::eHeartContainer};
 
     std::shuffle(items.begin(), items.end(), std::default_random_engine(Randomizer::getRandomEngineSeed()));
 

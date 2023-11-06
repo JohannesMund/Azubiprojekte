@@ -114,8 +114,8 @@ void CBattle::battleLoop()
         else
         {
             Console::printLn("The enemy is faster.");
-            playersChoice = CGameManagement::getPlayerInstance()->battleAction(_enemy, endRound);
             _enemy->battleAction(endRound);
+            playersChoice = CGameManagement::getPlayerInstance()->battleAction(_enemy, endRound);
         }
         if (!endRound)
         {

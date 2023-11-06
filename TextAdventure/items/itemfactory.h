@@ -14,10 +14,13 @@ enum class EItemType
     ePhoenixFeather,
     eHeartContainer,
 
-    eJunkItem
+    eJunkItem,
+
+    eUrzasGlasses
 };
 
 CItem* makeItem(const EItemType tp);
 CItem* makeShopItem();
+CItem* makeAwesomneItem();
 
 } // namespace ItemFactory
