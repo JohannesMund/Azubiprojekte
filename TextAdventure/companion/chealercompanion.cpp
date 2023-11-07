@@ -11,7 +11,10 @@ CHealerCompanion::CHealerCompanion()
 
 std::string CHealerCompanion::name() const
 {
-    return Ressources::Companion::nameForCompanionType(Ressources::Companion::ECompanionType::eHealer, _level);
+    return CC::colorizeString(
+        Ressources::Companion::nameForCompanionType(Ressources::Companion::ECompanionType::eHealer, _level),
+        CC::fgBlue(),
+        CC::fgLightBlue());
 }
 
 std::string CHealerCompanion::type() const

@@ -4,6 +4,7 @@
 #include "randomizer.h"
 
 #include <format>
+#include <string>
 
 std::string CCompanion::description() const
 {

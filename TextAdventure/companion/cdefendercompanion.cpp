@@ -10,7 +10,10 @@ CDefenderCompanion::CDefenderCompanion()
 
 std::string CDefenderCompanion::name() const
 {
-    return Ressources::Companion::nameForCompanionType(Ressources::Companion::ECompanionType::eDefender, _level);
+    return CC::colorizeString(
+        Ressources::Companion::nameForCompanionType(Ressources::Companion::ECompanionType::eDefender, _level),
+        CC::fgGreen(),
+        CC::fgLightGreen());
 }
 
 std::string CDefenderCompanion::type() const

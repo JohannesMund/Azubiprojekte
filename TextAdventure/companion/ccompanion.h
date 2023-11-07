@@ -1,7 +1,7 @@
 #pragma once
 
+#include "colorconsole.h"
 #include "ressources.h"
-
 #include <string>
 
 class CEnemy;

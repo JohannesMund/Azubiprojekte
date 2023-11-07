@@ -120,13 +120,25 @@ void Console::setEcho(const bool on)
 
 void Console::printLn(std::string text, const EAlignment align)
 {
-    if (ColorConsole::colorizedSize(text) > Ressources::Settings::consoleWidth)
+    if (CC::colorizedSize(text) > Ressources::Settings::consoleWidth)
     {
         unsigned int written = 0;
-        while (written < ColorConsole::colorizedSize(text))
+        while (written < CC::colorizedSize(text))
         {
-            printLn(text.substr(written, Ressources::Settings::consoleWidth), align);
-            written += Ressources::Settings::consoleWidth;
+            auto substring = text.substr(written, Ressources::Settings::consoleWidth);
+            auto it = substring.find_last_of(" ");
+
+            if (it == std::string::npos)
+            {
+                printLn(substring, align);
+                written += Ressources::Settings::consoleWidth;
+            }
+            else
+            {
+                auto subsubstring = substring.substr(0, ++it);
+                printLn(subsubstring, align);
+                written += subsubstring.size();
+            }
         }
     }
     else
@@ -134,27 +146,27 @@ void Console::printLn(std::string text, const EAlignment align)
         if (align == EAlignment::eCenter)
         {
             bool toggle = false;
-            while (ColorConsole::colorizedSize(text) < Ressources::Settings::consoleWidth)
+            while (CC::colorizedSize(text) < Ressources::Settings::consoleWidth)
             {
-                text.insert(toggle ? 0 : ColorConsole::colorizedSize(text), 1, ' ');
+                text.insert(toggle ? 0 : CC::colorizedSize(text), 1, ' ');
                 toggle = !toggle;
             }
         }
         else if (align == EAlignment::eRight)
         {
-            while (ColorConsole::colorizedSize(text) < Ressources::Settings::consoleWidth)
+            while (CC::colorizedSize(text) < Ressources::Settings::consoleWidth)
             {
                 text.insert(0, 1, ' ');
             }
         }
-        cout << text << ColorConsole::reset() << endl;
+        cout << text << CC::ccReset() << endl;
     }
 }
 
 std::optional<int> Console::getNumberInputWithEcho(const int min, const int max)
 {
 
-    cout << std::format("[Enter number between {} and {} (or 'x' to cancel)]", min, max);
+    cout << std::format("[Enter number between {} and {} (or 'x' to cancel)] ", min, max);
 
     while (true)
     {
@@ -182,7 +194,7 @@ std::optional<int> Console::getNumberInputWithEcho(const int min, const int max)
 
 void Console::printLnWithSpacer(const std::string& text1, const std::string& text2)
 {
-    if (ColorConsole::colorizedSize(text1) + ColorConsole::colorizedSize(text2) > Ressources::Settings::consoleWidth)
+    if (CC::colorizedSize(text1) + CC::colorizedSize(text2) > Ressources::Settings::consoleWidth)
     {
         printLn(text1);
         printLn(text2, EAlignment::eRight);
@@ -190,7 +202,7 @@ void Console::printLnWithSpacer(const std::string& text1, const std::string& tex
     }
 
     std::string out(text1);
-    while (ColorConsole::colorizedSize(out) + ColorConsole::colorizedSize(text2) < Ressources::Settings::consoleWidth)
+    while (CC::colorizedSize(out) + CC::colorizedSize(text2) < Ressources::Settings::consoleWidth)
     {
         out.append(" ");
     }

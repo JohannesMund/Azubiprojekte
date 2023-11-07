@@ -1,35 +1,39 @@
 #include "cbomb.h"
 #include "cenemy.h"
+#include "colorconsole.h"
 #include "console.h"
 
 #include <format>
 
 CBomb::CBomb(const BombSize& size)
 {
+    std::string name;
     switch (size)
     {
     case BombSize::S:
-        _name = "Fire cracker";
+        name = "Fire cracker";
         _description.append("A pretty little fire creacker.");
         _value = 50;
         break;
     case BombSize::M:
     default:
-        _name = "Cherry bomb";
+        name = "Cherry bomb";
         _description.append("two little cherries, one big boOOM.");
         _value = 100;
         break;
     case BombSize::L:
-        _name = "Pirate bomb";
+        name = "Pirate bomb";
         _description.append("Lig in the pirate movies, big, and... bomby.");
         _value = 250;
         break;
     case BombSize::XL:
-        _name = "tactical nuclear bomb";
+        name = "tactical nuclear bomb";
         _description.append("Nukelear, it is pronounced nukelear");
         _value = 500;
         break;
     }
+
+    _name = std::format("{}{}{}", CC::fgLightRed(), name, CC::ccReset());
     _size = size;
     _isConsumable = true;
     _isUsableFromBattle = true;

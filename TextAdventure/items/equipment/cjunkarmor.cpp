@@ -1,5 +1,6 @@
 #include "cjunkarmor.h"
 #include "cenemy.h"
+#include "colorconsole.h"
 #include "console.h"
 #include "randomizer.h"
 
@@ -9,6 +10,11 @@ CJunkArmor::CJunkArmor() : CArmor()
     _levelCap = 4;
     _namesByLevel = {"Ripped T-Shirt", "White T-Shirt", "Fashionable T-Shirt", "Sweater", "Hoodie"};
     _description = "Looks like mere clothing, but should offer a little protection.";
+}
+
+std::string CJunkArmor::name() const
+{
+    return CC::colorizeString(CEquipment::name(), CC::fgLightGray(), CC::fgLightGray());
 }
 
 void CJunkArmor::battleEffect(CEnemy* enemy)

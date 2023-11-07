@@ -1,5 +1,6 @@
 #include "cjunksword.h"
 #include "cenemy.h"
+#include "colorconsole.h"
 #include "console.h"
 
 #include <format>
@@ -11,6 +12,11 @@ CJunkSword::CJunkSword() : CSword()
     _namesByLevel = {
         "Stick, shaped like a sword", "Sword, shaped like a stick", "Wooden Sword", "Training Sword", "Sword"};
     _description = "A stick, shaped like a sword. Or a sword, shaped like a stick? It is a sword-stick";
+}
+
+std::string CJunkSword::name() const
+{
+    return CC::colorizeString(CEquipment::name(), CC::fgYellow(), CC::fgGreen());
 }
 
 void CJunkSword::battleEffect(CEnemy* enemy)

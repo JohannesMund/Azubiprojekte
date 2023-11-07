@@ -1,5 +1,6 @@
 #include "cjunkshield.h"
 #include "cenemy.h"
+#include "colorconsole.h"
 #include "console.h"
 #include "randomizer.h"
 
@@ -13,6 +14,11 @@ CJunkShield::CJunkShield() : CShield()
     _namesByLevel = {
         "wheathered wooden board", "wooden board", "robust wooden board", "strong", "looks like an actual shield"};
     _description = "A wooden board. It can protect you from... well, not much but it offers a little protection.";
+}
+
+std::string CJunkShield::name() const
+{
+    return CC::colorizeString(CEquipment::name(), CC::fgLightCyan(), CC::fgCyan());
 }
 
 void CJunkShield::battleEffect(CEnemy* enemy)

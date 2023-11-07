@@ -3,92 +3,7 @@
 #include <format>
 #include <regex>
 
-std::string ColorConsole::foregroundColor(const EColor c)
-{
-    switch (c)
-    {
-    case EColor::black:
-        return "\e[030m";
-    case EColor::red:
-        return "\e[031m";
-    case EColor::green:
-        return "\e[032m";
-    case EColor::yellow:
-        return "\e[033m";
-    case EColor::blue:
-        return "\e[034m";
-    case EColor::magenta:
-        return "\e[035m";
-    case EColor::cyan:
-        return "\e[036m";
-    case EColor::lightGray:
-        return "\e[037m";
-    case EColor::darkGray:
-        return "\e[090m";
-    case EColor::lightRed:
-        return "\e[091m";
-    case EColor::lightGreen:
-        return "\e[092m";
-    case EColor::lightYellow:
-        return "\e[093m";
-    case EColor::lightBlue:
-        return "\e[094m";
-    case EColor::lightMagenta:
-        return "\e[095m";
-    case EColor::lightCyan:
-        return "\e[096m";
-    }
-}
-
-std::string ColorConsole::backgroundColor(const EColor c)
-{
-    switch (c)
-    {
-    case EColor::black:
-    default:
-        return "\e[040m";
-    case EColor::red:
-        return "\e[041m";
-    case EColor::green:
-        return "\e[042m";
-    case EColor::yellow:
-        return "\e[043m";
-    case EColor::blue:
-        return "\e[044m";
-    case EColor::magenta:
-        return "\e[045m";
-    case EColor::cyan:
-        return "\e[046m";
-    case EColor::lightGray:
-        return "\e[047m";
-    case EColor::darkGray:
-        return "\e[100m";
-    case EColor::lightRed:
-        return "\e[101m";
-    case EColor::lightGreen:
-        return "\e[102m";
-    case EColor::lightYellow:
-        return "\e[103m";
-    case EColor::lightBlue:
-        return "\e[104m";
-    case EColor::lightMagenta:
-        return "\e[105m";
-    case EColor::lightCyan:
-        return "\e[106m";
-    }
-}
-
-std::string ColorConsole::reset()
-{
-    return "\e[000m";
-}
-
-std::string ColorConsole::colorize(const std::string_view s, const EColor c)
-{
-    return std::format("{}{}{}", foregroundColor(c), s, reset());
-}
-
-size_t ColorConsole::colorizedSize(const std::string& s)
+size_t CC::colorizedSize(const std::string& s)
 {
     const std::regex expression("\\\e\\[(\\d*)m");
 
@@ -99,7 +14,172 @@ size_t ColorConsole::colorizedSize(const std::string& s)
     return s.size() - (count * colorCodeSize());
 }
 
-size_t ColorConsole::colorCodeSize()
+size_t CC::colorCodeSize()
 {
     return std::string("\e[000m").size();
+}
+
+std::string CC::fgBlack()
+{
+    return "\e[030m";
+}
+
+std::string CC::fgRed()
+{
+    return "\e[031m";
+}
+
+std::string CC::fgGreen()
+{
+    return "\e[032m";
+}
+
+std::string CC::fgYellow()
+{
+    return "\e[033m";
+}
+
+std::string CC::fgBlue()
+{
+    return "\e[034m";
+}
+
+std::string CC::fgMagenta()
+{
+    return "\e[035m";
+}
+
+std::string CC::fgCyan()
+{
+    return "\e[036m";
+}
+
+std::string CC::fgLightGray()
+{
+    return "\e[037m";
+}
+
+std::string CC::fgDarkGray()
+{
+    return "\e[090m";
+}
+
+std::string CC::fgLightRed()
+{
+    return "\e[091m";
+}
+
+std::string CC::fgLightGreen()
+{
+    return "\e[092m";
+}
+
+std::string CC::fgLightYellow()
+{
+    return "\e[093m";
+}
+
+std::string CC::fgLightBlue()
+{
+    return "\e[094m";
+}
+
+std::string CC::fgLightMagenta()
+{
+    return "\e[095m";
+}
+
+std::string CC::fgLightCyan()
+{
+    return "\e[096m";
+}
+
+std::string CC::bgBlack()
+{
+    return "\e[040m";
+}
+
+std::string CC::bgRed()
+{
+    return "\e[041m";
+}
+
+std::string CC::bgGreen()
+{
+    return "\e[042m";
+}
+
+std::string CC::bgYellow()
+{
+    return "\e[043m";
+}
+
+std::string CC::bgBlue()
+{
+    return "\e[044m";
+}
+
+std::string CC::bgMagenta()
+{
+    return "\e[045m";
+}
+
+std::string CC::bgCyan()
+{
+    return "\e[046m";
+}
+
+std::string CC::bgLightGray()
+{
+    return "\e[047m";
+}
+
+std::string CC::bgDarkGray()
+{
+    return "\e[100m";
+}
+
+std::string CC::bgLightRed()
+{
+    return "\e[101m";
+}
+
+std::string CC::bgLightGreen()
+{
+    return "\e[102m";
+}
+
+std::string CC::bgLightYellow()
+{
+    return "\e[103m";
+}
+
+std::string CC::bgLightBlue()
+{
+    return "\e[104m";
+}
+
+std::string CC::bgLightMagenta()
+{
+    return "\e[105m";
+}
+
+std::string CC::bgLightCyan()
+{
+    return "\e[106m";
+}
+
+std::string CC::ccReset()
+{
+    return "\e[000m";
+}
+
+std::string CC::ccInvert()
+{
+    return "\e[007m";
+}
+
+std::string CC::colorizeString(const std::string_view& s, const std::string_view& c1, const std::string_view& c2)
+{
+    return std::format("{}{}{}{}{}", c1, s.at(0), c2, s.substr(1), CC::ccReset());
 }

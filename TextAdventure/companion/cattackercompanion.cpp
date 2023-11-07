@@ -11,7 +11,10 @@ CAttackerCompanion::CAttackerCompanion()
 
 std::string CAttackerCompanion::name() const
 {
-    return Ressources::Companion::nameForCompanionType(Ressources::Companion::ECompanionType::eAttacker, _level);
+    return CC::colorizeString(
+        Ressources::Companion::nameForCompanionType(Ressources::Companion::ECompanionType::eAttacker, _level),
+        CC::fgRed(),
+        CC::fgLightRed());
 }
 
 std::string CAttackerCompanion::type() const

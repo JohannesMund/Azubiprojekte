@@ -20,20 +20,14 @@ CPlayer::CPlayer()
 void CPlayer::print() const
 {
 
-    auto playerString = std::format("{}HP: {}/{} {}Gold: {}",
-                                    ColorConsole::foregroundColor(ColorConsole::EColor::green),
-                                    _hp,
-                                    _maxHp,
-                                    ColorConsole::foregroundColor(ColorConsole::EColor::lightYellow),
-                                    _gold);
+    auto playerString = std::format("{}HP: {}/{} {}Gold: {}", CC::fgGreen(), _hp, _maxHp, CC::fgLightYellow(), _gold);
     auto playerExperience = std::format("Level: {} Experience: {}/{}", _level, _xp, xpForNextLevel());
 
     if (CGameManagement::getCompanionInstance()->hasCompanion())
     {
         auto companionString = CGameManagement::getCompanionInstance()->name();
         auto companionExperience = std::format("Level: {}", CGameManagement::getCompanionInstance()->level());
-        Console::printLnWithSpacer(playerString,
-                                   ColorConsole::colorize(companionString, ColorConsole::EColor::lightRed));
+        Console::printLnWithSpacer(playerString, companionString);
         Console::printLnWithSpacer(playerExperience, companionExperience);
     }
     else

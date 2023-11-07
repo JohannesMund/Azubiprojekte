@@ -10,7 +10,10 @@ CScaryMonsterCompanion::CScaryMonsterCompanion()
 
 std::string CScaryMonsterCompanion::name() const
 {
-    return Ressources::Companion::nameForCompanionType(Ressources::Companion::ECompanionType::eScaryMonster, _level);
+    return CC::colorizeString(
+        Ressources::Companion::nameForCompanionType(Ressources::Companion::ECompanionType::eScaryMonster, _level),
+        CC::fgYellow(),
+        CC::fgLightYellow());
 }
 
 std::string CScaryMonsterCompanion::type() const

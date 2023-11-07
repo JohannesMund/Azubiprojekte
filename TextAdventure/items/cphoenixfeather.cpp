@@ -7,9 +7,17 @@
 
 CPhoenixFeather::CPhoenixFeather()
 {
-    _name = "Phoenix feather";
-    _description =
-        "A huge feather glowing magically in red, orange and yellow. It looks a little bit as if it is burning.";
+    _name = std::format("{}Ph{}oe{}ni{}x f{}ea{}th{}er{}",
+                        CC::fgRed(),
+                        CC::fgLightRed(),
+                        CC::fgYellow(),
+                        CC::fgLightYellow(),
+                        CC::fgYellow(),
+                        CC::fgLightRed(),
+                        CC::fgRed(),
+                        CC::ccReset());
+    _description = "A huge feather glowing magically in red, orange and yellow. It looks a "
+                   "little bit as if it is burning.";
 
     _value = 5000;
     _hasDeathEffect = true;
