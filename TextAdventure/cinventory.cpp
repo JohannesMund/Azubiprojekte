@@ -240,7 +240,15 @@ std::optional<CItem*> CInventory::selectItemFromInventory(const Scope& scope)
     std::vector<CItem*> usableItems;
     for (auto item : itemMap)
     {
-        Console::printLn(std::format("[{:3}] {} (x{})", usableItems.size(), item.second->name(), item.first));
+        if (scope == Scope::eList)
+        {
+            Console::printLn(std::format("    {} (x{})", item.second->name(), item.first));
+        }
+        else
+        {
+            usableItems.push_back(item.second);
+            Console::printLn(std::format("[{:3}] {} (x{})", usableItems.size(), item.second->name(), item.first));
+        }
     }
 
     if (usableItems.size())
