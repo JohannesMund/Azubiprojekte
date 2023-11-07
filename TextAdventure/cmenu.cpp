@@ -24,7 +24,7 @@ void CMenu::addMenuGroup(const std::vector<std::string_view>& list1, const std::
     _menu.push_back(grp);
 }
 
-char CMenu::execute()
+CMenu::Action CMenu::execute()
 {
     for (const auto& group : _menu)
     {
@@ -48,13 +48,15 @@ char CMenu::execute()
             }
         }
     }
-    return Console::getAcceptableInput(_acceptableNavs);
+
+    return findActionByInput();
 }
 
 CMenu::Action CMenu::createAction(const std::string_view& s)
 {
     Action menuAction;
     menuAction.name = s;
+    menuAction.display = s;
 
     for (char c : s)
     {
@@ -62,10 +64,29 @@ CMenu::Action CMenu::createAction(const std::string_view& s)
         if (_acceptableNavs.find(cc) == std::string::npos)
         {
             _acceptableNavs.push_back(cc);
-            auto it = menuAction.name.find(c);
-            menuAction.name.replace(it, 1, std::format("[{}]", c));
-            menuAction.key = c;
+            auto it = menuAction.display.find(c);
+            menuAction.display.replace(it, 1, std::format("[{}]", c));
+            menuAction.key = cc;
             return menuAction;
+        }
+    }
+    return {};
+}
+
+CMenu::Action CMenu::findActionByInput() const
+{
+    auto input = Console::getAcceptableInput(_acceptableNavs);
+    for (const auto& group : _menu)
+    {
+        for (const auto& v : {group.first, group.second})
+        {
+            for (const auto& a : v)
+            {
+                if (a.key == input)
+                {
+                    return a;
+                }
+            }
         }
     }
     return {};
@@ -76,7 +97,7 @@ std::string CMenu::halfGroup2String(const std::vector<Action>& l) const
     std::string s;
     for (const auto& a : l)
     {
-        s.append(a.name);
+        s.append(a.display);
         s.append(" ");
     }
     return s;

@@ -164,19 +164,19 @@ void CGameManagement::executeTurn()
         menu.addMenuGroup({"Look for trouble"}, {"Quit Game"});
 
         auto input = menu.execute();
-        if (input == 'q')
+        if (input.key == 'q')
         {
             _isGameOver = true;
             return;
         }
 
-        if (CMap::char2Direction(input) != CMap::EDirections::eNone)
+        if (CMap::string2Direction(input.name) != CMap::EDirections::eNone)
         {
-            _map.movePlayer(CMap::char2Direction(input));
+            _map.movePlayer(CMap::string2Direction(input.name));
             return;
         }
 
-        if (input == 'l')
+        if (input.key == 'l')
         {
             lookForTrouble();
             if (_player.isDead())
@@ -185,12 +185,12 @@ void CGameManagement::executeTurn()
             }
             Console::confirmToContinue();
         }
-        if (input == 'm')
+        if (input.key == 'm')
         {
             printMap();
             Console::confirmToContinue();
         }
-        if (input == 'i')
+        if (input.key == 'i')
         {
             printInventory();
         }

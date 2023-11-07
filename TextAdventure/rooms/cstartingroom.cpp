@@ -26,7 +26,7 @@ void CStartingRoom::execute()
 
     CMenu menu;
     menu.addMenuGroup({"Take it", "Leave it"});
-    char input;
+    CMenu::Action input;
 
     Console::br();
     Console::printLn("You whake up, somewhere.");
@@ -40,7 +40,7 @@ void CStartingRoom::execute()
     do
     {
         input = menu.execute();
-        if (input == 't')
+        if (input.key == 't')
         {
             Console::br();
             Console::printLn(std::format("You take the {} and equip it. It looks good on you.", sword->name()));
@@ -55,7 +55,7 @@ void CStartingRoom::execute()
                 "Than you start thinking. You are still defenseless. Maybe you should re-think your decision.");
             Console::br();
         }
-    } while (input != 't');
+    } while (input.key != 't');
 
     auto shield = new CJunkShield();
 
@@ -69,7 +69,7 @@ void CStartingRoom::execute()
     do
     {
         input = menu.execute();
-        if (input == 't')
+        if (input.key == 't')
         {
             Console::br();
             Console::printLn(std::format("You take the {} and equip it. Now you feel complete.", shield->name()));
@@ -82,7 +82,7 @@ void CStartingRoom::execute()
                              "shorten this, ok?");
             Console::br();
         }
-    } while (input != 't');
+    } while (input.key != 't');
 
     Console::br();
     Console::printLn(

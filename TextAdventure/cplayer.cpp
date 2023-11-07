@@ -172,27 +172,27 @@ std::optional<CBattle::EWeapons> CPlayer::battleAction(CEnemy* enemy, bool& endR
         menu.addMenuGroup(weapons, {"Inventory"});
         auto input = menu.execute();
 
-        if (input == 'r')
+        if (input.key == 'r')
         {
             return CBattle::EWeapons::eRock;
         }
-        if (input == 'p')
+        if (input.key == 'p')
         {
             return CBattle::EWeapons::ePaper;
         }
-        if (input == 's')
+        if (input.key == 's')
         {
             return CBattle::EWeapons::eScissors;
         }
-        if (input == 'l')
+        if (input.key == 'l')
         {
             return CBattle::EWeapons::eLizard;
         }
-        if (input == 'o')
+        if (input.key == 'o')
         {
             return CBattle::EWeapons::eSpock;
         }
-        if (input == 'i')
+        if (input.key == 'i')
         {
             auto item = CGameManagement::getInventoryInstance()->selectItemFromInventory(CInventory::Scope::eBattle);
             if (item.has_value())

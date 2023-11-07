@@ -19,7 +19,7 @@ public:
         eWest
     };
 
-    static const std::map<EDirections, char> _dirMap;
+    static const std::map<EDirections, std::string> _dirMap;
 
     struct SRoomCoords
     {
@@ -53,8 +53,7 @@ public:
         }
     };
 
-    static EDirections char2Direction(const char c);
-    static char direction2Char(const EDirections dir);
+    static EDirections string2Direction(const std::string_view s);
 
     CMap();
     ~CMap();

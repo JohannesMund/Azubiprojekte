@@ -36,7 +36,7 @@ void CBattle::fight()
     menu.addMenuGroup({"Fight", "Run"});
 
     auto input = menu.execute();
-    if (input == 'r')
+    if (input.key == 'r')
     {
         Console::printLn(std::format("You are too scared of {}, so you decide to run away.", _enemy->name()));
 

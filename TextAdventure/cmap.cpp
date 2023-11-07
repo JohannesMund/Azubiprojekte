@@ -14,11 +14,11 @@
 #include <iostream>
 #include <random>
 
-const std::map<CMap::EDirections, char> CMap::_dirMap = {{EDirections::eNorth, 'n'},
-                                                         {EDirections::eSouth, 's'},
-                                                         {EDirections::eWest, 'w'},
-                                                         {EDirections::eEast, 'e'},
-                                                         {EDirections::eNone, 'x'}};
+const std::map<CMap::EDirections, std::string> CMap::_dirMap = {{EDirections::eNorth, "North"},
+                                                                {EDirections::eSouth, "South"},
+                                                                {EDirections::eWest, "West"},
+                                                                {EDirections::eEast, "Easy"},
+                                                                {EDirections::eNone, "None"}};
 
 CMap::CMap()
 {
@@ -85,21 +85,16 @@ void CMap::init()
     }
 }
 
-CMap::EDirections CMap::char2Direction(const char c)
+CMap::EDirections CMap::string2Direction(const std::string_view s)
 {
     for (const auto& [key, value] : _dirMap)
     {
-        if (key != EDirections::eNone && value == c)
+        if (key != EDirections::eNone && value == s)
         {
             return key;
         }
     }
     return EDirections::eNone;
-}
-
-char CMap::direction2Char(const EDirections dir)
-{
-    return _dirMap.at(dir);
 }
 
 void CMap::setStartingPosition(const SRoomCoords& coords)
@@ -288,22 +283,16 @@ void CMap::printMap()
 std::vector<std::string_view> CMap::getDirectionNavs()
 {
     std::vector<std::string_view> v;
-    if (navAvailable(CMap::EDirections::eNorth))
+
+    for (const auto& nav :
+         {CMap::EDirections::eNorth, CMap::EDirections::eEast, CMap::EDirections::eSouth, CMap::EDirections::eWest})
     {
-        v.push_back("North");
+        if (navAvailable(nav))
+        {
+            v.push_back(_dirMap.at(nav));
+        }
     }
-    if (navAvailable(CMap::EDirections::eEast))
-    {
-        v.push_back("East");
-    }
-    if (navAvailable(CMap::EDirections::eSouth))
-    {
-        v.push_back("South");
-    }
-    if (navAvailable(CMap::EDirections::eWest))
-    {
-        v.push_back("West");
-    }
+
     return v;
 }
 
