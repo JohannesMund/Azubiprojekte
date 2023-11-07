@@ -2,6 +2,7 @@
 #include "cenemy.h"
 #include "cgamemanagement.h"
 #include "citem.h"
+#include "cmenu.h"
 #include "colorconsole.h"
 #include "console.h"
 #include "ressources.h"
@@ -126,25 +127,6 @@ void CPlayer::levelUp()
     _level++;
 }
 
-std::string CPlayer::printBattleNav(const bool extended)
-{
-    std::string battleNav = "[R]ock [P]aper [S]cissors";
-    std::string acceptableInputs = "rps";
-
-    if (extended)
-    {
-        battleNav.append(" [L]izard Sp[o]ck");
-        acceptableInputs.append("lo");
-    }
-
-    Console::printLn(battleNav);
-
-    Console::printLn("[I]nventory", Console::EAlignment::eRight);
-    acceptableInputs.append("i");
-
-    return acceptableInputs;
-}
-
 void CPlayer::preBattle(CEnemy* enemy)
 {
     auto items = CGameManagement::getInventoryInstance()->getItemsWithBattleEffect();
@@ -179,8 +161,17 @@ std::optional<CBattle::EWeapons> CPlayer::battleAction(CEnemy* enemy, bool& endR
 
     while (true)
     {
-        std::string acceptableInputs = printBattleNav(enemy->hasExtendedWeaponChoice());
-        auto input = Console::getAcceptableInput(acceptableInputs);
+        CMenu menu;
+        std::vector<std::string_view> weapons = {"Rock", "Paper", "Scissors"};
+        if (enemy->hasExtendedWeaponChoice())
+        {
+            weapons.push_back("Lizard");
+            weapons.push_back("Spock");
+        }
+
+        menu.addMenuGroup(weapons, {"Inventory"});
+        auto input = menu.execute();
+
         if (input == 'r')
         {
             return CBattle::EWeapons::eRock;

@@ -9,6 +9,7 @@ set(TEXTADVENTURE_SOURCES
 
     console.h console.cpp
     colorconsole.h colorconsole.cpp
+    cmenu.h cmenu.cpp
 
     ressources.h ressources.cpp
     randomizer.h randomizer.cpp
@@ -72,10 +73,7 @@ set(TEXTADVENTURE_SOURCES
     encounters/cmysteriouschest.h encounters/cmysteriouschest.cpp
 )
 
-add_executable(TextAdventure ${TEXTADVENTURE_SOURCES}
-
-
-    )
+add_executable(TextAdventure ${TEXTADVENTURE_SOURCES})
 
 
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR})

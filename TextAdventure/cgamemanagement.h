@@ -36,7 +36,6 @@ private:
     bool _isGameOver = false;
     void printMap();
     void printInventory();
-    std::string printNavigation();
 
     void executeTurn();
     void handlePlayerDeath();

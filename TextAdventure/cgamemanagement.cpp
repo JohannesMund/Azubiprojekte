@@ -2,6 +2,7 @@
 #include "cbattleencounter.h"
 #include "cdeadhero.h"
 #include "cencounter.h"
+#include "cmenu.h"
 #include "cmysteriouschest.h"
 #include "companionfactory.h"
 #include "console.h"
@@ -144,17 +145,6 @@ void CGameManagement::printInventory()
     _inventory.print(CInventory::Scope::eList);
 }
 
-std::string CGameManagement::printNavigation()
-{
-    Console::hr();
-    string acceptableInputs = _map.printNav();
-    Console::printLnWithSpacer("[L]ook for trouble", "[M]ap [I]nventory");
-    Console::printLn("[Q]uit Game", Console::EAlignment::eRight);
-    acceptableInputs += "lmiq";
-
-    return acceptableInputs;
-}
-
 void CGameManagement::executeTurn()
 {
     Console::cls();
@@ -167,8 +157,13 @@ void CGameManagement::executeTurn()
 
     while (true)
     {
-        auto acceptableInputs = printNavigation();
-        auto input = Console::getAcceptableInput(acceptableInputs);
+        Console::hr();
+
+        CMenu menu;
+        menu.addMenuGroup(_map.getDirectionNavs(), {"Map", "Inventory"});
+        menu.addMenuGroup({"Look for trouble"}, {"Quit Game"});
+
+        auto input = menu.execute();
         if (input == 'q')
         {
             _isGameOver = true;

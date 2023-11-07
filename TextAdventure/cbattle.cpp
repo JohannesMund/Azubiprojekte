@@ -1,6 +1,7 @@
 #include "cbattle.h"
 #include "cenemy.h"
 #include "cgamemanagement.h"
+#include "cmenu.h"
 #include "cmobenemy.h"
 #include "console.h"
 #include "randomizer.h"
@@ -31,9 +32,10 @@ void CBattle::fight()
         "You encounter the enemy {}, who attacks you with his weapon {}!", _enemy->name(), _enemy->weapon()));
     Console::hr();
 
-    Console::printLn("[F]ight [R]un");
+    CMenu menu;
+    menu.addMenuGroup({"Fight", "Run"});
 
-    auto input = Console::getAcceptableInput("fr");
+    auto input = menu.execute();
     if (input == 'r')
     {
         Console::printLn(std::format("You are too scared of {}, so you decide to run away.", _enemy->name()));

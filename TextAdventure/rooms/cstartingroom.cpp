@@ -2,6 +2,7 @@
 #include "cgamemanagement.h"
 #include "cjunkshield.h"
 #include "cjunksword.h"
+#include "cmenu.h"
 #include "console.h"
 
 #include <format>
@@ -23,6 +24,10 @@ void CStartingRoom::execute()
 
     auto sword = new CJunkSword();
 
+    CMenu menu;
+    menu.addMenuGroup({"Take it", "Leave it"});
+    char input;
+
     Console::br();
     Console::printLn("You whake up, somewhere.");
     Console::printLn("You have not the slightest idea, where you are.");
@@ -31,11 +36,10 @@ void CStartingRoom::execute()
     Console::printLn(sword->description());
     Console::printLn("This seems to be a decent weapom, at least for now.");
     Console::br();
-    char input;
+
     do
     {
-        Console::printLn("[T]ake it [L]eave it");
-        input = Console::getAcceptableInput("tl");
+        input = menu.execute();
         if (input == 't')
         {
             Console::br();
@@ -49,6 +53,7 @@ void CStartingRoom::execute()
                              "this sword. You leave the Sword where it is and turn around.");
             Console::printLn(
                 "Than you start thinking. You are still defenseless. Maybe you should re-think your decision.");
+            Console::br();
         }
     } while (input != 't');
 
@@ -59,12 +64,11 @@ void CStartingRoom::execute()
                      "Something is missing.");
     Console::printLn("Wait, is that...?");
     Console::printLn(shield->description());
+    Console::br();
 
     do
     {
-        Console::br();
-        Console::printLn("[T]ake it [L]eave it");
-        input = Console::getAcceptableInput("tl");
+        input = menu.execute();
         if (input == 't')
         {
             Console::br();
@@ -76,6 +80,7 @@ void CStartingRoom::execute()
             Console::br();
             Console::printLn("Ok, by now, you should have realized, that you will not leave without the shield. Let's "
                              "shorten this, ok?");
+            Console::br();
         }
     } while (input != 't');
 

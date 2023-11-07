@@ -285,33 +285,26 @@ void CMap::printMap()
     }
 }
 
-std::string CMap::printNav()
+std::vector<std::string_view> CMap::getDirectionNavs()
 {
-    std::string acceptableInputs;
-    std::string navigationDisplay;
+    std::vector<std::string_view> v;
     if (navAvailable(CMap::EDirections::eNorth))
     {
-        navigationDisplay += "[N]orth ";
-        acceptableInputs += CMap::direction2Char(CMap::EDirections::eNorth);
+        v.push_back("North");
     }
     if (navAvailable(CMap::EDirections::eEast))
     {
-        navigationDisplay += "[E]ast ";
-        acceptableInputs += CMap::direction2Char(CMap::EDirections::eEast);
+        v.push_back("East");
     }
     if (navAvailable(CMap::EDirections::eSouth))
     {
-        navigationDisplay += "[S]outh ";
-        acceptableInputs += CMap::direction2Char(CMap::EDirections::eSouth);
+        v.push_back("South");
     }
     if (navAvailable(CMap::EDirections::eWest))
     {
-        navigationDisplay += "[W]est ";
-        acceptableInputs += CMap::direction2Char(CMap::EDirections::eWest);
+        v.push_back("West");
     }
-
-    Console::printLn(navigationDisplay);
-    return acceptableInputs;
+    return v;
 }
 
 std::string CMap::mapSymbol(const SRoomCoords& coords)
