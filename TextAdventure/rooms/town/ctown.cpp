@@ -68,7 +68,7 @@ void CTown::execute()
         {
             _farm.execute();
         }
-    } while (CMenu::exit(input));
+    } while (!CMenu::exit(input));
 }
 
 std::string CTown::mapSymbol()

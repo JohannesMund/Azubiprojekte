@@ -33,5 +33,5 @@ void CChurch::execute()
             Console::confirmToContinue();
         }
 
-    } while (CMenu::exit(input));
+    } while (!CMenu::exit(input));
 }

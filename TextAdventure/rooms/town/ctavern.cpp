@@ -50,7 +50,7 @@ void CTavern::execute()
             Console::confirmToContinue();
         }
 
-    } while (CMenu::exit(input));
+    } while (!CMenu::exit(input));
 }
 
 void CTavern::bountyHunt()

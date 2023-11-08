@@ -61,7 +61,7 @@ void CFarm::execute()
             Console::confirmToContinue();
         }
 
-    } while (CMenu::exit(input));
+    } while (!CMenu::exit(input));
 }
 
 void CFarm::train()

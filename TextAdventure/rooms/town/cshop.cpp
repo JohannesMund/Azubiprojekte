@@ -80,7 +80,7 @@ void CShop::execute()
             sellItems();
         }
 
-    } while (CMenu::exit(input));
+    } while (!CMenu::exit(input));
 }
 
 void CShop::sellJunk(CInventory::JunkItemList& junkItems)
