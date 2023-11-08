@@ -8,14 +8,16 @@
 #include <string>
 
 class CEncounter;
+class CTask;
 class CGameManagement
 {
 public:
     static CGameManagement* getInstance();
     static CPlayer* getPlayerInstance();
     static CInventory* getInventoryInstance();
-    static CMap* getMapInstance();
     static CCompanion* getCompanionInstance();
+
+    void placeTask(CTask* task);
 
     void executeRandomEncounter() const;
     void registerEncounter(CEncounter* encounter);
@@ -44,7 +46,6 @@ private:
     void gameLoop();
     void lookForTrouble();
 
-    CMap* getMap();
     CPlayer* getPlayer();
     CInventory* getInventory();
     CCompanion* getCompanion();

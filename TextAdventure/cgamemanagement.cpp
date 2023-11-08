@@ -7,6 +7,7 @@
 #include "companionfactory.h"
 #include "console.h"
 #include "croom.h"
+#include "ctask.h"
 #include "encounterregister.h"
 #include "itemfactory.h"
 #include "randomizer.h"
@@ -40,14 +41,14 @@ CInventory* CGameManagement::getInventoryInstance()
     return getInstance()->getInventory();
 }
 
-CMap* CGameManagement::getMapInstance()
-{
-    return getInstance()->getMap();
-}
-
 CCompanion* CGameManagement::getCompanionInstance()
 {
     return getInstance()->getCompanion();
+}
+
+void CGameManagement::placeTask(CTask* task)
+{
+    _map.setTaskToRandomRoom(task);
 }
 
 void CGameManagement::start()
@@ -104,11 +105,6 @@ void CGameManagement::unregisterEncounterByName(const std::string& name)
     auto it = std::remove_if(_encounters.begin(), _encounters.end(), CEncounter::nameFilter(name));
     _encounters.erase(it);
     delete *it;
-}
-
-CMap* CGameManagement::getMap()
-{
-    return &_map;
 }
 
 CPlayer* CGameManagement::getPlayer()
