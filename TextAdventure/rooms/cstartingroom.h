@@ -1,8 +1,8 @@
 #pragma once
 
-#include <croom.h>
+#include <cfield.h>
 
-class CStartingRoom : public CRoom
+class CStartingRoom : public CField
 {
 public:
     CStartingRoom();

@@ -33,11 +33,6 @@ void CRoom::execute()
             _showInFogOfWar = false;
         }
     }
-    else if (_encounterPossible)
-    {
-        CGameManagement::getInstance()->executeRandomEncounter();
-    }
-
     _seen = true;
 }
 

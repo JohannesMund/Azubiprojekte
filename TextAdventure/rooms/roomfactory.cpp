@@ -1,11 +1,12 @@
 #include "roomfactory.h"
+#include "cfield.h"
 #include "cinjuredpet.h"
 #include "croom.h"
 #include "ctown.h"
 
 CRoom* RoomFactory::makeRoom()
 {
-    return new CRoom();
+    return new CField();
 }
 
 CTown* RoomFactory::makeTown()

@@ -58,11 +58,9 @@ void CInjuredPet::execute()
 
     Console::hr();
 
-    CMenu menu2;
-    menu2.addMenuGroup({menu.createAction("Help"), menu.createAction("Go away")});
-    input = menu2.execute();
-
-    if (input.key == 'g')
+    menu.clear();
+    menu.addMenuGroup({menu.createAction("Help"), menu.createAction("Go away")});
+    if (menu.execute().key == 'g')
     {
         Console::printLn("Better safe than sorry! You decide to ignore the pittyful little animal and leave.");
         Console::printLn("The screams vanish shortly after.");

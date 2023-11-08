@@ -19,12 +19,17 @@ CTown::CTown()
     _blackSmith.setCityName(_name);
     _tavern.setCityName(_name);
 
-    _encounterPossible = false;
+    _encounterPossible = true;
     _taskPossible = true;
 }
 
 void CTown::execute()
 {
+
+    if (_encounterPossible)
+    {
+        CGameManagement::getInstance()->executeRandomEncounter(CEncounter::eTown);
+    }
 
     CMenu menu;
     std::vector<CMenu::Action> navs = {menu.createAction("Blacksmith"),
@@ -74,4 +79,9 @@ void CTown::execute()
 std::string CTown::mapSymbol()
 {
     return "T";
+}
+
+std::string CTown::name() const
+{
+    return _name;
 }

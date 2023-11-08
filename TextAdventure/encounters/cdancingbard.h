@@ -1,11 +1,11 @@
-#pragma once
+#pragma ince
 
 #include "cencounter.h"
 
-class CDeadHero : public CEncounter
+class CDancingBard : public CEncounter
 {
 public:
-    CDeadHero();
+    CDancingBard();
 
     virtual void execute() override;
     virtual unsigned int encounterChance(const EEncounterType& tp) const override;

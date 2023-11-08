@@ -62,6 +62,12 @@ public:
     Action createAction(const std::string_view& name, const char key = 0);
 
     /**
+     * @brief clear
+     * clears the menu
+     */
+    void clear();
+
+    /**
      * @brief executeYesNoMenu execute a menu with Yes/No
      * @sa yesAction()
      * @sa noAction()

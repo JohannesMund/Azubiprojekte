@@ -19,6 +19,8 @@ public:
     virtual void execute() override;
     virtual std::string mapSymbol() override;
 
+    std::string name() const;
+
 private:
     std::string _name;
 

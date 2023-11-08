@@ -3,6 +3,7 @@
 #include "cjunkarmor.h"
 #include "cjunkshield.h"
 #include "cjunksword.h"
+#include "cmenu.h"
 #include "console.h"
 
 #include <format>
@@ -10,6 +11,7 @@
 CDeadHero::CDeadHero() : CEncounter()
 {
     _isSingleExecution = true;
+    _type = CEncounter::eField;
 }
 
 void CDeadHero::execute()
@@ -29,36 +31,35 @@ void CDeadHero::execute()
                      "treasure gone (if he even had som treasure at all). All of his treasure?");
     Console::printLn("Maybe, just maybe you should have a look.");
     Console::br();
-    Console::printLnWithSpacer("[S]earch the body", "[G]o away");
-    char input = Console::getAcceptableInput("sg");
 
-    Console::br();
-    if (input == 'g')
+    CMenu menu;
+    menu.addMenuGroup({menu.createAction("Search the body")}, {menu.createAction("Go away")});
+    if (menu.execute().key == 'g')
     {
+        Console::br();
         Console::printLn(
             "Better safe than sorry is the motto of this adventure. You leave the poor guy be, and leave.");
         Console::printLn("You feel, that this is the last time, you have seen him");
         return;
     }
 
+    Console::br();
     Console::printLn("You approach the body, and one thing is for sure: This guy is dead. The opponent must have had "
                      "enormous claws (or a Nokia 3210). But one thing survived the fight. His shirt seems pretty "
                      "unharmed. It could be very usefull for you too.");
     Console::printLn("You wonder, if you should take it.");
 
-    Console::br();
-    Console::printLnWithSpacer("[T]ake T-shirt", "[G]o away");
-    input = Console::getAcceptableInput("tg");
-
-    Console::br();
-    if (input == 'g')
+    menu.clear();
+    menu.addMenuGroup({menu.createAction("Take t-shirt")}, {menu.createAction("Go away")});
+    if (menu.execute().key == 'g')
     {
+        Console::br();
         Console::printLn(
             "Better safe than sorry is the motto of this adventure. You leave the poor guy be, and leave.");
         Console::printLn("You feel, that this is the last time, you have seen him");
         return;
     }
-
+    Console::br();
     Console::printLn("Why waste a valuable item, when it can protect you? You take the T-shirt and equip it. You now "
                      "have a shiny new armor to protect you.");
 
@@ -66,9 +67,9 @@ void CDeadHero::execute()
     Console::br();
 }
 
-unsigned int CDeadHero::encounterChance() const
+unsigned int CDeadHero::encounterChance(const EEncounterType& tp) const
 {
-    if (!canBeExecuted())
+    if (!canBeExecuted(tp))
     {
         return 0;
     }

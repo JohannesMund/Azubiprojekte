@@ -15,6 +15,15 @@
 class CEncounter
 {
 public:
+    enum EEncounterType
+    {
+        eNone = 0,
+        eField = 1,
+        eTown = 2,
+        eDungeon = 4,
+        eAll = 0xff
+    };
+
     /**
      * @brief CEncounter Constructor
      */
@@ -38,7 +47,7 @@ public:
      * @sa Ressources::Config::fightChance
      * @return  the chance for this encounter to occur, relative to CBattleEncounter
      */
-    virtual unsigned int encounterChance() const = 0;
+    virtual unsigned int encounterChance(const EEncounterType& tp) const = 0;
 
     /**
      * @brief name Name of the encounter
@@ -59,7 +68,7 @@ protected:
      * @return true if the encounter can be executed
      * @remark can be overwritten, basis version checks _isSingleExecution && _hasBeenExecuted
      */
-    virtual bool canBeExecuted() const;
+    virtual bool canBeExecuted(const EEncounterType& tp) const;
 
     /**
      * @brief _isSingleExecution
@@ -73,4 +82,6 @@ protected:
      * @sa _isSingleExecution
      */
     bool _hasBeenExecuted = false;
+
+    EEncounterType _type;
 };

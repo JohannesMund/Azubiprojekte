@@ -78,8 +78,6 @@ void CInventory::print(const Scope& scope)
 {
     Console::printLn("You look through your backpack and find the following:");
     selectItemFromInventory(scope);
-
-    bool bIsExit = false;
     CMenu::Action input;
     do
     {

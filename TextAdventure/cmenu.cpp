@@ -78,6 +78,12 @@ CMenu::Action CMenu::createAction(const std::string_view& s, const char c)
     return {};
 }
 
+void CMenu::clear()
+{
+    _menu.clear();
+    _acceptableNavs.clear();
+}
+
 CMenu::Action CMenu::executeYesNoMenu()
 {
     CMenu menu;

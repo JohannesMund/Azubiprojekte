@@ -18,7 +18,11 @@ std::function<bool(const CEncounter*)> CEncounter::nameFilter(const std::string&
     return [&name](const CEncounter* encounter) { return encounter->name().compare(name) == 0; };
 }
 
-bool CEncounter::canBeExecuted() const
+bool CEncounter::canBeExecuted(const EEncounterType& type) const
 {
+    if ((_type & type) != type)
+    {
+        return false;
+    }
     return !(_isSingleExecution && _hasBeenExecuted);
 }

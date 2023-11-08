@@ -1,6 +1,7 @@
 #include "cmysteriouschest.h"
 #include "cgamemanagement.h"
 #include "clivingchest.h"
+#include "cmenu.h"
 #include "console.h"
 #include "itemfactory.h"
 #include "randomizer.h"
@@ -8,6 +9,7 @@
 CMysteriousChest::CMysteriousChest() : CEncounter()
 {
     _isSingleExecution = false;
+    _type = CEncounter::eField;
 }
 
 void CMysteriousChest::execute()
@@ -20,18 +22,18 @@ void CMysteriousChest::execute()
         "chest there. It is rather odd, to see a chest at this place. This could be a trap!");
     Console::printLn("But after all, this is a chest. we should open it!");
 
-    Console::br();
-    Console::printLnWithSpacer("[O]pen the Chest", "[G]o away");
-    char input = Console::getAcceptableInput("og");
+    CMenu menu;
+    menu.addMenuGroup({menu.createAction("Open the chest")}, {menu.createAction("Go away")});
 
-    Console::br();
-    if (input == 'g')
+    if (menu.execute().key == 'g')
     {
+        Console::br();
         Console::printLn(
             "This chest does not belong there, and you should not open it. You here the cackle of a chicken from far.");
         return;
     }
 
+    Console::br();
     Console::printLn("This is too tempting. You go over to the chest and open it.");
 
     int goodStuffBonus = 0;
@@ -78,8 +80,12 @@ void CMysteriousChest::execute()
     CGameManagement::getPlayerInstance()->addGold(gold);
 }
 
-unsigned int CMysteriousChest::encounterChance() const
+unsigned int CMysteriousChest::encounterChance(const EEncounterType& tp) const
 {
+    if (!canBeExecuted(tp))
+    {
+        return 0;
+    }
     return 3;
 }
 
