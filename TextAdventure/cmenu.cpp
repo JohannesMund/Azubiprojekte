@@ -54,16 +54,10 @@ CMenu::Action CMenu::execute()
     return findActionByInput();
 }
 
-CMenu::Action CMenu::createAction(const std::string_view& s, const char c, const bool enabled)
+CMenu::Action CMenu::createAction(const std::string_view& s, const char c)
 {
     Action menuAction;
     menuAction.name = s;
-
-    if (enabled == false)
-    {
-        menuAction.display = s;
-        return menuAction;
-    }
 
     if (c != 0 && isNavPossible(c))
     {
@@ -74,7 +68,6 @@ CMenu::Action CMenu::createAction(const std::string_view& s, const char c, const
 
     for (char cc : s)
     {
-
         if (isNavPossible(cc))
         {
             menuAction.key = std::tolower(cc);
@@ -127,13 +120,13 @@ CMenu::Action CMenu::findActionByInput() const
     auto input = Console::getAcceptableInput(_acceptableNavs);
     for (const auto& group : _menu)
     {
-        for (const auto& v : {group.first, group.second})
+        for (const auto& halfGroup : {group.first, group.second})
         {
-            for (const auto& a : v)
+            for (const auto& actiom : halfGroup)
             {
-                if (a.key == input)
+                if (actiom.key == input)
                 {
-                    return a;
+                    return actiom;
                 }
             }
         }

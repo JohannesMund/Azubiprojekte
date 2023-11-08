@@ -23,7 +23,7 @@ CInventory::~CInventory()
     _inventory.clear();
 }
 
-bool CInventory::hasItem(const std::string& name)
+bool CInventory::hasItem(const std::string_view& name)
 {
     return std::find_if(_inventory.begin(), _inventory.end(), CItem::nameFilter(name)) != _inventory.end();
 }
@@ -64,7 +64,7 @@ void CInventory::removeItem(CItem* item)
 {
     removeItem(item->name());
 }
-void CInventory::removeItem(const std::string& name)
+void CInventory::removeItem(const std::string_view& name)
 {
     auto found = std::find_if(_inventory.begin(), _inventory.end(), CItem::nameFilter(name));
     if (found != _inventory.end())

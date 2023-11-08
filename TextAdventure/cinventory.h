@@ -34,11 +34,11 @@ public:
         eDeath
     };
 
-    bool hasItem(const std::string& name);
+    bool hasItem(const std::string_view& name);
     void addItem(CItem* item);
 
     void removeItem(CItem* item);
-    void removeItem(const std::string& name);
+    void removeItem(const std::string_view& name);
 
     void print(const Scope& scope = Scope::eNone);
 

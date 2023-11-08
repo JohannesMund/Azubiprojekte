@@ -163,7 +163,7 @@ public:
      * @param name
      * @return a name filter function to be used in std containers
      */
-    static std::function<bool(const CItem*)> nameFilter(const std::string& name);
+    static std::function<bool(const CItem*)> nameFilter(const std::string_view& name);
 
     /**
      * @brief battleEffectFilter

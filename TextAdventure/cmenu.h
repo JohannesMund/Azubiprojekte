@@ -20,7 +20,7 @@ public:
     void addMenuGroup(const std::vector<Action>& list1, const std::vector<Action>& list2 = {});
     Action execute();
 
-    Action createAction(const std::string_view& s, const char key = 0, const bool enabled = true);
+    Action createAction(const std::string_view& s, const char key = 0);
 
     static Action executeYesNoMenu();
 
