@@ -1,5 +1,6 @@
 #include "curzasglasses.h"
 #include "cenemy.h"
+#include "colorconsole.h"
 #include "console.h"
 #include "randomizer.h"
 
@@ -9,7 +10,15 @@
 CUrzasGlasses::CUrzasGlasses()
 {
 
-    _name = "Urzas' Glasses";
+    _name = std::format("{}Ur{}za{}s'{} G{}la{}ss{}es{}",
+                        CC::fgGreen(),
+                        CC::fgLightGreen(),
+                        CC::fgYellow(),
+                        CC::fgLightYellow(),
+                        CC::fgYellow(),
+                        CC::fgLightGreen(),
+                        CC::fgGreen(),
+                        CC::ccReset());
     _description =
         "An old pair of glasses. Your sight does not change at all, when wearing them, but nevertheless, you realize 2 "
         "things:\n 1. The are magic as f***\n 2.You look incredibly stupid, when wearing them.";

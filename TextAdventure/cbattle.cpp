@@ -33,7 +33,7 @@ void CBattle::fight()
     Console::hr();
 
     CMenu menu;
-    menu.addMenuGroup({"Fight", "Run"});
+    menu.addMenuGroup({menu.createAction("Fight"), menu.createAction("Run")});
 
     auto input = menu.execute();
     if (input.key == 'r')

@@ -1,6 +1,7 @@
 #include "cinventory.h"
 #include "cequipment.h"
 #include "cjunkitem.h"
+#include "cmenu.h"
 #include "console.h"
 
 #include <algorithm>
@@ -29,6 +30,32 @@ bool CInventory::hasItem(const std::string& name)
 
 void CInventory::addItem(CItem* item)
 {
+    if (CEquipment::isEquipment(item))
+    {
+        auto equipment = dynamic_cast<CEquipment*>(item);
+
+        auto it = std::find_if(_inventory.begin(), _inventory.end(), equipment->equipmentTypeFilter());
+        if (it != _inventory.end())
+        {
+            Console::printLn(std::format(
+                "Your already have a {} do you want to replace it with {}", equipment->typeName(), equipment->name()));
+
+            auto input = CMenu::executeYesNoMenu();
+
+            if (CMenu::isNoAction(input))
+            {
+                Console::printLn(std::format("You decide to keep {} and reject {}.", (*it)->name(), item->name()));
+                delete item;
+                return;
+            }
+
+            Console::printLn(std::format("You decide to throw away you {}.", (*it)->name()));
+
+            delete *it;
+            _inventory.erase(it);
+        }
+    }
+
     Console::printLn(std::format("You optained {}", item->name()));
     _inventory.push_back(item);
 }
@@ -52,20 +79,23 @@ void CInventory::print(const Scope& scope)
     Console::printLn("You look through your backpack and find the following:");
     selectItemFromInventory(scope);
 
-    char input;
+    CMenu::Action input;
     do
     {
-        auto acceptableInputs = printInventoryNav();
-        input = Console::getAcceptableInput(acceptableInputs);
-        if (input == 'u')
+        Console::hr();
+        CMenu menu;
+        menu.addMenuGroup({menu.createAction("Use Item"), menu.createAction("View Item")}, {CMenu::exitAction()});
+        input = menu.execute();
+
+        if (input.key == 'u')
         {
             printUsableItems(Scope::eInventory);
         }
-        if (input == 'v')
+        if (input.key == 'v')
         {
             printViewableItems();
         }
-    } while (input != 'x');
+    } while (CMenu::isExitAction(input));
 }
 
 CInventory::ItemList CInventory::getItemsWithBattleEffect() const
@@ -260,14 +290,6 @@ std::optional<CItem*> CInventory::selectItemFromInventory(const Scope& scope)
         }
     }
     return {};
-}
-
-std::string CInventory::printInventoryNav() const
-{
-    Console::hr();
-    Console::printLn("[U]se Item [V]iew Item", Console::EAlignment::eRight);
-    Console::printLn("E[x]it Inventory", Console::EAlignment::eRight);
-    return "uvx";
 }
 
 bool CInventory::usableInScope(const CItem* item, const Scope& scope)

@@ -39,7 +39,7 @@ std::string getRandomRumor();
 
 namespace Items
 {
-std::pair<std::string, std::string> getRandomRubbishItems();
+std::pair<std::string, std::string> getRandomJunkItems();
 
 } // namespace Items
 

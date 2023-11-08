@@ -1,5 +1,6 @@
 #include "ctown.h"
 #include "cgamemanagement.h"
+#include "cmenu.h"
 #include "colorconsole.h"
 #include "console.h"
 #include "ressources.h"
@@ -24,7 +25,20 @@ CTown::CTown()
 
 void CTown::execute()
 {
-    char input;
+
+    CMenu menu;
+    std::vector<CMenu::Action> navs = {menu.createAction("Blacksmith"),
+                                       menu.createAction("Church"),
+                                       menu.createAction("Tavern"),
+                                       menu.createAction("Shop")};
+    if (CGameManagement::getCompanionInstance()->hasCompanion())
+    {
+        navs.push_back(menu.createAction("Farm"));
+    }
+
+    menu.addMenuGroup(navs, {CMenu::exitAction()});
+
+    CMenu::Action input;
     do
     {
         Console::printLn(_name, Console::EAlignment::eCenter);
@@ -32,39 +46,29 @@ void CTown::execute()
         CRoom::execute();
         Console::hr();
 
-        std::string navs = "[B]lacksmith [C]hurch [T]avern [S]hop";
-        std::string acceptableInputs = "bcts";
-        if (CGameManagement::getCompanionInstance()->hasCompanion())
-        {
-            navs.append(" [F]arm");
-            acceptableInputs.append("f");
-        }
+        input = menu.execute();
 
-        Console::printLnWithSpacer(navs, "E[x]it");
-        acceptableInputs.append("x");
-
-        input = Console::getAcceptableInput(acceptableInputs);
-        if (input == 'b')
+        if (input.key == 'b')
         {
             _blackSmith.execute();
         }
-        if (input == 'c')
+        if (input.key == 'c')
         {
             _church.execute();
         }
-        if (input == 's')
+        if (input.key == 's')
         {
             _shop.execute();
         }
-        if (input == 't')
+        if (input.key == 't')
         {
             _tavern.execute();
         }
-        if (input == 'f')
+        if (input.key == 'f')
         {
             _farm.execute();
         }
-    } while (input != 'x');
+    } while (CMenu::isExitAction(input));
 }
 
 std::string CTown::mapSymbol()

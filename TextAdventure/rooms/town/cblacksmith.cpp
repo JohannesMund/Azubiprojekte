@@ -1,6 +1,7 @@
 #include "cblacksmith.h"
 #include "cequipment.h"
 #include "cgamemanagement.h"
+#include "cmenu.h"
 #include "console.h"
 
 #include <format>
@@ -11,7 +12,10 @@ CBlackSmith::CBlackSmith()
 
 void CBlackSmith::execute()
 {
-    char input;
+    CMenu menu;
+    menu.addMenuGroup({menu.createAction("Enhance Item", 'b')}, {CMenu::exitAction()});
+    CMenu::Action input;
+
     do
     {
         Console::cls();
@@ -20,16 +24,15 @@ void CBlackSmith::execute()
         Console::printLn(
             "A grumpy old man, probably the blacksmith looks at you suspiciously and asks what he can do for you.");
         Console::hr();
-        Console::printLnWithSpacer("[E]nhance Item", "E[x]it");
 
-        input = Console::getAcceptableInput("ex");
+        input = menu.execute();
 
-        if (input == 'e')
+        if (input.key == 'e')
         {
             enhanceItem();
         }
 
-    } while (input != 'x');
+    } while (CMenu::isExitAction(input));
 }
 
 void CBlackSmith::enhanceItem()

@@ -6,7 +6,12 @@ CArmor::CArmor() : CEquipment()
     _hasShieldingAction = true;
 }
 
-std::function<bool(const CItem*)> CArmor::armorFilter()
+std::string CArmor::typeName() const
+{
+    return "armor";
+}
+
+std::function<bool(const CItem*)> CArmor::equipmentTypeFilter() const
 {
     return [](const CItem* item) -> bool { return dynamic_cast<const CArmor*>(item) != nullptr; };
 }

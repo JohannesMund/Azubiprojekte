@@ -1,5 +1,6 @@
 #include "cfarm.h"
 #include "cgamemanagement.h"
+#include "cmenu.h"
 #include "console.h"
 
 #include <format>
@@ -10,16 +11,17 @@ CFarm::CFarm()
 
 void CFarm::execute()
 {
-    char input;
+    CMenu::Action input;
     do
     {
+        CMenu menu;
+
         Console::cls();
         Console::printLn(std::format("Every good town needs a farm. {} has a beautiful one! {} immediately rushes away "
                                      "to play with the many pets around here.",
                                      _cityName,
                                      CGameManagement::getCompanionInstance()->name()));
 
-        std::string acceptableInputs;
         if (CGameManagement::getCompanionInstance()->level() < Ressources::Companion::companionLevelCap)
         {
             Console::printLn(
@@ -32,39 +34,34 @@ void CFarm::execute()
                             CGameManagement::getCompanionInstance()->name(),
                             getTrainingCost()));
 
+            CMenu::Action trainingAction = menu.createAction(std::format("[T]rain ({} Gold)", getTrainingCost()));
+
             if (getTrainingCost() <= CGameManagement::getPlayerInstance()->gold())
             {
                 Console::printLn("This sounds like a bargain!");
-
-                Console::hr();
-                Console::printLnWithSpacer(std::format("[T]rain ({} Gold)", getTrainingCost()), "E[x]it");
-                acceptableInputs.append("tx");
             }
             else
             {
                 Console::printLn("This is too much! a little running around with you should do the same.");
-                Console::hr();
-                Console::printLnWithSpacer(std::format("Train ({} Gold)", getTrainingCost()), "E[x]it");
-                acceptableInputs.append("x");
+                trainingAction.key = 0;
             }
 
-            acceptableInputs.append("tx");
+            menu.addMenuGroup({trainingAction}, {CMenu::exitAction()});
         }
         else
         {
-            Console::printLn("E[x]it", Console::EAlignment::eRight);
-            acceptableInputs.append("x");
+            menu.addMenuGroup({}, {CMenu::exitAction()});
         }
 
-        input = Console::getAcceptableInput(acceptableInputs);
+        input = menu.execute();
 
-        if (input == 't')
+        if (input.key == 't')
         {
             train();
             Console::confirmToContinue();
         }
 
-    } while (input != 'x');
+    } while (CMenu::isExitAction(input));
 }
 
 void CFarm::train()

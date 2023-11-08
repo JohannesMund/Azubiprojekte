@@ -17,7 +17,7 @@
 const std::map<CMap::EDirections, std::string> CMap::_dirMap = {{EDirections::eNorth, "North"},
                                                                 {EDirections::eSouth, "South"},
                                                                 {EDirections::eWest, "West"},
-                                                                {EDirections::eEast, "Easy"},
+                                                                {EDirections::eEast, "East"},
                                                                 {EDirections::eNone, "None"}};
 
 CMap::CMap()

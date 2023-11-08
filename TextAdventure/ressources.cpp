@@ -1,7 +1,9 @@
 #include "ressources.h"
+#include "colorconsole.h"
 #include "randomizer.h"
 
 #include <algorithm>
+#include <format>
 #include <map>
 
 std::string Ressources::Rooms::getRandomDescription()
@@ -20,21 +22,31 @@ std::string Ressources::Rooms::getRandomDescription()
     return _roomDescriptions.at(Randomizer::getRandom(_roomDescriptions.size()));
 }
 
-std::pair<std::string, std::string> Ressources::Items::getRandomRubbishItems()
+std::pair<std::string, std::string> Ressources::Items::getRandomJunkItems()
 {
     std::vector<std::pair<std::string, std::string>> items = {
-        {{"A Stick"},
+        {{std::format("{}Stick{}", CC::fgYellow(), CC::ccReset())},
          {"A stick, just a stick. Maybe magical? There is no label stating \"Godly Magic Stick of the "
           "Whale\". On the "
           "other hand, there no label stating, that this stick is not a \"Godly Magic Stick of the Whale\"."}},
-        {{"A Sock"},
+        {{std::format("{}S{}o{}c{}k{}", CC::fgRed(), CC::fgYellow(), CC::fgRed(), CC::fgYellow(), CC::ccReset())},
          {"A single sock. A single dirty sock. Useless without the other one. Who on earth throws away a "
           "single Sock??"}},
-        {{"A Rock"}, {"This is a good rock, so good, that it might be used in an epic \"Rock Paper Sicsors\" battle."}},
-        {{"A Boot"},
+        {{std::format("{}The other {}S{}o{}c{}k{}",
+                      CC::fgRed(),
+                      CC::fgYellow(),
+                      CC::fgRed(),
+                      CC::fgYellow(),
+                      CC::fgRed(),
+                      CC::ccReset())},
+         {"There it is, the other sock. A single dirty sock. Now you have both but who on earth throws away two single "
+          "Socks seperately??"}},
+        {{std::format("{}Rock{}", CC::fgCyan(), CC::ccReset())},
+         {"This is a good rock, so good, that it might be used in an epic \"Rock Paper Sicsors\" battle."}},
+        {{std::format("{}Boot{}", CC::fgYellow(), CC::ccReset())},
          {"An old, single boot made from leather.Good, expensive leather. But is damaged and dirty. And it is just "
           "a single boot."}},
-        {{"A Vase"},
+        {{"Vase"},
          {"This is one beautiful vase. It will look nice on your table. or on a sideboard. you could fill it with "
           "flowers. Or you just throw it away, for somone else to find ist."}}};
 

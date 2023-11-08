@@ -25,7 +25,7 @@ void CStartingRoom::execute()
     auto sword = new CJunkSword();
 
     CMenu menu;
-    menu.addMenuGroup({"Take it", "Leave it"});
+    menu.addMenuGroup({menu.createAction("Take it"), menu.createAction("Leave it")});
     CMenu::Action input;
 
     Console::br();

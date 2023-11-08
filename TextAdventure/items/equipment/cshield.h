@@ -9,10 +9,7 @@ public:
 
     virtual void battleEffect(CEnemy* enemy) override = 0;
     virtual void battleBuff(CEnemy* enemy, bool& endRound) override = 0;
+    virtual std::string typeName() const override;
 
-    /**
-     * @brief shieldFilter
-     * @return a filter function to filter shield items from std containers
-     */
-    static std::function<bool(const CItem*)> shieldFilter();
+    virtual std::function<bool(const CItem*)> equipmentTypeFilter() const override;
 };

@@ -46,7 +46,12 @@ void CEquipment::enhance()
 
 std::function<bool(const CItem*)> CEquipment::equipmentFilter()
 {
-    return [](const CItem* item) -> bool { return dynamic_cast<const CEquipment*>(item) != nullptr; };
+    return [](const CItem* item) -> bool { return CEquipment::isEquipment(item); };
+}
+
+bool CEquipment::isEquipment(const CItem* item)
+{
+    return dynamic_cast<const CEquipment*>(item) != nullptr;
 }
 
 std::function<bool(const CItem*)> CEquipment::enhancableEquipmentFilter()

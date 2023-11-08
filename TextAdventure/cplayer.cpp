@@ -162,14 +162,15 @@ std::optional<CBattle::EWeapons> CPlayer::battleAction(CEnemy* enemy, bool& endR
     while (true)
     {
         CMenu menu;
-        std::vector<std::string_view> weapons = {"Rock", "Paper", "Scissors"};
+        std::vector<CMenu::Action> weapons = {
+            menu.createAction("Rock"), menu.createAction("Paper"), menu.createAction("Scissors")};
         if (enemy->hasExtendedWeaponChoice())
         {
-            weapons.push_back("Lizard");
-            weapons.push_back("Spock");
+            weapons.push_back(menu.createAction("Lizard"));
+            weapons.push_back(menu.createAction("Spock"));
         }
 
-        menu.addMenuGroup(weapons, {"Inventory"});
+        menu.addMenuGroup(weapons, {menu.createAction("Inventory")});
         auto input = menu.execute();
 
         if (input.key == 'r')

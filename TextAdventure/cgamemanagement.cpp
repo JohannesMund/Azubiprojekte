@@ -160,8 +160,15 @@ void CGameManagement::executeTurn()
         Console::hr();
 
         CMenu menu;
-        menu.addMenuGroup(_map.getDirectionNavs(), {"Map", "Inventory"});
-        menu.addMenuGroup({"Look for trouble"}, {"Quit Game"});
+
+        std::vector<CMenu::Action> navs;
+        for (auto nav : _map.getDirectionNavs())
+        {
+            navs.push_back(menu.createAction(nav));
+        }
+
+        menu.addMenuGroup(navs, {menu.createAction("Map"), menu.createAction("Inventory")});
+        menu.addMenuGroup({menu.createAction("Look for trouble")}, {menu.createAction("Quit Game")});
 
         auto input = menu.execute();
         if (input.key == 'q')
@@ -230,6 +237,8 @@ void CGameManagement::handlePlayerDeath()
 
 void CGameManagement::init()
 {
+    Randomizer::init();
+
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eHealingPotionS));
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eHealingPotionS));
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eHealingPotionS));
@@ -243,10 +252,10 @@ void CGameManagement::init()
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eJunkItem));
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eJunkItem));
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eJunkItem));
+    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eJunkItem));
+    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eJunkItem));
 
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eUrzasGlasses));
-
-    Randomizer::init();
 
     EncounterRegister::encounterRegister();
     _map.setStartingPosition({3, 5});

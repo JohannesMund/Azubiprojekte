@@ -17,13 +17,29 @@ public:
 
     CMenu();
 
-    void addMenuGroup(const std::vector<std::string_view>& list1, const std::vector<std::string_view>& list2 = {});
+    void addMenuGroup(const std::vector<Action>& list1, const std::vector<Action>& list2 = {});
     Action execute();
 
+    Action createAction(const std::string_view& s, const char key = 0, const bool enabled = true);
+
+    static Action executeYesNoMenu();
+
+    static Action yesAction();
+    static Action noAction();
+    static Action exitAction();
+
+    static bool isYesAction(const Action& a);
+    static bool isNoAction(const Action& a);
+    static bool isExitAction(const Action& a);
+
 private:
-    Action createAction(const std::string_view& s);
     Action findActionByInput() const;
     std::string halfGroup2String(const std::vector<Action>& l) const;
+
+    bool isNavPossible(const char c) const;
+    std::string makeDisplayString(const std::string_view s, const char c) const;
+
+    void addNav(const char c = 0);
 
     std::string _acceptableNavs;
     std::vector<MenuGroup> _menu;

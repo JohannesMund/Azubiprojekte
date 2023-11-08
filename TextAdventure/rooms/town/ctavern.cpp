@@ -1,6 +1,7 @@
 #include "ctavern.h"
 #include "cbountyhunt.h"
 #include "cgamemanagement.h"
+#include "cmenu.h"
 #include "console.h"
 #include "randomizer.h"
 #include "ressources.h"
@@ -13,7 +14,17 @@ CTavern::CTavern()
 
 void CTavern::execute()
 {
-    char input;
+    CMenu::Action input;
+    CMenu menu;
+    std::vector<CMenu::Action> navs;
+    navs.push_back(menu.createAction("Rumors"));
+
+    if (!CBountyHunt::isHuntActive())
+    {
+        navs.push_back(menu.createAction("Bounty Hunt"));
+    }
+    menu.addMenuGroup(navs, {CMenu::exitAction()});
+
     do
     {
         Console::cls();
@@ -21,20 +32,9 @@ void CTavern::execute()
                          "drunkards and easy girls. The place to be in any fantasy setting.");
         Console::hr();
 
-        std::string nav = "[R]umors";
-        std::string acceptedNavs = "rx";
+        input = menu.execute();
 
-        if (!CBountyHunt::isHuntActive())
-        {
-            nav.append(" [B]ounty Hunt");
-            acceptedNavs.append("b");
-        }
-
-        Console::printLnWithSpacer(nav, "E[x]it");
-
-        input = Console::getAcceptableInput(acceptedNavs);
-
-        if (input == 'r')
+        if (input.key == 'r')
         {
             Console::printLn("You walk around in the tavern, talk to the people and listen to some conversations, "
                              "Obviously, the one thing, everybody seems to be talking about is:");
@@ -44,13 +44,13 @@ void CTavern::execute()
             Console::confirmToContinue();
         }
 
-        if (input == 'b')
+        if (input.key == 'b')
         {
             bountyHunt();
             Console::confirmToContinue();
         }
 
-    } while (input != 'x');
+    } while (CMenu::isExitAction(input));
 }
 
 void CTavern::bountyHunt()
