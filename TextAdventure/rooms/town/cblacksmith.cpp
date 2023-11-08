@@ -32,7 +32,7 @@ void CBlackSmith::execute()
             enhanceItem();
         }
 
-    } while (CMenu::isExitAction(input));
+    } while (CMenu::exit(input));
 }
 
 void CBlackSmith::enhanceItem()

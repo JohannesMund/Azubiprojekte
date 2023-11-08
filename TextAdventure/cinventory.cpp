@@ -42,7 +42,7 @@ void CInventory::addItem(CItem* item)
 
             auto input = CMenu::executeYesNoMenu();
 
-            if (CMenu::isNoAction(input))
+            if (CMenu::no(input))
             {
                 Console::printLn(std::format("You decide to keep {} and reject {}.", (*it)->name(), item->name()));
                 delete item;
@@ -95,7 +95,7 @@ void CInventory::print(const Scope& scope)
         {
             printViewableItems();
         }
-    } while (CMenu::isExitAction(input));
+    } while (CMenu::exit(input));
 }
 
 CInventory::ItemList CInventory::getItemsWithBattleEffect() const

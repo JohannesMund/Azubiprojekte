@@ -50,7 +50,7 @@ void CTavern::execute()
             Console::confirmToContinue();
         }
 
-    } while (CMenu::isExitAction(input));
+    } while (CMenu::exit(input));
 }
 
 void CTavern::bountyHunt()
@@ -71,9 +71,9 @@ void CTavern::bountyHunt()
     Console::printLn(std::format("Reward: {} Gold", reward));
     Console::printLn("This guy shure looks dangerous, but the reward should be worth it. But the guy looks dangerous.");
     Console::hr();
-    Console::printLnWithSpacer("[A]ccept", "[R]eject");
-    auto input = Console::getAcceptableInput("ar");
-    if (input == 'a')
+
+    auto input = CMenu::executeAcceptRejectMenu();
+    if (CMenu::accept(input))
     {
         Console::printLn("You feel brave and relentless, and decide to hunt this sucker down. You rip of his poster, "
                          "ask around for his whereabouts and start your hunt");

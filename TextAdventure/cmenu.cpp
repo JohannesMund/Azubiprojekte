@@ -81,7 +81,14 @@ CMenu::Action CMenu::createAction(const std::string_view& s, const char c)
 CMenu::Action CMenu::executeYesNoMenu()
 {
     CMenu menu;
-    menu.addMenuGroup({CMenu::yesAction(), CMenu::noAction()}, {CMenu::exitAction()});
+    menu.addMenuGroup({CMenu::yesAction(), CMenu::noAction()});
+    return menu.execute();
+}
+
+CMenu::Action CMenu::executeAcceptRejectMenu()
+{
+    CMenu menu;
+    menu.addMenuGroup({CMenu::acceptAction(), CMenu::rejectAction()});
     return menu.execute();
 }
 
@@ -100,19 +107,39 @@ CMenu::Action CMenu::exitAction()
     return {"Exit", "E[x]it", 'x'};
 }
 
-bool CMenu::isYesAction(const Action& a)
+CMenu::Action CMenu::acceptAction()
+{
+    return {"Accept", "[A]ccept", 'a'};
+}
+
+CMenu::Action CMenu::rejectAction()
+{
+    return {"Reject", "[R]eject", 'r'};
+}
+
+bool CMenu::yes(const Action& a)
 {
     return yesAction().key == a.key;
 }
 
-bool CMenu::isNoAction(const Action& a)
+bool CMenu::no(const Action& a)
 {
     return noAction().key == a.key;
 }
 
-bool CMenu::isExitAction(const Action& a)
+bool CMenu::exit(const Action& a)
 {
     return exitAction().key == a.key;
+}
+
+bool CMenu::accept(const Action& a)
+{
+    return acceptAction().key == a.key;
+}
+
+bool CMenu::reject(const Action& a)
+{
+    return rejectAction().key == a.key;
 }
 
 CMenu::Action CMenu::findActionByInput() const
