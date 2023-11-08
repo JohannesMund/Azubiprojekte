@@ -15,13 +15,10 @@ public:
     }
 
     virtual void preBattle();
-
     virtual void preBattleAction();
     virtual void battleAction(bool& endRound);
     virtual void postBattleAction();
-
     virtual void postBattle();
-
     virtual void spoilsOfWar();
 
     std::string name() const;

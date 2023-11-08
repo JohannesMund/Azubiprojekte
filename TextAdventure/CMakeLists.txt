@@ -73,7 +73,8 @@ set(TEXTADVENTURE_SOURCES
     encounters/cmysteriouschest.h encounters/cmysteriouschest.cpp
 )
 
-add_executable(TextAdventure ${TEXTADVENTURE_SOURCES})
+add_executable(TextAdventure ${TEXTADVENTURE_SOURCES}
+)
 
 
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR})
