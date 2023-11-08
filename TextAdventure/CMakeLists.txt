@@ -29,6 +29,8 @@ set(TEXTADVENTURE_SOURCES
 
     rooms/roomfactory.h rooms/roomfactory.cpp
     rooms/croom.h  rooms/croom.cpp
+    rooms/cfield.h rooms/cfield.cpp
+
     rooms/cstartingroom.h rooms/cstartingroom.cpp
     rooms/cinjuredpet.h rooms/cinjuredpet.cpp
 
@@ -74,7 +76,7 @@ set(TEXTADVENTURE_SOURCES
 )
 
 add_executable(TextAdventure ${TEXTADVENTURE_SOURCES}
-)
+    encounters/cdancingbard.h encounters/cdancingbard.cpp)
 
 
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR})

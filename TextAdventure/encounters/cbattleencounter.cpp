@@ -4,6 +4,7 @@
 
 CBattleEncounter::CBattleEncounter() : CEncounter()
 {
+    _type = CEncounter::eField;
 }
 
 void CBattleEncounter::execute()
@@ -14,9 +15,9 @@ void CBattleEncounter::execute()
     battle.fight();
 }
 
-unsigned int CBattleEncounter::encounterChance() const
+unsigned int CBattleEncounter::encounterChance(const EEncounterType& tp) const
 {
-    if (!canBeExecuted())
+    if (!canBeExecuted(tp))
     {
         return 0;
     }

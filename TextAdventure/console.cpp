@@ -148,7 +148,7 @@ void Console::printLn(std::string text, const EAlignment align)
             bool toggle = false;
             while (CC::colorizedSize(text) < Ressources::Settings::consoleWidth)
             {
-                text.insert(toggle ? 0 : CC::colorizedSize(text), 1, ' ');
+                text.insert(toggle ? 0 : text.size(), 1, ' ');
                 toggle = !toggle;
             }
         }

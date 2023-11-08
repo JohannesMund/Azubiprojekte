@@ -1,13 +1,13 @@
 #pragma once
 
 #include "ccompanion.h"
+#include "cencounter.h"
 #include "cinventory.h"
 #include "cmap.h"
 #include "cplayer.h"
 
 #include <string>
 
-class CEncounter;
 class CTask;
 class CGameManagement
 {
@@ -19,9 +19,11 @@ public:
 
     void placeTask(CTask* task);
 
-    void executeRandomEncounter() const;
+    void executeRandomEncounter(const CEncounter::EEncounterType type) const;
     void registerEncounter(CEncounter* encounter);
     void unregisterEncounterByName(const std::string& name);
+
+    CRoom* currentRoom() const;
 
     void start();
 

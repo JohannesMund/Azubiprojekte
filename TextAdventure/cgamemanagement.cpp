@@ -57,7 +57,7 @@ void CGameManagement::start()
     gameLoop();
 }
 
-void CGameManagement::executeRandomEncounter() const
+void CGameManagement::executeRandomEncounter(const CEncounter::EEncounterType type) const
 {
     if (_encounters.size() == 0)
     {
@@ -66,7 +66,6 @@ void CGameManagement::executeRandomEncounter() const
 
     if (Randomizer::getRandom(100) > Ressources::Config::encounterChance)
     {
-
         return;
     }
 
@@ -74,7 +73,7 @@ void CGameManagement::executeRandomEncounter() const
 
     for (int index = 0; index < _encounters.size(); index++)
     {
-        auto chance = _encounters.at(index)->encounterChance();
+        auto chance = _encounters.at(index)->encounterChance(type);
         if (chance == 0)
         {
             continue;
@@ -105,6 +104,11 @@ void CGameManagement::unregisterEncounterByName(const std::string& name)
     auto it = std::remove_if(_encounters.begin(), _encounters.end(), CEncounter::nameFilter(name));
     _encounters.erase(it);
     delete *it;
+}
+
+CRoom* CGameManagement::currentRoom() const
+{
+    return _map.currentRoom();
 }
 
 CPlayer* CGameManagement::getPlayer()

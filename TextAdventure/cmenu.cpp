@@ -179,16 +179,26 @@ bool CMenu::isNavPossible(const char c) const
 
 std::string CMenu::makeDisplayString(const std::string_view s, const char c) const
 {
-
     if (isNavPossible(c) == false)
     {
         return {};
     }
 
-    std::string displayString(s);
-    auto it = displayString.find(c);
-    displayString.replace(it, 1, std::format("[{}]", c));
+    char cc(c);
 
+    std::string displayString(s);
+    auto it = displayString.find(cc);
+    if (it == std::string::npos)
+    {
+        cc = std::toupper(cc);
+        it = displayString.find(cc);
+        if (it == std::string::npos)
+        {
+            return displayString;
+        }
+    }
+
+    displayString.replace(it, 1, std::format("[{}]", cc));
     return displayString;
 }
 
