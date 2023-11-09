@@ -7,9 +7,10 @@ CCaveDungeon::CCaveDungeon()
 
 void CCaveDungeon::execute()
 {
-    CCaveDungeonMap map(15, 15);
-    map.setStartingPosition({0, 0});
+    dungeonLoop();
+}
 
-    map.init();
-    dungeonLoop(&map);
+void CCaveDungeon::loopHook()
+{
+
 }

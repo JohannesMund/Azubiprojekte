@@ -10,12 +10,17 @@ CDungeon::CDungeon()
 {
 }
 
-void CDungeon::dungeonLoop(CDungeonMap* map)
+void CDungeon::setDungeonMap(CDungeonMap* map)
+{
+    _map = map;
+}
+
+void CDungeon::dungeonLoop()
 {
     while (true)
     {
         Console::cls();
-        map->currentRoom()->execute();
+        _map->currentRoom()->execute();
         if (CGameManagement::getPlayerInstance()->isDead())
         {
             return;
@@ -24,7 +29,7 @@ void CDungeon::dungeonLoop(CDungeonMap* map)
         CMenu menu;
 
         std::vector<CMenu::Action> navs;
-        for (auto nav : map->getDirectionNavs())
+        for (auto nav : _map->getDirectionNavs())
         {
             navs.push_back(menu.createAction(nav));
         }
@@ -35,13 +40,13 @@ void CDungeon::dungeonLoop(CDungeonMap* map)
 
         if (CMap::string2Direction(input.name) != CMap::EDirections::eNone)
         {
-            map->movePlayer(CMap::string2Direction(input.name));
+            _map->movePlayer(CMap::string2Direction(input.name));
         }
 
         if (input.key == 'm')
         {
             Console::cls();
-            map->printMap();
+            _map->printMap();
             Console::confirmToContinue();
         }
         if (input.key == 'i')
@@ -52,8 +57,8 @@ void CDungeon::dungeonLoop(CDungeonMap* map)
         if (input.key == 'r')
         {
             Console::cls();
-            map->reveal();
-            map->printMap();
+            _map->reveal();
+            _map->printMap();
             Console::confirmToContinue();
         }
         if (CMenu::exit(input))

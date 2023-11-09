@@ -76,13 +76,34 @@ void CDungeonMap::reveal()
     }
 }
 
+unsigned int CDungeonMap::roomCount() const
+{
+    return _populatedRoomCount;
+}
+
+unsigned int CDungeonMap::seenRooms() const
+{
+    int count = 0;
+    for (const auto& line : _map)
+    {
+        for (const auto& room : line)
+        {
+            if (room->seen())
+            {
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
 void CDungeonMap::fillWithNoRooms()
 {
-    for (unsigned int y = 0; y < _map.size(); y++)
+    for (unsigned int x = 0; x < _map.size(); x++)
     {
-        auto line = _map.at(y);
+        auto line = _map.at(x);
 
-        for (unsigned int x = 0; x < line.size(); x++)
+        for (unsigned int y = 0; y < line.size(); y++)
         {
             if (_map.at(x).at(y) == nullptr)
             {

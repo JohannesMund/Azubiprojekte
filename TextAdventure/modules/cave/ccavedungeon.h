@@ -8,4 +8,5 @@ public:
     CCaveDungeon();
 
     virtual void execute() override;
+    virtual void loopHook() override;
 };

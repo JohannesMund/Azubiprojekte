@@ -30,12 +30,12 @@ void CBountyHunt::execute()
                                  "things, he does not expect you. You draw your weapon and charge!",
                                  _name));
 
-    CBountyEnemy* bounty = new CBountyEnemy(_name);
+    CBountyEnemy bounty(_name);
 
-    CBattle battle(bounty);
+    CBattle battle(&bounty);
     battle.fight();
 
-    if (bounty->isDead())
+    if (bounty.isDead())
     {
         Console::printLn("This is the end of the criminal master mind. The world us safe again. But, for how long?");
         CGameManagement::getPlayerInstance()->addGold(_reward);

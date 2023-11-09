@@ -41,15 +41,15 @@ void CMysteriousChest::execute(const std::string_view& moduleName)
     {
         Console::printLn("just to realize, that this was a mistake! This is a living chest, and it attacks you!");
 
-        CLivingChest* chest = new CLivingChest();
-        CBattle battle(chest);
+        CLivingChest chest;
+        CBattle battle(&chest);
         battle.fight();
 
         if (CGameManagement::getPlayerInstance()->isDead())
         {
             return;
         }
-        if (!chest->isDead())
+        if (!chest.isDead())
         {
             Console::printLn("You manage to escape. This was one scary monster!");
             return;

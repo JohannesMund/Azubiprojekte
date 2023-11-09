@@ -29,11 +29,27 @@ public:
      */
     virtual void execute() = 0;
 
+    /**
+     * @brief loopHook
+     * must be implemented. Called everytime a new loop is started
+     * @sa dungeonLoop()
+     */
+    virtual void loopHook() = 0;
+
+    /**
+     * @brief setDungeonMap
+     * Sets the dungeon Map
+     * @param map
+     */
+    void setDungeonMap(CDungeonMap* map);
+
 protected:
     /**
      * @brief dungeonLoop
      * Handles the execution of the dungeon. blocks, until the dungeon is finished
      * @param map
      */
-    void dungeonLoop(CDungeonMap* map);
+    void dungeonLoop();
+
+    CDungeonMap* _map;
 };

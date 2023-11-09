@@ -13,11 +13,11 @@ void CCaveBattleEncounter::execute(const std::string_view& moduleName)
 {
     CEncounter::execute(moduleName);
 
-    CMobEnemy* enemy = new CMobEnemy();
-    enemy->setWeapon(CaveRessources::getRandomEnemyWeapon());
-    enemy->setName(CaveRessources::getRandomEnemyName());
+    CMobEnemy enemy;
+    enemy.setWeapon(CaveRessources::getRandomEnemyWeapon());
+    enemy.setName(CaveRessources::getRandomEnemyName());
 
-    CBattle battle(enemy);
+    CBattle battle;
     battle.fight();
 }
 

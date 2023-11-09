@@ -36,6 +36,18 @@ public:
      */
     void reveal();
 
+    /**
+     * @brief roomCount
+     * @return the count of visitable rooms
+     */
+    unsigned int roomCount() const;
+
+    /**
+     * @brief seenRooms
+     * @return the count of visited rooms
+     */
+    unsigned int seenRooms() const;
+
 protected:
     /**
      * @brief makeDefaultRoom

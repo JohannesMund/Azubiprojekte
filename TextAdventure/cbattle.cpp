@@ -17,14 +17,6 @@ CBattle::CBattle(CEnemy* enemy)
     _enemy = enemy;
 }
 
-CBattle::~CBattle()
-{
-    if (_enemy != nullptr)
-    {
-        delete _enemy;
-    }
-}
-
 void CBattle::fight()
 {
     Console::cls();

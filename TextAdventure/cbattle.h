@@ -27,7 +27,6 @@ public:
 
     CBattle();
     CBattle(CEnemy* enemy);
-    ~CBattle();
 
     void fight();
 
