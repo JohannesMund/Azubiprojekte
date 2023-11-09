@@ -83,5 +83,9 @@ protected:
      */
     bool _hasBeenExecuted = false;
 
+    /**
+     * @brief _type
+     * An Or-Conjunction of EEncounterType values, used to determin in what context an encounter can occur,
+     */
     unsigned int _type;
 };
