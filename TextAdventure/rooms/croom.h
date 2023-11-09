@@ -18,11 +18,11 @@ public:
     bool west() const;
 
     bool seen() const;
-    void setSeen(const bool b);
+    virtual void setSeen(const bool b);
 
     bool showInFogOfWar() const;
 
-    virtual std::string mapSymbol();
+    virtual std::string mapSymbol() const;
     virtual void execute();
 
     void setTask(CTask* task);

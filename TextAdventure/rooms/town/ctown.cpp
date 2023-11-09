@@ -76,7 +76,7 @@ void CTown::execute()
     } while (!CMenu::exit(input));
 }
 
-std::string CTown::mapSymbol()
+std::string CTown::mapSymbol() const
 {
     return "T";
 }

@@ -1,4 +1,5 @@
 #include "cmap.h"
+#include "ccave.h"
 #include "cinjuredpet.h"
 #include "colorconsole.h"
 #include "console.h"
@@ -20,13 +21,13 @@ const std::map<CMap::EDirections, std::string> CMap::_dirMap = {{EDirections::eN
                                                                 {EDirections::eEast, "East"},
                                                                 {EDirections::eNone, "None"}};
 
-CMap::CMap()
+CMap::CMap(const unsigned int width, const unsigned int height)
 {
-    for (int x = 0; x < Ressources::Config::fieldHeight; x++)
+    for (int x = 0; x < height; x++)
     {
         std::vector<CRoom*> row;
 
-        for (int y = 0; y < Ressources::Config::fieldWidth; y++)
+        for (int y = 0; y < width; y++)
         {
             row.push_back(nullptr);
         }
@@ -54,6 +55,7 @@ void CMap::init()
     std::vector<CRoom*> rooms;
 
     rooms.push_back(RoomFactory::makeInjuredPet());
+    rooms.push_back(RoomFactory::makeCave());
 
     for (int i = 0; i < Ressources::Config::numberOfTowns; i++)
     {
@@ -160,7 +162,7 @@ bool CMap::navAvailable(const EDirections dir) const
 bool CMap::navAvailable(const SRoomCoords& coords, const EDirections dir) const
 {
     auto room = roomAt(coords);
-    if (room == nullptr)
+    if (!room.has_value() || *room == nullptr)
     {
         return false;
     }
@@ -169,7 +171,7 @@ bool CMap::navAvailable(const SRoomCoords& coords, const EDirections dir) const
     transposedCoords.transpose(dir);
 
     auto nextRoom = roomAt(transposedCoords);
-    if (nextRoom == nullptr)
+    if (!nextRoom.has_value() || *nextRoom == nullptr)
     {
         return false;
     }
@@ -177,13 +179,13 @@ bool CMap::navAvailable(const SRoomCoords& coords, const EDirections dir) const
     switch (dir)
     {
     case EDirections::eNorth:
-        return room->north() && nextRoom->south();
+        return (*room)->north() && (*nextRoom)->south();
     case EDirections::eEast:
-        return room->east() && nextRoom->west();
+        return (*room)->east() && (*nextRoom)->west();
     case EDirections::eSouth:
-        return room->south() && nextRoom->north();
+        return (*room)->south() && (*nextRoom)->north();
     case EDirections::eWest:
-        return room->west() && nextRoom->east();
+        return (*room)->west() && (*nextRoom)->east();
     default:
         return false;
     }
@@ -196,42 +198,62 @@ void CMap::printRoom(const SRoomCoords& coords, const int line)
     using namespace std;
 
     auto room = roomAt(coords);
-    if (room == nullptr)
+    if (!room.has_value() || (*room) == nullptr)
     {
         cout << "   ";
         return;
     }
 
-    if (room->seen() == false)
-    {
-        if (room->showInFogOfWar() && line == 1)
-        {
-            cout << " " << mapSymbol(coords) << " ";
-            return;
-        }
-        else
-        {
-            cout << "   ";
-            return;
-        }
-    }
-
     bool left = navAvailable(coords, EDirections::eWest);
-    cout << CC::bgDarkGray();
-    if (line == 1)
-    {
-        cout << string{left ? " " : "|"};
-        cout << mapSymbol(coords);
-        cout << " ";
-    }
+    bool bottom = navAvailable(coords, EDirections::eSouth);
 
-    if (line == 2)
+    if ((*room)->seen() == false)
     {
-        bool bottom = navAvailable(coords, EDirections::eSouth);
-        cout << string{left ? bottom ? " " : "_" : "|"};
-        cout << string{bottom ? "  " : "__"};
+        const auto roomLeft = roomAt(coords, EDirections::eWest);
+        bool leftSeen = roomLeft.has_value() && *roomLeft != nullptr && (*roomLeft)->seen();
+
+        const auto roomBottom = roomAt(coords, EDirections::eSouth);
+        bool bottomSeen = roomBottom.has_value() && *roomBottom != nullptr && (*roomBottom)->seen();
+
+        if (line == 1)
+        {
+            cout << string{!left && leftSeen ? "|" : " "};
+
+            if ((*room)->showInFogOfWar())
+            {
+                cout << mapSymbol(coords);
+            }
+            else
+            {
+                cout << " ";
+            }
+            cout << " ";
+        }
+
+        if (line == 2)
+        {
+            cout << string{!left && leftSeen ? "|" : !bottom && bottomSeen ? "_" : " "};
+            cout << string{!bottom && bottomSeen ? "__" : "  "};
+        }
     }
-    cout << CC::ccReset();
+    else
+    {
+        cout << CC::bgDarkGray();
+        if (line == 1)
+        {
+            cout << string{left ? " " : "|"};
+            cout << mapSymbol(coords);
+            cout << " ";
+        }
+
+        if (line == 2)
+        {
+
+            cout << string{left ? bottom ? " " : "_" : "|"};
+            cout << string{bottom ? "  " : "__"};
+        }
+        cout << CC::ccReset();
+    }
 }
 
 void CMap::printMap()
@@ -241,13 +263,19 @@ void CMap::printMap()
         return;
     }
 
-    std::cout << " ";
     for (unsigned int x = 0; x < _map.at(0).size(); x++)
     {
         auto room = roomAt({x, 0});
-        if (room != nullptr && room->seen())
+        if (room.has_value() && room != nullptr && (*room)->seen())
         {
-            std::cout << "___";
+            if (x == 0)
+            {
+                std::cout << " __";
+            }
+            else
+            {
+                std::cout << "___";
+            }
         }
         else
         {
@@ -268,7 +296,7 @@ void CMap::printMap()
             }
 
             auto room = roomAt({(unsigned)line.size() - 1, y});
-            if (room != nullptr && room->seen())
+            if (room.has_value() && room != nullptr && (*room)->seen())
             {
                 std::cout << "|" << std::endl;
             }
@@ -304,9 +332,9 @@ std::string CMap::mapSymbol(const SRoomCoords& coords)
     }
 
     auto room = roomAt(coords);
-    if (room != nullptr)
+    if (room.has_value() && (*room) != nullptr)
     {
-        return room->mapSymbol();
+        return (*room)->mapSymbol();
     }
 
     return " ";
@@ -314,7 +342,7 @@ std::string CMap::mapSymbol(const SRoomCoords& coords)
 
 CRoom* CMap::currentRoom() const
 {
-    return roomAt(_playerPosition);
+    return roomAt(_playerPosition).value();
 }
 
 void CMap::setTaskToRandomRoom(CTask* task)
@@ -341,26 +369,26 @@ void CMap::setTaskToRandomRoom(CTask* task)
     possibleRooms.at(0)->setTask(task);
 }
 
-CRoom* CMap::roomAt(const EDirections dir) const
+std::optional<CRoom*> CMap::roomAt(const EDirections dir) const
 {
-    auto coords = _playerPosition;
-    coords.transpose(dir);
-    if (!coordsValid(coords))
-    {
-        return nullptr;
-    }
-
-    return roomAt(coords);
+    return roomAt(_playerPosition, dir);
 }
 
-CRoom* CMap::roomAt(const SRoomCoords& coords) const
+std::optional<CRoom*> CMap::roomAt(const SRoomCoords& coords) const
 {
     if (!coordsValid(coords))
     {
-        return nullptr;
+        return {};
     }
 
     return _map.at(coords.y).at(coords.x);
+}
+
+std::optional<CRoom*> CMap::roomAt(const SRoomCoords& coords, const EDirections dir) const
+{
+    SRoomCoords transposedCoords(coords);
+    transposedCoords.transpose(dir);
+    return roomAt(transposedCoords);
 }
 
 CMap::SRoomCoords CMap::getPlayerPosition() const

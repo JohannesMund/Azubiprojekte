@@ -30,9 +30,9 @@ set(TEXTADVENTURE_SOURCES
     rooms/roomfactory.h rooms/roomfactory.cpp
     rooms/croom.h  rooms/croom.cpp
     rooms/cfield.h rooms/cfield.cpp
-
     rooms/cstartingroom.h rooms/cstartingroom.cpp
     rooms/cinjuredpet.h rooms/cinjuredpet.cpp
+    rooms/ccave.h rooms/ccave.cpp
 
     rooms/town/ctown.h rooms/town/ctown.cpp
     rooms/town/ctownmodule.h rooms/town/ctownmodule.cpp
@@ -73,10 +73,16 @@ set(TEXTADVENTURE_SOURCES
     encounters/cbattleencounter.h encounters/cbattleencounter.cpp
     encounters/cdeadhero.h encounters/cdeadhero.cpp
     encounters/cmysteriouschest.h encounters/cmysteriouschest.cpp
+    encounters/cdancingbard.h encounters/cdancingbard.cpp
+
+    dungeons/cdungeon.h dungeons/cdungeon.cpp
+    dungeons/cdungeonmap.h dungeons/cdungeonmap.cpp
+    dungeons/cdungeonroom.h dungeons/cdungeonroom.cpp
+    dungeons/cdungeonroomnoroom.h dungeons/cdungeonroomnoroom.cpp
 )
 
 add_executable(TextAdventure ${TEXTADVENTURE_SOURCES}
-    encounters/cdancingbard.h encounters/cdancingbard.cpp)
+    dungeons/ccavedungeon.h dungeons/ccavedungeon.cpp)
 
 
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR})
@@ -88,6 +94,7 @@ target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/rooms)
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/rooms/town)
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/tasks)
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/encounters)
+target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/dungeons)
 
 
 include(GNUInstallDirs)

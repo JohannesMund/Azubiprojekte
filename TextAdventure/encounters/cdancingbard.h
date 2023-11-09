@@ -1,4 +1,4 @@
-#pragma ince
+#pragma once
 
 #include "cencounter.h"
 

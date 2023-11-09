@@ -17,7 +17,7 @@ public:
     CTown();
 
     virtual void execute() override;
-    virtual std::string mapSymbol() override;
+    virtual std::string mapSymbol() const override;
 
     std::string name() const;
 

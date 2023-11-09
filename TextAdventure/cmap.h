@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -55,10 +56,10 @@ public:
 
     static EDirections string2Direction(const std::string_view s);
 
-    CMap();
+    CMap(const unsigned int width, const unsigned int height);
     ~CMap();
 
-    void init();
+    virtual void init();
 
     void setStartingPosition(const SRoomCoords& coords);
     void movePlayer(const EDirections dir);
@@ -76,10 +77,12 @@ public:
 
     void setTaskToRandomRoom(CTask* task);
 
+protected:
+    std::vector<std::vector<CRoom*>> _map;
+    std::optional<CRoom*> roomAt(const EDirections dir) const;
+    std::optional<CRoom*> roomAt(const SRoomCoords& coords) const;
+    std::optional<CRoom*> roomAt(const SRoomCoords& coords, const EDirections dir) const;
+
 private:
     SRoomCoords _playerPosition;
-
-    std::vector<std::vector<CRoom*>> _map;
-    CRoom* roomAt(const EDirections dir) const;
-    CRoom* roomAt(const SRoomCoords& coords) const;
 };

@@ -95,7 +95,7 @@ void CStartingRoom::execute()
     _taskPossible = true;
 }
 
-std::string CStartingRoom::mapSymbol()
+std::string CStartingRoom::mapSymbol() const
 {
     return "*";
 }

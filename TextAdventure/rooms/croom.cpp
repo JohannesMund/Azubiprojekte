@@ -108,7 +108,7 @@ bool CRoom::showInFogOfWar() const
     return _showInFogOfWar;
 }
 
-std::string CRoom::mapSymbol()
+std::string CRoom::mapSymbol() const
 {
     if (hasTask())
     {

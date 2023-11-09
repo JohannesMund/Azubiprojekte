@@ -5,7 +5,7 @@ CField::CField()
 {
 }
 
-std::string CField::mapSymbol()
+std::string CField::mapSymbol() const
 {
     return CRoom::mapSymbol();
 }

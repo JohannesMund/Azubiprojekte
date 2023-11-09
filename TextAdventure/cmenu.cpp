@@ -105,7 +105,7 @@ CMenu::Action CMenu::yesAction()
 
 CMenu::Action CMenu::noAction()
 {
-    return {"No", "[N]o", 'y'};
+    return {"No", "[N]o", 'n'};
 }
 
 CMenu::Action CMenu::exitAction()

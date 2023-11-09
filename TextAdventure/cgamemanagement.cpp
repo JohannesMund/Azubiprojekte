@@ -283,7 +283,7 @@ void CGameManagement::lookForTrouble()
     battle.fight();
 }
 
-CGameManagement::CGameManagement()
+CGameManagement::CGameManagement() : _map(CMap(Ressources::Config::fieldWidth, Ressources::Config::fieldHeight))
 {
     _companion = CompanionFactory::makeRandomCompanion();
 }

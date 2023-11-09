@@ -7,6 +7,6 @@ class CField : public CRoom
 public:
     CField();
 
-    virtual std::string mapSymbol();
+    virtual std::string mapSymbol() const;
     virtual void execute();
 };
