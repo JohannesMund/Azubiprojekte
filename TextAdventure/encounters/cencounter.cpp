@@ -7,7 +7,7 @@ CEncounter::CEncounter()
 {
 }
 
-void CEncounter::execute()
+void CEncounter::execute(const std::string&)
 {
     Console::printLn(std::format("Encounter: {}", name()));
     Console::br();

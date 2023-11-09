@@ -13,9 +13,9 @@ CDancingBard::CDancingBard()
     _type = CEncounter::eTown;
 }
 
-void CDancingBard::execute()
+void CDancingBard::execute(const std::string& moduleName)
 {
-    CEncounter::execute();
+    CEncounter::execute(moduleName);
     _hasBeenExecuted = true;
 
     std::string townName;

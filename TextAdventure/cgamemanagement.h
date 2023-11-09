@@ -19,7 +19,7 @@ public:
 
     void placeTask(CTask* task);
 
-    void executeRandomEncounter(const CEncounter::EEncounterType type) const;
+    void executeRandomEncounter(const CEncounter::EEncounterType type, const std::string& moduleName = {}) const;
     void registerEncounter(CEncounter* encounter);
     void unregisterEncounterByName(const std::string& name);
 

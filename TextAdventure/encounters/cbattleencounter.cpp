@@ -4,12 +4,12 @@
 
 CBattleEncounter::CBattleEncounter() : CEncounter()
 {
-    _type = CEncounter::eField;
+    _type = CEncounter::eField | CEncounter::eDungeon;
 }
 
-void CBattleEncounter::execute()
+void CBattleEncounter::execute(const std::string& moduleName)
 {
-    CEncounter::execute();
+    CEncounter::execute(moduleName);
 
     CBattle battle;
     battle.fight();

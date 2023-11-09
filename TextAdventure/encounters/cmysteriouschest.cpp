@@ -12,7 +12,7 @@ CMysteriousChest::CMysteriousChest() : CEncounter()
     _type = CEncounter::eField;
 }
 
-void CMysteriousChest::execute()
+void CMysteriousChest::execute(const std::string& moduleName)
 {
     CEncounter::execute();
     _hasBeenExecuted = true;

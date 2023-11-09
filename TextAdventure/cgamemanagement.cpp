@@ -57,7 +57,7 @@ void CGameManagement::start()
     gameLoop();
 }
 
-void CGameManagement::executeRandomEncounter(const CEncounter::EEncounterType type) const
+void CGameManagement::executeRandomEncounter(const CEncounter::EEncounterType type, const std::string& moduleName) const
 {
     if (_encounters.size() == 0)
     {
@@ -90,7 +90,7 @@ void CGameManagement::executeRandomEncounter(const CEncounter::EEncounterType ty
     }
 
     std::shuffle(indices.begin(), indices.end(), std::default_random_engine(Randomizer::getRandomEngineSeed()));
-    _encounters.at(indices.at(0))->execute();
+    _encounters.at(indices.at(0))->execute(moduleName);
     Console::confirmToContinue();
 }
 

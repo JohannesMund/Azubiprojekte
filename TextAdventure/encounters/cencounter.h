@@ -39,7 +39,7 @@ public:
     /**
      * @brief execute executes the task
      */
-    virtual void execute();
+    virtual void execute(const std::string& moduleName = {});
 
     /**
      * @brief encounterChance implement to set the probability for the encounter to occur
@@ -83,5 +83,5 @@ protected:
      */
     bool _hasBeenExecuted = false;
 
-    EEncounterType _type;
+    unsigned int _type;
 };

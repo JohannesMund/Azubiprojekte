@@ -14,9 +14,9 @@ CDeadHero::CDeadHero() : CEncounter()
     _type = CEncounter::eField;
 }
 
-void CDeadHero::execute()
+void CDeadHero::execute(const std::string& moduleName)
 {
-    CEncounter::execute();
+    CEncounter::execute(moduleName);
     _hasBeenExecuted = true;
 
     CJunkSword sword;
