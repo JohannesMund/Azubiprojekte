@@ -1,5 +1,5 @@
 #include "ccavedungeon.h"
-#include "cdungeonmap.h"
+#include "ccavedungeonmap.h"
 
 CCaveDungeon::CCaveDungeon()
 {
@@ -7,10 +7,9 @@ CCaveDungeon::CCaveDungeon()
 
 void CCaveDungeon::execute()
 {
-    CDungeonMap map(15, 15);
-    map.init();
-
+    CCaveDungeonMap map(15, 15);
     map.setStartingPosition({0, 0});
 
+    map.init();
     dungeonLoop(&map);
 }

@@ -1,5 +1,5 @@
 #include "roomfactory.h"
-#include "ccave.h"
+#include "cave/ccave.h"
 #include "cfield.h"
 #include "cinjuredpet.h"
 #include "croom.h"

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "cencounter.h"
+#include <cencounter.h>
 
-class CBattleEncounter : public CEncounter
+class CCaveBattleEncounter : public CEncounter
 {
 public:
-    CBattleEncounter();
+    CCaveBattleEncounter();
 
     virtual void execute(const std::string_view& moduleName = {}) override;
     virtual unsigned int encounterChance(const EEncounterType& tp,

@@ -4,10 +4,10 @@
 
 CBattleEncounter::CBattleEncounter() : CEncounter()
 {
-    _type = CEncounter::eField | CEncounter::eDungeon;
+    _type = CEncounter::eField;
 }
 
-void CBattleEncounter::execute(const std::string& moduleName)
+void CBattleEncounter::execute(const std::string_view& moduleName)
 {
     CEncounter::execute(moduleName);
 
@@ -15,7 +15,7 @@ void CBattleEncounter::execute(const std::string& moduleName)
     battle.fight();
 }
 
-unsigned int CBattleEncounter::encounterChance(const EEncounterType& tp) const
+unsigned int CBattleEncounter::encounterChance(const EEncounterType& tp, const std::string_view&) const
 {
     if (!canBeExecuted(tp))
     {

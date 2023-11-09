@@ -14,7 +14,7 @@ CDeadHero::CDeadHero() : CEncounter()
     _type = CEncounter::eField;
 }
 
-void CDeadHero::execute(const std::string& moduleName)
+void CDeadHero::execute(const std::string_view& moduleName)
 {
     CEncounter::execute(moduleName);
     _hasBeenExecuted = true;
@@ -67,7 +67,7 @@ void CDeadHero::execute(const std::string& moduleName)
     Console::br();
 }
 
-unsigned int CDeadHero::encounterChance(const EEncounterType& tp) const
+unsigned int CDeadHero::encounterChance(const EEncounterType& tp, const std::string_view&) const
 {
     if (!canBeExecuted(tp))
     {

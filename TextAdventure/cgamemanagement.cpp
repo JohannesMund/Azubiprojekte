@@ -73,7 +73,7 @@ void CGameManagement::executeRandomEncounter(const CEncounter::EEncounterType ty
 
     for (int index = 0; index < _encounters.size(); index++)
     {
-        auto chance = _encounters.at(index)->encounterChance(type);
+        auto chance = _encounters.at(index)->encounterChance(type, moduleName);
         if (chance == 0)
         {
             continue;

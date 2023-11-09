@@ -39,7 +39,7 @@ public:
     /**
      * @brief execute executes the task
      */
-    virtual void execute(const std::string& moduleName = {});
+    virtual void execute(const std::string_view& moduleName = {});
 
     /**
      * @brief encounterChance implement to set the probability for the encounter to occur
@@ -47,7 +47,7 @@ public:
      * @sa Ressources::Config::fightChance
      * @return  the chance for this encounter to occur, relative to CBattleEncounter
      */
-    virtual unsigned int encounterChance(const EEncounterType& tp) const = 0;
+    virtual unsigned int encounterChance(const EEncounterType& tp, const std::string_view& moduleName = {}) const = 0;
 
     /**
      * @brief name Name of the encounter

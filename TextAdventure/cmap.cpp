@@ -1,5 +1,5 @@
 #include "cmap.h"
-#include "ccave.h"
+#include "cave/ccave.h"
 #include "cinjuredpet.h"
 #include "colorconsole.h"
 #include "console.h"

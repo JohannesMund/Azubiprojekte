@@ -60,11 +60,6 @@ void CDungeonMap::makeNextRoom(const SRoomCoords coords, unsigned int& i)
     }
 }
 
-CDungeonRoom* CDungeonMap::makeDefaultRoom() const
-{
-    return new CDungeonRoom();
-}
-
 CDungeonRoom* CDungeonMap::makeNoRoom() const
 {
     return new CDungeonRoomNoRoom();

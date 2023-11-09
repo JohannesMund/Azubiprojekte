@@ -44,7 +44,7 @@ protected:
      * @sa init()
      * @return a default dungeon room
      */
-    virtual CDungeonRoom* makeDefaultRoom() const;
+    virtual CDungeonRoom* makeDefaultRoom() const = 0;
 
     /**
      * @brief makeNoRoom

@@ -63,6 +63,16 @@ void CMobEnemy::battleAction(bool& endRound)
     CEnemy::battleAction(endRound);
 }
 
+void CMobEnemy::setName(const std::string& name)
+{
+    _name = name;
+}
+
+void CMobEnemy::setWeapon(const std::string& weapon)
+{
+    _weapon = weapon;
+}
+
 void CMobEnemy::specialAttack()
 {
     Console::printLn("Special Attack!");

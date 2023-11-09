@@ -3,7 +3,6 @@
 
 CDungeonRoom::CDungeonRoom()
 {
-    _description = "generic dungeon room";
     _encounterPossible = true;
     _taskPossible = true;
 }

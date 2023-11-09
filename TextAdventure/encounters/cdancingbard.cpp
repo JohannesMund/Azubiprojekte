@@ -13,7 +13,7 @@ CDancingBard::CDancingBard()
     _type = CEncounter::eTown;
 }
 
-void CDancingBard::execute(const std::string& moduleName)
+void CDancingBard::execute(const std::string_view& moduleName)
 {
     CEncounter::execute(moduleName);
     _hasBeenExecuted = true;
@@ -64,7 +64,7 @@ void CDancingBard::execute(const std::string& moduleName)
     CGameManagement::getPlayerInstance()->addXp(Randomizer::getRandom(5) + 1);
 }
 
-unsigned int CDancingBard::encounterChance(const EEncounterType& tp) const
+unsigned int CDancingBard::encounterChance(const EEncounterType& tp, const std::string_view&) const
 {
     if (!canBeExecuted(tp))
     {
