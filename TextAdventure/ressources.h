@@ -18,8 +18,8 @@ unsigned int getXpForLevel(const unsigned int level);
 
 static const unsigned int fieldWidth = 10;
 static const unsigned int fieldHeight = 10;
-static const unsigned int encounterChance = 5;
-static const unsigned int fightRate = 75;
+static const unsigned int encounterChance = 15;
+static const unsigned int fightChance = 15;
 
 static const unsigned int numberOfTowns = 3;
 
@@ -34,17 +34,22 @@ namespace Rooms
 {
 std::string getRandomDescription();
 std::pair<std::string, std::string> getRandomTown();
+std::string getRandomRumor();
 } // namespace Rooms
 
 namespace Items
 {
-std::pair<std::string, std::string> getRandomRubbishItems();
+std::pair<std::string, std::string> getRandomJunkItems();
+
 } // namespace Items
 
 namespace Enemies
 {
 std::string getRandomEnemyName();
 std::string getRandomEnemyWeapon();
+
+std::pair<std::string, std::string> getRandomBountyName();
+
 } // namespace Enemies
 
 namespace Companion

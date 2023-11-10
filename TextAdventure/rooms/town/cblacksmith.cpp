@@ -1,6 +1,7 @@
 #include "cblacksmith.h"
-#include "cenhancableitem.h"
+#include "cequipment.h"
 #include "cgamemanagement.h"
+#include "cmenu.h"
 #include "console.h"
 
 #include <format>
@@ -11,7 +12,10 @@ CBlackSmith::CBlackSmith()
 
 void CBlackSmith::execute()
 {
-    char input;
+    CMenu menu;
+    menu.addMenuGroup({menu.createAction("Enhance Item", 'b')}, {CMenu::exitAction()});
+    CMenu::Action input;
+
     do
     {
         Console::cls();
@@ -20,31 +24,30 @@ void CBlackSmith::execute()
         Console::printLn(
             "A grumpy old man, probably the blacksmith looks at you suspiciously and asks what he can do for you.");
         Console::hr();
-        Console::printLnWithSpacer("[E]nhance Item", "E[x]it");
 
-        input = Console::getAcceptableInput("ex");
+        input = menu.execute();
 
-        if (input == 'e')
+        if (input.key == 'e')
         {
             enhanceItem();
         }
 
-    } while (input != 'x');
+    } while (!CMenu::exit(input));
 }
 
 void CBlackSmith::enhanceItem()
 {
-    auto items = CGameManagement::getInventoryInstance()->getEnhancableItems();
+    auto items = CGameManagement::getInventoryInstance()->getEnhancableEquipment();
     if (items.size() == 0)
     {
         Console::printLn("You look through your pockets and find no enhancable items.");
         return;
     }
 
-    auto enhancementCostForItem = [](const CEnhancableItem* i) { return 150 + (i->level() * 150 * i->level() * 2); };
+    auto enhancementCostForItem = [](const CEquipment* i) { return 150 + (i->level() * 150 * i->level() * 2); };
 
     int number = 0;
-    std::vector<CEnhancableItem*> enhancableItems;
+    std::vector<CEquipment*> enhancableItems;
     Console::printLn("You look through your pockets and find the following items, that can be enhanced:");
     for (auto i : items)
     {
@@ -54,11 +57,11 @@ void CBlackSmith::enhanceItem()
         {
             number++;
             enhancableItems.push_back(i);
-            Console::printLn(std::format("[{:3}] {} ({}Gold)", number, i->name(), cost));
+            Console::printLn(std::format("[{:3}] {} ({} Gold)", number, i->name(), cost));
         }
         else
         {
-            Console::printLn(std::format("[   ] {} ({}Gold)", i->name(), cost));
+            Console::printLn(std::format("[   ] {} ({} Gold)", i->name(), cost));
         }
     }
 

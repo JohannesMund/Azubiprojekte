@@ -46,7 +46,7 @@ void br();
 /**
  * @brief cls Clears the Screen
  */
-void cls();
+void cls(const bool bHud = true);
 
 /**
  * @brief printLn Prints of line of text, with automatic breaks and alignment
@@ -54,7 +54,7 @@ void cls();
  * @param align the alignment
  * @param nobr set to true, no automatic breaks are done
  */
-void printLn(std::string text, const EAlignment align = EAlignment::eLeft, const bool nobr = false);
+void printLn(std::string text, const EAlignment align = EAlignment::eLeft);
 
 /**
  * @brief printWithSpacer Prints two lines of text with a spacer inbetween
@@ -75,7 +75,7 @@ void setEcho(const bool on);
  * @param accepableChars a string with all char that shall be accepted
  * @return the accepted char
  */
-char getAcceptableInput(std::string accepableChars);
+char getAcceptableInput(std::string_view accepableChars);
 
 /**
  * @brief getNumberInputWithEcho blocks until a integer beween min and max is entered

@@ -10,7 +10,7 @@ class CShop : public CTownModule
 {
 public:
     CShop();
-
+    ~CShop();
     void execute();
 
 private:

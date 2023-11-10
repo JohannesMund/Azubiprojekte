@@ -38,7 +38,7 @@ public:
      * @brief useFromBattle
      * Called, when an item is actively used from the inventory
      */
-    virtual void useFromBattle()
+    virtual void useFromBattle(CEnemy*)
     {
     }
 
@@ -90,7 +90,7 @@ public:
      * @brief name
      * @return name of the item
      */
-    std::string name() const;
+    virtual std::string name() const;
     /**
      * @brief description
      * @return desctiption of the item
@@ -163,7 +163,7 @@ public:
      * @param name
      * @return a name filter function to be used in std containers
      */
-    static std::function<bool(const CItem*)> nameFilter(const std::string& name);
+    static std::function<bool(const CItem*)> nameFilter(const std::string_view& name);
 
     /**
      * @brief battleEffectFilter
@@ -198,7 +198,7 @@ protected:
 
     bool _hasDeathEffect = false;
     bool _hasBattleEffect = false;
-    bool _hasDurableBattleEffect = false;
+    bool _hasBattleBuff = false;
     bool _hasShieldingAction = false;
 
     bool _isSellable = false;

@@ -11,15 +11,21 @@ enum class EItemType
     eHealingPotionL,
     eHealingPotionXL,
 
+    eBombS,
+    eBombM,
+    eBombL,
+    eBombXL,
+
     ePhoenixFeather,
+    eHeartContainer,
 
-    eSword,
-    eShield,
+    eJunkItem,
 
-    eJunkItem
+    eUrzasGlasses
 };
 
 CItem* makeItem(const EItemType tp);
 CItem* makeShopItem();
+CItem* makeAwesomneItem();
 
 } // namespace ItemFactory

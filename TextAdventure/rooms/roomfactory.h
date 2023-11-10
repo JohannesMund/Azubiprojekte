@@ -1,6 +1,7 @@
 #pragma once
 
 class CRoom;
+class CCave;
 class CTown;
 class CInjuredPet;
 namespace RoomFactory
@@ -8,6 +9,7 @@ namespace RoomFactory
 
 CRoom* makeRoom();
 CTown* makeTown();
-CInjuredPet *makeInjuredPet();
+CCave* makeCave();
+CInjuredPet* makeInjuredPet();
 
 } // namespace RoomFactory

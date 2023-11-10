@@ -4,12 +4,12 @@
 
 CJunkItem::CJunkItem() : CItem()
 {
-    auto it = Ressources::Items::getRandomRubbishItems();
+    auto it = Ressources::Items::getRandomJunkItems();
     _name = it.first;
     _description = it.second;
 
     _isSellable = true;
-    _value = Randomizer::getRandom(10) + 5;
+    _value = Randomizer::getRandom(50) + 25;
 }
 
 std::function<bool(const CItem*)> CJunkItem::junkItemFilter()

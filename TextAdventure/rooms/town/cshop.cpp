@@ -1,6 +1,7 @@
 #include "cshop.h"
 #include "cgamemanagement.h"
 #include "cjunkitem.h"
+#include "cmenu.h"
 #include "console.h"
 #include "itemfactory.h"
 
@@ -13,6 +14,18 @@ CShop::CShop()
     replaceShopItems();
 }
 
+CShop::~CShop()
+{
+    for (auto i : _shopItems)
+    {
+        if (i != nullptr)
+        {
+            delete i;
+        }
+    }
+    _shopItems.clear();
+}
+
 void CShop::execute()
 {
     if (CGameManagement::getPlayerInstance()->level() != _playerLevel)
@@ -20,7 +33,7 @@ void CShop::execute()
         replaceShopItems();
     }
 
-    char input;
+    CMenu::Action input;
     do
     {
         Console::cls();
@@ -31,8 +44,8 @@ void CShop::execute()
                         _cityName));
         Console::hr();
 
-        std::string nav;
-        std::string acceptableInputs;
+        std::vector<CMenu::Action> navs;
+        CMenu menu;
 
         auto junkItems = CGameManagement::getInventoryInstance()->getJunkItems();
         if (junkItems.size())
@@ -45,31 +58,29 @@ void CShop::execute()
                     value += j->value();
                 }
             }
-            Console::printLn(std::format("Sell your [J]unk ({} Gold)", value));
-            acceptableInputs.append("j");
+            navs.push_back(menu.createAction(std::format("Sell your Junk ({} Gold)", value), 'j'));
         }
 
-        nav.append("[B]uy items [S]ell items");
-        acceptableInputs.append("bs");
+        navs.push_back(menu.createAction("Buy items"));
+        navs.push_back(menu.createAction("Sell items"));
+        menu.addMenuGroup(navs, {CMenu::exitAction()});
 
-        Console::printLnWithSpacer(nav, "E[x]it");
-        acceptableInputs.append("x");
-        input = Console::getAcceptableInput(acceptableInputs);
+        input = menu.execute();
 
-        if (input == 'j')
+        if (input.key == 'j')
         {
             sellJunk(junkItems);
         }
-        if (input == 'b')
+        if (input.key == 'b')
         {
             buyItems();
         }
-        if (input == 's')
+        if (input.key == 's')
         {
             sellItems();
         }
 
-    } while (input != 'x');
+    } while (!CMenu::exit(input));
 }
 
 void CShop::sellJunk(CInventory::JunkItemList& junkItems)

@@ -15,17 +15,15 @@ public:
     }
 
     virtual void preBattle();
-
     virtual void preBattleAction();
     virtual void battleAction(bool& endRound);
     virtual void postBattleAction();
-
     virtual void postBattle();
-
     virtual void spoilsOfWar();
 
     std::string name() const;
     std::string weapon() const;
+    unsigned int level() const;
 
     unsigned int initiative() const;
 
@@ -40,13 +38,15 @@ public:
 
 protected:
     unsigned int _level;
-    unsigned int _hp;
+    int _hp;
     unsigned int _initiative;
 
     bool _extendedWeaponChoice = false;
 
     std::string _name;
     std::string _weapon;
+
+    static unsigned int basicXP(const unsigned int level);
 
 private:
     std::optional<CBattle::EWeapons> _battleDecision;

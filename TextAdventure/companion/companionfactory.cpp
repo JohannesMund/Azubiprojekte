@@ -6,7 +6,7 @@
 #include "cscarymonstercompanion.h"
 #include "ressources.h"
 
-CCompanion* CompanionFactory::getRandomCompanion()
+CCompanion* CompanionFactory::makeRandomCompanion()
 {
     switch (Ressources::Companion::getRandomCompanionType())
     {

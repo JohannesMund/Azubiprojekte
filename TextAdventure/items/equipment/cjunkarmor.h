@@ -1,13 +1,13 @@
 #pragma once
-#include "cenhancableitem.h"
 
-class CEnemy;
-class CShield : public CEnhancableItem
+#include "carmor.h"
+
+class CJunkArmor : public CArmor
 {
 public:
-    CShield();
+    CJunkArmor();
 
-    virtual void enhance() override;
+    virtual std::string name() const override;
 
     virtual void battleEffect(CEnemy* enemy) override;
     virtual int shield(const unsigned int i) override;

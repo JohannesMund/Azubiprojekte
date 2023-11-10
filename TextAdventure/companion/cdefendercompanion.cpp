@@ -10,7 +10,10 @@ CDefenderCompanion::CDefenderCompanion()
 
 std::string CDefenderCompanion::name() const
 {
-    return Ressources::Companion::nameForCompanionType(Ressources::Companion::ECompanionType::eDefender, _level);
+    return CC::colorizeString(
+        Ressources::Companion::nameForCompanionType(Ressources::Companion::ECompanionType::eDefender, _level),
+        CC::fgGreen(),
+        CC::fgLightGreen());
 }
 
 std::string CDefenderCompanion::type() const
@@ -20,6 +23,10 @@ std::string CDefenderCompanion::type() const
 
 void CDefenderCompanion::preBattle(CEnemy* enemy)
 {
+    if (_level <= 0)
+    {
+        return;
+    }
     Console::printLn(std::format("{} tries to look dangerous but it does not work. At least it is cute", name()));
 }
 
@@ -29,11 +36,19 @@ void CDefenderCompanion::battleAction(CEnemy* enemy, bool& endRound)
 
 void CDefenderCompanion::postBattle(CEnemy* enemy)
 {
+    if (_level <= 0)
+    {
+        return;
+    }
     Console::printLn(std::format("{} looks victorious.", name()));
 }
 
 int CDefenderCompanion::shield(const int i)
 {
+    if (_level <= 0)
+    {
+        return i;
+    }
     if (fireDefaultAction())
     {
         Console::printLn(std::format("{} jumps between you and the enemy and protects you.", name()));

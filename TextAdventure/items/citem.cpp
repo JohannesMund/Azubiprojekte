@@ -1,5 +1,5 @@
 #include "citem.h"
-#include "cenhancableitem.h"
+#include "cequipment.h"
 #include "console.h"
 
 #include <cmath>
@@ -13,9 +13,9 @@ CItem::CItem()
 
 void CItem::view()
 {
+    Console::hr();
     Console::printLn(format("You decide to take a look at: {}", _name));
     Console::printLn(_description);
-    Console::hr();
 }
 
 bool CItem::isUsableFromInventory() const
@@ -40,7 +40,7 @@ bool CItem::hasBattleEffect() const
 
 bool CItem::hasDurableBattleEffect() const
 {
-    return _hasDurableBattleEffect;
+    return _hasBattleBuff;
 }
 
 bool CItem::hasShieldingAction() const
@@ -53,7 +53,7 @@ bool CItem::isConsumable() const
     return _isConsumable;
 }
 
-std::function<bool(const CItem*)> CItem::nameFilter(const std::string& name)
+std::function<bool(const CItem*)> CItem::nameFilter(const std::string_view& name)
 {
     return [&name](const CItem* item) { return item->name().compare(name) == 0; };
 }

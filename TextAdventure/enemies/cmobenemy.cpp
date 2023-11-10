@@ -57,13 +57,24 @@ void CMobEnemy::battleAction(bool& endRound)
 {
     if (_specialAttackChance > 0 && Randomizer::getRandom(_specialAttackChance) == 0)
     {
-        Console::printLn("Special Attack!");
-        CGameManagement::getPlayerInstance()->dealDamage(1);
+        specialAttack();
         endRound = true;
     }
     CEnemy::battleAction(endRound);
 }
 
+void CMobEnemy::setName(const std::string& name)
+{
+    _name = name;
+}
+
+void CMobEnemy::setWeapon(const std::string& weapon)
+{
+    _weapon = weapon;
+}
+
 void CMobEnemy::specialAttack()
 {
+    Console::printLn("Special Attack!");
+    CGameManagement::getPlayerInstance()->dealDamage(1);
 }

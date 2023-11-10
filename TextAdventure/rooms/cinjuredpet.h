@@ -1,14 +1,14 @@
 #pragma once
 
-#include "croom.h"
+#include "cfield.h"
 
-class CInjuredPet : public CRoom
+class CInjuredPet : public CField
 {
 public:
     CInjuredPet();
 
     virtual void execute() override;
-    virtual char mapSymbol() override;
+    virtual std::string mapSymbol() const override;
 
 private:
     bool _petIsDead = false;

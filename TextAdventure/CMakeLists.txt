@@ -8,11 +8,16 @@ set(TEXTADVENTURE_SOURCES
     main.cpp
 
     console.h console.cpp
+    colorconsole.h colorconsole.cpp
+    cmenu.h cmenu.cpp
+
     ressources.h ressources.cpp
     randomizer.h randomizer.cpp
 
     cgamemanagement.h cgamemanagement.cpp
     cplayer.h cplayer.cpp
+    cmap.h cmap.cpp
+    cbattle.h cbattle.cpp
 
     companion/companionfactory.h companion/companionfactory.cpp
     companion/ccompanion.h companion/ccompanion.cpp
@@ -21,33 +26,73 @@ set(TEXTADVENTURE_SOURCES
     companion/chealercompanion.h companion/chealercompanion.cpp
     companion/cscarymonstercompanion.h companion/cscarymonstercompanion.cpp
 
-    cmap.h cmap.cpp
-    cbattle.h cbattle.cpp
-
     rooms/roomfactory.h rooms/roomfactory.cpp
     rooms/croom.h  rooms/croom.cpp
+    rooms/cfield.h rooms/cfield.cpp
     rooms/cstartingroom.h rooms/cstartingroom.cpp
     rooms/cinjuredpet.h rooms/cinjuredpet.cpp
 
     rooms/town/ctown.h rooms/town/ctown.cpp
+    rooms/town/ctownmodule.h rooms/town/ctownmodule.cpp
     rooms/town/cshop.h rooms/town/cshop.cpp
     rooms/town/cchurch.h rooms/town/cchurch.cpp
     rooms/town/cblacksmith.h rooms/town/cblacksmith.cpp
     rooms/town/cfarm.h rooms/town/cfarm.cpp
-    rooms/town/ctownmodule.h rooms/town/ctownmodule.cpp
+    rooms/town/ctavern.h rooms/town/ctavern.cpp
 
     enemies/cenemy.h enemies/cenemy.cpp
     enemies/cmobenemy.h enemies/cmobenemy.cpp
+    enemies/cbountyenemy.h enemies/cbountyenemy.cpp
+    enemies/clivingchest.h enemies/clivingchest.cpp
+
+    tasks/ctask.h tasks/ctask.cpp
+    tasks/cbountyhunt.h tasks/cbountyhunt.cpp
 
     cinventory.h cinventory.cpp
+    items/equipment/cequipment.h items/equipment/cequipment.cpp
+    items/equipment/csword.h items/equipment/csword.cpp
+    items/equipment/cshield.h items/equipment/cshield.cpp
+    items/equipment/carmor.h items/equipment/carmor.cpp
+    items/equipment/cjunkshield.h items/equipment/cjunkshield.cpp
+    items/equipment/cjunksword.h items/equipment/cjunksword.cpp
+    items/equipment/cjunkarmor.h items/equipment/cjunkarmor.cpp
+
     items/citem.h items/citem.cpp
     items/itemfactory.h items/itemfactory.cpp
     items/chealingpotion.h items/chealingpotion.cpp
     items/cjunkitem.h items/cjunkitem.cpp
-    items/cenhancableitem.h items/cenhancableitem.cpp
-    items/csword.h items/csword.cpp
-    items/cshield.h items/cshield.cpp
     items/cphoenixfeather.h items/cphoenixfeather.cpp
+    items/cheartcontainer.h items/cheartcontainer.cpp    
+    items/cbomb.h items/cbomb.cpp
+
+    encounters/encounterregister.h
+    encounters/cencounter.h encounters/cencounter.cpp
+    encounters/cbattleencounter.h encounters/cbattleencounter.cpp
+    encounters/cdeadhero.h encounters/cdeadhero.cpp
+
+
+
+    dungeons/cdungeon.h dungeons/cdungeon.cpp
+    dungeons/cdungeonmap.h dungeons/cdungeonmap.cpp
+    dungeons/rooms/cdungeonroom.h dungeons/rooms/cdungeonroom.cpp
+    dungeons/rooms/cdungeonroomnoroom.h dungeons/rooms/cdungeonroomnoroom.cpp
+    dungeons/rooms/chealingwell.h dungeons/rooms/chealingwell.cpp
+    dungeons/rooms/cdungeonmaproom.h dungeons/rooms/cdungeonmaproom.cpp
+
+    modules/cave/ressources.h modules/cave/ressources.cpp
+    modules/cave/ccavedungeon.h modules/cave/ccavedungeon.cpp
+    modules/cave/ccave.h modules/cave/ccave.cpp
+    modules/cave/ccavedungeonmap.h modules/cave/ccavedungeonmap.cpp
+    modules/cave/ccavebosstask.h modules/cave/ccavebosstask.cpp    
+    modules/cave/ccavebattleencounter.h modules/cave/ccavebattleencounter.cpp
+    modules/cave/ccaveboss.h modules/cave/ccaveboss.cpp
+
+    modules/forest/curzasglasses.h modules/forest/curzasglasses.cpp
+
+    modules/cmysteriouschest.h modules/cmysteriouschest.cpp
+
+    modules/cdancingbard.h modules/cdancingbard.cpp
+
 )
 
 add_executable(TextAdventure ${TEXTADVENTURE_SOURCES})
@@ -56,9 +101,15 @@ add_executable(TextAdventure ${TEXTADVENTURE_SOURCES})
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR})
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/companion)
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/items)
+target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/items/equipment)
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/enemies)
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/rooms)
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/rooms/town)
+target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/tasks)
+target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/encounters)
+target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/dungeons)
+target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/dungeons/rooms)
+target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR}/modules)
 
 include(GNUInstallDirs)
 install(TARGETS TextAdventure

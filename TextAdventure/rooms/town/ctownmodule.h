@@ -6,7 +6,6 @@ class CTownModule
 {
 public:
     virtual void execute() = 0;
-
     void setCityName(const std::string& s);
 
 protected:

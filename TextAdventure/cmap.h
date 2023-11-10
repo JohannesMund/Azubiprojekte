@@ -1,10 +1,13 @@
 #pragma once
 
 #include <map>
+#include <optional>
 #include <string>
 #include <vector>
 
 class CRoom;
+class CTask;
+
 class CMap
 {
 public:
@@ -17,7 +20,7 @@ public:
         eWest
     };
 
-    static const std::map<EDirections, char> _dirMap;
+    static const std::map<EDirections, std::string> _dirMap;
 
     struct SRoomCoords
     {
@@ -51,13 +54,12 @@ public:
         }
     };
 
-    static EDirections char2Direction(const char c);
-    static char direction2Char(const EDirections dir);
+    static EDirections string2Direction(const std::string_view s);
 
-    CMap();
+    CMap(const unsigned int width, const unsigned int height);
     ~CMap();
 
-    void init();
+    virtual void init();
 
     void setStartingPosition(const SRoomCoords& coords);
     void movePlayer(const EDirections dir);
@@ -68,15 +70,18 @@ public:
 
     void printRoom(const SRoomCoords& coords, const int line);
     void printMap();
-    std::string printNav();
-    char mapSymbol(const SRoomCoords& coords);
+    std::vector<std::string_view> getDirectionNavs();
+    std::string mapSymbol(const SRoomCoords& coords);
 
     CRoom* currentRoom() const;
 
-private:
-    SRoomCoords _playerPosition;
+    void setTaskToRandomRoom(CTask* task);
 
+protected:
     std::vector<std::vector<CRoom*>> _map;
-    CRoom* roomAt(const EDirections dir) const;
-    CRoom* roomAt(const SRoomCoords& coords) const;
+    std::optional<CRoom*> roomAt(const EDirections dir) const;
+    std::optional<CRoom*> roomAt(const SRoomCoords& coords) const;
+    std::optional<CRoom*> roomAt(const SRoomCoords& coords, const EDirections dir) const;
+
+    SRoomCoords _playerPosition;
 };

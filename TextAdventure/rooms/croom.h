@@ -3,6 +3,7 @@
 
 #include <string>
 
+class CTask;
 class CRoom
 {
 public:
@@ -17,12 +18,20 @@ public:
     bool west() const;
 
     bool seen() const;
-    void setSeen(const bool b);
+    virtual void setSeen(const bool b);
 
     bool showInFogOfWar() const;
 
-    virtual char mapSymbol();
+    virtual std::string mapSymbol() const;
     virtual void execute();
+
+    void setTask(CTask* task);
+    CTask* takeTask();
+    bool isTaskPossible() const;
+    bool hasTask() const;
+
+    virtual bool isSpecialRoom() const;
+    virtual bool isEmptyRoom() const;
 
 protected:
     bool _pathNorth = true;
@@ -31,7 +40,11 @@ protected:
     bool _pathWest = true;
 
     bool _encounterPossible = true;
+    bool _taskPossible = true;
+
     bool _showInFogOfWar = false;
     bool _seen = false;
     std::string _description;
+
+    CTask* _task = nullptr;
 };

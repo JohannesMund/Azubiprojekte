@@ -1,22 +1,33 @@
 #pragma once
 
 #include "ccompanion.h"
+#include "cencounter.h"
 #include "cinventory.h"
 #include "cmap.h"
 #include "cplayer.h"
 
 #include <string>
 
+class CTask;
 class CGameManagement
 {
 public:
     static CGameManagement* getInstance();
     static CPlayer* getPlayerInstance();
     static CInventory* getInventoryInstance();
-    static CMap* getMapInstance();
     static CCompanion* getCompanionInstance();
 
+    void placeTask(CTask* task);
+
+    void executeRandomEncounter(const CEncounter::EEncounterType type, const std::string& moduleName = {}) const;
+    void registerEncounter(CEncounter* encounter);
+    void unregisterEncounterByName(const std::string& name);
+
+    CRoom* currentRoom() const;
+
     void start();
+
+    void printHUD();
 
 private:
     CMap _map;
@@ -24,12 +35,11 @@ private:
     CInventory _inventory;
     CCompanion* _companion;
 
-    bool _isGameOver = false;
+    std::vector<CEncounter*> _encounters;
 
-    void printHUD();
+    bool _isGameOver = false;
     void printMap();
     void printInventory();
-    std::string printNavigation();
 
     void executeTurn();
     void handlePlayerDeath();
@@ -38,7 +48,6 @@ private:
     void gameLoop();
     void lookForTrouble();
 
-    CMap* getMap();
     CPlayer* getPlayer();
     CInventory* getInventory();
     CCompanion* getCompanion();

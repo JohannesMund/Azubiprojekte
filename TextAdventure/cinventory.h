@@ -3,11 +3,12 @@
 #include "citem.h"
 
 #include <map>
+#include <optional>
 #include <string>
 #include <vector>
 
 class CEnemy;
-class CEnhancableItem;
+class CEquipment;
 class CJunkItem;
 class CInventory
 {
@@ -15,10 +16,13 @@ public:
     using CompressedItem = std::pair<unsigned int, CItem*>;
     using CompressedItemMap = std::vector<CompressedItem>;
     using ItemList = std::vector<CItem*>;
-    using EnhancableItemList = std::vector<CEnhancableItem*>;
+    using EquipmentList = std::vector<CEquipment*>;
+    using EnhancableEquipmentList = std::vector<CEquipment*>;
+
     using JunkItemList = std::vector<CJunkItem*>;
 
     CInventory();
+    ~CInventory();
 
     enum class Scope
     {
@@ -30,11 +34,11 @@ public:
         eDeath
     };
 
-    bool hasItem(const std::string& name);
+    bool hasItem(const std::string_view& name);
     void addItem(CItem* item);
 
     void removeItem(CItem* item);
-    void removeItem(const std::string& name);
+    void removeItem(const std::string_view& name);
 
     void print(const Scope& scope = Scope::eNone);
 
@@ -51,11 +55,12 @@ public:
     void useDeathAction(CItem* item);
 
     JunkItemList getJunkItems() const;
-    EnhancableItemList getEnhancableItems() const;
+    EquipmentList getEquipment() const;
+    EquipmentList getEnhancableEquipment() const;
 
     CompressedItemMap getSellableItems() const;
 
-    void printInventory(const Scope& scope);
+    std::optional<CItem*> selectItemFromInventory(const Scope& scope);
 
 private:
     std::string printInventoryNav() const;
@@ -68,7 +73,6 @@ private:
     void printUsableItems(const Scope& scope);
     void printViewableItems();
 
-    void useItem(CItem* item, const Scope& scope);
     void viewItem(CItem* item);
 
     CItem* getItem(const unsigned int index);

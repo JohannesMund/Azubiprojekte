@@ -10,7 +10,10 @@ CScaryMonsterCompanion::CScaryMonsterCompanion()
 
 std::string CScaryMonsterCompanion::name() const
 {
-    return Ressources::Companion::nameForCompanionType(Ressources::Companion::ECompanionType::eScaryMonster, _level);
+    return CC::colorizeString(
+        Ressources::Companion::nameForCompanionType(Ressources::Companion::ECompanionType::eScaryMonster, _level),
+        CC::fgYellow(),
+        CC::fgLightYellow());
 }
 
 std::string CScaryMonsterCompanion::type() const
@@ -20,6 +23,10 @@ std::string CScaryMonsterCompanion::type() const
 
 void CScaryMonsterCompanion::preBattle(CEnemy* enemy)
 {
+    if (_level <= 0)
+    {
+        return;
+    }
     if (fireDefaultAction())
     {
         Console::printLn(std::format("{} scares {} so much, that it hurts itself.", name(), enemy->name()));
@@ -33,6 +40,11 @@ void CScaryMonsterCompanion::preBattle(CEnemy* enemy)
 
 void CScaryMonsterCompanion::battleAction(CEnemy* enemy, bool& endRound)
 {
+    if (_level <= 0)
+    {
+        return;
+    }
+
     if (fireDefaultAction())
     {
         Console::printLn(std::format("Your {} attacks the enemy and deals 1 damage.", name()));
@@ -46,7 +58,15 @@ void CScaryMonsterCompanion::battleAction(CEnemy* enemy, bool& endRound)
 
 void CScaryMonsterCompanion::postBattle(CEnemy* enemy)
 {
-    Console::printLn(std::format("{} looks victorious.", name()));
+    if (_level <= 0)
+    {
+        return;
+    }
+
+    if (_level > 0)
+    {
+        Console::printLn(std::format("{} looks victorious.", name()));
+    }
 }
 
 int CScaryMonsterCompanion::shield(const int i)

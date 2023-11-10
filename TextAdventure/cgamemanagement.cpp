@@ -1,14 +1,20 @@
 #include "cgamemanagement.h"
-
+#include "cbattleencounter.h"
+#include "cdeadhero.h"
+#include "cencounter.h"
+#include "cmenu.h"
+#include "cmysteriouschest.h"
 #include "companionfactory.h"
 #include "console.h"
 #include "croom.h"
-#include "items/itemfactory.h"
+#include "ctask.h"
+#include "encounterregister.h"
+#include "itemfactory.h"
 #include "randomizer.h"
 
-#include <format>
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -35,14 +41,14 @@ CInventory* CGameManagement::getInventoryInstance()
     return getInstance()->getInventory();
 }
 
-CMap* CGameManagement::getMapInstance()
-{
-    return getInstance()->getMap();
-}
-
 CCompanion* CGameManagement::getCompanionInstance()
 {
     return getInstance()->getCompanion();
+}
+
+void CGameManagement::placeTask(CTask* task)
+{
+    _map.setTaskToRandomRoom(task);
 }
 
 void CGameManagement::start()
@@ -51,9 +57,58 @@ void CGameManagement::start()
     gameLoop();
 }
 
-CMap* CGameManagement::getMap()
+void CGameManagement::executeRandomEncounter(const CEncounter::EEncounterType type, const std::string& moduleName) const
 {
-    return &_map;
+    if (_encounters.size() == 0)
+    {
+        return;
+    }
+
+    if (Randomizer::getRandom(100) > Ressources::Config::encounterChance)
+    {
+        return;
+    }
+
+    std::vector<unsigned int> indices;
+
+    for (int index = 0; index < _encounters.size(); index++)
+    {
+        auto chance = _encounters.at(index)->encounterChance(type, moduleName);
+        if (chance == 0)
+        {
+            continue;
+        }
+        for (int i = 0; i < chance; i++)
+        {
+            indices.push_back(index);
+        }
+    }
+
+    if (indices.size() == 0)
+    {
+        return;
+    }
+
+    std::shuffle(indices.begin(), indices.end(), std::default_random_engine(Randomizer::getRandomEngineSeed()));
+    _encounters.at(indices.at(0))->execute(moduleName);
+    Console::confirmToContinue();
+}
+
+void CGameManagement::registerEncounter(CEncounter* encounter)
+{
+    _encounters.push_back(encounter);
+}
+
+void CGameManagement::unregisterEncounterByName(const std::string& name)
+{
+    auto it = std::remove_if(_encounters.begin(), _encounters.end(), CEncounter::nameFilter(name));
+    _encounters.erase(it);
+    delete *it;
+}
+
+CRoom* CGameManagement::currentRoom() const
+{
+    return _map.currentRoom();
 }
 
 CPlayer* CGameManagement::getPlayer()
@@ -90,48 +145,45 @@ void CGameManagement::printInventory()
     _inventory.print(CInventory::Scope::eList);
 }
 
-std::string CGameManagement::printNavigation()
-{
-    Console::hr();
-    string acceptableInputs = _map.printNav();
-    Console::printLnWithSpacer("[L]ook for trouble", "[M]ap [I]nventory");
-    Console::printLn("[Q]uit Game", Console::EAlignment::eRight);
-    acceptableInputs += "lmiq";
-
-    return acceptableInputs;
-}
-
 void CGameManagement::executeTurn()
 {
+    Console::cls();
+
+    _map.currentRoom()->execute();
+    if (_player.isDead())
+    {
+        return;
+    }
+
     while (true)
     {
-        Console::cls();
-        printHUD();
+        Console::hr();
 
-        _map.currentRoom()->execute();
-        handlePlayerDeath();
-        if (_player.isDead())
+        CMenu menu;
+
+        std::vector<CMenu::Action> navs;
+        for (auto nav : _map.getDirectionNavs())
+        {
+            navs.push_back(menu.createAction(nav));
+        }
+
+        menu.addMenuGroup(navs, {menu.createAction("Map"), menu.createAction("Inventory")});
+        menu.addMenuGroup({menu.createAction("Look for trouble")}, {menu.createAction("Quit Game")});
+
+        auto input = menu.execute();
+        if (input.key == 'q')
         {
             _isGameOver = true;
             return;
         }
 
-        auto acceptableInputs = printNavigation();
-        auto input = Console::getAcceptableInput(acceptableInputs);
-
-        if (input == 'q')
+        if (CMap::string2Direction(input.name) != CMap::EDirections::eNone)
         {
-            _isGameOver = true;
+            _map.movePlayer(CMap::string2Direction(input.name));
             return;
         }
 
-        if (CMap::char2Direction(input) != CMap::EDirections::eNone)
-        {
-            _map.movePlayer(CMap::char2Direction(input));
-            return;
-        }
-
-        if (input == 'l')
+        if (input.key == 'l')
         {
             lookForTrouble();
             if (_player.isDead())
@@ -140,12 +192,12 @@ void CGameManagement::executeTurn()
             }
             Console::confirmToContinue();
         }
-        if (input == 'm')
+        if (input.key == 'm')
         {
             printMap();
             Console::confirmToContinue();
         }
-        if (input == 'i')
+        if (input.key == 'i')
         {
             printInventory();
         }
@@ -185,6 +237,8 @@ void CGameManagement::handlePlayerDeath()
 
 void CGameManagement::init()
 {
+    Randomizer::init();
+
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eHealingPotionS));
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eHealingPotionS));
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eHealingPotionS));
@@ -193,13 +247,17 @@ void CGameManagement::init()
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eHealingPotionM));
 
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::ePhoenixFeather));
+    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eHeartContainer));
 
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eJunkItem));
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eJunkItem));
     _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eJunkItem));
+    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eJunkItem));
+    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eJunkItem));
 
-    Randomizer::init();
+    _inventory.addItem(ItemFactory::makeItem(ItemFactory::EItemType::eUrzasGlasses));
 
+    EncounterRegister::encounterRegister();
     _map.setStartingPosition({3, 5});
     _map.init();
 }
@@ -209,7 +267,6 @@ void CGameManagement::gameLoop()
     while (!_isGameOver)
     {
         Console::cls();
-
         executeTurn();
         handlePlayerDeath();
         if (_player.isDead())
@@ -226,12 +283,16 @@ void CGameManagement::lookForTrouble()
     battle.fight();
 }
 
-CGameManagement::CGameManagement()
+CGameManagement::CGameManagement() : _map(CMap(Ressources::Config::fieldWidth, Ressources::Config::fieldHeight))
 {
-    _companion = CompanionFactory::getRandomCompanion();
+    _companion = CompanionFactory::makeRandomCompanion();
 }
 
 CGameManagement::~CGameManagement()
 {
     delete _companion;
+    for (auto e : _encounters)
+    {
+        delete e;
+    }
 }

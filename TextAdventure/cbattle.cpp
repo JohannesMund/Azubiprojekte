@@ -1,6 +1,7 @@
 #include "cbattle.h"
 #include "cenemy.h"
 #include "cgamemanagement.h"
+#include "cmenu.h"
 #include "cmobenemy.h"
 #include "console.h"
 #include "randomizer.h"
@@ -16,14 +17,6 @@ CBattle::CBattle(CEnemy* enemy)
     _enemy = enemy;
 }
 
-CBattle::~CBattle()
-{
-    if (_enemy != nullptr)
-    {
-        delete _enemy;
-    }
-}
-
 void CBattle::fight()
 {
     Console::cls();
@@ -31,10 +24,11 @@ void CBattle::fight()
         "You encounter the enemy {}, who attacks you with his weapon {}!", _enemy->name(), _enemy->weapon()));
     Console::hr();
 
-    Console::printLn("[F]ight [R]un");
+    CMenu menu;
+    menu.addMenuGroup({menu.createAction("Fight"), menu.createAction("Run")});
 
-    auto input = Console::getAcceptableInput("fr");
-    if (input == 'r')
+    auto input = menu.execute();
+    if (input.key == 'r')
     {
         Console::printLn(std::format("You are too scared of {}, so you decide to run away.", _enemy->name()));
 
@@ -102,8 +96,8 @@ void CBattle::battleLoop()
         Console::printLn("New turn");
 
         _enemy->preBattleAction();
-        bool endRound = false;
 
+        bool endRound = false;
         std::optional<EWeapons> playersChoice;
         if (doesPlayerGoFirst())
         {
@@ -114,8 +108,8 @@ void CBattle::battleLoop()
         else
         {
             Console::printLn("The enemy is faster.");
-            playersChoice = CGameManagement::getPlayerInstance()->battleAction(_enemy, endRound);
             _enemy->battleAction(endRound);
+            playersChoice = CGameManagement::getPlayerInstance()->battleAction(_enemy, endRound);
         }
         if (!endRound)
         {
@@ -168,17 +162,14 @@ CBattle::EBattleResult CBattle::hasWonAgainst(const std::optional<CBattle::EWeap
 
     if (!choice.has_value() && !other.has_value())
     {
-        Console::printLn("Nobody wants to play.");
         return CBattle::EBattleResult::eTie;
     }
     if (!choice.has_value() && other.has_value())
     {
-        Console::printLn("Player refuses to play.");
         return CBattle::EBattleResult::eLost;
     }
     if (choice.has_value() && !other.has_value())
     {
-        Console::printLn("The enemy refuses to play.");
         return CBattle::EBattleResult::eWon;
     }
 

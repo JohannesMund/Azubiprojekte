@@ -5,6 +5,8 @@
 #endif
 
 #include "console.h"
+#include "cgamemanagement.h"
+#include "colorconsole.h"
 #include "ressources.h"
 
 #include <algorithm>
@@ -27,16 +29,20 @@ void Console::confirmToContinue()
     cout << endl;
 }
 
-void Console::cls()
+void Console::cls(const bool bHud)
 {
 #ifdef _USE_WINDOWS
     system("cls");
 #else
     system("clear");
 #endif
+    if (bHud)
+    {
+        CGameManagement::getInstance()->printHUD();
+    }
 }
 
-char Console::getAcceptableInput(string acceptableChars)
+char Console::getAcceptableInput(string_view acceptableChars)
 {
     bool found = false;
     char input;
@@ -112,15 +118,27 @@ void Console::setEcho(const bool on)
 #endif
 }
 
-void Console::printLn(std::string text, const EAlignment align, const bool nobr)
+void Console::printLn(std::string text, const EAlignment align)
 {
-    if (text.size() > Ressources::Settings::consoleWidth && !nobr)
+    if (CC::colorizedSize(text) > Ressources::Settings::consoleWidth)
     {
         unsigned int written = 0;
-        while (written < text.size())
+        while (written < CC::colorizedSize(text))
         {
-            printLn(text.substr(written, Ressources::Settings::consoleWidth), align, nobr);
-            written += Ressources::Settings::consoleWidth;
+            auto substring = text.substr(written, Ressources::Settings::consoleWidth);
+            auto it = substring.find_last_of(" ");
+
+            if (it == std::string::npos)
+            {
+                printLn(substring, align);
+                written += Ressources::Settings::consoleWidth;
+            }
+            else
+            {
+                auto subsubstring = substring.substr(0, ++it);
+                printLn(subsubstring, align);
+                written += subsubstring.size();
+            }
         }
     }
     else
@@ -128,7 +146,7 @@ void Console::printLn(std::string text, const EAlignment align, const bool nobr)
         if (align == EAlignment::eCenter)
         {
             bool toggle = false;
-            while (text.size() < Ressources::Settings::consoleWidth)
+            while (CC::colorizedSize(text) < Ressources::Settings::consoleWidth)
             {
                 text.insert(toggle ? 0 : text.size(), 1, ' ');
                 toggle = !toggle;
@@ -136,19 +154,19 @@ void Console::printLn(std::string text, const EAlignment align, const bool nobr)
         }
         else if (align == EAlignment::eRight)
         {
-            while (text.size() < Ressources::Settings::consoleWidth)
+            while (CC::colorizedSize(text) < Ressources::Settings::consoleWidth)
             {
                 text.insert(0, 1, ' ');
             }
         }
-        cout << text << endl;
+        cout << text << CC::ccReset() << endl;
     }
 }
 
 std::optional<int> Console::getNumberInputWithEcho(const int min, const int max)
 {
 
-    cout << std::format("[Enter number between {} and {} (or 'x' to cancel)]", min, max);
+    cout << std::format("[Enter number between {} and {} (or 'x' to cancel)] ", min, max);
 
     while (true)
     {
@@ -176,7 +194,7 @@ std::optional<int> Console::getNumberInputWithEcho(const int min, const int max)
 
 void Console::printLnWithSpacer(const std::string& text1, const std::string& text2)
 {
-    if (text1.size() + text2.size() > Ressources::Settings::consoleWidth)
+    if (CC::colorizedSize(text1) + CC::colorizedSize(text2) > Ressources::Settings::consoleWidth)
     {
         printLn(text1);
         printLn(text2, EAlignment::eRight);
@@ -184,7 +202,7 @@ void Console::printLnWithSpacer(const std::string& text1, const std::string& tex
     }
 
     std::string out(text1);
-    while (out.size() + text2.size() < Ressources::Settings::consoleWidth)
+    while (CC::colorizedSize(out) + CC::colorizedSize(text2) < Ressources::Settings::consoleWidth)
     {
         out.append(" ");
     }

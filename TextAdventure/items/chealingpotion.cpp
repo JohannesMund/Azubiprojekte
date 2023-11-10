@@ -5,9 +5,11 @@
 #include "randomizer.h"
 #include "ressources.h"
 
+#include <format>
+
 CHealingPotion::CHealingPotion(const PotionSize& size) : CItem()
 {
-    _name = "Potion of Healing";
+    std::string name = "Potion of Healing";
     _description = "A fancy flask, made of glass with a shimmering, deep-red potion with shiny pink clouds inside. "
                    "Everything is moving magically, this MUST be a healing potion. Oh, and there is a lable stating "
                    "\"Potion of Healing\"";
@@ -15,7 +17,7 @@ CHealingPotion::CHealingPotion(const PotionSize& size) : CItem()
     switch (size)
     {
     case PotionSize::S:
-        _name = "Small " + _name;
+        name = "Small " + name;
         _description.append("\nThe bottle is tiny and not completely full.");
         _value = 50;
         break;
@@ -24,16 +26,17 @@ CHealingPotion::CHealingPotion(const PotionSize& size) : CItem()
         _value = 75;
         break;
     case PotionSize::L:
-        _name = "Large " + _name;
+        name = "Large " + name;
         _description.append("\nThe bottle is pretty big.");
         _value = 150;
         break;
     case PotionSize::XL:
-        _name = "Huge " + _name;
+        name = "Huge " + name;
         _description.append("\nTHe bottle is huge, and filled to the brim.");
         _value = 500;
         break;
     }
+    _name = std::format("{}{}{}", CC::fgLightBlue(), name, CC::ccReset());
     _size = size;
     _isConsumable = true;
     _isUsableFromInventory = true;
@@ -47,7 +50,7 @@ void CHealingPotion::useFromInventory()
     use();
 }
 
-void CHealingPotion::useFromBattle()
+void CHealingPotion::useFromBattle(CEnemy*)
 {
     Console::printLn("It is in the middle of a hot fight, but you need healing.");
     use();

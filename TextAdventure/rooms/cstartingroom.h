@@ -1,12 +1,12 @@
 #pragma once
 
-#include <croom.h>
+#include <cfield.h>
 
-class CStartingRoom : public CRoom
+class CStartingRoom : public CField
 {
 public:
     CStartingRoom();
 
     virtual void execute() override;
-    virtual char mapSymbol() override;
+    virtual std::string mapSymbol() const override;
 };

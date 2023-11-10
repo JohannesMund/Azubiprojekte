@@ -1,5 +1,6 @@
 #include "cinjuredpet.h"
 #include "cgamemanagement.h"
+#include "cmenu.h"
 #include "console.h"
 #include "ressources.h"
 
@@ -8,6 +9,9 @@
 CInjuredPet::CInjuredPet()
 {
     _showInFogOfWar = true;
+
+    _encounterPossible = false;
+    _taskPossible = false;
 }
 
 void CInjuredPet::execute()
@@ -35,9 +39,11 @@ void CInjuredPet::execute()
     Console::printLn("A suspicious noise is coming out of one of the bushes, you should have a look. Or maybe, "
                      "you better be carful and ignore it.");
     Console::hr();
-    Console::printLn("[L]ook [G]o away");
-    auto input = Console::getAcceptableInput("lg");
-    if (input == 'g')
+
+    CMenu menu;
+    menu.addMenuGroup({menu.createAction("Look"), menu.createAction("Go away")});
+    auto input = menu.execute();
+    if (input.key == 'g')
     {
         Console::printLn("Better safe than sorry! You decide to ignore the pittyful screams and leave.");
         Console::printLn("The screams vanish shortly after.");
@@ -51,10 +57,10 @@ void CInjuredPet::execute()
                     CGameManagement::getCompanionInstance()->name()));
 
     Console::hr();
-    Console::printLn("[H]elp [G]o away");
 
-    input = Console::getAcceptableInput("hg");
-    if (input == 'g')
+    menu.clear();
+    menu.addMenuGroup({menu.createAction("Help"), menu.createAction("Go away")});
+    if (menu.execute().key == 'g')
     {
         Console::printLn("Better safe than sorry! You decide to ignore the pittyful little animal and leave.");
         Console::printLn("The screams vanish shortly after.");
@@ -72,14 +78,17 @@ void CInjuredPet::execute()
     CGameManagement::getCompanionInstance()->evolve();
 
     _showInFogOfWar = false;
+
+    _encounterPossible = true;
+    _taskPossible = true;
 }
 
-char CInjuredPet::mapSymbol()
+std::string CInjuredPet::mapSymbol() const
 {
     if (CGameManagement::getCompanionInstance()->hasCompanion() || _petIsDead)
     {
         return CRoom::mapSymbol();
     }
 
-    return '!';
+    return "?";
 }

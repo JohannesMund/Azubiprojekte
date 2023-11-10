@@ -1,6 +1,7 @@
 #include "cinventory.h"
-#include "cenhancableitem.h"
+#include "cequipment.h"
 #include "cjunkitem.h"
+#include "cmenu.h"
 #include "console.h"
 
 #include <algorithm>
@@ -13,13 +14,48 @@ CInventory::CInventory()
 {
 }
 
-bool CInventory::hasItem(const std::string& name)
+CInventory::~CInventory()
+{
+    for (auto i : _inventory)
+    {
+        delete i;
+    }
+    _inventory.clear();
+}
+
+bool CInventory::hasItem(const std::string_view& name)
 {
     return std::find_if(_inventory.begin(), _inventory.end(), CItem::nameFilter(name)) != _inventory.end();
 }
 
 void CInventory::addItem(CItem* item)
 {
+    if (CEquipment::isEquipment(item))
+    {
+        auto equipment = dynamic_cast<CEquipment*>(item);
+
+        auto it = std::find_if(_inventory.begin(), _inventory.end(), equipment->equipmentTypeFilter());
+        if (it != _inventory.end())
+        {
+            Console::printLn(std::format(
+                "Your already have a {} do you want to replace it with {}", equipment->typeName(), equipment->name()));
+
+            auto input = CMenu::executeYesNoMenu();
+
+            if (CMenu::no(input))
+            {
+                Console::printLn(std::format("You decide to keep {} and reject {}.", (*it)->name(), item->name()));
+                delete item;
+                return;
+            }
+
+            Console::printLn(std::format("You decide to throw away you {}.", (*it)->name()));
+
+            delete *it;
+            _inventory.erase(it);
+        }
+    }
+
     Console::printLn(std::format("You optained {}", item->name()));
     _inventory.push_back(item);
 }
@@ -28,7 +64,7 @@ void CInventory::removeItem(CItem* item)
 {
     removeItem(item->name());
 }
-void CInventory::removeItem(const std::string& name)
+void CInventory::removeItem(const std::string_view& name)
 {
     auto found = std::find_if(_inventory.begin(), _inventory.end(), CItem::nameFilter(name));
     if (found != _inventory.end())
@@ -41,22 +77,24 @@ void CInventory::removeItem(const std::string& name)
 void CInventory::print(const Scope& scope)
 {
     Console::printLn("You look through your backpack and find the following:");
-    printInventory(scope);
-
-    char input;
+    selectItemFromInventory(scope);
+    CMenu::Action input;
     do
     {
-        auto acceptableInputs = printInventoryNav();
-        input = Console::getAcceptableInput(acceptableInputs);
-        if (input == 'u')
+        Console::hr();
+        CMenu menu;
+        menu.addMenuGroup({menu.createAction("Use Item"), menu.createAction("View Item")}, {CMenu::exitAction()});
+        input = menu.execute();
+
+        if (input.key == 'u')
         {
             printUsableItems(Scope::eInventory);
         }
-        if (input == 'v')
+        if (input.key == 'v')
         {
             printViewableItems();
         }
-    } while (input != 'x');
+    } while (!CMenu::exit(input));
 }
 
 CInventory::ItemList CInventory::getItemsWithBattleEffect() const
@@ -159,18 +197,32 @@ CInventory::JunkItemList CInventory::getJunkItems() const
     return junkItems;
 }
 
-CInventory::EnhancableItemList CInventory::getEnhancableItems() const
+CInventory::EquipmentList CInventory::getEquipment() const
 {
-    EnhancableItemList enhancableItems;
-    for (const auto item : _inventory | std::views::filter(CEnhancableItem::enhancableItemFilter()))
+    EquipmentList equipmentItems;
+    for (const auto item : _inventory | std::views::filter(CEquipment::equipmentFilter()))
     {
-        auto enhancableItem = dynamic_cast<CEnhancableItem*>(item);
-        if (enhancableItem != nullptr)
+        auto equipment = dynamic_cast<CEquipment*>(item);
+        if (equipment != nullptr)
         {
-            enhancableItems.push_back(enhancableItem);
+            equipmentItems.push_back(equipment);
         }
     }
-    return enhancableItems;
+    return equipmentItems;
+}
+
+CInventory::EquipmentList CInventory::getEnhancableEquipment() const
+{
+    EquipmentList equipmentItems;
+    for (const auto item : _inventory | std::views::filter(CEquipment::enhancableEquipmentFilter()))
+    {
+        auto equipment = dynamic_cast<CEquipment*>(item);
+        if (equipment != nullptr && equipment->isEnhancable())
+        {
+            equipmentItems.push_back(equipment);
+        }
+    }
+    return equipmentItems;
 }
 
 CInventory::CompressedItemMap CInventory::getSellableItems() const
@@ -211,25 +263,21 @@ CInventory::CompressedItemMap CInventory::getCompressedItemMap(std::function<boo
     return itemMap;
 }
 
-void CInventory::printInventory(const Scope& scope)
+std::optional<CItem*> CInventory::selectItemFromInventory(const Scope& scope)
 {
     auto itemMap = getInventoryCompressedForScope(scope);
-
     std::vector<CItem*> usableItems;
-
     for (auto item : itemMap)
     {
-        std::string s;
-        if ((!usableInScope(item.second, scope)))
+        if (scope == Scope::eList)
         {
-            s = std::format("      {} (x{})", item.second->name(), item.first);
+            Console::printLn(std::format("    {} (x{})", item.second->name(), item.first));
         }
         else
         {
             usableItems.push_back(item.second);
-            s = std::format("[{:3}] {} (x{})", usableItems.size(), item.second->name(), item.first);
+            Console::printLn(std::format("[{:3}] {} (x{})", usableItems.size(), item.second->name(), item.first));
         }
-        Console::printLn(s);
     }
 
     if (usableItems.size())
@@ -237,24 +285,10 @@ void CInventory::printInventory(const Scope& scope)
         auto item = Console::getNumberInputWithEcho(1, usableItems.size());
         if (item.has_value())
         {
-            if (scope == Scope::eView)
-            {
-                viewItem(usableItems.at(*item - 1));
-            }
-            else
-            {
-                useItem(usableItems.at(*item - 1), scope);
-            }
+            return usableItems.at(*item - 1);
         }
     }
-}
-
-std::string CInventory::printInventoryNav() const
-{
-    Console::hr();
-    Console::printLn("[U]se Item [V]iew Item", Console::EAlignment::eRight);
-    Console::printLn("E[x]it Inventory", Console::EAlignment::eRight);
-    return "uvx";
+    return {};
 }
 
 bool CInventory::usableInScope(const CItem* item, const Scope& scope)
@@ -280,43 +314,23 @@ void CInventory::printUsableItems(const Scope& scope)
 {
     Console::printLn("Select item to use");
     Console::hr();
-    printInventory(scope);
+    auto item = selectItemFromInventory(scope);
+    if (item.has_value())
+    {
+        Console::hr();
+        Console::printLn(std::format("You decide to use: {}", (*item)->name()));
+        (*item)->useFromInventory();
+    }
 }
 
 void CInventory::printViewableItems()
 {
     Console::printLn("Select item to view");
     Console::hr();
-    printInventory(Scope::eView);
-}
-
-void CInventory::useItem(CItem* item, const Scope& scope)
-{
-    if (item == nullptr)
+    auto item = selectItemFromInventory(Scope::eView);
+    if (item.has_value())
     {
-        return;
-    }
-
-    if (scope != Scope::eInventory && scope != Scope::eBattle)
-    {
-        return;
-    }
-
-    Console::hr();
-    Console::printLn(std::format("You decide to use: {}", item->name()));
-
-    if (scope == Scope::eInventory)
-    {
-        item->useFromInventory();
-    }
-    if (scope == Scope::eBattle)
-    {
-        item->useFromBattle();
-    }
-
-    if (item->isConsumable())
-    {
-        removeItem(item);
+        viewItem(*item);
     }
 }
 

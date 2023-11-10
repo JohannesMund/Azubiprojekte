@@ -1,11 +1,13 @@
 #include "roomfactory.h"
+#include "cave/ccave.h"
+#include "cfield.h"
 #include "cinjuredpet.h"
 #include "croom.h"
 #include "ctown.h"
 
 CRoom* RoomFactory::makeRoom()
 {
-    return new CRoom();
+    return new CField();
 }
 
 CTown* RoomFactory::makeTown()
@@ -16,4 +18,9 @@ CTown* RoomFactory::makeTown()
 CInjuredPet* RoomFactory::makeInjuredPet()
 {
     return new CInjuredPet();
+}
+
+CCave* RoomFactory::makeCave()
+{
+    return new CCave();
 }
