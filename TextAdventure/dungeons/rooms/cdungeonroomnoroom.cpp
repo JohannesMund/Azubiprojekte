@@ -16,3 +16,13 @@ CDungeonRoomNoRoom::CDungeonRoomNoRoom()
 void CDungeonRoomNoRoom::setSeen(const bool)
 {
 }
+
+bool CDungeonRoomNoRoom::isSpecialRoom() const
+{
+    return true;
+}
+
+bool CDungeonRoomNoRoom::isEmptyRoom() const
+{
+    return true;
+}

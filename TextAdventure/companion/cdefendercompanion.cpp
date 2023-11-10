@@ -23,10 +23,11 @@ std::string CDefenderCompanion::type() const
 
 void CDefenderCompanion::preBattle(CEnemy* enemy)
 {
-    if (_level > 0)
+    if (_level <= 0)
     {
-        Console::printLn(std::format("{} tries to look dangerous but it does not work. At least it is cute", name()));
+        return;
     }
+    Console::printLn(std::format("{} tries to look dangerous but it does not work. At least it is cute", name()));
 }
 
 void CDefenderCompanion::battleAction(CEnemy* enemy, bool& endRound)
@@ -35,14 +36,19 @@ void CDefenderCompanion::battleAction(CEnemy* enemy, bool& endRound)
 
 void CDefenderCompanion::postBattle(CEnemy* enemy)
 {
-    if (_level > 0)
+    if (_level <= 0)
     {
-        Console::printLn(std::format("{} looks victorious.", name()));
+        return;
     }
+    Console::printLn(std::format("{} looks victorious.", name()));
 }
 
 int CDefenderCompanion::shield(const int i)
 {
+    if (_level <= 0)
+    {
+        return i;
+    }
     if (fireDefaultAction())
     {
         Console::printLn(std::format("{} jumps between you and the enemy and protects you.", name()));

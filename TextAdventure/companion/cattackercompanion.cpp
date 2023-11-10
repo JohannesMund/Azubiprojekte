@@ -24,14 +24,19 @@ std::string CAttackerCompanion::type() const
 
 void CAttackerCompanion::preBattle(CEnemy* enemy)
 {
-    if (_level > 0)
+    if (_level <= 0)
     {
-        Console::printLn(std::format("{} tries to look dangerous but it does not work. At least it is cute", name()));
+        return;
     }
+    Console::printLn(std::format("{} tries to look dangerous but it does not work. At least it is cute", name()));
 }
 
 void CAttackerCompanion::battleAction(CEnemy* enemy, bool&)
 {
+    if (_level <= 0)
+    {
+        return;
+    }
     if (fireDefaultAction())
     {
         Console::printLn(std::format("Your {} attacks the enemy and deals 1 damage.", name()));
@@ -45,10 +50,11 @@ void CAttackerCompanion::battleAction(CEnemy* enemy, bool&)
 
 void CAttackerCompanion::postBattle(CEnemy* enemy)
 {
-    if (_level > 0)
+    if (_level <= 0)
     {
-        Console::printLn(std::format("{} looks victorious.", name()));
+        return;
     }
+    Console::printLn(std::format("{} looks victorious.", name()));
 }
 
 int CAttackerCompanion::shield(const int i)

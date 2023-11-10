@@ -24,10 +24,11 @@ std::string CHealerCompanion::type() const
 
 void CHealerCompanion::preBattle(CEnemy* enemy)
 {
-    if (_level > 0)
+    if (_level <= 0)
     {
-        Console::printLn(std::format("{} tries to look dangerous but it does not work. At least it is cute", name()));
+        return;
     }
+    Console::printLn(std::format("{} tries to look dangerous but it does not work. At least it is cute", name()));
 }
 
 void CHealerCompanion::battleAction(CEnemy* enemy, bool& endRound)
@@ -36,6 +37,10 @@ void CHealerCompanion::battleAction(CEnemy* enemy, bool& endRound)
 
 void CHealerCompanion::postBattle(CEnemy* enemy)
 {
+    if (_level <= 0)
+    {
+        return;
+    }
     if (fireDefaultAction())
     {
         Console::printLn(std::format("{} cares a little bit for your wouds", name()));

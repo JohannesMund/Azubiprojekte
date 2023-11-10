@@ -83,6 +83,5 @@ protected:
     std::optional<CRoom*> roomAt(const SRoomCoords& coords) const;
     std::optional<CRoom*> roomAt(const SRoomCoords& coords, const EDirections dir) const;
 
-private:
     SRoomCoords _playerPosition;
 };

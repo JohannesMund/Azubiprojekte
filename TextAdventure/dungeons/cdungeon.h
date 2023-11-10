@@ -3,6 +3,8 @@
 #include "cdungeonmap.h"
 #include "croom.h"
 
+class CDungeonMapRoom;
+
 /**
  * @brief The CDungeon class
  * Class to handle dungeons.
@@ -43,6 +45,9 @@ public:
      */
     void setDungeonMap(CDungeonMap* map);
 
+    void addHealingWell(const std::string& description, const std::string& question, const std::string& effect);
+    void addMapRoom(const std::string& description);
+
 protected:
     /**
      * @brief dungeonLoop
@@ -52,4 +57,5 @@ protected:
     void dungeonLoop();
 
     CDungeonMap* _map;
+    CDungeonMapRoom* _mapRoom = nullptr;
 };

@@ -17,7 +17,7 @@ void CCaveBattleEncounter::execute(const std::string_view& moduleName)
     enemy.setWeapon(CaveRessources::getRandomEnemyWeapon());
     enemy.setName(CaveRessources::getRandomEnemyName());
 
-    CBattle battle;
+    CBattle battle(&enemy);
     battle.fight();
 }
 

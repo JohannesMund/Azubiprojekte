@@ -48,6 +48,49 @@ public:
      */
     unsigned int seenRooms() const;
 
+    /**
+     * @brief addSpecificRoom
+     * Adds a specific room to a random position
+     * @remark room will be deleted automatically
+     * @param room the room to add
+     */
+    void addSpecificRoom(CDungeonRoom* room);
+
+    /**
+     * @brief addTask
+     * Adds a Task to a random room
+     * @param task the task to be added
+     * @param isMovingTask if true, the task will move when moveTasks is called
+     * @sa moveTasks()
+     */
+    void addTask(CTask* task, const bool isMovingTask = false);
+
+    /**
+     * @brief moveTasks
+     * moves all tasks that are added as moving tasks 1 field if possible
+     */
+    void moveTasks();
+
+    /**
+     * @brief isMapRevealed
+     * @return  true, if the map has been revealed
+     */
+    bool isMapRevealed() const;
+
+    /**
+     * @brief isExitAvailable
+     * @return true, if exit is available
+     * @remark the map itself will not activate the exit
+     * @sa setExitAvailable
+     */
+    bool isExitAvailable() const;
+
+    /**
+     * @brief setExitAvailable
+     * activates the exit
+     */
+    void setExitAvailable();
+
 protected:
     /**
      * @brief makeDefaultRoom
@@ -65,9 +108,16 @@ protected:
     CDungeonRoom* makeNoRoom() const;
 
 private:
+    CMap::SRoomCoords getRandomRoomCoords(const bool noSpecialRooms = true, const bool notPlayerPosition = true);
+
     void makeNextRoom(const CMap::SRoomCoords coords, unsigned int& i);
 
     void fillWithNoRooms();
 
     unsigned int _populatedRoomCount = 0;
+    unsigned int _specialRoomCount = 0;
+    bool _isMapRevealed = false;
+    bool _isExitAvailable = false;
+
+    std::vector<CMap::SRoomCoords> _movingTasks;
 };

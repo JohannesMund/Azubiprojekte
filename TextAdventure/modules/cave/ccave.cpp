@@ -1,9 +1,13 @@
 #include "ccave.h"
+#include "ccavebosstask.h"
 #include "ccavedungeon.h"
 #include "ccavedungeonmap.h"
+#include "chealingwell.h"
 #include "cmenu.h"
 #include "colorconsole.h"
 #include "console.h"
+#include "ressources.h"
+
 CCave::CCave()
 {
     _showInFogOfWar = true;
@@ -20,6 +24,21 @@ void CCave::execute()
 
         CCaveDungeon dungeon;
         dungeon.setDungeonMap(&map);
+
+        dungeon.addHealingWell(CaveRessources::getWellDescription(1),
+                               CaveRessources::getWellQuestion(1),
+                               CaveRessources::getWellEffect(1));
+
+        dungeon.addHealingWell(CaveRessources::getWellDescription(2),
+                               CaveRessources::getWellQuestion(2),
+                               CaveRessources::getWellEffect(2));
+
+        dungeon.addHealingWell(CaveRessources::getWellDescription(3),
+                               CaveRessources::getWellQuestion(3),
+                               CaveRessources::getWellEffect(3));
+
+        dungeon.addMapRoom(CaveRessources::getMapRoomDescription());
+
         dungeon.execute();
     }
 

@@ -170,7 +170,7 @@ std::optional<CBattle::EWeapons> CPlayer::battleAction(CEnemy* enemy, bool& endR
             weapons.push_back(menu.createAction("Spock"));
         }
 
-        menu.addMenuGroup(weapons, {menu.createAction("Inventory")});
+        menu.addMenuGroup(weapons, {menu.createAction("Inventory"), menu.createAction("Win")});
         auto input = menu.execute();
 
         if (input.key == 'r')
@@ -200,6 +200,13 @@ std::optional<CBattle::EWeapons> CPlayer::battleAction(CEnemy* enemy, bool& endR
             {
                 (*item)->useFromBattle(enemy);
             }
+        }
+        if (input.key == 'w')
+        {
+            Console::printLn("You use your godlike Powers.");
+            enemy->dealDamage(9999);
+            endRound = true;
+            return {};
         }
     }
     endRound = false;

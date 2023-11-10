@@ -42,6 +42,13 @@ void CRoom::setTask(CTask* task)
     _showInFogOfWar = true;
 }
 
+CTask* CRoom::takeTask()
+{
+    auto task = _task;
+    _task = nullptr;
+    return task;
+}
+
 bool CRoom::isTaskPossible() const
 {
     return _taskPossible && !hasTask();
@@ -50,6 +57,16 @@ bool CRoom::isTaskPossible() const
 bool CRoom::hasTask() const
 {
     return _task != nullptr;
+}
+
+bool CRoom::isSpecialRoom() const
+{
+    return false;
+}
+
+bool CRoom::isEmptyRoom() const
+{
+    return false;
 }
 
 void CRoom::blockPath(const CMap::EDirections dir, const bool block)

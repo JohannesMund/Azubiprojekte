@@ -18,4 +18,7 @@ public:
      * @sa CRoom::setSeen
      */
     virtual void setSeen(const bool b) override;
+
+    virtual bool isSpecialRoom() const override;
+    virtual bool isEmptyRoom() const override;
 };

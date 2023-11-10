@@ -38,7 +38,7 @@ public:
 
 protected:
     unsigned int _level;
-    unsigned int _hp;
+    int _hp;
     unsigned int _initiative;
 
     bool _extendedWeaponChoice = false;

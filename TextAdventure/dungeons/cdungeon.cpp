@@ -1,5 +1,7 @@
 #include "cdungeon.h"
+#include "cdungeonmaproom.h"
 #include "cgamemanagement.h"
+#include "chealingwell.h"
 #include "cmenu.h"
 #include "colorconsole.h"
 #include "console.h"
@@ -15,11 +17,36 @@ void CDungeon::setDungeonMap(CDungeonMap* map)
     _map = map;
 }
 
+void CDungeon::addHealingWell(const std::string& description, const std::string& question, const std::string& effect)
+{
+    CHealingWell* well = new CHealingWell();
+    well->setDescription(description);
+    well->setQuestion(question);
+    well->setEffect(effect);
+    _map->addSpecificRoom(well);
+}
+
+void CDungeon::addMapRoom(const std::string& description)
+{
+    CDungeonMapRoom* mapRoom = new CDungeonMapRoom();
+    mapRoom->setDescription(description);
+    _map->addSpecificRoom(mapRoom);
+    _mapRoom = mapRoom;
+}
+
 void CDungeon::dungeonLoop()
 {
     while (true)
     {
+        if (!_map->isMapRevealed() && _mapRoom != nullptr && _mapRoom->isMapRevealed())
+        {
+            _map->reveal();
+        }
+
         Console::cls();
+
+        loopHook();
+
         _map->currentRoom()->execute();
         if (CGameManagement::getPlayerInstance()->isDead())
         {
@@ -35,7 +62,14 @@ void CDungeon::dungeonLoop()
         }
 
         menu.addMenuGroup(navs, {menu.createAction("Map"), menu.createAction("Inventory")});
-        menu.addMenuGroup({menu.createAction("Reveal")}, {CMenu::exitAction()});
+
+        std::vector<CMenu::Action> exitActionHalf = {};
+        if (_map->isExitAvailable())
+        {
+            exitActionHalf.push_back(CMenu::exitAction());
+        }
+
+        menu.addMenuGroup({menu.createAction("Reveal")}, exitActionHalf);
         auto input = menu.execute();
 
         if (CMap::string2Direction(input.name) != CMap::EDirections::eNone)

@@ -1,5 +1,6 @@
 #include "ccavedungeonmap.h"
-#include "ccavedungeonroom.h"
+#include "cdungeonroom.h"
+#include "ressources.h"
 
 CCaveDungeonMap::CCaveDungeonMap(const unsigned int width, const unsigned int height) : CDungeonMap(width, height)
 {
@@ -7,5 +8,8 @@ CCaveDungeonMap::CCaveDungeonMap(const unsigned int width, const unsigned int he
 
 CDungeonRoom* CCaveDungeonMap::makeDefaultRoom() const
 {
-    return new CCaveDungeonRoom();
+    auto dungeonRoom = new CDungeonRoom();
+    dungeonRoom->setDescription(CaveRessources::getRandomDescription());
+    dungeonRoom->setModuleName(CaveRessources::getModuleName());
+    return dungeonRoom;
 }

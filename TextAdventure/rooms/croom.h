@@ -26,8 +26,12 @@ public:
     virtual void execute();
 
     void setTask(CTask* task);
+    CTask* takeTask();
     bool isTaskPossible() const;
     bool hasTask() const;
+
+    virtual bool isSpecialRoom() const;
+    virtual bool isEmptyRoom() const;
 
 protected:
     bool _pathNorth = true;
