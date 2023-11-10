@@ -62,16 +62,15 @@ set(TEXTADVENTURE_SOURCES
     items/chealingpotion.h items/chealingpotion.cpp
     items/cjunkitem.h items/cjunkitem.cpp
     items/cphoenixfeather.h items/cphoenixfeather.cpp
-    items/cheartcontainer.h items/cheartcontainer.cpp
-    items/curzasglasses.h items/curzasglasses.cpp
+    items/cheartcontainer.h items/cheartcontainer.cpp    
     items/cbomb.h items/cbomb.cpp
 
     encounters/encounterregister.h
     encounters/cencounter.h encounters/cencounter.cpp
     encounters/cbattleencounter.h encounters/cbattleencounter.cpp
     encounters/cdeadhero.h encounters/cdeadhero.cpp
-    encounters/cmysteriouschest.h encounters/cmysteriouschest.cpp
-    encounters/cdancingbard.h encounters/cdancingbard.cpp
+
+
 
     dungeons/cdungeon.h dungeons/cdungeon.cpp
     dungeons/cdungeonmap.h dungeons/cdungeonmap.cpp
@@ -87,10 +86,16 @@ set(TEXTADVENTURE_SOURCES
     modules/cave/ccavebosstask.h modules/cave/ccavebosstask.cpp    
     modules/cave/ccavebattleencounter.h modules/cave/ccavebattleencounter.cpp
     modules/cave/ccaveboss.h modules/cave/ccaveboss.cpp
+
+    modules/forest/curzasglasses.h modules/forest/curzasglasses.cpp
+
+    modules/cmysteriouschest.h modules/cmysteriouschest.cpp
+
+    modules/cdancingbard.h modules/cdancingbard.cpp
+
 )
 
-add_executable(TextAdventure ${TEXTADVENTURE_SOURCES}
-    )
+add_executable(TextAdventure ${TEXTADVENTURE_SOURCES})
 
 
 target_include_directories(TextAdventure PRIVATE ${CMAKE_SOURCE_DIR})

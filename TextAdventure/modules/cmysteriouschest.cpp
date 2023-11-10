@@ -9,7 +9,7 @@
 CMysteriousChest::CMysteriousChest() : CEncounter()
 {
     _isSingleExecution = false;
-    _type = CEncounter::eField;
+    _type = CEncounter::eField | CEncounter::eDungeon;
 }
 
 void CMysteriousChest::execute(const std::string_view& moduleName)

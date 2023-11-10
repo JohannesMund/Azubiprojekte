@@ -6,7 +6,7 @@
 #include "cphoenixfeather.h"
 #include "cshield.h"
 #include "csword.h"
-#include "curzasglasses.h"
+#include "forest/curzasglasses.h"
 #include "randomizer.h"
 
 #include <algorithm>
